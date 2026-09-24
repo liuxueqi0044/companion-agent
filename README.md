@@ -2,7 +2,7 @@
 
 一个围绕个人持续成长的 AI 原型：记住用户明确提供的偏好，执行实际任务，并逐步支持由 AI 编写代码来改变自己的界面和能力。
 
-**当前是开发中的原型，并非可交付的完整 Personal AI 产品。** 本仓库保留 BATCH-015 基础、已独立复核的 CORE-006，以及架构师实现并自验到 **CORE-011** 的个人空间、流式对话与完整界面替换代码。这是源码备份，不代表原开发工作区全部后续变更已完成合并或产品已经发布。各批次的 `submitted` 与独立复核结论分别保留在 `reports/` 和 `reviews/`；最近一次独立复核结论见 [CORE-006 复核](reviews/CORE-006.md)。
+**当前是开发中的原型，并非可交付的完整 Personal AI 产品。** 本仓库保留 BATCH-015 基础、已独立复核的 CORE-006，以及架构师实现并自验到 **CORE-012** 的个人空间、完整界面替换、成果工具与后台运行代码。这是源码备份，不代表原开发工作区全部后续变更已完成合并或产品已经发布。各批次的 `submitted` 与独立复核结论分别保留在 `reports/` 和 `reviews/`；最近一次独立复核结论见 [CORE-006 复核](reviews/CORE-006.md)。
 
 ## 已实现
 
@@ -13,7 +13,7 @@
 - 个人 AI 内核：持久对话、可管理记忆、有限动作授权、明确提醒、默认关闭的主动联系、到期重评估与收件箱。
 - 可信无视觉运行时：统一发送、取消、任务结果读回、消息同步与实际资源结算；复用已有 Node→Python→SQLite→CSV 链路。
 
-真实 DeepSeek 对话、流式输出和默认界面已在本机验证；完整 Coding Agent 执行链、原生隔离和可安装的桌面交付尚未完成。生成的模型候选不随此快照发布，也不应当作可信代码运行。
+真实 DeepSeek 对话、记忆、成果和提醒已在本机验证。CORE-012 提供 Windows 托盘与便携开发包构建，已验证包内运行时冷启动；官方 Coding Agent 真实模型连通、原生隔离、系统通知视觉验收和跨机器安装仍待完成。生成的模型候选不随此快照发布，也不应当作可信代码运行。
 
 ## 目录
 
@@ -73,9 +73,9 @@ python -I -B tools/run_product_tests.py --tb=short
 
 Node 测试与五份演示目前复用开发机器固定的相邻路径 `../companion-agent/.venv/Scripts/python.exe`；它们尚未包装为可移植的一键安装工具。在其它机器运行前需要准备该路径或另行改造测试环境配置，不要把缺少本地解释器当作产品测试通过。可信宿主工厂本身接受显式的 `python`、`workspace` 和 `dataRoot` 配置。
 
-当前界面接入从 [CORE-011 SDK 与界面包说明](docs/development/CORE-011.md) 开始；[frontend-handoff](docs/development/frontend-handoff.md) 保留早期内核接入背景。运行时对象只属于可信宿主，不可直接暴露给生成页面。主动联系目前由宿主显式 pulse，尚无后台常驻调度。
+当前界面接入从 [CORE-011 SDK 与界面包说明](docs/development/CORE-011.md) 开始；[frontend-handoff](docs/development/frontend-handoff.md) 保留早期内核接入背景。运行时对象只属于可信宿主，不可直接暴露给生成页面。CORE-012 的后台调度复用同一执行槽，保持主动联系默认关闭。
 
-完整产品体验见 [交互设计](docs/product/product-experience.md)，CORE-006 时点的估计见 [历史产品进度](reports/core-006-architect/product-progress.md)，最新实现范围见本文 CORE-011 节。CORE-007/008 已接通初始本机 UI 与真实 DeepSeek；CORE-011 已将替换范围扩展到完整界面；后台通知、原生隔离和社区分享仍未完成。
+完整产品体验见 [交互设计](docs/product/product-experience.md)，CORE-006 时点的估计见 [历史产品进度](reports/core-006-architect/product-progress.md)，最新实现范围见本文 CORE-012 节。CORE-011 已将替换范围扩展到完整界面；CORE-012 补充后台和便携运行，原生隔离与社区分享仍未完成。
 
 ## 快照范围与限制
 
@@ -124,3 +124,17 @@ API 密钥不包含在仓库内。不要运行历史 live 脚本来验证源码�
 源码工作区验证：Node **249 项**、Python **121 项**通过，SDK 类型、Schema、manifest 和范围检查通过。浏览器实测了默认聊天与记忆、完全不同的工作台界面、草稿保留、默认界面恢复；本批外部模型请求为 **0**。报告保持 `submitted`，属于架构师实现及自验，未伪称独立验收。
 
 架构见 [ADR-009](docs/decisions/ADR-009-replaceable-interface-shell.md)、[CORE-011](docs/development/CORE-011.md)，摘要见 [本批报告](reports/core-011/report.json)，继续开发请读 [当前交接](docs/handoff/CURRENT-TASK.md)。原始浏览器截图、私有数据与生成的用户代码包仅保留在本地。
+
+## CORE-012 成果、提醒与日常运行
+
+普通对话可生成持久的多文件文本/源码成果并下载为 ZIP，也可明确交办一个提醒。工具卡显示实际文件和提醒回执；源码不会自动执行。成果经 Python 事务与校验器落库，旧 CSV 能力继续保留，完整替换界面可通过相同 SDK 读取成果。
+
+后台调度独立于网页，在同一个运行时内串行检查到期事项。主动联系默认关闭，开启后由模型选时并到期重评估；可以决定取消联系。消息游标、暂停与系统提示开关持久保存，崩溃不自动重发模型请求。托盘提供打开、恢复、暂停、配置 DeepSeek 和退出，关闭浏览器后服务可继续运行。
+
+离线 Windows 包构建复用开发机已安装的 Node、Python、Vue 和 Rolldown；附带 SHA-256 清单和当前用户安装脚本。不包含凭据或数据，不设置开机启动。需要 Windows 10/11 x64 与 PowerShell 7，是未签名开发预览。源码默认数据根 `.product-data` 与托盘默认 `%LOCALAPPDATA%/Morrow/data` 分开；`-HomePath` 可明确指定。构建脚本目前依赖相邻开发工作区，ZIP 不随 Git 提交。
+
+可选编码连接器通过独立 Codex CLI 配置使用 DeepSeek，只在显式配置 `PERSONAL_AI_CODEX` 且输入 `/code` 时触发。合成子进程已验证协议和取消，但官方 CLI 的真实模型调用仍未运行；目前产出可下载源码，不是任意仓库的自动开发执行环境。
+
+最终回归：**Python 133 项、Node 259 项**；SDK 类型、Schema、范围、包安装与两次冷启动通过。三次真实串行 DeepSeek 检查验证记忆保存/使用、成果、提醒与到期联系重评估；原业务数据库升级前后哈希一致。系统托盘/通知的实际视觉、另机安装、官方编码 CLI 连通及敌对代码原生隔离仍须分别验收。整套界面的自然语言作者工具链按用户决定后置。
+
+详见 [CORE-012 架构与限制](docs/development/CORE-012.md)、[本批报告](reports/core-012/report.json)。报告为架构师自验 submitted，原始证据、完整本地 manifest 与便携 ZIP 保留在开发工作区；发布副本的文件哈希另列于 `reports/core-012/artifacts.json`。

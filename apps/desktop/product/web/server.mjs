@@ -9,7 +9,7 @@ const deny=error=>({ok:false,error})
 const plain=value=>value!==null&&typeof value==='object'&&!Array.isArray(value)
 const exact=(value,keys)=>plain(value)&&Object.keys(value).every(k=>keys.includes(k))
 
-export async function createPersonalSpaceServer({runtime,space,interfaces,connection=()=>({configured:false}),progress,vueFile,port=0}={}){
+export async function createPersonalSpaceServer({runtime,space,interfaces,connection=()=>({configured:false}),progress,vueFile,port=0,nativeToken,nativeControl,background}={}){
   if(!runtime?.snapshot||!path.isAbsolute(vueFile))throw Error('trusted_server_configuration_required')
   const root=fileURLToPath(new URL('../../personal-space/',import.meta.url))
   const token=randomBytes(32).toString('base64url')
@@ -36,7 +36,7 @@ export async function createPersonalSpaceServer({runtime,space,interfaces,connec
   let updateTimer=null
   const snapshot=()=>({epoch,revision,view:runtime.snapshot(),connection:connection(),progress:progress?.snapshot()??null,
     space:space?.snapshot()??null,interfaces:interfaces?.summary()??null,
-    capabilities:{nativeIsolation:false,backgroundContact:false,generatedInterfaces:!!space,generatedScope:'home_canvas_no_private_data'}})
+    capabilities:{nativeIsolation:false,backgroundContact:!!background,generatedInterfaces:!!interfaces||!!space,generatedScope:interfaces?'whole_interface_granted_sdk':'home_canvas_no_private_data'}})
   function push(res){
     if(res.destroyed||blocked.has(res))return
     try{
@@ -156,6 +156,16 @@ export async function createPersonalSpaceServer({runtime,space,interfaces,connec
     try{
       if(closed)return send(503,deny('closing'))
       if(req.headers.host!==new URL(origin).host||req.headers['sec-fetch-site']==='cross-site')return send(403,deny('origin_denied'))
+      if(req.url==='/api/native'){
+        if(req.method!=='POST'||req.headers.origin!==undefined||!nativeToken||!nativeControl)return send(403,deny('native_denied'))
+        const supplied=Buffer.from(String(req.headers['x-morrow-native']??'')),expected=Buffer.from(nativeToken)
+        if(supplied.length!==expected.length||!timingSafeEqual(supplied,expected))return send(403,deny('native_denied'))
+        let length=0;const parts=[]
+        for await(const part of req){length+=part.length;if(length>2048)return send(413,deny('request_too_large'));parts.push(part)}
+        let body;try{body=JSON.parse(Buffer.concat(parts).toString('utf8'))}catch{return send(400,deny('invalid_request'))}
+        if(!exact(body,['action','args'])||typeof body.action!=='string')return send(400,deny('invalid_request'))
+        return send(200,await nativeControl(body.action,body.args??{}))
+      }
       if(req.method==='GET'&&/^\/interface-frame\/[a-f0-9]{48}$/.test(req.url)&&interfaces){
         let document
         try{document=interfaces.document(req.url.slice('/interface-frame/'.length))}catch{return send(404,deny('not_found'))}

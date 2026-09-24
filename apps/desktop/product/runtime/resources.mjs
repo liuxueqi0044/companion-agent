@@ -31,6 +31,10 @@ export function createResourceAPI({host,operation,run,stop,execution,send,cancel
   return Object.freeze({
     version:'1',execution,
     turn:input=>captured(input,readTurn),
+    artifact:input=>captured(input,async a=>{
+      if(!a||!validId(a.turnId)||!validId(a.actionId)||typeof a.download!=='boolean')return fail('invalid_request')
+      return request(host,a.download?'artifact.download':'artifact.read',{turn_id:a.turnId,action_id:a.actionId})
+    }),
     conversations:({before,limit}={})=>operation(()=>page('conversation.list',
       {...(before===undefined?{}:{before}),...(limit===undefined?{}:{limit})},
       ['conversation_id','latest_turn_id','cursor','last_active_at','text_preview','reply_preview'])),

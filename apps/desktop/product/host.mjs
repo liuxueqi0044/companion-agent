@@ -13,7 +13,7 @@ from services.product.entry import handle
 from services.product.kernel import ProductKernel
 sys.stdout.buffer.write(handle(sys.stdin.buffer.read(393217),ProductKernel(root),reviewed_packages=json.loads(sys.argv[3])))
 `
-const READS = new Set(['home','policy.read','memory.list','contact.controls','contact.inspect','inbox.list',
+const READS = new Set(['artifact.read','artifact.download','inbox.latest','home','policy.read','memory.list','contact.controls','contact.inspect','inbox.list',
   'inbox.explain','turn.read','events','task.get','task.result','task.events','experience.history',
   'conversation.list','conversation.turns','reminder.read','reminder.list','contact.read'])
 const ACTIONS = new Set([...READS, 'bootstrap','policy.replace','turn.submit','turn.begin','turn.accept',

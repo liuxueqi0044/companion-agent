@@ -16,9 +16,9 @@ export function presentActivity(record,{activity,work,send,pendingId}={}){
   const running=pendingId===record.id||send?.turnId===record.id||send?.commandId===record.id||
     !!(ownedWork&&runningPhases.has(work.phase))
   const hasActions=!!a?.actions?.length
-  const done=a?.taskStatus==='completed'&&!a?.protocolError&&!a?.needsReconciliation
+  const done=(a?.taskStatus==='completed'||a?.displayState==='completed')&&!a?.protocolError&&!a?.needsReconciliation
   const summary=typeof record.provider_summary==='string'?record.provider_summary:a?.providerSummary
-  const heading=hasActions?(done?'核对完成':({queued:'等待执行',running:'正在核对 CSV',cancelling:'正在停止',
+  const heading=hasActions?(done?(a?.taskId?'核对完成':'已完成'):({queued:'等待执行',running:'正在核对 CSV',cancelling:'正在停止',
     failed:'核对未完成',cancelled:'核对已停止',interrupted:'执行已中断'})[a.taskStatus]??'准备调用工具'):
     running?'正在思考':({model_failed:'这次回复未完成',cancelled:'已停止回复',outcome_unknown:'这次回复的状态待核对',
       queued:'等待回应',generating:'上次回复中断，待核对',saving:'输入是否保存待核对'})[record.state]??null

@@ -11,6 +11,7 @@ from services.local_tasks.models import LocalTaskError, bounded_text
 from services.personal_ai.models import PersonalAIError
 
 from .contact import ContactService
+from . import artifacts
 from .context import cursor, is_latest_turn, turn_context
 from .conversation import ConversationBrowser
 from .memory import ManagedMemory
@@ -59,7 +60,7 @@ class ProductKernel:
     def submit_turn(self, value, *, capabilities=()):
         """Capabilities come from the trusted host's user-intent/approval boundary, never model output."""
         request = validate(UserTurn, value)
-        if not isinstance(capabilities, (tuple, list)) or any(item not in ('csv.audit', 'profile.change') for item in capabilities):
+        if not isinstance(capabilities, (tuple, list)) or any(item not in ('csv.audit', 'profile.change', 'artifact.create', 'reminder.create') for item in capabilities):
             raise ProductError('invalid_capability')
         grants = sorted(set(capabilities))
         if 'csv.audit' in grants and request.csv_text is None:
@@ -132,6 +133,8 @@ class ProductKernel:
                     raise ProductError('permission_denied')
                 if action.kind == 'csv.audit' and turn['csv_text'] is None:
                     raise ProductError('missing_material')
+                if action.kind == 'reminder.create' and action.due_at <= self.clock():
+                    raise ProductError('invalid_reminder_time')
             # One transaction accepts the entire structured output or nothing.
             for ordinal, action in enumerate(decision.actions):
                 db.execute("INSERT INTO actions(id,turn_id,ordinal,kind,payload_json,state) VALUES(?,?,?,?,?,'ready')",
@@ -185,12 +188,23 @@ class ProductKernel:
                 try:
                     if row['kind'] == 'csv.audit':
                         result = self.workbench.submit({'command_id': row['id'], 'requirement_text': turn['text'], 'csv_text': turn['csv_text']})
-                    else:
+                    elif row['kind'] == 'artifact.create':
+                        result = artifacts.create_receipt(row['id'], json.loads(row['payload_json']), self.clock())
+                    elif row['kind'] == 'reminder.create':
+                        payload = json.loads(row['payload_json'])
+                        body = {'text': payload['text'], 'due_at': stamp(datetime.fromisoformat(payload['due_at']))}
+                        db.execute("INSERT INTO reminders(id,request_hash,text,due_at,state,revision) VALUES(?,?,?,?,'pending',1)",
+                                   (row['id'], digest(body), body['text'], body['due_at']))
+                        result = {'id': row['id'], **body, 'state': 'pending', 'revision': 1}
+                    elif row['kind'] == 'profile.change':
                         payload = json.loads(row['payload_json'])
                         result = self.workbench.profile.change({'command_id': row['id'], 'expected_revision': turn['profile_revision'], 'changes': payload['changes']})
-                    db.execute("UPDATE actions SET state='accepted',result_json=?,error=NULL WHERE id=?", (result.model_dump_json(), row['id']))
+                    else:
+                        raise ProductError('unsupported_action')
+                    result_json = canonical(result) if isinstance(result, dict) else result.model_dump_json()
+                    db.execute("UPDATE actions SET state='accepted',result_json=?,error=NULL WHERE id=?", (result_json, row['id']))
                     self.store.event(db, turn_id, 'action.accepted', self.clock(), row['id'])
-                except (LocalTaskError, PersonalAIError) as exc:
+                except (LocalTaskError, PersonalAIError, ProductError) as exc:
                     db.execute("UPDATE actions SET state='failed',error=? WHERE id=?", (exc.code, row['id']))
                     self.store.event(db, turn_id, 'action.failed', self.clock(), row['id'])
                 except Exception:
@@ -308,6 +322,10 @@ class ProductKernel:
                         snapshot = self.workbench.get({'task_id': task_id})
                         item.update(task=snapshot.model_dump(mode='json'),
                                     events=self.workbench.events({'task_id': task_id}).model_dump(mode='json'))
+                    elif row['kind'] == 'artifact.create':
+                        item['artifact'] = artifacts.summary(result)
+                    elif row['kind'] == 'reminder.create':
+                        item['reminder'] = self.contact._reminder(db.execute('SELECT * FROM reminders WHERE id=?', (row['id'],)).fetchone())
                     else:
                         item['result'] = result
                 actions.append(item)

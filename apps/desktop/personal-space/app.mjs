@@ -201,7 +201,7 @@ createApp({setup(){
     const offset=-new Date().getTimezoneOffset(),localZone=`UTC${offset>=0?'+':'-'}${String(Math.floor(Math.abs(offset)/60)).padStart(2,'0')}:${String(Math.abs(offset)%60).padStart(2,'0')}`
     return [h('div',{class:'setting-top'},[h('div',[h('h3','偶尔，主动来找你'),para('有值得关心的事，再轻轻问候。')]),switchButton(p.proactive_enabled,()=>{p.proactive_enabled=!p.proactive_enabled},'允许主动联系')]),
       para('开启后，AI 可以结合后续互动决定是否、何时联系。你可以随时关闭，不回复也不会被反复追问。'),
-      h('div',{class:'soft-note'},'这一版已接通联系偏好的保存；后台自动发送尚未启用。普通聊天不会预告未来的问候。'),
+      h('div',{class:'soft-note'},state.value?.capabilities.backgroundContact?'保持 Morrow 在托盘运行，即可在合适的时候收到问候。普通聊天不会预告时间。':'当前服务未启用后台调度。联系偏好仍会保存。'),
       field('我方便被联系的时间',h('div',{class:'time-pair'},[input(time(p.start_minute),v=>{p.start_minute=minutes(v)},{type:'time','aria-label':'开始时间'}),h('span','—'),input(time(p.end_minute),v=>{p.end_minute=minutes(v)},{type:'time','aria-label':'结束时间'})])),
       field('时区',h('select',{value:p.timezone,onChange:e=>{p.timezone=e.target.value}},[...new Set([p.timezone,localZone,'UTC'])].map(v=>h('option',{value:v},v===localZone?`${v} · 本机当前偏移`:v)))),
       field('每天最多几次',input(p.daily_limit,v=>{p.daily_limit=Number(v)},{type:'number',min:1,max:20})),
@@ -218,7 +218,7 @@ createApp({setup(){
   ]}
   function remindersPanel(){return [para('只安排你明确交办的提醒。当前版本不会在应用退出后唤醒设备。'),
     ...(view.value?.reminders.items??[]).map(item=>h('article',{class:'memory-item',key:item.id},[h('p',item.text),h('div',{class:'item-meta'},[h('span',formatTime(item.due_at)),h('span',({pending:'已安排',sent:'已送达',missed:'已错过',cancelled:'已取消'})[item.state]??item.state)]),item.state==='pending'?btn('取消提醒',()=>call('reminders.cancel',{id:item.id},'提醒已取消。'),{class:'text-button'}):null])),
-    h('div',{class:'add-memory'},[field('提醒内容',input(reminderText.value,v=>{reminderText.value=v},{placeholder:'有什么需要我提醒你？'})),field('时间',input(reminderDate.value,v=>{reminderDate.value=v},{type:'datetime-local'})),btn('保存提醒',async()=>{if(!reminderDate.value||!reminderText.value.trim())return;const r=await call('reminders.create',{text:reminderText.value,due_at:new Date(reminderDate.value).toISOString()},'提醒已保存；自动到期投递仍需后台调度接入。');if(r.ok){reminderText.value='';reminderDate.value=''}},{class:'primary full',disabled:working.value||!reminderText.value.trim()||!reminderDate.value})])
+    h('div',{class:'add-memory'},[field('提醒内容',input(reminderText.value,v=>{reminderText.value=v},{placeholder:'有什么需要我提醒你？'})),field('时间',input(reminderDate.value,v=>{reminderDate.value=v},{type:'datetime-local'})),btn('保存提醒',async()=>{if(!reminderDate.value||!reminderText.value.trim())return;const r=await call('reminders.create',{text:reminderText.value,due_at:new Date(reminderDate.value).toISOString()},'提醒已保存；保持 Morrow 在后台运行即可到期接收。');if(r.ok){reminderText.value='';reminderDate.value=''}},{class:'primary full',disabled:working.value||!reminderText.value.trim()||!reminderDate.value})])
   ]}
   function resultPanel(){const r=view.value.result;return [
     h('div',{class:'result-summary'},[h('span','实际计算结果'),h('strong',r.metadata?.total!==null?`${r.metadata.total} ${r.metadata.total_currency??''}`:'按币种分别汇总'),h('small','来自本地 CSV 核对工具')]),
@@ -274,11 +274,19 @@ createApp({setup(){
       h('div',{class:'thinking-row',role:'status'},[icon('spark',17),h('span',heading),...controls]),
       mode==='thinking'?h('p',{class:'thinking-note'},draftView(record)?.reply?'回复正在生成，尚未完成。':'正在准备回应…'):null])
     const events=(a.events??[]).filter(e=>!e.historical)
-    const step=done?'结果来自真实计算，可以逐行查看来源。':a.taskId?'CSV 核对工具 · 以实际执行回执为准':'已收到工具建议，等待本地确认。'
+    const step=done?(a.taskId?'结果来自真实计算，可以逐行查看来源。':'已保存到你的个人空间。'):a.taskId?'CSV 核对工具 · 以实际执行回执为准':'正在保存工具成果…'
     return h('section',{class:['activity-card',done?'complete':''],'aria-label':'工具执行过程'},[
-      h('div',{class:'activity-heading'},[h('span',{class:'activity-symbol'},icon(done?'check':'spark',19)),h('div',[h('h3',heading),h('p',done?'结果来自真实计算，可以逐行查看来源。':step)])]),
+      h('div',{class:'activity-heading'},[h('span',{class:'activity-symbol'},icon(done?'check':'spark',19)),h('div',[h('h3',heading),h('p',step)])]),
+      ...(record.actions??[]).filter(x=>x.artifact&&x.state==='accepted').map(x=>h('div',{class:'memory-item',key:x.id},[
+        h('h3',x.artifact.title),h('p',x.artifact.files.map(f=>f.path).join(' · ')),
+        h('small',x.artifact.files.some(f=>/\.(py|js|mjs|ts|html|svg)$/.test(f.path))?'源码已保存，尚未执行或部署。':`共 ${x.artifact.files.length} 个文件，可下载保存。`),
+        btn('下载成果',async()=>{const r=await call('artifact.read',{turnId:record.id,actionId:x.id,download:true});if(!r.ok)return;
+          const bytes=Uint8Array.from(atob(r.result.base64),c=>c.charCodeAt(0)),url=URL.createObjectURL(new Blob([bytes],{type:r.result.mime}));
+          const a=document.createElement('a');a.href=url;a.download=r.result.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)
+        },{class:'secondary small'},[icon('download',16),'下载成果'])])),
+      ...(record.actions??[]).filter(x=>x.reminder&&x.state==='accepted').map(x=>h('p',{key:x.id},['已安排提醒：',x.reminder.text,' · ',formatTime(x.reminder.due_at)])),
       events.length?h('ol',{class:'event-list'},events.map(e=>h('li',{key:e.seq},[h('span',{class:'event-dot'}),h('span',eventLabel[e.kind]??e.kind),h('time',e.occurredAt?formatTime(e.occurredAt):'')]))):null,
-      h('div',{class:'activity-actions'},[...controls,done?btn('查看成果与来源',()=>openResult(record.id),{class:'primary small',disabled:busy.value},['查看成果与来源',icon('arrow',16)]):null,
+      h('div',{class:'activity-actions'},[...controls,done&&a.taskId?btn('查看成果与来源',()=>openResult(record.id),{class:'primary small',disabled:busy.value},['查看成果与来源',icon('arrow',16)]):null,
         active&&a.taskStatus==='queued'&&!running?btn('继续本地任务',()=>call('work.local',{turnId:record.id}),{class:'secondary small'}):null]),
     ])
   }

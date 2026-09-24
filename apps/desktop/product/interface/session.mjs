@@ -31,6 +31,7 @@ export async function createInterfaceSession({runtime,scopes=SCOPES,onChange=()=
   add('send.reconcile','conversation',[],()=>runtime.ui.conversation.replaySubmit())
   add('task.read','tasks',['turnId','taskId','attemptId'],a=>runtime.resources.task(a),true)
   add('task.result','tasks',['turnId','taskId','attemptId'],a=>runtime.resources.result(a),true)
+  add('artifact.read','tasks',['turnId','actionId','download'],a=>runtime.resources.artifact(a),true)
   add('work.start','conversation',['turnId'],a=>runtime.resources.start(a),true)
   add('work.local','tasks',['turnId'],a=>runtime.resources.local(a),true)
   add('work.stop','tasks',['turnId','runId'],a=>runtime.resources.stop(a),true)

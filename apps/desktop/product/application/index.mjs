@@ -16,6 +16,8 @@ export function turnView(raw) {
     'completion_source','temporary']),error:raw.error ? safeCode(raw.error) : null,
     actions:(raw.actions ?? []).map(action=>({
       ...pick(action,['id','kind','state']),error:action.error ? safeCode(action.error) : null,
+      ...(action.artifact ? {artifact:pick(action.artifact,['id','title','files','sha256','created_at'])} : {}),
+      ...(action.reminder ? {reminder:pick(action.reminder,['id','text','due_at','state','revision'])} : {}),
       ...(action.task ? {task:{...pick(action.task,['task_id','status','created_at','updated_at',
         'last_seq','current_attempt_id','attempt_count','executor','tool_version','requirements_interpretation']),
         error_code:action.task.error_code ? safeCode(action.task.error_code) : null}} : {}),

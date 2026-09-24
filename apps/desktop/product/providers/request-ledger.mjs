@@ -16,7 +16,7 @@ export function createRequestLedger({file}){
       legacy&&value.attempts.length>value.limit)throw fail('ledger_invalid')
     const seen=new Set()
     for(const row of value.attempts){
-      if(!row||typeof row.id!=='string'||seen.has(row.id)||!['turn','contact','space'].includes(row.kind)||
+      if(!row||typeof row.id!=='string'||seen.has(row.id)||!['turn','contact','space','coding'].includes(row.kind)||
         !['reserved','received','failed'].includes(row.state)||typeof row.at!=='string')throw fail('ledger_invalid')
       seen.add(row.id)
     }
@@ -46,12 +46,28 @@ export function createRequestLedger({file}){
     }
   }
   return {
+    // Only the trusted launcher calls this after exclusive process ownership is established.
+    // Preserve uncertain attempts as failures; do not repeat their HTTP request.
+    recoverInterrupted(){
+      if(!read().attempts.some(r=>r.state==='reserved'))return {recovered:0}
+      return change(value=>{let recovered=0;for(const row of value.attempts)if(row.state==='reserved'){
+        for(const pid of [row.owner_pid,row.external_pid])if(Number.isSafeInteger(pid)&&pid>0){
+          try{process.kill(pid,0);throw fail('request_in_progress')}catch(e){if(e.code!=='ESRCH')throw e}
+        }
+        Object.assign(row,{state:'failed',error:'interrupted_outcome_unknown',finished_at:new Date().toISOString()});recovered++
+      }return {recovered}})
+    },
+    attachProcess(id,pid){return change(value=>{
+      const row=value.attempts.find(r=>r.id===id)
+      if(!row||row.state!=='reserved'||!Number.isSafeInteger(pid)||pid<1)throw fail('ledger_invalid')
+      row.external_pid=pid
+    })},
     snapshot(){const v=read();return {used:v.attempts.length,inFlight:v.attempts.some(r=>r.state==='reserved')}},
     reserve(kind){
-      if(!['turn','contact','space'].includes(kind))throw fail('ledger_invalid')
+      if(!['turn','contact','space','coding'].includes(kind))throw fail('ledger_invalid')
       return change(value=>{
         if(value.attempts.some(item=>item.state==='reserved'))throw fail('request_in_progress')
-        const id=randomUUID();value.attempts.push({id,kind,state:'reserved',at:new Date().toISOString()});return id
+        const id=randomUUID();value.attempts.push({id,kind,state:'reserved',at:new Date().toISOString(),owner_pid:process.pid});return id
       })
     },
     finish(id,details){change(value=>{

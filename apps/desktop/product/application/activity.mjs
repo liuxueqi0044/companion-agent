@@ -48,8 +48,7 @@ export function projectActivity({turn,stop} = {}) {
         if (events.length > 100) {events=events.slice(0,100);truncatedEvents=true}
       }
     }
-    actions.push({id:raw.id,kind:raw.kind === 'csv.audit' ? 'csv.audit' :
-      raw.kind === 'profile.change' ? 'profile.change' : 'unknown',state:raw.state,
+    actions.push({id:raw.id,kind:['csv.audit','profile.change','artifact.create','reminder.create'].includes(raw.kind)?raw.kind:'unknown',state:raw.state,
     error:typeof raw.error === 'string' ? safeCode(raw.error) : null,...task,events})
   }
   const primary=actions.find(item => item.kind === 'csv.audit' && item.taskId)
@@ -67,6 +66,7 @@ export function projectActivity({turn,stop} = {}) {
   else if (actions.some(item=>item.state==='blocked')) displayState='blocked'
   else if (actions.some(item=>item.state==='ready') && primary?.taskStatus==='completed') displayState='submitted'
   else if (primary?.taskStatus) displayState=primary.taskStatus
+  else if (turn.state === 'actions_recorded' && actions.length && actions.every(a=>a.state==='accepted')) displayState='completed'
   else if (turn.state === 'actions_ready' || turn.state === 'actions_recorded') displayState='submitted'
   return {
     turnId:turn.id,turnState:turn.state,providerSummary:typeof turn.provider_summary === 'string'

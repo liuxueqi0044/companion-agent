@@ -1,5 +1,54 @@
 {
   "$defs": {
+    "ArtifactAction": {
+      "additionalProperties": false,
+      "properties": {
+        "files": {
+          "items": {
+            "$ref": "#/$defs/ArtifactFile"
+          },
+          "maxItems": 12,
+          "minItems": 1,
+          "title": "Files",
+          "type": "array"
+        },
+        "kind": {
+          "const": "artifact.create",
+          "title": "Kind",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "title",
+        "files"
+      ],
+      "title": "ArtifactAction",
+      "type": "object"
+    },
+    "ArtifactFile": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "title": "Content",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "content"
+      ],
+      "title": "ArtifactFile",
+      "type": "object"
+    },
     "ContactCompleteRequest": {
       "additionalProperties": false,
       "properties": {
@@ -322,8 +371,10 @@
           "items": {
             "discriminator": {
               "mapping": {
+                "artifact.create": "#/$defs/ArtifactAction",
                 "csv.audit": "#/$defs/CsvAction",
-                "profile.change": "#/$defs/ProfileAction"
+                "profile.change": "#/$defs/ProfileAction",
+                "reminder.create": "#/$defs/ReminderAction"
               },
               "propertyName": "kind"
             },
@@ -333,6 +384,12 @@
               },
               {
                 "$ref": "#/$defs/ProfileAction"
+              },
+              {
+                "$ref": "#/$defs/ArtifactAction"
+              },
+              {
+                "$ref": "#/$defs/ReminderAction"
               }
             ]
           },
@@ -499,6 +556,32 @@
         "changes"
       ],
       "title": "ProfileAction",
+      "type": "object"
+    },
+    "ReminderAction": {
+      "additionalProperties": false,
+      "properties": {
+        "due_at": {
+          "format": "date-time",
+          "title": "Due At",
+          "type": "string"
+        },
+        "kind": {
+          "const": "reminder.create",
+          "title": "Kind",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "text",
+        "due_at"
+      ],
+      "title": "ReminderAction",
       "type": "object"
     },
     "ReminderCreateRequest": {

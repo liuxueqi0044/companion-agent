@@ -15,7 +15,7 @@ ID = Annotated[str, AfterValidator(canonical_uuid)]
 UTC = Annotated[datetime, AfterValidator(utc)]
 Category = Literal['work', 'preferences', 'goals']
 Topic = Literal['work', 'daily', 'wellbeing']
-Capability = Literal['csv.audit', 'profile.change']
+Capability = Literal['csv.audit', 'profile.change', 'artifact.create', 'reminder.create']
 
 
 class ProductError(Exception):
@@ -194,7 +194,56 @@ class ProfileAction(Model):
     changes: PreferenceChanges
 
 
-Action = Annotated[CsvAction | ProfileAction, Field(discriminator='kind')]
+class ArtifactFile(Model):
+    path: str
+    content: str
+
+    @field_validator('path')
+    @classmethod
+    def safe_name(cls, value):
+        if len(value) > 160 or not re.fullmatch(r'[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*\.(?:md|txt|csv|json|html|css|js|mjs|ts|py|svg)', value):
+            raise ValueError('invalid_artifact_path')
+        for part in value.split('/'):
+            if part.split('.')[0].upper() in {'CON', 'PRN', 'AUX', 'NUL', *(f'COM{i}' for i in range(1, 10)), *(f'LPT{i}' for i in range(1, 10))}:
+                raise ValueError('reserved_artifact_path')
+        return value
+
+    @field_validator('content')
+    @classmethod
+    def content_size(cls, value):
+        return bounded_text(value, 64 * 1024)
+
+
+class ArtifactAction(Model):
+    kind: Literal['artifact.create']
+    title: str
+    files: list[ArtifactFile] = Field(min_length=1, max_length=12)
+
+    @field_validator('title')
+    @classmethod
+    def title_size(cls, value):
+        return bounded_text(value, 240)
+
+    @model_validator(mode='after')
+    def file_set(self):
+        names = [item.path.casefold() for item in self.files]
+        if len(set(names)) != len(names) or sum(len(item.content.encode()) for item in self.files) > 128 * 1024:
+            raise ValueError('invalid_artifact_files')
+        return self
+
+
+class ReminderAction(Model):
+    kind: Literal['reminder.create']
+    text: str
+    due_at: UTC
+
+    @field_validator('text')
+    @classmethod
+    def text_size(cls, value):
+        return bounded_text(value, 4096)
+
+
+Action = Annotated[CsvAction | ProfileAction | ArtifactAction | ReminderAction, Field(discriminator='kind')]
 
 
 class MemorySuggestion(Model):

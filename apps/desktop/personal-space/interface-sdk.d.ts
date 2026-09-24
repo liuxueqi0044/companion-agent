@@ -29,6 +29,7 @@ export interface Client {
     send(args:TurnInput):Promise<Reply<{turnId:string}>>;
   };
   tasks:{get(args:TaskBinding):Promise<Reply>;result(args:TaskBinding):Promise<Reply>;stop(args:RunBinding):Promise<Reply>};
+  artifacts:{read(args:{turnId:string;actionId:string}):Promise<Reply>;download(args:{turnId:string;actionId:string}):Promise<Reply<{name:string;mime:string;base64:string;sha256:string}>>};
   draft:{read():Promise<Reply<Versioned<Draft>>>;write(args:{expectedRevision:number;value:Draft}):Promise<Reply<Versioned<Draft>>>};
   state:{read():Promise<Reply<Versioned<Record<string,Json>>>>;write(args:{expectedRevision:number;value:Record<string,Json>}):Promise<Reply<Versioned<Record<string,Json>>>>};
   host:{openRecovery():Promise<Reply>};

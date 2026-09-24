@@ -1,0 +1,217 @@
+{
+  "format": "artifact-manifest/1",
+  "batch": "CORE-012",
+  "scope": "published files; raw local evidence excluded",
+  "artifacts": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 3912,
+      "sha256": "7ac39fbd05ec5c36aef2674549da180e31bab2f312fd74287e98f8a1692f4c3d"
+    },
+    {
+      "path": "README.md",
+      "bytes": 13871,
+      "sha256": "847a5fef6d1f6569f79024e2690075c5933783141d5b6d65f6cc247d5b002bac"
+    },
+    {
+      "path": "apps/desktop/personal-space/activity.mjs",
+      "bytes": 2586,
+      "sha256": "554459270918e04918ae57cf9ff2e6922da2ef9ca17cf613d4e6ddc937e8f404"
+    },
+    {
+      "path": "apps/desktop/personal-space/app.mjs",
+      "bytes": 41378,
+      "sha256": "ee750ae55eaad3f372c0cb80a88638736dad3be9f452755e1ce937aa74aaa0b0"
+    },
+    {
+      "path": "apps/desktop/personal-space/interface-sdk.d.ts",
+      "bytes": 2734,
+      "sha256": "2b6f687d55b4e7a28b3531ee6e7b7a61d3170136f72d96eb2ae6b15aa7f0da43"
+    },
+    {
+      "path": "apps/desktop/personal-space/interface-sdk.mjs",
+      "bytes": 3203,
+      "sha256": "d1118a78c83099d07cd7017ba565ef5230cfcd868a22dbb0bc3a3f8d5a7f952c"
+    },
+    {
+      "path": "apps/desktop/product/application/activity.mjs",
+      "bytes": 5092,
+      "sha256": "8793cb52150540b6d4e7bb8d3d75aef9f1dd15a22adaaa3a58be3c76b2444173"
+    },
+    {
+      "path": "apps/desktop/product/application/index.mjs",
+      "bytes": 13203,
+      "sha256": "e95100ec5adc3bae2df40280b9631cc22c4f7551c99b1f30f9c1499da75ea775"
+    },
+    {
+      "path": "apps/desktop/product/background.mjs",
+      "bytes": 3753,
+      "sha256": "94fd5c1ab0fa3a41a28ab2f9520923056dbe450df4834d291a393813d316c739"
+    },
+    {
+      "path": "apps/desktop/product/execution/runner.mjs",
+      "bytes": 19838,
+      "sha256": "9d6a390baa671a9fe4e5184a76588a7517501e0db7c457cfa921ba4e8aa05844"
+    },
+    {
+      "path": "apps/desktop/product/host.mjs",
+      "bytes": 4869,
+      "sha256": "d2d2012832997ef53ad5d95aee5950de4911f7ef33f023eb7123e83130a68c22"
+    },
+    {
+      "path": "apps/desktop/product/interface/service.mjs",
+      "bytes": 13314,
+      "sha256": "eba5cb9dcb7b9ad6dfc2241c4985697a5a6ac7aa964adce8f7df316e3bffd95d"
+    },
+    {
+      "path": "apps/desktop/product/interface/session.mjs",
+      "bytes": 6523,
+      "sha256": "e67fcb4b80f94932e2fb152e2de904ba28dfe2a19322ff472799f55e17d0c52f"
+    },
+    {
+      "path": "apps/desktop/product/providers/coding.mjs",
+      "bytes": 7153,
+      "sha256": "598b51f38bfc6c4c1efa98568d6b2a05436e6204dc2d05feadb06f222b7567c2"
+    },
+    {
+      "path": "apps/desktop/product/providers/deepseek.mjs",
+      "bytes": 12983,
+      "sha256": "db35c4aecd97127b4522ffdafb24e8f0156385b3b1d1c6291f05442e24e59558"
+    },
+    {
+      "path": "apps/desktop/product/providers/request-ledger.mjs",
+      "bytes": 3922,
+      "sha256": "4ccc095538250f8934d8bed11812514b8cb3798a1f4ae2dc66bf8ee658fed52c"
+    },
+    {
+      "path": "apps/desktop/product/runtime/resources.mjs",
+      "bytes": 3391,
+      "sha256": "de062ff90670931e3daf45fab93376485c46353ef35da1c2e49b1a7e4e65e98a"
+    },
+    {
+      "path": "apps/desktop/product/session.mjs",
+      "bytes": 11022,
+      "sha256": "c455addda21d6625a43f98104d0a61a62556f2eb1160336a2fca9c0b7ef50da4"
+    },
+    {
+      "path": "apps/desktop/product/storage.mjs",
+      "bytes": 1219,
+      "sha256": "9eecb09c47e99a925a38a41489196f11d94fac03250d9242e9cc3c8c0766fbaf"
+    },
+    {
+      "path": "apps/desktop/product/web/instance.mjs",
+      "bytes": 1527,
+      "sha256": "f668b18c40481a1e5d85d398f1c2c1dd3b666ac58c0e3ff976f19debc05bf86e"
+    },
+    {
+      "path": "apps/desktop/product/web/server.mjs",
+      "bytes": 16136,
+      "sha256": "1474d40222773362a3651dea7a4c2e0d959be3cdfbb82bd43dd7374e4167962c"
+    },
+    {
+      "path": "docs/development/CORE-012.md",
+      "bytes": 7695,
+      "sha256": "c283c35d5c26da3d430268c7416fce63d026155e5ff93ca41e167d2bacbb956b"
+    },
+    {
+      "path": "docs/handoff/CURRENT-TASK.md",
+      "bytes": 2293,
+      "sha256": "bb430487dd4abfcf00946dbbc9ad3091a141df0756dabcbc05bfd495c45928dc"
+    },
+    {
+      "path": "packages/contracts/product-core/schema.json",
+      "bytes": 18678,
+      "sha256": "2d0eef5d8349c91b765aaa607cc126177eef10a9f50d5710d81e18e9c25153f1"
+    },
+    {
+      "path": "reports/core-012/report.json",
+      "bytes": 4648,
+      "sha256": "635fabe984c68cc3dca12e3b728041d7261573331dd8fd6ff306d8c486b83cb3"
+    },
+    {
+      "path": "services/product/artifacts.py",
+      "bytes": 2601,
+      "sha256": "5825c6c384b4fc9f407ab8e2112dbbde087085eac8b0bbb5835a2734c47baa76"
+    },
+    {
+      "path": "services/product/entry.py",
+      "bytes": 9020,
+      "sha256": "fae8e693c10d8b522879efec71ab3de135522ded9bdbc59dbb10ac51a82fe021"
+    },
+    {
+      "path": "services/product/kernel.py",
+      "bytes": 23154,
+      "sha256": "b37c15473d69a2bbadcaf0aeb222397337b493a681152769b586ff8dd4a8fa15"
+    },
+    {
+      "path": "services/product/models.py",
+      "bytes": 10412,
+      "sha256": "140e564f78317658d6fbe017d9ff66a1af20719a2041f23f6592507d7b539afb"
+    },
+    {
+      "path": "tests/product/core012/background.test.mjs",
+      "bytes": 2566,
+      "sha256": "07ab47510bb3916ff3604f87212670bfa0b1a54731a5d23e3b035720f67ad9f5"
+    },
+    {
+      "path": "tests/product/core012/browser-fixture.mjs",
+      "bytes": 1934,
+      "sha256": "a98ecf01010f81c6abf6b895c860bf21dfe9204226f098ed712df3367ef0aaec"
+    },
+    {
+      "path": "tests/product/core012/coding.test.mjs",
+      "bytes": 3136,
+      "sha256": "31b09fea62a784075f792a83a1e0ced000d55e92664b007961d038d23b7f8076"
+    },
+    {
+      "path": "tests/product/core012/desktop.test.mjs",
+      "bytes": 3055,
+      "sha256": "77fc55aa8ed8b73e9f44ae1a76811c95f2d1683393a7dec45eb73c5d756db5fa"
+    },
+    {
+      "path": "tests/product/core012/recovery.test.mjs",
+      "bytes": 1624,
+      "sha256": "4510866ac6b003b8f21356fb9ac3532997aecca553c2ffef88def62b7bac3a11"
+    },
+    {
+      "path": "tests/product/core012/test_artifacts.py",
+      "bytes": 3842,
+      "sha256": "e9313c65583b59c20296ca0a57c034e8d42f53fcffb92e9e18de43c84e871890"
+    },
+    {
+      "path": "tests/product/core012/tools.test.mjs",
+      "bytes": 2463,
+      "sha256": "c120fd6dcbdb4ba27b5b0aa1f0997cc560623b842212a0e17bcac12dfb78381b"
+    },
+    {
+      "path": "tools/build_windows.py",
+      "bytes": 5379,
+      "sha256": "1ceeda203d2d7b2096c51df65473702888fb4089e27de053d14ce63c0ef2cd86"
+    },
+    {
+      "path": "tools/configure_deepseek.ps1",
+      "bytes": 1612,
+      "sha256": "06b60bafb58f6412d0e3b13820aee923701244be8d65fdee2b3edbd3d9a3417e"
+    },
+    {
+      "path": "tools/install_morrow.ps1",
+      "bytes": 2266,
+      "sha256": "7638e2ee4a4b39b3d8737eb1118e15500ca3ea198eb1052dc9fef67a0a021d2f"
+    },
+    {
+      "path": "tools/morrow_tray.ps1",
+      "bytes": 6860,
+      "sha256": "c8de72f941c70c3e76b7e9a72bb57bd0f3aaff8d60935d6c4de3beb50f4dbc53"
+    },
+    {
+      "path": "tools/personal_space.mjs",
+      "bytes": 6179,
+      "sha256": "5e5334c368c765a1c8734f45d994793d4e997183f34f276aa779a75470fd3228"
+    },
+    {
+      "path": "tools/product_core012_live_check.mjs",
+      "bytes": 5877,
+      "sha256": "f8159afc0256a3040e93ec9fd4900fd80daf37512cc70f8567cf3cb494b7a3b0"
+    }
+  ]
+}

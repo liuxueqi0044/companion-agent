@@ -1,5 +1,5 @@
 {
-  "scope": "BATCH-015 base, reviewed CORE-006, architect-implemented CORE-007 through CORE-011; not a finished desktop release",
+  "scope": "BATCH-015 base, reviewed CORE-006, architect-implemented CORE-007 through CORE-012; unsigned developer preview, not final release",
   "source_workspace": "companion-agent-core",
   "core_review": "reviews/CORE-006.md",
   "core_artifact_manifest": "reports/core-006-architect/final-artifacts.json",
@@ -20,6 +20,16 @@
       "path": ".python-version",
       "sha256": "861b3dd8083d28f336ef70f6755bc399538ddad627b1d095820ca34cb953cf14",
       "bytes": 8
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "7ac39fbd05ec5c36aef2674549da180e31bab2f312fd74287e98f8a1692f4c3d",
+      "bytes": 3912
+    },
+    {
+      "path": "README.md",
+      "sha256": "847a5fef6d1f6569f79024e2690075c5933783141d5b6d65f6cc247d5b002bac",
+      "bytes": 13871
     },
     {
       "path": "apps/desktop/bridge/README.md",
@@ -68,13 +78,13 @@
     },
     {
       "path": "apps/desktop/personal-space/activity.mjs",
-      "sha256": "433cd484257f2985158954775f9f4b21063850aec629becd12e050a8c76a47ec",
-      "bytes": 2529
+      "sha256": "554459270918e04918ae57cf9ff2e6922da2ef9ca17cf613d4e6ddc937e8f404",
+      "bytes": 2586
     },
     {
       "path": "apps/desktop/personal-space/app.mjs",
-      "sha256": "a6ecf1d58696861f42ef3e50842e6a774a0ff0a0ba05f2475c430500b0a41e49",
-      "bytes": 40206
+      "sha256": "ee750ae55eaad3f372c0cb80a88638736dad3be9f452755e1ce937aa74aaa0b0",
+      "bytes": 41378
     },
     {
       "path": "apps/desktop/personal-space/canvas.mjs",
@@ -103,13 +113,13 @@
     },
     {
       "path": "apps/desktop/personal-space/interface-sdk.d.ts",
-      "sha256": "1a1d249c3aab537a2ed47d705b9039579dc25483ed216f04ffbf08564d3ee094",
-      "bytes": 2544
+      "sha256": "2b6f687d55b4e7a28b3531ee6e7b7a61d3170136f72d96eb2ae6b15aa7f0da43",
+      "bytes": 2734
     },
     {
       "path": "apps/desktop/personal-space/interface-sdk.mjs",
-      "sha256": "1d3031f906e9408556f3e4e8178cf67f42edc1f5ce17cc46afce4a8b9960408a",
-      "bytes": 3067
+      "sha256": "d1118a78c83099d07cd7017ba565ef5230cfcd868a22dbb0bc3a3f8d5a7f952c",
+      "bytes": 3203
     },
     {
       "path": "apps/desktop/personal-space/recovery.html",
@@ -143,8 +153,8 @@
     },
     {
       "path": "apps/desktop/product/application/activity.mjs",
-      "sha256": "e62e0ab5c4e9b877f75c84cb7c344652fe630b1e1595181c347360ca5c3b3a96",
-      "bytes": 4964
+      "sha256": "8793cb52150540b6d4e7bb8d3d75aef9f1dd15a22adaaa3a58be3c76b2444173",
+      "bytes": 5092
     },
     {
       "path": "apps/desktop/product/application/inbox.mjs",
@@ -153,8 +163,8 @@
     },
     {
       "path": "apps/desktop/product/application/index.mjs",
-      "sha256": "981253bed06ee6bea9137defd5cf201139a8b2daa77da8a03eadc511438784fd",
-      "bytes": 12980
+      "sha256": "e95100ec5adc3bae2df40280b9631cc22c4f7551c99b1f30f9c1499da75ea775",
+      "bytes": 13203
     },
     {
       "path": "apps/desktop/product/application/memory.mjs",
@@ -182,6 +192,11 @@
       "bytes": 3801
     },
     {
+      "path": "apps/desktop/product/background.mjs",
+      "sha256": "94fd5c1ab0fa3a41a28ab2f9520923056dbe450df4834d291a393813d316c739",
+      "bytes": 3753
+    },
+    {
       "path": "apps/desktop/product/execution/contact-provider.mjs",
       "sha256": "bb3edbe3f75b669481dbf703a804391699b163bf54ab0fdfbb0fea942c004f31",
       "bytes": 1270
@@ -203,13 +218,13 @@
     },
     {
       "path": "apps/desktop/product/execution/runner.mjs",
-      "sha256": "ef38481747c6d3404de7bdf16e60724fd2c460d1538978199235bcdefc4ff14f",
-      "bytes": 19778
+      "sha256": "9d6a390baa671a9fe4e5184a76588a7517501e0db7c457cfa921ba4e8aa05844",
+      "bytes": 19838
     },
     {
       "path": "apps/desktop/product/host.mjs",
-      "sha256": "eb2ee9e4a2765a281b449672954c436ce75b5addf2f9a062a02fcdc2e9f7bc9c",
-      "bytes": 4818
+      "sha256": "d2d2012832997ef53ad5d95aee5950de4911f7ef33f023eb7123e83130a68c22",
+      "bytes": 4869
     },
     {
       "path": "apps/desktop/product/interface/builder.mjs",
@@ -218,23 +233,28 @@
     },
     {
       "path": "apps/desktop/product/interface/service.mjs",
-      "sha256": "fecb1252a657ba4ef64397ff5a36fcb30642822df5b4290d42ade8bb3e3280fe",
-      "bytes": 13257
+      "sha256": "eba5cb9dcb7b9ad6dfc2241c4985697a5a6ac7aa964adce8f7df316e3bffd95d",
+      "bytes": 13314
     },
     {
       "path": "apps/desktop/product/interface/session.mjs",
-      "sha256": "8e49bbc87c03708693040c77aeecd7b1aa9fa5c81789af2579584c65abbdfd5a",
-      "bytes": 6421
+      "sha256": "e67fcb4b80f94932e2fb152e2de904ba28dfe2a19322ff472799f55e17d0c52f",
+      "bytes": 6523
+    },
+    {
+      "path": "apps/desktop/product/providers/coding.mjs",
+      "sha256": "598b51f38bfc6c4c1efa98568d6b2a05436e6204dc2d05feadb06f222b7567c2",
+      "bytes": 7153
     },
     {
       "path": "apps/desktop/product/providers/deepseek.mjs",
-      "sha256": "0548d59ebdaa67336af06308c75269de88065d0a519cdfcd0155eb550f0908b7",
-      "bytes": 11997
+      "sha256": "db35c4aecd97127b4522ffdafb24e8f0156385b3b1d1c6291f05442e24e59558",
+      "bytes": 12983
     },
     {
       "path": "apps/desktop/product/providers/request-ledger.mjs",
-      "sha256": "cf4027db811f9ffdc9a06cfc68d51cae1857d37a40072711d8a50c5ed1ab521d",
-      "bytes": 2886
+      "sha256": "4ccc095538250f8934d8bed11812514b8cb3798a1f4ae2dc66bf8ee658fed52c",
+      "bytes": 3922
     },
     {
       "path": "apps/desktop/product/providers/streaming.mjs",
@@ -248,13 +268,13 @@
     },
     {
       "path": "apps/desktop/product/runtime/resources.mjs",
-      "sha256": "e378c5a79c2ca105e54fc140b072aeeb2128fd495200564a809519a842179fd3",
-      "bytes": 3107
+      "sha256": "de062ff90670931e3daf45fab93376485c46353ef35da1c2e49b1a7e4e65e98a",
+      "bytes": 3391
     },
     {
       "path": "apps/desktop/product/session.mjs",
-      "sha256": "9642b7d5d9e7d4011cc0a4f06c5c4eb1a623f6fee68b12e823245946c72c7320",
-      "bytes": 10964
+      "sha256": "c455addda21d6625a43f98104d0a61a62556f2eb1160336a2fca9c0b7ef50da4",
+      "bytes": 11022
     },
     {
       "path": "apps/desktop/product/space/package.mjs",
@@ -267,14 +287,19 @@
       "bytes": 10383
     },
     {
+      "path": "apps/desktop/product/storage.mjs",
+      "sha256": "9eecb09c47e99a925a38a41489196f11d94fac03250d9242e9cc3c8c0766fbaf",
+      "bytes": 1219
+    },
+    {
       "path": "apps/desktop/product/web/instance.mjs",
-      "sha256": "313705ac5bbdc47623286954bea43a2598747bc1f8db1fccab4987f38657878e",
-      "bytes": 789
+      "sha256": "f668b18c40481a1e5d85d398f1c2c1dd3b666ac58c0e3ff976f19debc05bf86e",
+      "bytes": 1527
     },
     {
       "path": "apps/desktop/product/web/server.mjs",
-      "sha256": "1ee96103606eecb589a0d25a049cb56a272c1c474df8a6a3faec33e37860e5ad",
-      "bytes": 15149
+      "sha256": "1474d40222773362a3651dea7a4c2e0d959be3cdfbb82bd43dd7374e4167962c",
+      "bytes": 16136
     },
     {
       "path": "apps/desktop/renderer/main.ts",
@@ -460,6 +485,11 @@
       "path": "docs/development/CORE-011.md",
       "sha256": "acc84d782ceafe852cdbbc6b9f58a46b83308365999226a443ae70bf8bd51a3f",
       "bytes": 7443
+    },
+    {
+      "path": "docs/development/CORE-012.md",
+      "sha256": "c283c35d5c26da3d430268c7416fce63d026155e5ff93ca41e167d2bacbb956b",
+      "bytes": 7695
     },
     {
       "path": "docs/development/core-plan.md",
@@ -1613,8 +1643,8 @@
     },
     {
       "path": "docs/handoff/CURRENT-TASK.md",
-      "sha256": "d76ec9fc7c2f09d43e22ce1f0a303d604d609b46d485832bae12add343cbeeb8",
-      "bytes": 2028
+      "sha256": "bb430487dd4abfcf00946dbbc9ad3091a141df0756dabcbc05bfd495c45928dc",
+      "bytes": 2293
     },
     {
       "path": "docs/handoff/DECISIONS-BATCH-001.md",
@@ -1923,8 +1953,8 @@
     },
     {
       "path": "packages/contracts/product-core/schema.json",
-      "sha256": "36d2aa2066d660c94db496b4c31a6a81c42f26d32a0ec4327cf64eb6ab1897e5",
-      "bytes": 16801
+      "sha256": "2d0eef5d8349c91b765aaa607cc126177eef10a9f50d5710d81e18e9c25153f1",
+      "bytes": 18678
     },
     {
       "path": "pyproject.toml",
@@ -2517,6 +2547,16 @@
       "bytes": 3222
     },
     {
+      "path": "reports/core-012/artifacts.json",
+      "sha256": "91ba619021ce576d435366c7a10743507cd86e2514b3080618d89096db43315c",
+      "bytes": 7252
+    },
+    {
+      "path": "reports/core-012/report.json",
+      "sha256": "635fabe984c68cc3dca12e3b728041d7261573331dd8fd6ff306d8c486b83cb3",
+      "bytes": 4648
+    },
+    {
       "path": "requirements-dev.txt",
       "sha256": "0a45546fdf6f570812c0b0da33cdbabc7537ea35a0577899b8b23eaeafc23b8b",
       "bytes": 5397
@@ -2942,6 +2982,11 @@
       "bytes": 67
     },
     {
+      "path": "services/product/artifacts.py",
+      "sha256": "5825c6c384b4fc9f407ab8e2112dbbde087085eac8b0bbb5835a2734c47baa76",
+      "bytes": 2601
+    },
+    {
       "path": "services/product/contact.py",
       "sha256": "828b34c50b65c670952e5c41d755ac7d350610561fd0d7a80b1e2643614366e6",
       "bytes": 20414
@@ -2958,8 +3003,8 @@
     },
     {
       "path": "services/product/entry.py",
-      "sha256": "1b098debaf8d13946477615085b36242f383783e010f0030fb014d549ad2d2ba",
-      "bytes": 8577
+      "sha256": "fae8e693c10d8b522879efec71ab3de135522ded9bdbc59dbb10ac51a82fe021",
+      "bytes": 9020
     },
     {
       "path": "services/product/experience.py",
@@ -2968,8 +3013,8 @@
     },
     {
       "path": "services/product/kernel.py",
-      "sha256": "d0676d76936c52b841303279a383f5445a4984b72ab304e6d3330e7fefcef040",
-      "bytes": 21644
+      "sha256": "b37c15473d69a2bbadcaf0aeb222397337b493a681152769b586ff8dd4a8fa15",
+      "bytes": 23154
     },
     {
       "path": "services/product/memory.py",
@@ -2978,8 +3023,8 @@
     },
     {
       "path": "services/product/models.py",
-      "sha256": "18e60044050c569493eeae0586fe7053b4e0956644ceb4d512d582b2cd021574",
-      "bytes": 8814
+      "sha256": "140e564f78317658d6fbe017d9ff66a1af20719a2041f23f6592507d7b539afb",
+      "bytes": 10412
     },
     {
       "path": "services/product/ports.py",
@@ -3305,6 +3350,41 @@
       "path": "tests/product/core011/transport.test.mjs",
       "sha256": "c5183453fc4de2526123943a23ab2a1bdd4649dc46f45b8240d3eebeb3e6d90c",
       "bytes": 2235
+    },
+    {
+      "path": "tests/product/core012/background.test.mjs",
+      "sha256": "07ab47510bb3916ff3604f87212670bfa0b1a54731a5d23e3b035720f67ad9f5",
+      "bytes": 2566
+    },
+    {
+      "path": "tests/product/core012/browser-fixture.mjs",
+      "sha256": "a98ecf01010f81c6abf6b895c860bf21dfe9204226f098ed712df3367ef0aaec",
+      "bytes": 1934
+    },
+    {
+      "path": "tests/product/core012/coding.test.mjs",
+      "sha256": "31b09fea62a784075f792a83a1e0ced000d55e92664b007961d038d23b7f8076",
+      "bytes": 3136
+    },
+    {
+      "path": "tests/product/core012/desktop.test.mjs",
+      "sha256": "77fc55aa8ed8b73e9f44ae1a76811c95f2d1683393a7dec45eb73c5d756db5fa",
+      "bytes": 3055
+    },
+    {
+      "path": "tests/product/core012/recovery.test.mjs",
+      "sha256": "4510866ac6b003b8f21356fb9ac3532997aecca553c2ffef88def62b7bac3a11",
+      "bytes": 1624
+    },
+    {
+      "path": "tests/product/core012/test_artifacts.py",
+      "sha256": "e9313c65583b59c20296ca0a57c034e8d42f53fcffb92e9e18de43c84e871890",
+      "bytes": 3842
+    },
+    {
+      "path": "tests/product/core012/tools.test.mjs",
+      "sha256": "c120fd6dcbdb4ba27b5b0aa1f0997cc560623b842212a0e17bcac12dfb78381b",
+      "bytes": 2463
     },
     {
       "path": "tests/product/host.test.mjs",
@@ -3902,14 +3982,34 @@
       "bytes": 73
     },
     {
+      "path": "tools/build_windows.py",
+      "sha256": "1ceeda203d2d7b2096c51df65473702888fb4089e27de053d14ce63c0ef2cd86",
+      "bytes": 5379
+    },
+    {
       "path": "tools/check_product_workspace.py",
       "sha256": "8e3194f9358c7ab60607808248a0ffd8d0e11814e7f51b117c5bbac7efef0300",
       "bytes": 1760
     },
     {
+      "path": "tools/configure_deepseek.ps1",
+      "sha256": "06b60bafb58f6412d0e3b13820aee923701244be8d65fdee2b3edbd3d9a3417e",
+      "bytes": 1612
+    },
+    {
+      "path": "tools/install_morrow.ps1",
+      "sha256": "7638e2ee4a4b39b3d8737eb1118e15500ca3ea198eb1052dc9fef67a0a021d2f",
+      "bytes": 2266
+    },
+    {
       "path": "tools/load_product_credential.ps1",
       "sha256": "5ae8d8cf6e45c4a9e5a3232164174d77e2344db8a42c34ca79c0d99c516e1931",
       "bytes": 838
+    },
+    {
+      "path": "tools/morrow_tray.ps1",
+      "sha256": "c8de72f941c70c3e76b7e9a72bb57bd0f3aaff8d60935d6c4de3beb50f4dbc53",
+      "bytes": 6860
     },
     {
       "path": "tools/personal_ai.py",
@@ -3918,8 +4018,8 @@
     },
     {
       "path": "tools/personal_space.mjs",
-      "sha256": "6a355e43d1d9fce40a6b39b0622866c862c6300457e962b29240975e8fc0e7fd",
-      "bytes": 3994
+      "sha256": "5e5334c368c765a1c8734f45d994793d4e997183f34f276aa779a75470fd3228",
+      "bytes": 6179
     },
     {
       "path": "tools/personal_workbench.py",
@@ -3962,6 +4062,11 @@
       "bytes": 4263
     },
     {
+      "path": "tools/product_core012_live_check.mjs",
+      "sha256": "f8159afc0256a3040e93ec9fd4900fd80daf37512cc70f8567cf3cb494b7a3b0",
+      "bytes": 5877
+    },
+    {
       "path": "tools/product_demo.py",
       "sha256": "9accdbeb3ab85d2d308a882e80ef93c58e76c669b6d4428f2a61d8fd011a7321",
       "bytes": 3267
@@ -3997,6 +4102,6 @@
       "bytes": 301
     }
   ],
-  "latest_core_batch": "CORE-011",
-  "latest_batch_report": "reports/core-011/report.json"
+  "latest_core_batch": "CORE-012",
+  "latest_batch_report": "reports/core-012/report.json"
 }

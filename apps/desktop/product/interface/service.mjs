@@ -29,7 +29,7 @@ async function atomic(file,value){
   try{await h.writeFile(JSON.stringify(value));await h.sync()}finally{await h.close()}
   await fs.rename(tmp,file)
 }
-export async function createInterfaceService({root,runtime,vueFile,connection=()=>({configured:false}),progress,onChange=()=>{}}){
+export async function createInterfaceService({root,runtime,vueFile,bundlerFile,connection=()=>({configured:false}),progress,onChange=()=>{},background}={}){
   await checked(root,{create:true})
   const archive=path.join(root,'revisions');await checked(archive,{create:true})
   const stateFile=path.join(root,'state.json'),dataFile=path.join(root,'ui-state.json')
@@ -47,7 +47,7 @@ export async function createInterfaceService({root,runtime,vueFile,connection=()
       ||!data.packages||typeof data.packages!=='object'||Array.isArray(data.packages)
       ||Object.values(data.packages).some(v=>!v||!Number.isSafeInteger(v.revision)||v.revision<0||!v.value||typeof v.value!=='object'||Array.isArray(v.value)))throw fail('interface_state_invalid')
   }catch(e){if(e.code==='reparse_point')throw e;data={draft:{revision:0,value:{}},packages:{}};dataError='interface_draft_unavailable'}
-  const defaultBundle=await buildInterface(await defaultSource(),{vueFile})
+  const defaultBundle=await buildInterface(await defaultSource(),{vueFile,bundlerFile})
   frameDocument(defaultBundle,'check')
   const mounts=new Map(),listeners=new Set(),mountIntents=new Map()
   let closed=false,editing=false,dataFlight=Promise.resolve(),revision=0
@@ -104,7 +104,7 @@ export async function createInterfaceService({root,runtime,vueFile,connection=()
     return {epoch,revision,view,connection:record.preview?{configured:false,provider:'preview'}:connection(),
       progress:record.preview?null:progress?.snapshot()??null,
       interface:{revision:record.bundle.hash,preview:record.preview,sdk:'morrow.ui/1'},
-      capabilities:{nativeIsolation:false,backgroundContact:false,generatedInterfaces:true,generatedScope:'whole_interface_granted_sdk'}}
+      capabilities:{nativeIsolation:false,backgroundContact:!!background,generatedInterfaces:true,generatedScope:'whole_interface_granted_sdk'}}
   }
   const readData=(record,key)=>clone(key==='draft'?data.draft:
     Object.hasOwn(data.packages,record.bundle.source.id)?data.packages[record.bundle.source.id]:{revision:0,value:{}})
@@ -129,7 +129,7 @@ export async function createInterfaceService({root,runtime,vueFile,connection=()
       guardVersion(expectedVersion)
       if(source?.id==='morrow.default')throw fail('interface_reserved_id')
       if(state.candidates.length>=100)throw fail('interface_archive_full')
-      const bundle=await buildInterface(source,{vueFile});frameDocument(bundle,'check')
+      const bundle=await buildInterface(source,{vueFile,bundlerFile});frameDocument(bundle,'check')
       const file=path.join(archive,bundle.hash+'.json');await checked(file)
       try{await fs.writeFile(file,JSON.stringify(bundle),{flag:'wx',mode:0o600})}catch(e){if(e.code!=='EEXIST')throw e;verifyArtifact(await read(file,null))}
       if(!state.candidates.some(c=>c.hash===bundle.hash))await persist({...state,version:state.version+1,candidates:[...state.candidates,{hash:bundle.hash,name:source.name,scopes:source.scopes}]})

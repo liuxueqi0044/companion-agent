@@ -10,6 +10,7 @@ from services.local_tasks.models import LocalTaskError
 from services.personal_ai.models import PersonalAIError
 
 from .experience import ExperienceService
+from . import artifacts
 from .kernel import ProductKernel
 from .models import ID, Model, ProductError, validate
 from .store import canonical
@@ -30,7 +31,7 @@ def exact(payload, required, optional=()):
 def dispatch(app, action, p, *, reviewed_packages=()):
     no_payload = {'bootstrap', 'home', 'policy.read', 'contact.controls', 'contact.inspect',
                   'contact.tick', 'contact.claim', 'reminder.deliver-due',
-                  'runtime.recover', 'worker.run-next', 'worker.recover', 'tasks.sync', 'experience.history'}
+                  'runtime.recover', 'worker.run-next', 'worker.recover', 'tasks.sync', 'experience.history', 'inbox.latest'}
     if action in no_payload:
         exact(p, ())
     if action == 'bootstrap': return app.bootstrap()
@@ -38,6 +39,12 @@ def dispatch(app, action, p, *, reviewed_packages=()):
         exact(p, ('expected_version',))
         return app.migrate(p['expected_version'])
     if action == 'home': return app.home()
+    if action == 'inbox.latest':
+        with app.store.tx() as db:
+            return {'cursor': db.execute('SELECT COALESCE(MAX(rowid),0) FROM inbox').fetchone()[0]}
+    if action in ('artifact.read', 'artifact.download'):
+        exact(p, ('turn_id', 'action_id'))
+        return (artifacts.read_artifact if action == 'artifact.read' else artifacts.download)(app.store, p['turn_id'], p['action_id'])
     if action == 'conversation.list': return app.conversations.list(p)
     if action == 'conversation.turns': return app.conversations.turns(p)
     if action == 'policy.read': return app.store.read_policy().model_dump(mode='json')
