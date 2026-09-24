@@ -9,7 +9,7 @@ const deny=error=>({ok:false,error})
 const plain=value=>value!==null&&typeof value==='object'&&!Array.isArray(value)
 const exact=(value,keys)=>plain(value)&&Object.keys(value).every(k=>keys.includes(k))
 
-export async function createPersonalSpaceServer({runtime,space,connection=()=>({configured:false}),progress,vueFile,port=0}={}){
+export async function createPersonalSpaceServer({runtime,space,interfaces,connection=()=>({configured:false}),progress,vueFile,port=0}={}){
   if(!runtime?.snapshot||!path.isAbsolute(vueFile))throw Error('trusted_server_configuration_required')
   const root=fileURLToPath(new URL('../../personal-space/',import.meta.url))
   const token=randomBytes(32).toString('base64url')
@@ -25,11 +25,17 @@ export async function createPersonalSpaceServer({runtime,space,connection=()=>({
     ['/styles.css',{file:path.join(root,'styles.css'),type:'text/css; charset=utf-8'}],
     ['/vendor/vue.mjs',{file:vueFile,type:'text/javascript; charset=utf-8'}],
   ])
+  if(interfaces){
+    for(const [url,file,type] of [['/','shell.html','text/html'],['/recover','recovery.html','text/html'],
+      ['/shell.mjs','shell.mjs','text/javascript'],['/recovery.mjs','recovery.mjs','text/javascript'],
+      ['/interface-host.mjs','interface-host.mjs','text/javascript'],['/host.css','host.css','text/css']])
+      staticFiles.set(url,{file:path.join(root,file),type:type+'; charset=utf-8'})
+  }
   let revision=0,origin=null,managementBusy=false,closed=false
   const epoch=randomBytes(12).toString('hex'),peers=new Set(),blocked=new WeakSet()
   let updateTimer=null
   const snapshot=()=>({epoch,revision,view:runtime.snapshot(),connection:connection(),progress:progress?.snapshot()??null,
-    space:space?.snapshot()??null,
+    space:space?.snapshot()??null,interfaces:interfaces?.summary()??null,
     capabilities:{nativeIsolation:false,backgroundContact:false,generatedInterfaces:!!space,generatedScope:'home_canvas_no_private_data'}})
   function push(res){
     if(res.destroyed||blocked.has(res))return
@@ -47,6 +53,7 @@ export async function createPersonalSpaceServer({runtime,space,connection=()=>({
   }
   const unsubscribe=runtime.subscribe(changed),unsubscribeProgress=progress?.subscribe(changed)
   const unsubscribeSpace=space?.subscribe(changed)
+  const unsubscribeInterfaces=interfaces?.subscribe(changed)
   const heartbeat=setInterval(()=>{for(const res of peers)push(res)},15000)
   heartbeat.unref()
   const selected=id=>typeof id==='string'&&runtime.snapshot().conversation?.turn?.id===id&&
@@ -99,6 +106,14 @@ export async function createPersonalSpaceServer({runtime,space,connection=()=>({
     ['space.rollback',['expectedVersion','original'],args=>space.rollback(args)],
     ['space.source',['revision'],args=>space.source(args)],
   ])commands.set(action,[keys,fn])
+  if(interfaces)for(const [name,keys,method] of [
+    ['status',[],()=>({ok:true,result:interfaces.summary()})],
+    ['source',['revision'],a=>interfaces.source(a)],['import',['source','expectedVersion'],a=>interfaces.importSource(a)],
+    ['mount',['revision','preview','clientId'],a=>interfaces.mount(a)],['ready',['mountId'],a=>interfaces.ready(a)],
+    ['snapshot',['mountId'],a=>interfaces.snapshot(a)],['call',['mountId','action','args'],a=>interfaces.call(a)],
+    ['unmount',['mountId'],a=>interfaces.unmount(a)],['activate',['mountId','expectedVersion','trustSource'],a=>interfaces.activate(a)],
+    ['restore',['expectedVersion','previous'],a=>interfaces.restore(a)],
+  ])commands.set('interface.'+name,[keys,method])
   const concurrent=new Set(['snapshot','send','send.cancel','work.start','work.stop','work.reconcile','work.local','space.cancel','space.ready','space.preview','space.source'])
   const modelCommands=new Set(['send','work.start'])
   const publicProviderErrors=new Set(['request_in_progress','credential_rejected',
@@ -110,8 +125,9 @@ export async function createPersonalSpaceServer({runtime,space,connection=()=>({
     // Space generation reserves its flag synchronously before yielding; runtime.send does the
     // same for executionBusy. Opposite starts therefore cannot pass each other in this process.
     if(['send','work.start','work.local','work.reconcile','send.reconcile'].includes(action)&&space?.snapshot().busy)return deny('runner_busy')
+    if(action==='interface.call'&&['send','work.start','work.local','work.reconcile','send.reconcile'].includes(args.action)&&space?.snapshot().busy)return deny('runner_busy')
     // Compound select+write operations cannot be rebound by another tab's navigation.
-    const management=!concurrent.has(action)
+    const management=!concurrent.has(action)&&!action.startsWith('interface.')
     if(management&&managementBusy)return deny('management_busy')
     if(management)managementBusy=true
     try{
@@ -124,6 +140,7 @@ export async function createPersonalSpaceServer({runtime,space,connection=()=>({
       }
       return result
     }catch(error){
+      if(action.startsWith('interface.'))return deny(/^(interface_[a-z_]+|scope_denied|revision_conflict|management_busy|reparse_point)$/.test(error.code??'')?error.code:'interface_operation_failed')
       if(action.startsWith('space.'))return deny(publicProviderErrors.has(error.code)||
         /^(space_|revision_conflict$|runner_busy$|model_not_configured$|invalid_request$)/.test(error.code??'')?error.code:'space_operation_failed')
       throw error
@@ -139,6 +156,15 @@ export async function createPersonalSpaceServer({runtime,space,connection=()=>({
     try{
       if(closed)return send(503,deny('closing'))
       if(req.headers.host!==new URL(origin).host||req.headers['sec-fetch-site']==='cross-site')return send(403,deny('origin_denied'))
+      if(req.method==='GET'&&/^\/interface-frame\/[a-f0-9]{48}$/.test(req.url)&&interfaces){
+        let document
+        try{document=interfaces.document(req.url.slice('/interface-frame/'.length))}catch{return send(404,deny('not_found'))}
+        res.writeHead(200,{...headers,'Content-Type':'text/html; charset=utf-8',
+          'Content-Security-Policy':document.csp+`; frame-ancestors ${origin}`,
+          'Permissions-Policy':'camera=(), microphone=(), geolocation=(), payment=(), usb=(), clipboard-read=(), clipboard-write=()',
+          'X-Frame-Options':'SAMEORIGIN'})
+        res.end(document.html);return
+      }
       if(req.method==='GET'&&/^\/space-frame\/[a-f0-9]{48}$/.test(req.url)&&space){
         const document=space.document(req.url.slice('/space-frame/'.length))
         if(!document)return send(404,deny('not_found'))
@@ -152,7 +178,7 @@ export async function createPersonalSpaceServer({runtime,space,connection=()=>({
         if(req.headers.origin&&req.headers.origin!==origin)return send(403,deny('origin_denied'))
         const entry=staticFiles.get(req.url)
         let data=await fs.readFile(entry.file)
-        if(req.url==='/')data=Buffer.from(data.toString('utf8').replace('__SESSION_TOKEN__',token))
+        if(req.url==='/'||req.url==='/recover')data=Buffer.from(data.toString('utf8').replace('__SESSION_TOKEN__',token))
         res.writeHead(200,{...headers,'Content-Type':entry.type});res.end(data);return
       }
       if(req.method!=='POST'||!['/api/command','/api/events'].includes(req.url))return send(404,deny('not_found'))
@@ -161,9 +187,10 @@ export async function createPersonalSpaceServer({runtime,space,connection=()=>({
       if(supplied.length!==expected.length||!timingSafeEqual(supplied,expected))return send(401,deny('session_required'))
       if(req.headers['content-type']!=='application/json')return send(415,deny('invalid_content_type'))
       let size=0;const chunks=[]
-      for await(const chunk of req){size+=chunk.length;if(size>384*1024){send(413,deny('request_too_large'));return}chunks.push(chunk)}
+      for await(const chunk of req){size+=chunk.length;if(size>(interfaces?3*1024*1024:384*1024)){send(413,deny('request_too_large'));return}chunks.push(chunk)}
       let message
       try{message=JSON.parse(Buffer.concat(chunks).toString('utf8'))}catch{return send(400,deny('invalid_json'))}
+      if(size>384*1024&&(req.url!=='/api/command'||message.action!=='interface.import'))return send(413,deny('request_too_large'))
       if(req.url==='/api/events'){
         if(!exact(message,[])||peers.size>=8)return send(400,deny('invalid_event_subscription'))
         res.writeHead(200,{...headers,'Content-Type':'text/event-stream; charset=utf-8','X-Accel-Buffering':'no'})
@@ -178,8 +205,8 @@ export async function createPersonalSpaceServer({runtime,space,connection=()=>({
   await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(port,'127.0.0.1',resolve)})
   origin=`http://127.0.0.1:${server.address().port}`
   return {url:origin,snapshot,async close(){
-    if(closed)return;closed=true;unsubscribe();unsubscribeProgress?.();unsubscribeSpace?.();clearTimeout(updateTimer);clearInterval(heartbeat)
-    for(const res of peers)res.end();peers.clear();runtime.dispose()
+    if(closed)return;closed=true;unsubscribe();unsubscribeProgress?.();unsubscribeSpace?.();unsubscribeInterfaces?.();clearTimeout(updateTimer);clearInterval(heartbeat)
+    for(const res of peers)res.end();peers.clear();await interfaces?.close();runtime.dispose()
     server.closeIdleConnections()
     const stopped=new Promise(resolve=>server.close(resolve))
     await space?.close();await runtime.whenIdle();server.closeAllConnections();await stopped

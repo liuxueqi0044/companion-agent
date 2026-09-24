@@ -2,7 +2,7 @@
 
 一个围绕个人持续成长的 AI 原型：记住用户明确提供的偏好，执行实际任务，并逐步支持由 AI 编写代码来改变自己的界面和能力。
 
-**当前是开发中的原型，并非可交付的完整 Personal AI 产品。** 本仓库保留 BATCH-015 基础、已独立复核的 CORE-006，以及架构师实现并自验到 **CORE-010** 的个人空间和流式对话代码。这是源码备份，不代表原开发工作区全部后续变更已完成合并或产品已经发布。各批次的 `submitted` 与独立复核结论分别保留在 `reports/` 和 `reviews/`；最新结论见 [CORE-006 复核](reviews/CORE-006.md)。
+**当前是开发中的原型，并非可交付的完整 Personal AI 产品。** 本仓库保留 BATCH-015 基础、已独立复核的 CORE-006，以及架构师实现并自验到 **CORE-011** 的个人空间、流式对话与完整界面替换代码。这是源码备份，不代表原开发工作区全部后续变更已完成合并或产品已经发布。各批次的 `submitted` 与独立复核结论分别保留在 `reports/` 和 `reviews/`；最近一次独立复核结论见 [CORE-006 复核](reviews/CORE-006.md)。
 
 ## 已实现
 
@@ -13,7 +13,7 @@
 - 个人 AI 内核：持久对话、可管理记忆、有限动作授权、明确提醒、默认关闭的主动联系、到期重评估与收件箱。
 - 可信无视觉运行时：统一发送、取消、任务结果读回、消息同步与实际资源结算；复用已有 Node→Python→SQLite→CSV 链路。
 
-需求文本的模型语义理解、完整真实 Agent 执行链、原生隔离及最终产品视觉尚未验收。生成的模型候选不随此快照发布，也不应当作可信代码运行。
+真实 DeepSeek 对话、流式输出和默认界面已在本机验证；完整 Coding Agent 执行链、原生隔离和可安装的桌面交付尚未完成。生成的模型候选不随此快照发布，也不应当作可信代码运行。
 
 ## 目录
 
@@ -73,9 +73,9 @@ python -I -B tools/run_product_tests.py --tb=short
 
 Node 测试与五份演示目前复用开发机器固定的相邻路径 `../companion-agent/.venv/Scripts/python.exe`；它们尚未包装为可移植的一键安装工具。在其它机器运行前需要准备该路径或另行改造测试环境配置，不要把缺少本地解释器当作产品测试通过。可信宿主工厂本身接受显式的 `python`、`workspace` 和 `dataRoot` 配置。
 
-界面接入从 [frontend-handoff](docs/development/frontend-handoff.md) 和 `apps/desktop/product/runtime/index.mjs` 开始。运行时对象只属于可信宿主，不可直接暴露给生成页面。主动联系目前由宿主显式 pulse，尚无后台常驻调度。
+当前界面接入从 [CORE-011 SDK 与界面包说明](docs/development/CORE-011.md) 开始；[frontend-handoff](docs/development/frontend-handoff.md) 保留早期内核接入背景。运行时对象只属于可信宿主，不可直接暴露给生成页面。主动联系目前由宿主显式 pulse，尚无后台常驻调度。
 
-完整产品体验见 [交互设计](docs/product/product-experience.md)，当前完成情况见 [产品进度](reports/core-006-architect/product-progress.md)。CORE-007/008 已接通初始本机 UI 与真实 DeepSeek；CORE-010 已接通自由代码首页的浏览器预览和启用；后台通知、原生隔离和社区分享仍未完成。
+完整产品体验见 [交互设计](docs/product/product-experience.md)，CORE-006 时点的估计见 [历史产品进度](reports/core-006-architect/product-progress.md)，最新实现范围见本文 CORE-011 节。CORE-007/008 已接通初始本机 UI 与真实 DeepSeek；CORE-011 已将替换范围扩展到完整界面；后台通知、原生隔离和社区分享仍未完成。
 
 ## 快照范围与限制
 
@@ -108,6 +108,19 @@ API 密钥不包含在仓库内。不要运行历史 live 脚本来验证源码�
 
 在“改变这里”描述风格，让 DeepSeek 直接编写 HTML/CSS/JavaScript，独立预览后由用户启用；可继续改写、查看旧版、回退、恢复初始空间和导出源码。没有预设主题目录。作用范围是首页画布，可信聊天、记忆、导航与恢复入口保留在宿主。
 
-复用已有不可变代码包与串行请求账本。生成页使用 opaque-origin iframe 与独立 CSP，不接收私人数据、模型凭据或任务/记忆写桥。浏览器隔离不等于原生沙箱或资源耗尽防护；社区代码导入及全聊天界面任意重写尚未开放。
+复用已有不可变代码包与串行请求账本。生成页使用 opaque-origin iframe 与独立 CSP，不接收私人数据、模型凭据或任务/记忆写桥。浏览器隔离不等于原生沙箱或资源耗尽防护；截至 CORE-010，社区代码导入及全聊天界面任意重写尚未开放；CORE-011 的完整界面范围与信任边界见下文。
 
 最终 Node 235 项、Python 121 项通过。两次串行真实 DeepSeek 请求均 HTTP 200，浏览器验证了交互、生成中刷新、启用、服务重启恢复与回退；三个真实业务数据库哈希未变。架构与局限见 [CORE-010](docs/development/CORE-010.md)，当前接入入口见 [交接说明](docs/handoff/CURRENT-TASK.md)。真实候选、截图、调用记录和数据只在本地保留。
+
+
+## CORE-011 完整界面替换
+
+默认界面和用户自定义界面现在使用同一套 `morrow.ui/1` SDK。聊天、导航、布局与输入区都属于可替换的代码包，不再局限于首页装饰。每个界面挂载有独立视图，共用持久对话、记忆和任务；更换界面不会重新启动任务，未发送草稿可保留。宿主仍拥有执行控制和独立恢复入口。
+
+当前路径为：导出源码 → 修改多文件 JavaScript/TypeScript 与 CSS 包 → 导入 → 在合成数据中预览 → 明确授权后启用 → 按需回退或恢复默认界面。复用现有 Rolldown 与 Vue，不运行作者提供的 Node 脚本、安装命令或构建插件。**普通聊天尚未自动调用完整界面编写工具**；此前首页生成链保留为历史兼容实现。
+
+启用后的代码包可通过获准的 SDK 范围访问业务数据，不获得原始宿主或凭据。opaque-origin iframe 与 CSP 只构成当前浏览器隔离层，尚不能承诺恶意社区代码的网络和 CPU 隔离；当前仅支持用户信任的源码。原生桌面小精灵、后台常驻通知、社区分享和可移植安装包仍未完成。构建与回归仍依赖本机相邻工作区的工具路径。
+
+源码工作区验证：Node **249 项**、Python **121 项**通过，SDK 类型、Schema、manifest 和范围检查通过。浏览器实测了默认聊天与记忆、完全不同的工作台界面、草稿保留、默认界面恢复；本批外部模型请求为 **0**。报告保持 `submitted`，属于架构师实现及自验，未伪称独立验收。
+
+架构见 [ADR-009](docs/decisions/ADR-009-replaceable-interface-shell.md)、[CORE-011](docs/development/CORE-011.md)，摘要见 [本批报告](reports/core-011/report.json)，继续开发请读 [当前交接](docs/handoff/CURRENT-TASK.md)。原始浏览器截图、私有数据与生成的用户代码包仅保留在本地。

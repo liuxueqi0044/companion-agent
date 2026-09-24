@@ -1,8 +1,6 @@
-import {createApp,h,ref,computed,onMounted,onUnmounted,nextTick,watch} from '/vendor/vue.mjs'
-import {createClient} from './client.mjs'
+import {createApp,h,ref,computed,onMounted,onUnmounted,nextTick,watch} from 'vue'
+import {createClient} from '@morrow/sdk'
 import {presentActivity,currentStop,visibleDraft} from './activity.mjs'
-import {makeCanvasComponent} from './canvas.mjs'
-const CanvasFrame=makeCanvasComponent({h,ref,onMounted,onUnmounted})
 
 const paths={spark:'M12 2l2.5 6.8L22 12l-7.5 2.7L12 22l-2.6-7.3L2 12l7.4-3.2Z',
  arrow:'M5 12h14m-6-6 6 6-6 6',send:'m6 12 6-7 6 7m-6-6v14',close:'m6 6 12 12M6 18 18 6',
@@ -56,14 +54,11 @@ createApp({setup(){
   const conversationId=ref(crypto.randomUUID()),selectedTurn=ref(null),fileInput=ref(null),composer=ref(null),drawer=ref(null)
   const memoryText=ref(''),memoryCategory=ref('preferences'),editing=ref(null),editText=ref(''),styleText=ref('')
   const reminderText=ref(''),reminderDate=ref(''),contactForm=ref(null),resultVisible=ref(false)
-  const previewMount=ref(null),previewStatus=ref('idle'),activeMount=ref(null),activeStatus=ref('idle'),narrowPreview=ref(false)
-  const selectedCandidate=ref(null),spaceGenerating=ref(false),previewAck=ref(false)
-  let previewIntent=0,activeIntent=0
   let fileGeneration=0,previousFocus=null,toastTimer=null,client=null,navigationIntent=0
-  const selectionKey='morrow:last-turn'
+  let savedSelection=null,draftRevision=0,draftHydrated=false,draftFlight=Promise.resolve()
   const view=computed(()=>state.value?.view),policy=computed(()=>view.value?.policy?.policy)
-  const connection=computed(()=>state.value?.connection),space=computed(()=>state.value?.space)
-  const busy=computed(()=>sending.value||!!view.value?.runtime.executionBusy||!!space.value?.busy||spaceGenerating.value)
+  const connection=computed(()=>state.value?.connection)
+  const busy=computed(()=>sending.value||!!view.value?.runtime.executionBusy)
   const chatRecords=computed(()=>records.value.filter(row=>row.conversation_id===conversationId.value))
   const name=computed(()=>view.value?.home?.profile.preferences.ai_name||'我的 AI')
   const notify=(text,error=false)=>{clearTimeout(toastTimer);toast.value={text,error};toastTimer=setTimeout(()=>{toast.value=null},error?10000:4500)}
@@ -74,16 +69,16 @@ createApp({setup(){
     if(turn){
       if(!records.value.length){conversationId.value=turn.conversation_id;temporary.value=!!turn.temporary}
       const idx=records.value.findIndex(item=>item.id===turn.id);if(idx<0)records.value.push({...turn});else records.value[idx]={...records.value[idx],...turn,preview:false};selectedTurn.value=turn.id
-      if(!turn.temporary)try{localStorage.setItem(selectionKey,turn.id)}catch{}
+      if(!turn.temporary)savedSelection=turn.id
     }
     if(restarted&&!turn&&selectedTurn.value&&!panel.value&&!snapshot.view.runtime.executionBusy){
       const turnId=selectedTurn.value,intent=navigationIntent
       queueMicrotask(()=>{if(intent===navigationIntent)void call('open',{panel:'conversation',turnId})})
     }
   }
-  client=createClient({token:document.querySelector('meta[name="personal-space-session"]').content,
-    onSnapshot:accept,onConnection:value=>{connected.value=value}})
+  client=createClient({onSnapshot:accept,onConnection:value=>{connected.value=value}})
   async function call(action,args={},success){
+    if(['work.stop','work.reconcile'].includes(action))args={...args,runId:view.value?.work?.runId}
     working.value=true
     try{
       const result=await client.call(action,args)
@@ -93,6 +88,7 @@ createApp({setup(){
     }finally{working.value=false}
   }
   async function openPanel(target){
+    if(target==='appearance'){await saveDraft();return client.host.openRecovery()}
     navigationIntent++
     previousFocus=document.activeElement;panel.value=target;resultVisible.value=false;editing.value=null
     if(['memory','contact','inbox','reminders'].includes(target)){
@@ -100,9 +96,6 @@ createApp({setup(){
       if(result.ok&&target==='contact')contactForm.value={...policy.value}
     }else if(target==='history'){
       const result=await call('conversation.list');if(result.ok)conversations.value=result.result
-    }else if(target==='appearance'&&!previewMount.value){
-      const revision=space.value?.job?.candidateId??space.value?.active
-      if(revision)await previewSpace(revision)
     }
     await nextTick();drawer.value?.querySelector('button')?.focus()
   }
@@ -114,7 +107,7 @@ createApp({setup(){
   }
   async function newConversation(){
     if(busy.value)return notify('先让正在做的事结束，或停止它。')
-    navigationIntent++;try{localStorage.removeItem(selectionKey)}catch{}
+    navigationIntent++;savedSelection=null
     await call('open',{panel:'home'});conversationId.value=crypto.randomUUID();selectedTurn.value=null;panel.value=null;draft.value='';attachment.value=null
     await nextTick();composer.value?.focus()
   }
@@ -240,83 +233,8 @@ createApp({setup(){
     h('div',{class:'connection-card'},[h('div',{class:['connection-light',c?.configured?'ready':'']}),h('strong',c?.configured?'DeepSeek 已配置':'模型尚未连接'),h('p',c?.configured?c.model:'可以查看和管理本地内容。')]),
     para('你的密钥只在本地服务端使用，不会交给界面。模型可以接收你这次对话所需的上下文；临时对话不会使用长期记忆。'),
     c?.lastError?h('p',{class:'error-text'},errors[c.lastError]??'上一次模型请求未成功。'):null,
-    h('div',{class:'soft-note'},'这一版在本机浏览器中运行。关闭本地服务后不会处理任务；后台问候尚未开放。你可以在“改变这里”让 AI 编写新的首页。')
+    h('div',{class:'soft-note'},'这一版在本机浏览器中运行。关闭本地服务后不会处理任务；后台问候尚未开放。默认界面也通过公开 SDK 运行。整套界面的源码、预览与恢复位于“改变这里”。')
   ]}
-  async function previewSpace(revision){
-    const own=++previewIntent;previewStatus.value='loading';previewAck.value=false;selectedCandidate.value=revision;previewMount.value=null
-    const result=await call('space.preview',{revision})
-    if(own!==previewIntent)return
-    if(result.ok)previewMount.value=result.mount;else previewStatus.value='failed'
-  }
-  async function previewState(status,mount){
-    if(previewMount.value?.id!==mount.id)return
-    previewStatus.value=status;previewAck.value=false
-    if(status==='ready'){
-      const r=await call('space.ready',{mountId:mount.id,revision:mount.revision})
-      if(previewMount.value?.id===mount.id&&previewStatus.value==='ready')previewAck.value=!!r.ok
-    }
-  }
-  async function generateSpace(){
-    if(busy.value||!styleText.value.trim())return
-    spaceGenerating.value=true
-    try{await call('space.generate',{prompt:styleText.value,expectedVersion:space.value.version,
-      baseRevision:selectedCandidate.value??space.value.active})}finally{spaceGenerating.value=false}
-  }
-  async function activateSpace(){
-    const m=previewMount.value;if(!m||!previewAck.value||previewStatus.value!=='ready')return
-    const r=await call('space.activate',{mountId:m.id,revision:m.revision,expectedVersion:space.value.version})
-    if(r.ok){await newConversation();notify('新的空间已经启用。记忆与对话都还在。')}
-  }
-  async function rollbackSpace(original=false){
-    const r=await call('space.rollback',{expectedVersion:space.value.version,original},original?'已恢复初始空间。':'已回到上一版空间。')
-    if(r.ok&&space.value.active)await previewSpace(space.value.active)
-    else if(r.ok){previewIntent++;previewMount.value=null;selectedCandidate.value=null;previewStatus.value='idle'}
-  }
-  async function exportSpace(){
-    if(!selectedCandidate.value)return
-    const r=await call('space.source',{revision:selectedCandidate.value})
-    if(!r.ok)return
-    const blob=new Blob([JSON.stringify({format:'personal-canvas-export/1',files:r.files,manifest:r.manifest},null,2)],{type:'application/json'})
-    const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='我的空间-源代码.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)
-  }
-  watch([()=>space.value?.active,()=>state.value?.epoch],async([revision])=>{
-    const own=++activeIntent;activeMount.value=null;activeStatus.value='idle'
-    if(!revision)return
-    activeStatus.value='loading'
-    const r=await client.call('space.preview',{revision})
-    if(own!==activeIntent)return
-    if(r.ok)activeMount.value=r.mount;else activeStatus.value='failed'
-  })
-  watch(()=>space.value?.job?.candidateId,revision=>{if(revision&&panel.value==='appearance')void previewSpace(revision)})
-  function appearancePanel(){
-    const s=space.value,candidate=s?.candidates.find(c=>c.id===selectedCandidate.value),job=s?.job
-    return [h('div',{class:'space-intro'},[h('span',{class:'eyebrow'},'MAKE ROOM FOR YOURSELF'),h('h3','这里，可以很像你。'),
-      para('说说你想要的样子。我会写出一个新首页，先给你看看。')]),
-      s?.error?h('p',{class:'error-text',role:'alert'},errors[s.error]??'改版暂时不可用，已有对话仍然保留。'):null,
-      field('想把这里变成什么样？',h('textarea',{value:styleText.value,onInput:e=>{styleText.value=e.target.value},rows:3,maxlength:6000,
-        'aria-label':'描述你的空间',placeholder:'比如：像一间雨天的书房，深蓝色，有一盏能点亮的灯。',disabled:!!s?.busy})),
-      h('div',{class:'inline-actions spread'},[para(selectedCandidate.value?'在正在预览的版本上继续修改':'从你的想法开始，不用挑模板'),
-        s?.busy?btn('停止改版',()=>call('space.cancel',{jobId:job.id}),{class:'secondary'}):btn(selectedCandidate.value?'按这个想法再改改':'为我创造这个空间',generateSpace,{class:'primary',disabled:working.value||busy.value||!styleText.value.trim()||!s?.configured})]),
-      s?.busy?h('div',{class:'space-progress',role:'status'},[icon('spark',18),h('span',job?.status==='validating'?'代码已写好，正在检查和保存…':'正在为你编写页面和交互…'),h('small','原来的空间会一直保留。')]):null,
-      !s?.busy&&job?.error?h('p',{class:'error-text',role:'status'},errors[job.error]??`这次改版没有完成（${job.error}），你可以调整描述后再试。`):null,
-      candidate?h('section',{class:'space-preview-section'},[
-        h('div',{class:'space-preview-heading'},[h('div',[h('span',{class:'section-label'},s.active===candidate.id?'正在使用':'新空间 · 预览'),
-          h('details',{class:'space-summary'},[h('summary','这次改了什么'),h('p',candidate.summary)])]),
-          btn(narrowPreview.value?'查看宽屏':'查看窄屏',()=>{narrowPreview.value=!narrowPreview.value},{class:'text-button','aria-pressed':narrowPreview.value})]),
-        h('div',{class:['space-preview',narrowPreview.value?'narrow':'']},[
-          previewMount.value&&previewStatus.value!=='failed'?h(CanvasFrame,{key:previewMount.value.id,mount:previewMount.value,title:'新空间预览',onStatus:status=>previewState(status,previewMount.value)}):null,
-          previewStatus.value!=='ready'?h('div',{class:'canvas-fallback',role:'status'},[h('p',previewStatus.value==='failed'?'这个预览没有正常打开。':'正在打开独立预览…'),previewStatus.value==='failed'?btn('重新打开预览',()=>previewSpace(candidate.id),{class:'secondary small'}):null]):null,
-        ]),
-        h('div',{class:'inline-actions spread'},[btn('导出源代码',exportSpace,{class:'text-button',disabled:working.value}),
-          btn(s.active===candidate.id?'正在使用':'就用这个',activateSpace,{class:'primary',disabled:working.value||busy.value||!previewAck.value||previewStatus.value!=='ready'||s.active===candidate.id})]),
-      ]):!s?.busy?h('div',{class:'space-empty'},[botanical(),para('不用一次想好。先做一个，再慢慢改成你的样子。')]):null,
-      h('p',{class:'space-boundary'},'改版作用于首页画布。聊天、记忆与恢复按钮由应用保留；生成的页面无法读取它们，也不能替你发消息。'),
-      s?.candidates.length?h('details',{class:'space-versions'},[h('summary',`走过的版本 · ${s.candidates.length}`),...s.candidates.slice().reverse().map(c=>btn('',()=>previewSpace(c.id),{class:['space-version',selectedCandidate.value===c.id?'selected':''],disabled:working.value,key:c.id},[
-        h('span',c.summary),h('small',s.active===c.id?'正在使用':formatTime(c.createdAt))]))]):null,
-      h('div',{class:'inline-actions spread'},[s?.historyDepth?btn('回到上一版',()=>rollbackSpace(),{class:'text-button',disabled:working.value||busy.value},[icon('history',14),'回到上一版']):null,
-        s?.active?btn('恢复初始空间',()=>rollbackSpace(true),{class:'text-button',disabled:working.value||busy.value}):null]),
-    ]
-  }
   function content(){
     if(panel.value==='about')return [h('div',{class:'identity'},[h('div',{class:'identity-mark'},icon('spark',32)),h('h3',name.value),para('记住你，也为你做些事。')]),
       menuItem('memory','记忆',policy.value?.memory_enabled?'正在开启 · 你随时可以修改':'已经关闭',()=>openPanel('memory')),
@@ -328,7 +246,6 @@ createApp({setup(){
     if(panel.value==='contact')return contactPanel()
     if(panel.value==='inbox')return inboxPanel()
     if(panel.value==='reminders')return remindersPanel()
-    if(panel.value==='appearance')return appearancePanel()
     if(panel.value==='result')return resultPanel()
     if(panel.value==='connection')return connectionPanel()
     if(panel.value==='history')return conversations.value.length?conversations.value.map(item=>btn('',()=>loadConversation(item),{class:'history-item'},[h('strong',item.text_preview||'一段对话'),h('p',item.reply_preview||'这段对话还在等一个回应'),h('small',formatTime(item.last_active_at))])):[empty('从第一句话开始','之后的对话会留在这里。','history')]
@@ -375,17 +292,34 @@ createApp({setup(){
       else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus()}
     }
   }
+  function saveDraft(){
+    if(!draftHydrated)return Promise.resolve()
+    const value={text:draft.value,attachment:attachment.value,temporary:temporary.value,conversationId:conversationId.value,selectedTurn:savedSelection}
+    draftFlight=draftFlight.then(async()=>{
+      const r=await client.draft.write({expectedRevision:draftRevision,value})
+      if(r.ok)draftRevision=r.result.revision
+      else if(r.error==='revision_conflict'){draftHydrated=false;notify('草稿在另一个界面发生了变化。当前文字仍保留在这里，请核对后重新打开。',true)}
+    })
+    return draftFlight
+  }
+  watch([draft,attachment,temporary,conversationId,selectedTurn],()=>{void saveDraft()},{flush:'post'})
   onMounted(async()=>{
     document.addEventListener('keydown',onKeys)
     const intent=navigationIntent
     await client.start()
+    const saved=await client.draft.read()
+    if(saved.ok){draftRevision=saved.result.revision;const d=saved.result.value;draft.value=d.text??'';attachment.value=d.attachment??null;temporary.value=d.temporary??false;if(d.conversationId)conversationId.value=d.conversationId;savedSelection=d.selectedTurn??null}
+    draftHydrated=saved.ok
+    if(!saved.ok&&saved.error!=='preview_read_only')notify('未能读取跨界面草稿。当前仍可对话，旧草稿文件会保留供恢复。',true)
     if(intent!==navigationIntent)return
+    const ongoing=view.value?.runtime.send?.turnId??(view.value?.runtime.executionBusy?view.value?.execution?.turnId:null)
+    if(ongoing)await call('open',{panel:'conversation',turnId:ongoing})
     if(!view.value?.conversation?.turn&&!busy.value){
-      let saved;try{saved=localStorage.getItem(selectionKey)}catch{}
+      const saved=savedSelection
       if(saved&&/^[0-9a-f-]{36}$/i.test(saved))await call('open',{panel:'conversation',turnId:saved})
     }
     const turn=view.value?.conversation?.turn
-    // Listing turns resets the session selection. Do not disturb an active runner.
+    // Resource reads do not change this or another interface's selected conversation.
     if(turn&&intent===navigationIntent&&!turn.temporary&&!busy.value){
       const id=turn.conversation_id,result=await client.call('conversation.turns',{id})
       if(result.ok&&intent===navigationIntent&&conversationId.value===id){
@@ -407,12 +341,7 @@ createApp({setup(){
           h('div',{class:'conversation-label'},['一段属于你的对话',temporary.value?h('span','临时对话'):null]),
           ...chatRecords.value.map(record=>h('article',{key:record.id,class:'exchange'},[h('div',{class:'user-message'},[h('span',{class:'speaker'},'你'),h('p',record.text)]),
             summaryBlock(record),(record.reply||draftView(record)?.reply)?h('div',{class:['ai-message',draftView(record)?'streaming':'']},[h('span',{class:'ai-symbol'},icon('spark',19)),h('div',[h('span',{class:'speaker'},name.value),h('p',record.reply||draftView(record)?.reply),record.preview?btn('查看完整内容',()=>call('open',{panel:'conversation',turnId:record.id}),{class:'text-button'}):null])]):null,
-            activityBlock(record)])),h('div',{class:'conversation-end'})]):space.value?.active&&activeStatus.value!=='failed'?h('section',{class:'custom-home','aria-label':'个人首页'},[
-              activeMount.value?h(CanvasFrame,{key:activeMount.value.id,mount:activeMount.value,title:'你的个人首页',onStatus:s=>{activeStatus.value=s}}):null,
-              activeStatus.value==='loading'?h('p',{class:'muted',role:'status'},'正在打开你的空间…'):null,
-              h('div',{class:'custom-home-controls'},[btn('继续改变这里',()=>openPanel('appearance'),{class:'text-button'},[icon('leaf',14),'继续改变这里']),btn('恢复初始空间',()=>rollbackSpace(true),{class:'text-button',disabled:busy.value})]),
-            ]):h('section',{class:'welcome'},[
-          activeStatus.value==='failed'?h('div',{class:'soft-note',role:'status'},['你的新首页没有正常打开，已暂时显示初始空间。',btn('查看版本与恢复',()=>openPanel('appearance'),{class:'text-button'})]):null,
+            activityBlock(record)])),h('div',{class:'conversation-end'})]):h('section',{class:'welcome'},[
           botanical(),h('p',{class:'eyebrow'},'A LITTLE SPACE, JUST FOR YOU'),h('h1',['慢慢来，',h('br'),'我们一起。']),
           h('p',{class:'welcome-note'},['聊聊今天，或把一件事交给我。',h('br'),'我会一点点，成为更懂你的 AI。']),
           h('div',{class:'starter-links'},[btn('告诉你一件小事',()=>{draft.value='今天有件小事想和你说。';composer.value?.focus()},{class:'starter'},[icon('spark',15),'告诉你一件小事']),btn('帮我处理一份材料',()=>{draft.value='请帮我核对这份 CSV 的数量、单价和金额。';fileInput.value?.click()},{class:'starter'},[icon('paper',15),'帮我处理一份材料'])])]),
@@ -422,7 +351,7 @@ createApp({setup(){
             onKeydown:event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();void send()}}}),
             h('div',{class:'composer-tools'},[h('div',{class:'composer-left'},[btn('添加 CSV 材料',()=>fileInput.value?.click(),{class:'icon-button','aria-label':'添加 CSV 材料',title:'添加 CSV 材料',disabled:busy.value},icon('attach',19)),
               btn('临时对话',()=>{temporary.value=!temporary.value},{class:['temporary',temporary.value?'selected':''],'aria-pressed':temporary.value,title:'临时对话不读取或写入长期记忆',disabled:busy.value},[icon('moon',15),temporary.value?'临时对话已开':'临时对话'])]),
-              busy.value?btn(space.value?.busy?'停止改版':'停止回复',space.value?.busy?()=>call('space.cancel',{jobId:space.value.job.id}):stopCurrent,{class:'send-button stop-button','aria-label':space.value?.busy?'停止改版':'停止回复',disabled:!space.value?.busy&&!stopTarget()},icon('stop',17)):
+              busy.value?btn('停止回复',stopCurrent,{class:'send-button stop-button','aria-label':'停止回复',disabled:!stopTarget()},icon('stop',17)):
               btn('发送消息',send,{class:'send-button','aria-label':'发送消息',disabled:!draft.value.trim()||!connected.value||!state.value},icon('send',21))])]),
           h('input',{ref:fileInput,type:'file',accept:'.csv,text/csv',class:'file-input',onChange:attach,'aria-label':'选择 CSV 文件'}),
           h('div',{class:'composer-meta'},[btn(policy.value?.memory_enabled?'记忆已开启':'记忆已关闭',()=>openPanel('memory'),{class:'quiet-control'},[h('span',{class:['tiny-dot',policy.value?.memory_enabled?'on':'']}),policy.value?.memory_enabled?'记忆已开启':'记忆已关闭']),

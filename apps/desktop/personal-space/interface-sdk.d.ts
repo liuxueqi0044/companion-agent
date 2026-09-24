@@ -1,0 +1,36 @@
+/** Public browser surface, morrow.ui/1. Runtime and auth objects are intentionally absent. */
+export type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
+export type Reply<T=unknown> = {ok:true;result?:T} | {ok:false;error:string};
+export type Scope='conversation'|'tasks'|'memory'|'preferences'|'inbox'|'reminders';
+export interface InterfaceSource {
+  sdk:'morrow.ui/1'; id:string; name:string; entry:string; styles:string[];
+  scopes:Scope[]; files:Record<string,string>;
+}
+export interface TurnInput {command_id:string;conversation_id:string;text:string;csv_text?:string|null;temporary?:boolean}
+export interface TaskBinding {turnId:string;taskId:string;attemptId:string|null}
+export interface RunBinding {turnId:string;runId:string}
+export interface Draft {text?:string;conversationId?:string;selectedTurn?:string|null;temporary?:boolean;attachment?:{name:string;text:string}|null}
+export interface Versioned<T> {revision:number;value:T}
+export interface Page<T> {items:T[];snapshot:number;next_before:number|null}
+export interface Turn {id:string;conversation_id:string;text:string;state:string;reply:string|null;provider_summary?:string|null;temporary:boolean;actions:unknown[]}
+export interface Snapshot {
+  epoch:string;revision:number;
+  interface:{revision:string;preview:boolean;sdk:'morrow.ui/1'};
+  view:Record<string,unknown>;connection:Record<string,unknown>;progress:unknown;
+}
+export interface Client {
+  version:'morrow.ui/1';start():Promise<void>;dispose():void;
+  call(action:string,args?:Record<string,unknown>):Promise<Reply>;
+  subscribe(listener:(snapshot:Snapshot)=>void):()=>void;
+  conversation:{
+    list(args?:{before?:number;limit?:number}):Promise<Reply<Page<unknown>>>;
+    turns(args:{conversationId:string;before?:number;limit?:number}):Promise<Reply<Page<unknown>>>;
+    get(args:{turnId:string}):Promise<Reply<Turn>>;
+    send(args:TurnInput):Promise<Reply<{turnId:string}>>;
+  };
+  tasks:{get(args:TaskBinding):Promise<Reply>;result(args:TaskBinding):Promise<Reply>;stop(args:RunBinding):Promise<Reply>};
+  draft:{read():Promise<Reply<Versioned<Draft>>>;write(args:{expectedRevision:number;value:Draft}):Promise<Reply<Versioned<Draft>>>};
+  state:{read():Promise<Reply<Versioned<Record<string,Json>>>>;write(args:{expectedRevision:number;value:Record<string,Json>}):Promise<Reply<Versioned<Record<string,Json>>>>};
+  host:{openRecovery():Promise<Reply>};
+}
+export function createClient(options?:{onSnapshot?:(s:Snapshot)=>void;onConnection?:(connected:boolean)=>void}):Client;

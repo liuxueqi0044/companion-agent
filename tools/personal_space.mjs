@@ -10,6 +10,7 @@ import {createRequestLedger} from '../apps/desktop/product/providers/request-led
 import {createPersonalSpaceServer} from '../apps/desktop/product/web/server.mjs'
 import {acquireInstance} from '../apps/desktop/product/web/instance.mjs'
 import {createSpaceService,unavailableSpaceService} from '../apps/desktop/product/space/service.mjs'
+import {createInterfaceService} from '../apps/desktop/product/interface/service.mjs'
 
 const exec=promisify(execFile)
 const root=fileURLToPath(new URL('..',import.meta.url))
@@ -42,7 +43,9 @@ let space
 try{space=await createSpaceService({root:path.join(dataRoot,'canvas'),provider:providers?.space,
   isRuntimeBusy:()=>runtime.snapshot().runtime.executionBusy||runtime.snapshot().runtime.pendingOperations>0})}
 catch{space=unavailableSpaceService();console.error('space_state_invalid: customization disabled; existing files preserved')}
-const app=await createPersonalSpaceServer({runtime,space,vueFile,port,progress:providers?.progress,connection:()=>providers?.connection()??{configured:false,provider:null}})
+const connection=()=>providers?.connection()??{configured:false,provider:null}
+const interfaces=await createInterfaceService({root:path.join(dataRoot,'interfaces'),runtime,vueFile,progress:providers?.progress,connection})
+const app=await createPersonalSpaceServer({runtime,space,interfaces,vueFile,port,progress:providers?.progress,connection})
 await fs.mkdir(path.resolve(root,'.product-data'),{recursive:true})
 await fs.writeFile(path.resolve(root,'.product-data/personal-space-server.json'),JSON.stringify({url:app.url,pid:process.pid,live},null,2))
 console.log(JSON.stringify({url:app.url,mode:live?'deepseek':'offline'}))

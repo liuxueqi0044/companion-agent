@@ -10,7 +10,7 @@ import {projectActivity} from './activity.mjs'
 
 const PANELS=new Set(['home','conversation','memory','contact','inbox','reminders'])
 // Keep the legacy session private: its trusted snapshots contain raw tool receipts.
-function turnView(raw) {
+export function turnView(raw) {
   if (!raw) return null
   return {...pick(raw,['id','conversation_id','text','state','reply','provider_summary',
     'completion_source','temporary']),error:raw.error ? safeCode(raw.error) : null,

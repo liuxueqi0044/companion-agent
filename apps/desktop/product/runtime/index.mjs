@@ -4,6 +4,7 @@ import {createProductApplication} from '../application/index.mjs'
 import {createTurnRunner} from '../execution/runner.mjs'
 import {createContactRunner} from '../execution/contact-runner.mjs'
 import {fail,safeCode,validId} from '../application/state.mjs'
+import {createResourceAPI} from './resources.mjs'
 
 const owners=new WeakMap()
 const sendFields=new Set(['command_id','conversation_id','text','csv_text','temporary'])
@@ -395,6 +396,32 @@ export function createProductRuntime({host,intent,turnProvider,contactProvider,
     }
     return runWork('work.reconcileSelected',()=>app.work.reconcileSelected(),{allowUnknown:true})
   }
+  // Resource commands own a runner ID, never a page selection. Reserve before the
+  // first await, and keep the existing execution lease until real cleanup finishes.
+  function runById({turnId,kind='start',runId}={}){
+    if(!validId(turnId)||!['start','local','reconcile'].includes(kind))return Promise.resolve(fail('invalid_request'))
+    if(closing)return Promise.resolve(fail('disposed'))
+    if(!initialized)return Promise.resolve(fail('not_initialized'))
+    if(kind==='reconcile' && (turn.snapshot().turnId!==turnId || turn.snapshot().runId!==runId))
+      return Promise.resolve(fail('not_owned_run'))
+    if(reservation){
+      if(kind==='reconcile' && reservation.lane==='turn')return uiOperation(()=>
+        turn.snapshot().turnId===turnId && turn.snapshot().runId===runId ? turn.reconcile() : fail('not_owned_run'))
+      return Promise.resolve(fail('runner_busy'))
+    }
+    const taken=takeExecution('turn',`resource.${kind}`,{allowUnknown:kind==='reconcile'})
+    if(!taken.ok)return Promise.resolve(taken)
+    const token=taken.token;token.turnId=turnId
+    const flight=tracked(Promise.resolve().then(()=>closing?fail('disposed'):
+      kind==='local'?turn.runLocalOnce({turnId}):kind==='reconcile'?turn.reconcile():turn.run({turnId}))
+      .finally(async()=>{token.finished=true;await retireExecution(token,turn)}))
+    token.flight=flight;notify();return flight
+  }
+  function stopById({turnId,runId}={}){
+    if(!validId(turnId)||!validId(runId))return Promise.resolve(fail('invalid_request'))
+    return uiOperation(()=>turn.snapshot().turnId===turnId && turn.snapshot().runId===runId
+      ? turn.stop() : fail('not_owned_run'))
+  }
   function pulseContact(){
     if(closing)return Promise.resolve(fail('disposed'))
     if(!initialized)return Promise.resolve(fail('not_initialized'))
@@ -457,6 +484,8 @@ export function createProductRuntime({host,intent,turnProvider,contactProvider,
     if(sendRecord)sendRecord.cancelRequested=true
     const first=turn.dispose(),second=contact.dispose()
     app.dispose()
+    for(const view of views)view.dispose()
+    views.clear()
     for(const unsubscribe of unsubs)unsubscribe()
     notify();listeners.clear()
     if(first.result.closed && second.result.closed)finishClose()
@@ -499,6 +528,25 @@ export function createProductRuntime({host,intent,turnProvider,contactProvider,
       runLocalOnceSelected:()=>runWork('work.runLocalOnceSelected',()=>app.work.runLocalOnceSelected()),
       reconcileSelected:reconcileWork},
   }
+  const resources=createResourceAPI({host,operation:uiOperation,run:runById,stop:stopById,
+    execution:()=>structuredClone(turn.snapshot()),send,cancelSend})
+  const views=new Set()
+  function createView(){
+    if(closing)throw Error('disposed')
+    const local=createProductApplication({host,runner:{
+      run:input=>runById(input),runLocalOnce:input=>runById({...input,kind:'local'}),
+      stop:()=>stopById({turnId:turn.snapshot().turnId,runId:turn.snapshot().runId}),
+      reconcile:()=>runById({turnId:turn.snapshot().turnId,runId:turn.snapshot().runId,kind:'reconcile'}),
+      snapshot:()=>turn.snapshot(),subscribe:turn.subscribe,
+    }})
+    views.add(local)
+    const wrap=object=>Object.fromEntries(Object.entries(object).map(([key,value])=>[key,
+      typeof value==='function' && !['snapshot','subscribe','dispose'].includes(key)
+        ? (...args)=>{let captured;try{captured=structuredClone(args)}catch{return Promise.resolve(fail('invalid_request'))}
+          return operation(()=>value(...captured))}
+        : value&&typeof value==='object'?wrap(value):value]))
+    return {...wrap(local),dispose(){views.delete(local);local.dispose()}}
+  }
   return {initialize,open,refresh,snapshot,subscribe,dispose,whenIdle,diagnostics,
-    send,cancelSend,ui,pulseContact,stopContact,reconcileContact}
+    send,cancelSend,ui,pulseContact,stopContact,reconcileContact,resources,createView}
 }
