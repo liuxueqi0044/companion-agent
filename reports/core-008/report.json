@@ -1,0 +1,48 @@
+{
+  "batch": "CORE-008",
+  "status": "submitted",
+  "review": "architect_implemented_and_self_verified",
+  "changes": [
+    "AGENTS.md",
+    "apps/desktop/personal-space/activity.mjs",
+    "apps/desktop/personal-space/app.mjs",
+    "apps/desktop/personal-space/styles.css",
+    "apps/desktop/product/providers/deepseek.mjs",
+    "apps/desktop/product/providers/request-ledger.mjs",
+    "apps/desktop/product/web/server.mjs",
+    "docs/development/CORE-008.md",
+    "docs/handoff/CURRENT-TASK.md",
+    "tests/product/core007/web.test.mjs",
+    "tests/product/core008/experience.test.mjs",
+    "tools/personal_space.mjs"
+  ],
+  "result_ref": "manifest-sha256:18c3df8b24f430c97f5ca553d5c4522b0e7177afab8558cc976b4725bc82ecc7",
+  "manifest_entries": 24,
+  "validation": {
+    "full_node_regression_passed": 202,
+    "final_presentation_targeted_passed": 13,
+    "full_regression_timing": "before final cancel-target guard; final guard separately tested",
+    "source_schema": "PASS",
+    "source_write_scope": "PASS",
+    "frozen_core006": "PASS",
+    "browser_thinking_and_public_summary": "PASS",
+    "browser_real_csv_history_and_source": "PASS",
+    "live_deepseek_requests_this_batch": 1,
+    "live_http_status": 200,
+    "live_attempt_number": 7,
+    "private_provider_reasoning_exclusion": "offline adapter regression passed"
+  },
+  "url": "http://127.0.0.1:51794/",
+  "request_limit": null,
+  "historical_user_turns_replayed": false,
+  "new_live_trial_used_temporary_mode": true,
+  "not_run": [
+    "token_streaming",
+    "background_proactive_delivery",
+    "generated_UI_activation",
+    "native_isolation",
+    "independent_review",
+    "mobile_visual_review"
+  ],
+  "next_plan": "docs/development/CORE-008.md"
+}

@@ -7,3 +7,6 @@ The core workspace supplied the product runtime and its local bridge dependencie
 Reuse existing architecture and contracts. Historical dispatch documents and batch checkers reference local-only evidence and baselines deliberately absent from this checkout. Do not execute an old dispatch without a current assignment, fabricate acceptance, or replace missing evidence. Original submitted reports are historical; architect review reports describe the corrected versions.
 
 Keep credentials, databases, private memories, runtime data and holdout fixtures out of Git. Do not invoke models, accounts, networked agent trials or extra sessions solely to validate this snapshot. Initial product UI is owned by the architect; notify the user before starting visual design so they can adjust reasoning settings.
+
+
+CORE-007/008 source has been added, including the first personal-space UI and real DeepSeek adapter. The user removed the local count quota. Historical six-attempt dispatch constraints no longer apply to the product launcher. See docs/development/CORE-008.md. This remains a source publication mirror; continue development in companion-agent-core.

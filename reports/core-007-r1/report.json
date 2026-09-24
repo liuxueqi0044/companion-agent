@@ -1,0 +1,43 @@
+{
+  "batch": "CORE-007-R1",
+  "status": "submitted",
+  "review": "architect_implemented_and_self_verified",
+  "issue": "Local six-attempt limit exhausted; generic error hid the actual cause.",
+  "diagnosis": {
+    "configured_limit": 6,
+    "development_attempts": 4,
+    "successful_user_attempts": 2,
+    "latest_input_sent_to_provider": false,
+    "adapter_error": "request_budget_exhausted",
+    "journal_error": "provider_failed"
+  },
+  "validation": {
+    "targeted_node_passed": 18,
+    "new_regressions": 4,
+    "deployed_server_preflight": "PASS",
+    "browser_budget_warning_and_enter_guard": "PASS",
+    "frozen_CORE006": "PASS",
+    "source_schema": "PASS",
+    "budget_unchanged": true
+  },
+  "changes": [
+    "apps/desktop/personal-space/app.mjs",
+    "apps/desktop/product/web/server.mjs",
+    "docs/handoff/CURRENT-TASK.md",
+    "tests/product/core007/web.test.mjs",
+    "tools/personal_space.mjs"
+  ],
+  "result_ref": "manifest-sha256:d17f8b5f07f6fdd3c9102f7e4b186082aa0ab6591ff346d36c2c8ea62fd8823a",
+  "manifest_entries": 14,
+  "model_requests": 0,
+  "budget_limit_modified": false,
+  "user_history_modified": false,
+  "url": "http://127.0.0.1:51794",
+  "not_run": [
+    "independent_review",
+    "full_workspace_write_scope",
+    "live_generation_after_exhaustion",
+    "configurable_usage_budget"
+  ],
+  "finished_at": "2026-09-24T12:18:11.842551+00:00"
+}

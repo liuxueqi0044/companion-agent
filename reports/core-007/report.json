@@ -1,0 +1,76 @@
+{
+  "batch": "CORE-007",
+  "status": "submitted",
+  "implemented_by": "architect",
+  "review": "architect_self_verified; independent_review_not_run",
+  "scope": "trusted_local_browser_personal_space_and_bounded_deepseek_integration",
+  "dispatch": "docs/handoff/CORE-007.md",
+  "architecture": "docs/development/CORE-007.md",
+  "result_ref": "manifest-sha256:2a2b8d62087fca039a81bf9ba110f9eba820845e09bdbddf72f938375fb04c1f",
+  "manifest": "reports/core-007/artifacts.json",
+  "artifacts": 41,
+  "source_artifacts": 19,
+  "validation": {
+    "python_passed": 121,
+    "node_passed": 186,
+    "new_node_passed": 14,
+    "schema_and_copied_source": "PASS",
+    "frozen_CORE006_artifacts": 10,
+    "frozen_integrity": "PASS",
+    "desktop_browser": "observed_and_screenshots_saved",
+    "narrow_390x844_geometry": "PASS",
+    "console_errors": 0,
+    "credential_pattern_scan": "PASS"
+  },
+  "real_model": {
+    "provider": "DeepSeek",
+    "model": "deepseek-flash",
+    "http_requests": 4,
+    "http_200": 4,
+    "kernel_rejected": 1,
+    "successful_cases": [
+      "isolated_memory",
+      "browser_csv",
+      "browser_memory"
+    ],
+    "budget_limit": 6,
+    "budget_remaining_at_handoff": 2,
+    "automatic_retries": 0,
+    "reasoning_content_exposed": false
+  },
+  "operations": {
+    "other_model_sessions": 0,
+    "OpenAI_model_requests": 0,
+    "dependency_installation": 0,
+    "git_push": 0,
+    "external_messages": 0,
+    "background_contact": false,
+    "generated_code_executed": false
+  },
+  "runtime": {
+    "url": "http://127.0.0.1:51794",
+    "pid": 37440,
+    "live": true
+  },
+  "original_accepted_count_modified": false,
+  "unresolved": [
+    "First HTTP200 decision rejected with invalid_request; raw output not retained, exact invalid field unknown.",
+    "No CORE007 starting full-workspace baseline; frozen manifest and copied-source integrity checked instead.",
+    "In-app narrow screenshot scaling is distorted; real-mobile visual review not_run.",
+    "History/memory/inbox full pagination not yet wired."
+  ],
+  "not_run": [
+    "independent_review",
+    "native_isolation",
+    "generated_interface_preview_activation",
+    "background_contact_scheduler",
+    "system_notifications",
+    "TTS",
+    "community_sharing",
+    "other_agent_live_integration",
+    "broad_semantic_quality",
+    "mobile_device_visual",
+    "full_workspace_write_scope"
+  ],
+  "finished_at": "2026-09-24T12:03:24.592544+00:00"
+}

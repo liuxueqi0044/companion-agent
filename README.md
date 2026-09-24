@@ -75,7 +75,7 @@ Node 测试与五份演示目前复用开发机器固定的相邻路径 `../comp
 
 界面接入从 [frontend-handoff](docs/development/frontend-handoff.md) 和 `apps/desktop/product/runtime/index.mjs` 开始。运行时对象只属于可信宿主，不可直接暴露给生成页面。主动联系目前由宿主显式 pulse，尚无后台常驻调度。
 
-完整产品体验见 [交互设计](docs/product/product-experience.md)，当前完成情况见 [产品进度](reports/core-006-architect/product-progress.md)。初始正式 UI、真实模型接入、后台通知、原生隔离、生成 UI 实际装载和社区分享仍未完成。
+完整产品体验见 [交互设计](docs/product/product-experience.md)，当前完成情况见 [产品进度](reports/core-006-architect/product-progress.md)。CORE-007/008 已接通初始本机 UI 与真实 DeepSeek；后台通知、原生隔离、生成 UI 实际装载和社区分享仍未完成。
 
 ## 快照范围与限制
 
@@ -84,3 +84,12 @@ Node 测试与五份演示目前复用开发机器固定的相邻路径 `../comp
 `reports/`、`reviews/` 和旧派工中的部分链接指向仅保留在原开发环境的证据。历史 manifest/scope 检查和部分模型实验测试依赖这些文件，不能在此快照中完整重放；不应将缺失证据替换为虚构结果。源码文件的复制哈希见 `SOURCE-SNAPSHOT.json`。
 
 API 密钥不包含在仓库内。不要运行历史 live 脚本来验证源码快照；真实模型接入应另行配置并授权。初始产品视觉继续由产品架构负责人设计，开始前与用户确认推理档位；此仓库不增加新的 UI 设计。
+
+
+## CORE-007/008 个人空间
+
+本机 Morrow 界面已接通聊天、显式记忆、CSV 成果、历史和联系偏好。DeepSeek 仅在可信服务端读取本机 DPAPI 凭据，产品不设调用次数额度，保留串行调用、停止和无自动重试。普通聊天显示“正在思考”，可展开公开处理摘要；工具卡展示真实执行和来源。当前尚非逐 token 输出。
+
+工作区验证：整套 Node 202 项通过；最后的取消目标修正另有 13 项定向通过，Schema 与来源检查通过。一条真实临时对话已验证超过旧六次上限仍返回 HTTP 200。原始请求、截图、账本和运行数据保留本地，未上传。
+
+此快照仍依赖 Windows 本机运行路径；`tools/personal_space.mjs` 支持 PERSONAL_AI_PYTHON、PERSONAL_AI_VUE、PERSONAL_AI_PORT 环境配置。密钥必须另行本地配置，不能从仓库获得。不要直接输出凭据辅助脚本的内容或执行历史 live 检查器。下一阶段见 [CORE-008 开发说明](docs/development/CORE-008.md)。

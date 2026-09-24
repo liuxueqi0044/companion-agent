@@ -1,0 +1,76 @@
+{
+  "format": "artifact-manifest/1",
+  "batch": "CORE-007-R1",
+  "artifacts": [
+    {
+      "path": "apps/desktop/personal-space/app.mjs",
+      "bytes": 36210,
+      "sha256": "5f43c45b1ce5dbd1c552dd1a569a2767261eff43732c706d24ad230227122c1f"
+    },
+    {
+      "path": "apps/desktop/product/web/server.mjs",
+      "bytes": 9030,
+      "sha256": "fc95984ee6d89354c997e05b4dfbc601a43b5f90bbf61900d38d3b6a9a268050"
+    },
+    {
+      "path": "docs/handoff/CURRENT-TASK.md",
+      "bytes": 2307,
+      "sha256": "5aca4d2900e52c9d115cbfedf4547a2f762d7f7530c4dcc61b7cf422ff3fbe10"
+    },
+    {
+      "path": "reports/core-007-r1/evidence/baseline.json",
+      "bytes": 858,
+      "sha256": "f21fbffe1b914798f52dc21b25908d87d365d313762af9883f7f368f4069db8d"
+    },
+    {
+      "path": "reports/core-007-r1/evidence/budget-ui-check.txt",
+      "bytes": 1539,
+      "sha256": "ec6a8ff930597428b53785991c7ec7c4f17fffa7a238549ff25af129677d74db"
+    },
+    {
+      "path": "reports/core-007-r1/evidence/core007-tests.txt",
+      "bytes": 1570,
+      "sha256": "a9671b3cdce890f5ac5d427fdf7390a6d61dc319cb15b5f086311587ab9617de"
+    },
+    {
+      "path": "reports/core-007-r1/evidence/deployed-preflight.json",
+      "bytes": 203,
+      "sha256": "8ea70eadd814081d82833ada5166f1e1438a239af39f15ee53cd626fdc57ff6f"
+    },
+    {
+      "path": "reports/core-007-r1/evidence/integrity.json",
+      "bytes": 449,
+      "sha256": "d158f3dc27305b3a3edc76814e3aaec52b7203c300e23460a71bc1265c7ad991"
+    },
+    {
+      "path": "reports/core-007-r1/evidence/post-check.json",
+      "bytes": 555,
+      "sha256": "d16c0e70daa4f5ce2cf3ae666b581ef0b9473d453cf2a6b833da13e7636864d5"
+    },
+    {
+      "path": "reports/core-007-r1/evidence/web-tests.txt",
+      "bytes": 752,
+      "sha256": "0ad024ce870f9065bd9cb3ebabea529443675c14a0746b4b0a771fe7aae5d107"
+    },
+    {
+      "path": "reports/core-007-r1/evidence/workspace-check.txt",
+      "bytes": 207,
+      "sha256": "6ef7eb17d0d613095f2e59666b61e219e73fddc83192ec680e71a854da4d318b"
+    },
+    {
+      "path": "reports/core-007-r1/summary.md",
+      "bytes": 2104,
+      "sha256": "7fbd523d30f3403394e0c87eb50671cfc07f3bc7deb303981629e2a664192c09"
+    },
+    {
+      "path": "tests/product/core007/web.test.mjs",
+      "bytes": 8623,
+      "sha256": "f3cadd146862fe3f284922c6647f49a75216bf53f31706dd1d76a6a3a6575cd1"
+    },
+    {
+      "path": "tools/personal_space.mjs",
+      "bytes": 3215,
+      "sha256": "1adc7ea40d60285f9cdce5cf8bc6f9092de6b23755f136ad2eb40d912e015415"
+    }
+  ]
+}

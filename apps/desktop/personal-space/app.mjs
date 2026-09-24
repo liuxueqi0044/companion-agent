@@ -1,0 +1,314 @@
+import {createApp,h,ref,computed,onMounted,onUnmounted,nextTick} from '/vendor/vue.mjs'
+import {createClient} from './client.mjs'
+import {presentActivity,currentStop} from './activity.mjs'
+
+const paths={spark:'M12 2l2.5 6.8L22 12l-7.5 2.7L12 22l-2.6-7.3L2 12l7.4-3.2Z',
+ arrow:'M5 12h14m-6-6 6 6-6 6',send:'m6 12 6-7 6 7m-6-6v14',close:'m6 6 12 12M6 18 18 6',
+ plus:'M12 5v14M5 12h14',chevron:'m9 6 6 6-6 6',back:'m15 6-6 6 6 6',
+ history:'M3 11a9 9 0 1 1 2 7M3 4v7h7m2-4v6l4 2',bell:'M5 16V10a7 7 0 0 1 14 0v6l2 3H3Zm5 6h4',
+ memory:'M9 3a4 4 0 0 0-6 5 4 4 0 0 0 0 8 4 4 0 0 0 6 5V3Zm6 0a4 4 0 0 1 6 5 4 4 0 0 1 0 8 4 4 0 0 1-6 5V3M6 9h3m6 6h3',
+ leaf:'M20 3C5 1 0 14 7 18s16-2 13-15ZM5 21 16 9',paper:'M8 3h7l5 5v13H4V3Zm7 0v6h5M8 13h8m-8 4h5',
+ attach:'m9 12 6-6a3 3 0 0 1 4 4l-9 9a5 5 0 0 1-7-7l9-9',
+ check:'m5 12 4 4L19 6',stop:'M6 6h12v12H6Z',more:'M5 12h.1M12 12h.1M19 12h.1',
+ edit:'m4 16 12-12 4 4L8 20H4Zm10-10 4 4',trash:'M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7',
+ moon:'M20 15A9 9 0 0 1 9 3a9 9 0 1 0 11 12',settings:'M5 6h14M5 12h14M5 18h14M9 3v6m6 0v6m-6 0v6',
+ link:'m9 15 6-6M8 17l-1 1a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0m0 10a4 4 0 0 0 6 0l5-5a4 4 0 0 0-6-6l-1 1',
+ download:'M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5'}
+const icon=(name,size=20)=>h('svg',{width:size,height:size,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor','stroke-width':1.6,'stroke-linecap':'round','stroke-linejoin':'round','aria-hidden':'true'},[h('path',{d:paths[name]??paths.spark})])
+const btn=(label,action,props={},children=null)=>h('button',{type:'button',onClick:action,...props},children??label)
+const field=(label,node,hint)=>h('label',{class:'field'},[h('span',label),node,hint?h('small',hint):null])
+const para=text=>h('p',{class:'muted'},text)
+const formatTime=value=>{try{return new Intl.DateTimeFormat('zh-CN',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(value))}catch{return '时间待核对'}}
+const errors={model_not_configured:'还没有连接模型。你的输入已保存。',provider_failed:'这次回应没有成功，请查看连接状态后再试。',
+ credential_rejected:'模型密钥未通过验证。',provider_insufficient_balance:'DeepSeek 账户余额不足。',provider_rate_limited:'模型服务暂时繁忙，请稍后再试。',
+ transport_unavailable:'本地连接中断。操作结果可能尚未确认，请先重新连接并核对。',
+ ledger_locked:'请求记录正在被另一项操作使用，请稍后再试。',ledger_invalid:'本地请求记录需要核对，已有对话仍然保留。',ledger_write_failed:'请求已结束，但本地记录未能确认保存，请先核对状态。',
+ request_in_progress:'另一条模型请求尚未确认结束，请先核对连接状态。',
+ stale_view:'当前内容已经变化，请刷新后再操作。',revision_conflict:'设置已被更新，请检查最新内容。',
+ management_busy:'正在保存另一项操作，请稍候。',runner_busy:'还有一件事正在处理，请等它结束或先停止。',
+ outcome_unknown:'操作结果待核对，不会自动重复执行。',reconciliation_required:'请先核对上一次操作的结果。',
+ submit_pending_reconciliation:'上一次输入是否保存尚待核对，请先核对它。',provider_timeout:'等待模型回应超时，这次没有自动重试。',
+ invalid_request:'这些内容暂时无法保存，请检查输入。',send_cancelled:'已停止继续处理；已经保存的输入会保留。',
+ session_required:'连接已过期，请重新打开这个页面。',provider_invalid_output:'模型返回的格式无法使用，本次没有继续执行。'}
+const eventLabel={submitted:'任务已保存',started:'开始核对材料',completed:'计算结果已保存',cancel_requested:'已请求停止',cancelled:'任务已取消',failed:'任务未完成',interrupted:'执行中断',retried:'重新开始'}
+const columnLabel={item:'品名',unit:'单位',qty:'数量',unit_price:'单价',currency:'币种'}
+const sourceLabel=value=>{const match=/^csv:record:\d+:column:.+:physical-lines:(\d+)-(\d+)$/.exec(value??'');return match?`原表第 ${match[1]===match[2]?match[1]:`${match[1]}–${match[2]}`} 行`:'来源待核对'}
+
+function botanical(){
+  return h('svg',{class:'botanical',width:190,height:158,viewBox:'0 0 190 158','aria-hidden':'true'},[
+    h('circle',{cx:119,cy:64,r:36,fill:'#eac4a8'}),h('path',{d:'M33 137Q103 144 155 134',stroke:'#d7d6c8','stroke-width':1.5,fill:'none'}),
+    h('path',{d:'M92 137Q85 94 101 43M96 86 63 66M94 105l34-23',stroke:'#7e9176','stroke-width':2,fill:'none'}),
+    h('path',{d:'M96 81Q72 37 52 46Q48 74 96 81M100 56Q119 27 131 34Q131 55 100 65M96 108Q121 65 141 75Q147 99 96 108M91 124Q54 97 49 113Q58 132 91 124',fill:'#91a185'}),
+    h('path',{d:'m42 29 2-7 2 7 7 2-7 2-2 7-2-7-7-2Z',fill:'#bf8462'}),h('circle',{cx:149,cy:111,r:2,fill:'#c8a880'})])
+}
+
+createApp({setup(){
+  const state=ref(null),connected=ref(true),panel=ref(null),draft=ref(''),attachment=ref(null),temporary=ref(false)
+  const sending=ref(false),pendingMessage=ref(null),working=ref(false),toast=ref(null),records=ref([]),conversations=ref([])
+  const conversationId=ref(crypto.randomUUID()),selectedTurn=ref(null),fileInput=ref(null),composer=ref(null),drawer=ref(null)
+  const memoryText=ref(''),memoryCategory=ref('preferences'),editing=ref(null),editText=ref(''),styleText=ref('')
+  const reminderText=ref(''),reminderDate=ref(''),contactForm=ref(null),resultVisible=ref(false)
+  let fileGeneration=0,previousFocus=null,toastTimer=null,client=null
+  const view=computed(()=>state.value?.view),policy=computed(()=>view.value?.policy?.policy)
+  const connection=computed(()=>state.value?.connection),busy=computed(()=>sending.value||!!view.value?.runtime.executionBusy)
+  const chatRecords=computed(()=>records.value.filter(row=>row.conversation_id===conversationId.value))
+  const name=computed(()=>view.value?.home?.profile.preferences.ai_name||'我的 AI')
+  const notify=(text,error=false)=>{clearTimeout(toastTimer);toast.value={text,error};toastTimer=setTimeout(()=>{toast.value=null},error?10000:4500)}
+  function accept(snapshot){
+    state.value=snapshot
+    const turn=snapshot.view.conversation?.turn
+    if(turn){const idx=records.value.findIndex(item=>item.id===turn.id);if(idx<0)records.value.push({...turn});else records.value[idx]={...records.value[idx],...turn,preview:false};selectedTurn.value=turn.id}
+  }
+  client=createClient({token:document.querySelector('meta[name="personal-space-session"]').content,
+    onSnapshot:accept,onConnection:value=>{connected.value=value}})
+  async function call(action,args={},success){
+    working.value=true
+    try{
+      const result=await client.call(action,args)
+      if(!result.ok)notify(errors[result.error]||`暂时没能完成这一步（${result.error}）`,true)
+      else if(success)notify(success)
+      return result
+    }finally{working.value=false}
+  }
+  async function openPanel(target){
+    previousFocus=document.activeElement;panel.value=target;resultVisible.value=false;editing.value=null
+    if(['memory','contact','inbox','reminders'].includes(target)){
+      const result=await call('open',{panel:target})
+      if(result.ok&&target==='contact')contactForm.value={...policy.value}
+    }else if(target==='history'){
+      const result=await call('conversation.list');if(result.ok)conversations.value=result.result
+    }
+    await nextTick();drawer.value?.querySelector('button')?.focus()
+  }
+  async function closePanel(){
+    const old=panel.value;panel.value=null;resultVisible.value=false;editing.value=null
+    if(['memory','contact','inbox','reminders'].includes(old))await call('open',selectedTurn.value?
+      {panel:'conversation',turnId:selectedTurn.value}:{panel:'home'})
+    await nextTick();if(previousFocus?.isConnected)previousFocus.focus();else composer.value?.focus()
+  }
+  async function newConversation(){
+    if(busy.value)return notify('先让正在做的事结束，或停止它。')
+    await call('open',{panel:'home'});conversationId.value=crypto.randomUUID();selectedTurn.value=null;panel.value=null;draft.value='';attachment.value=null
+    await nextTick();composer.value?.focus()
+  }
+  async function loadConversation(item){
+    if(busy.value)return notify('当前还有任务在进行，稍后再切换对话。')
+    const result=await call('conversation.turns',{id:item.conversation_id})
+    if(!result.ok)return
+    conversationId.value=item.conversation_id
+    const prior=new Map(records.value.map(row=>[row.id,row]))
+    records.value=[...records.value.filter(row=>row.conversation_id!==item.conversation_id),...result.result.slice().reverse().map(row=>prior.get(row.id)??{id:row.id,conversation_id:item.conversation_id,text:row.text_preview,reply:row.reply_preview,state:row.state,preview:true})]
+    const selected=await call('open',{panel:'conversation',turnId:item.latest_turn_id})
+    if(selected.ok)panel.value=null
+  }
+  async function send(){
+    if(!draft.value.trim()||busy.value||!connected.value)return
+    const text=draft.value,id=crypto.randomUUID()
+    const input={command_id:id,conversation_id:conversationId.value,text,csv_text:attachment.value?.text??null,temporary:temporary.value}
+    sending.value=true;pendingMessage.value=id
+    records.value.push({id,conversation_id:conversationId.value,text,state:'saving',attachment:attachment.value?.name})
+    const result=await client.call('send',input)
+    sending.value=false;pendingMessage.value=null
+    if(result.submission==='not_sent')records.value=records.value.filter(record=>record.id!==id)
+    if(result.ok||result.submission==='confirmed'){if(draft.value===text)draft.value='';attachment.value=null;fileGeneration++}
+    if(!result.ok)notify(result.error==='invalid_request'&&result.submission==='confirmed'?'模型的行动建议没有通过校验，这次没有继续执行。':errors[result.error]||`这次处理暂未完成（${result.error}）`,true)
+    if(result.error==='transport_unavailable')notify('连接中断，输入可能已经保存。请从历史记录或核对入口确认，不要重复发送。',true)
+    const nearEnd=document.documentElement.scrollHeight-window.innerHeight-window.scrollY<240
+    await nextTick();if(nearEnd)document.querySelector('.conversation-end')?.scrollIntoView({block:'nearest'})
+  }
+  async function attach(event){
+    const own=++fileGeneration,file=event.target.files?.[0];event.target.value=''
+    if(!file)return
+    if(!file.name.toLowerCase().endsWith('.csv')||file.size>256*1024)return notify('请选择不超过 256 KB 的 CSV 文件。',true)
+    try{const text=new TextDecoder('utf-8',{fatal:true}).decode(await file.arrayBuffer());if(own===fileGeneration)attachment.value={name:file.name,text}}
+    catch{notify('请使用 UTF-8 编码的 CSV 文件。',true)}
+  }
+  async function toggleMemory(){
+    const result=await call('policy.memory',{expectedRevision:policy.value.revision,patch:{memory_enabled:!policy.value.memory_enabled}})
+    if(result.ok)notify(policy.value.memory_enabled?'记忆已开启。':'记忆已关闭；你仍可以查看和管理已有内容。')
+  }
+  async function addMemory(){
+    if(!memoryText.value.trim())return
+    const result=await call('memory.add',{content:memoryText.value,category:memoryCategory.value},'记住了。')
+    if(result.ok){memoryText.value='';await call('memory.refresh')}
+  }
+  async function editMemory(item){
+    const result=await call('memory.edit',{id:item.id,content:editText.value},'已更新这条记忆。')
+    if(result.ok)editing.value=null
+  }
+  async function forget(item){if(confirm('忘记这条记忆？删除后，不会再从相同来源自动学回。'))await call('memory.forget',{id:item.id},'已经忘记这条记忆。')}
+  async function contactSave(){
+    const p=contactForm.value
+    const patch=Object.fromEntries(['proactive_enabled','timezone','start_minute','end_minute','daily_limit','topics'].map(k=>[k,p[k]]))
+    const result=await call('policy.contact',{expectedRevision:policy.value.revision,patch},'联系偏好已保存。')
+    if(result.ok)contactForm.value={...policy.value}
+  }
+  async function openResult(turnId=selectedTurn.value){
+    if(view.value?.activity?.turnId!==turnId){const opened=await call('open',{panel:'conversation',turnId});if(!opened.ok)return}
+    const activity=view.value?.activity
+    if(!activity?.taskId)return
+    const result=await call('result.open',{taskId:activity.taskId,turnId:activity.turnId})
+    if(result.ok){previousFocus=document.activeElement;panel.value='result';resultVisible.value=true;await nextTick();drawer.value?.querySelector('button')?.focus()}
+  }
+  function downloadResult(){
+    const result=view.value.result,blob=new Blob([JSON.stringify({metadata:result.metadata,rows:result.rows,issues:result.issues,
+      partial:result.nextOffset!==null||result.nextIssueOffset!==null},null,2)],{type:'application/json'})
+    const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='核对结果.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)
+  }
+  function input(value,set,props={}){return h('input',{value,onInput:e=>set(e.target.value),...props})}
+  function switchButton(on,action,label,disabled=false){return btn(label,action,{class:['switch',on?'on':''],role:'switch','aria-checked':on,'aria-label':label,disabled},h('span'))}
+  function menuItem(symbol,title,description,action){return btn(title,action,{class:'menu-row'},[h('span',{class:'menu-icon'},icon(symbol)),h('span',[h('strong',title),h('small',description)]),icon('chevron',16)])}
+  function empty(title,subtitle,symbol='leaf'){return h('div',{class:'empty'},[icon(symbol,28),h('h3',title),para(subtitle)])}
+  function memoryPanel(){if(view.value?.memory.loading&&!view.value.memory.items.length)return [para('正在读取你的记忆…')];return [
+    h('div',{class:'setting-top'},[h('div',[h('h3','让记忆慢慢长出来'),para('记住重要的事，也随时听你纠正。')]),switchButton(!!policy.value?.memory_enabled,toggleMemory,'长期记忆',working.value)]),
+    h('div',{class:'soft-note'},policy.value?.memory_enabled?'只有有用的长期信息才会留下。你可以编辑、忘记，或随时关闭。':'记忆已关闭。已有内容保留，暂不用于对话；你仍可以在这里管理。'),
+    h('div',{class:'section-label'},['已经记住的',h('span',String(view.value?.memory.items.length??0))]),
+    ...(view.value?.memory.items.length?view.value.memory.items.map(item=>h('article',{class:'memory-item',key:item.id},[
+      h('div',{class:'item-meta'},[h('span',({preferences:'偏好',work:'工作',goals:'目标'})[item.category]??item.category),h('span',item.source_id?.startsWith('manual:')?'由你直接写入':'来自我们的对话')]),
+      editing.value===item.id?h('div',[h('textarea',{value:editText.value,onInput:e=>{editText.value=e.target.value},rows:3,'aria-label':'编辑记忆'}),h('div',{class:'inline-actions'},[btn('取消',()=>{editing.value=null},{class:'text-button'}),btn('保存',()=>editMemory(item),{class:'primary small',disabled:working.value})])]):h('p',{class:'memory-content'},item.content),
+      editing.value!==item.id?h('div',{class:'item-actions'},[btn('编辑',()=>{editing.value=item.id;editText.value=item.content},{class:'text-button'},[icon('edit',14),'编辑']),btn('忘记',()=>forget(item),{class:'text-button'},[icon('trash',14),'忘记'])]):null,
+    ])):[empty('这里还没有记忆','告诉我一个偏好，或者直接在下面写下来。')]),
+    h('div',{class:'add-memory'},[h('h3','也可以直接告诉我'),h('textarea',{value:memoryText.value,onInput:e=>{memoryText.value=e.target.value},rows:3,placeholder:'比如：我喜欢直接一点的回答。','aria-label':'新增记忆'}),
+      h('div',{class:'inline-actions spread'},[h('select',{value:memoryCategory.value,onChange:e=>{memoryCategory.value=e.target.value},'aria-label':'记忆类别'},['preferences','work','goals'].map(v=>h('option',{value:v},({preferences:'偏好',work:'工作',goals:'目标'})[v]))),btn('记住这件事',addMemory,{class:'primary small',disabled:working.value||!memoryText.value.trim()})])]),
+    view.value?.memory.unknown?h('p',{class:'error-text'},'上次修改的结果待核对。请先刷新查看，不要重复保存。'):null,
+  ]}
+  function contactPanel(){
+    const p=contactForm.value;if(!p)return [para('正在读取联系偏好…')]
+    const minutes=t=>{const [a,b]=t.split(':').map(Number);return a*60+b}
+    const time=m=>`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`
+    const offset=-new Date().getTimezoneOffset(),localZone=`UTC${offset>=0?'+':'-'}${String(Math.floor(Math.abs(offset)/60)).padStart(2,'0')}:${String(Math.abs(offset)%60).padStart(2,'0')}`
+    return [h('div',{class:'setting-top'},[h('div',[h('h3','偶尔，主动来找你'),para('有值得关心的事，再轻轻问候。')]),switchButton(p.proactive_enabled,()=>{p.proactive_enabled=!p.proactive_enabled},'允许主动联系')]),
+      para('开启后，AI 可以结合后续互动决定是否、何时联系。你可以随时关闭，不回复也不会被反复追问。'),
+      h('div',{class:'soft-note'},'这一版已接通联系偏好的保存；后台自动发送尚未启用。普通聊天不会预告未来的问候。'),
+      field('我方便被联系的时间',h('div',{class:'time-pair'},[input(time(p.start_minute),v=>{p.start_minute=minutes(v)},{type:'time','aria-label':'开始时间'}),h('span','—'),input(time(p.end_minute),v=>{p.end_minute=minutes(v)},{type:'time','aria-label':'结束时间'})])),
+      field('时区',h('select',{value:p.timezone,onChange:e=>{p.timezone=e.target.value}},[...new Set([p.timezone,localZone,'UTC'])].map(v=>h('option',{value:v},v===localZone?`${v} · 本机当前偏移`:v)))),
+      field('每天最多几次',input(p.daily_limit,v=>{p.daily_limit=Number(v)},{type:'number',min:1,max:20})),
+      field('可以关心的话题',h('div',{class:'topic-list'},['work','daily','wellbeing'].map(topic=>h('label',[h('input',{type:'checkbox',checked:p.topics.includes(topic),onChange:e=>{p.topics=e.target.checked?[...p.topics,topic]:p.topics.filter(v=>v!==topic)}}),({work:'工作与进展',daily:'日常生活',wellbeing:'我的近况'})[topic]])))),
+      btn('保存联系偏好',contactSave,{class:'primary full',disabled:working.value}),
+      menuItem('bell','我明确交办的提醒','与 AI 自主问候分开管理',()=>openPanel('reminders'))]
+  }
+  function inboxPanel(){const items=view.value?.inbox.items??[];return [
+    para('你们一起做过的事，以及已经送达的消息。'),
+    ...(items.length?[...items].reverse().map(item=>h('article',{class:['inbox-item',!item.read?'unread':''],key:item.id},[
+      h('div',{class:'item-meta'},[h('span',({proactive:'来自我的 AI',reminder:'你的提醒',task:'任务近况'})[item.kind]??'近况'),h('time',formatTime(item.created_at))]),h('p',item.text),
+      h('div',{class:'item-actions'},[!item.read?btn('标为已读',()=>call('inbox.read',{id:item.id}),{class:'text-button'}):h('span',{class:'subtle'},'已读'),
+        btn('为什么收到这条',async()=>{const r=await call('inbox.explain',{id:item.id});if(r.ok)notify(({opt_in_and_model_reassessment:'你允许了主动联系，AI 在发送前重新判断了是否合适。',user_requested_work:'这是你明确交办的提醒或任务回执。'})[r.result.basis]??'这条消息来自已记录的任务或提醒。')},{class:'text-button'})])])):[empty('近况会留在这里','任务完成后，或收到消息时，都可以回来看看。','bell')])
+  ]}
+  function remindersPanel(){return [para('只安排你明确交办的提醒。当前版本不会在应用退出后唤醒设备。'),
+    ...(view.value?.reminders.items??[]).map(item=>h('article',{class:'memory-item',key:item.id},[h('p',item.text),h('div',{class:'item-meta'},[h('span',formatTime(item.due_at)),h('span',({pending:'已安排',sent:'已送达',missed:'已错过',cancelled:'已取消'})[item.state]??item.state)]),item.state==='pending'?btn('取消提醒',()=>call('reminders.cancel',{id:item.id},'提醒已取消。'),{class:'text-button'}):null])),
+    h('div',{class:'add-memory'},[field('提醒内容',input(reminderText.value,v=>{reminderText.value=v},{placeholder:'有什么需要我提醒你？'})),field('时间',input(reminderDate.value,v=>{reminderDate.value=v},{type:'datetime-local'})),btn('保存提醒',async()=>{if(!reminderDate.value||!reminderText.value.trim())return;const r=await call('reminders.create',{text:reminderText.value,due_at:new Date(reminderDate.value).toISOString()},'提醒已保存；自动到期投递仍需后台调度接入。');if(r.ok){reminderText.value='';reminderDate.value=''}},{class:'primary full',disabled:working.value||!reminderText.value.trim()||!reminderDate.value})])
+  ]}
+  function resultPanel(){const r=view.value.result;return [
+    h('div',{class:'result-summary'},[h('span','实际计算结果'),h('strong',r.metadata?.total!==null?`${r.metadata.total} ${r.metadata.total_currency??''}`:'按币种分别汇总'),h('small','来自本地 CSV 核对工具')]),
+    r.metadata?.total===null?Object.entries(r.metadata.currency_subtotals??{}).map(([k,v])=>h('p',`${k}　${v}`)):null,
+    h('div',{class:'soft-note'},'按 CSV 中的数量和单价逐行计算。文本中的额外业务规则尚未作语义核对。'),
+    ...r.rows.map(row=>h('article',{class:'result-row',key:row.record_index},[h('div',{class:'item-meta'},[`第 ${row.record_index} 条记录`,h('strong',`${row.subtotal??'—'} ${row.currency??''}`)]),h('dl',Object.entries(row.cells).flatMap(([key,value])=>[h('dt',columnLabel[key]??key),h('dd',[value,h('small',{title:row.source_refs?.[key]},sourceLabel(row.source_refs?.[key]))])]))])),
+    r.issues.length?h('div',{class:'soft-note'},`有 ${r.issues.length} 项需要核对：${r.issues.map(v=>v.code).join('、')}`):null,
+    r.nextOffset!==null?btn('查看更多记录',()=>call('result.rows',{taskId:r.taskId}),{class:'secondary full'}):null,
+    btn('导出当前已加载结果',downloadResult,{class:'primary full'},[icon('download',17),'导出当前已加载结果'])
+  ]}
+  function connectionPanel(){const c=connection.value;return [
+    h('div',{class:'connection-card'},[h('div',{class:['connection-light',c?.configured?'ready':'']}),h('strong',c?.configured?'DeepSeek 已配置':'模型尚未连接'),h('p',c?.configured?c.model:'可以查看和管理本地内容。')]),
+    para('你的密钥只在本地服务端使用，不会交给界面。模型可以接收你这次对话所需的上下文；临时对话不会使用长期记忆。'),
+    c?.lastError?h('p',{class:'error-text'},errors[c.lastError]??'上一次模型请求未成功。'):null,
+    h('div',{class:'soft-note'},'这一版在本机浏览器中运行。关闭本地服务后不会处理任务；后台问候和 AI 改版功能尚未开放。')
+  ]}
+  function appearancePanel(){return [h('div',{class:'appearance-art'},botanical()),h('h3','它可以慢慢长成你喜欢的样子。'),
+    para('以后，你可以直接说想改哪里，让 AI 编写代码调整整个空间。你的记忆、身份和正在做的事会继续留在这里。'),
+    h('div',{class:'soft-note'},'自由改版与安全预览尚在接入。现在可以先记下你喜欢的风格；保存后不会立即改变页面。'),
+    field('你喜欢怎样的空间？',h('textarea',{value:styleText.value,onInput:e=>{styleText.value=e.target.value},rows:4,placeholder:'比如：安静一点，留白多一点，像一本随手写的日记。'})),
+    btn('记住我的风格偏好',async()=>{const r=await call('memory.add',{category:'preferences',content:`我喜欢的界面风格：${styleText.value}`},'已记下风格偏好，当前界面尚未改版。');if(r.ok)styleText.value=''},{class:'primary full',disabled:working.value||!styleText.value.trim()})]}
+  function content(){
+    if(panel.value==='about')return [h('div',{class:'identity'},[h('div',{class:'identity-mark'},icon('spark',32)),h('h3',name.value),para('记住你，也为你做些事。')]),
+      menuItem('memory','记忆',policy.value?.memory_enabled?'正在开启 · 你随时可以修改':'已经关闭',()=>openPanel('memory')),
+      menuItem('bell','主动联系',policy.value?.proactive_enabled?'已允许 · 可以随时调整':'默认关闭 · 由你决定是否开启',()=>openPanel('contact')),
+      menuItem('leaf','改变这里','把你喜欢的样子告诉我',()=>openPanel('appearance')),
+      menuItem('link','模型与连接',connection.value?.configured?'DeepSeek · 本机服务':'尚未连接模型',()=>openPanel('connection')),
+      h('p',{class:'panel-footnote'},'同一个 AI，同一份记忆。外观可以改变，属于你的东西会留下。')]
+    if(panel.value==='memory')return memoryPanel()
+    if(panel.value==='contact')return contactPanel()
+    if(panel.value==='inbox')return inboxPanel()
+    if(panel.value==='reminders')return remindersPanel()
+    if(panel.value==='appearance')return appearancePanel()
+    if(panel.value==='result')return resultPanel()
+    if(panel.value==='connection')return connectionPanel()
+    if(panel.value==='history')return conversations.value.length?conversations.value.map(item=>btn('',()=>loadConversation(item),{class:'history-item'},[h('strong',item.text_preview||'一段对话'),h('p',item.reply_preview||'这段对话还在等一个回应'),h('small',formatTime(item.last_active_at))])):[empty('从第一句话开始','之后的对话会留在这里。','history')]
+    return []
+  }
+  const titles={about:'我的 AI',memory:'记忆',contact:'主动联系',inbox:'近况',reminders:'我的提醒',appearance:'改变这里',connection:'模型与连接',history:'我们的对话',result:'核对结果'}
+  const activityView=record=>presentActivity(record,{activity:view.value?.activity,work:view.value?.work,
+    send:view.value?.runtime.send,pendingId:pendingMessage.value})
+  const stopTarget=()=>currentStop({send:view.value?.runtime.send,work:view.value?.work,pendingId:pendingMessage.value})
+  const stopCurrent=()=>{const target=stopTarget();if(target)return call(target.action,target.args)}
+  function summaryBlock(record){
+    const summary=activityView(record).summary
+    return summary?h('details',{class:'reasoning-summary'},[h('summary','处理思路'),
+      h('p',summary),h('small','模型提供的简要说明；实际执行请看工具记录。')]):null
+  }
+  function activityBlock(record){
+    const {activity:a,active,running,hasActions,done,heading,mode}=activityView(record)
+    if(!mode)return null
+    const stop=()=>view.value?.runtime.send?.commandId?call('send.cancel',{commandId:view.value.runtime.send.commandId}):call('work.stop',{turnId:record.id})
+    const controls=[running?btn('停止',stop,{class:'text-button',disabled:!view.value?.runtime.send&&!active},[icon('stop',13),'停止']):null,
+      !running&&active&&['queued','model_failed'].includes(record.state)?btn('重新回应',()=>call('work.start',{turnId:record.id}),{class:'secondary small',disabled:working.value||busy.value}):null,
+      active&&a?.needsReconciliation?btn('核对实际状态',()=>call('work.reconcile',{turnId:record.id}),{class:'secondary small',disabled:working.value}):null]
+    if(!hasActions)return h('section',{class:['response-state',mode],'aria-label':'回复状态'},[
+      h('div',{class:'thinking-row',role:'status'},[icon('spark',17),h('span',heading),...controls]),
+      mode==='thinking'?h('p',{class:'thinking-note'},'回复准备好后会出现在这里。'):null])
+    const events=(a.events??[]).filter(e=>!e.historical)
+    const step=done?'结果来自真实计算，可以逐行查看来源。':a.taskId?'CSV 核对工具 · 以实际执行回执为准':'已收到工具建议，等待本地确认。'
+    return h('section',{class:['activity-card',done?'complete':''],'aria-label':'工具执行过程'},[
+      h('div',{class:'activity-heading'},[h('span',{class:'activity-symbol'},icon(done?'check':'spark',19)),h('div',[h('h3',heading),h('p',done?'结果来自真实计算，可以逐行查看来源。':step)])]),
+      events.length?h('ol',{class:'event-list'},events.map(e=>h('li',{key:e.seq},[h('span',{class:'event-dot'}),h('span',eventLabel[e.kind]??e.kind),h('time',e.occurredAt?formatTime(e.occurredAt):'')]))):null,
+      h('div',{class:'activity-actions'},[...controls,done?btn('查看成果与来源',()=>openResult(record.id),{class:'primary small',disabled:busy.value},['查看成果与来源',icon('arrow',16)]):null,
+        active&&a.taskStatus==='queued'&&!running?btn('继续本地任务',()=>call('work.local',{turnId:record.id}),{class:'secondary small'}):null]),
+    ])
+  }
+  function onKeys(event){
+    if(!panel.value)return
+    if(event.key==='Escape'){event.preventDefault();void closePanel();return}
+    if(event.key==='Tab'){
+      const elements=[...drawer.value.querySelectorAll('button:not(:disabled),input:not(:disabled),textarea:not(:disabled),select:not(:disabled),a[href]')]
+      const first=elements[0],last=elements.at(-1)
+      if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus()}
+      else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus()}
+    }
+  }
+  onMounted(()=>{client.start();document.addEventListener('keydown',onKeys)})
+  onUnmounted(()=>{client.dispose();document.removeEventListener('keydown',onKeys);clearTimeout(toastTimer)})
+  return ()=>h('div',{class:'app-shell'},[
+    h('div',{class:'workspace',inert:panel.value?'':undefined},[
+      h('header',{class:'topbar'},[btn('打开我的 AI',()=>openPanel('about'),{class:'brand'},[h('span',{class:'brand-mark'},icon('spark',23)),h('span',{class:'wordmark'},'morrow'),h('span',{class:'brand-divider'}),h('span',{class:'personal-name'},name.value)]),
+        h('nav',{'aria-label':'个人空间'},[btn('历史对话',()=>openPanel('history'),{class:'icon-button','aria-label':'历史对话',title:'历史对话'},icon('history')),btn('近况',()=>openPanel('inbox'),{class:'inbox-button'},[icon('bell',18),'近况',view.value?.home?.unreadCount?h('span',{class:'unread-dot','aria-label':`${view.value.home.unreadCount} 条未读`}):null]),btn('新的对话',newConversation,{class:'icon-button','aria-label':'新的对话',title:'新的对话',disabled:busy.value},icon('plus'))])]),
+      !connected.value?h('div',{class:'connection-banner',role:'status'},['本地连接已断开。已保存的内容不会丢失。',btn('重新连接',()=>client.call('snapshot'),{class:'text-button'})]):null,
+      h('main',{class:['main-space',chatRecords.value.length?'has-conversation':'']},[
+        chatRecords.value.length?h('section',{class:'conversation','aria-label':'对话'},[
+          h('div',{class:'conversation-label'},['一段属于你的对话',temporary.value?h('span','临时对话'):null]),
+          ...chatRecords.value.map(record=>h('article',{key:record.id,class:'exchange'},[h('div',{class:'user-message'},[h('span',{class:'speaker'},'你'),h('p',record.text)]),
+            summaryBlock(record),record.reply?h('div',{class:'ai-message'},[h('span',{class:'ai-symbol'},icon('spark',19)),h('div',[h('span',{class:'speaker'},name.value),h('p',record.reply),record.preview?btn('查看完整内容',()=>call('open',{panel:'conversation',turnId:record.id}),{class:'text-button'}):null])]):null,
+            activityBlock(record)])),h('div',{class:'conversation-end'})]):h('section',{class:'welcome'},[
+          botanical(),h('p',{class:'eyebrow'},'A LITTLE SPACE, JUST FOR YOU'),h('h1',['慢慢来，',h('br'),'我们一起。']),
+          h('p',{class:'welcome-note'},['聊聊今天，或把一件事交给我。',h('br'),'我会一点点，成为更懂你的 AI。']),
+          h('div',{class:'starter-links'},[btn('告诉你一件小事',()=>{draft.value='今天有件小事想和你说。';composer.value?.focus()},{class:'starter'},[icon('spark',15),'告诉你一件小事']),btn('帮我处理一份材料',()=>{draft.value='请帮我核对这份 CSV 的数量、单价和金额。';fileInput.value?.click()},{class:'starter'},[icon('paper',15),'帮我处理一份材料'])])]),
+        h('div',{class:'composer-area'},[
+          attachment.value?h('div',{class:'attachment-chip'},[icon('paper',16),h('span',attachment.value.name),btn('移除附件',()=>{fileGeneration++;attachment.value=null},{class:'icon-button tiny','aria-label':'移除附件'},icon('close',13))]):null,
+          h('div',{class:['composer',busy.value?'processing':'']},[h('textarea',{ref:composer,value:draft.value,onInput:e=>{draft.value=e.target.value},rows:2,placeholder:'有我在。想聊什么，或想一起做点什么？','aria-label':'给 AI 的消息',disabled:sending.value,
+            onKeydown:event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();void send()}}}),
+            h('div',{class:'composer-tools'},[h('div',{class:'composer-left'},[btn('添加 CSV 材料',()=>fileInput.value?.click(),{class:'icon-button','aria-label':'添加 CSV 材料',title:'添加 CSV 材料',disabled:busy.value},icon('attach',19)),
+              btn('临时对话',()=>{temporary.value=!temporary.value},{class:['temporary',temporary.value?'selected':''],'aria-pressed':temporary.value,title:'临时对话不读取或写入长期记忆',disabled:busy.value},[icon('moon',15),temporary.value?'临时对话已开':'临时对话'])]),
+              busy.value?btn('停止回复',stopCurrent,{class:'send-button stop-button','aria-label':'停止回复',disabled:!stopTarget()},icon('stop',17)):
+              btn('发送消息',send,{class:'send-button','aria-label':'发送消息',disabled:!draft.value.trim()||!connected.value||!state.value},icon('send',21))])]),
+          h('input',{ref:fileInput,type:'file',accept:'.csv,text/csv',class:'file-input',onChange:attach,'aria-label':'选择 CSV 文件'}),
+          h('div',{class:'composer-meta'},[btn(policy.value?.memory_enabled?'记忆已开启':'记忆已关闭',()=>openPanel('memory'),{class:'quiet-control'},[h('span',{class:['tiny-dot',policy.value?.memory_enabled?'on':'']}),policy.value?.memory_enabled?'记忆已开启':'记忆已关闭']),
+            btn(connection.value?.configured?'DeepSeek 已连接':'连接你的模型',()=>openPanel('connection'),{class:'quiet-control'},[connection.value?.configured?'DeepSeek · 已配置':'连接你的模型',icon('chevron',11)])]),
+          view.value?.conversation?.submitUnknown?btn('核对上一条输入是否已保存',()=>call('send.reconcile'),{class:'text-button error-text'}):null,
+        ]),
+      ]),
+      h('footer',{class:'page-footer'},[h('span','YOUR AI, A LITTLE MORE YOURS.'),h('span','这段共同经历，从现在开始。')]),
+    ]),
+    panel.value?h('div',{class:'panel-layer'},[h('div',{class:'scrim',onClick:closePanel}),h('aside',{ref:drawer,class:['drawer',panel.value==='result'?'wide':''],role:'dialog','aria-modal':'true','aria-labelledby':'panel-title'},[
+      h('header',{class:'drawer-header'},[h('div',[panel.value!=='about'?btn('返回我的 AI',()=>openPanel('about'),{class:'icon-button small-icon','aria-label':'返回我的 AI'},icon('back',17)):null,h('h2',{id:'panel-title'},titles[panel.value])]),btn('关闭面板',closePanel,{class:'icon-button','aria-label':'关闭面板'},icon('close'))]),
+      h('div',{class:'drawer-content'},content())])]):null,
+    toast.value?h('div',{class:['toast',toast.value.error?'error':''],role:toast.value.error?'alert':'status'},[icon(toast.value.error?'paper':'check',17),h('span',toast.value.text),btn('关闭提示',()=>{toast.value=null},{class:'icon-button tiny','aria-label':'关闭提示'},icon('close',14))]):null,
+  ])
+}}).mount('#app')
