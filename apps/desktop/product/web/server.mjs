@@ -1,4 +1,4 @@
-/** Local trial transport for the handwritten trusted UI, not a generated-code sandbox. */
+/** Trusted local UI transport; generated canvases have a separate, sandboxed response policy. */
 import http from 'node:http'
 import fs from 'node:fs/promises'
 import {randomBytes,timingSafeEqual} from 'node:crypto'
@@ -9,7 +9,7 @@ const deny=error=>({ok:false,error})
 const plain=value=>value!==null&&typeof value==='object'&&!Array.isArray(value)
 const exact=(value,keys)=>plain(value)&&Object.keys(value).every(k=>keys.includes(k))
 
-export async function createPersonalSpaceServer({runtime,connection=()=>({configured:false}),progress,vueFile,port=0}={}){
+export async function createPersonalSpaceServer({runtime,space,connection=()=>({configured:false}),progress,vueFile,port=0}={}){
   if(!runtime?.snapshot||!path.isAbsolute(vueFile))throw Error('trusted_server_configuration_required')
   const root=fileURLToPath(new URL('../../personal-space/',import.meta.url))
   const token=randomBytes(32).toString('base64url')
@@ -18,6 +18,7 @@ export async function createPersonalSpaceServer({runtime,connection=()=>({config
     ['/app.mjs',{file:path.join(root,'app.mjs'),type:'text/javascript; charset=utf-8'}],
     ['/client.mjs',{file:path.join(root,'client.mjs'),type:'text/javascript; charset=utf-8'}],
     ['/sse.mjs',{file:path.join(root,'sse.mjs'),type:'text/javascript; charset=utf-8'}],
+    ['/canvas.mjs',{file:path.join(root,'canvas.mjs'),type:'text/javascript; charset=utf-8'}],
     ['/activity.mjs',{file:path.join(root,'activity.mjs'),type:'text/javascript; charset=utf-8'}],
     ['/product/application/activity.mjs',{file:path.resolve(root,'../product/application/activity.mjs'),type:'text/javascript; charset=utf-8'}],
     ['/product/application/state.mjs',{file:path.resolve(root,'../product/application/state.mjs'),type:'text/javascript; charset=utf-8'}],
@@ -28,7 +29,8 @@ export async function createPersonalSpaceServer({runtime,connection=()=>({config
   const epoch=randomBytes(12).toString('hex'),peers=new Set(),blocked=new WeakSet()
   let updateTimer=null
   const snapshot=()=>({epoch,revision,view:runtime.snapshot(),connection:connection(),progress:progress?.snapshot()??null,
-    capabilities:{nativeIsolation:false,backgroundContact:false,generatedInterfaces:false}})
+    space:space?.snapshot()??null,
+    capabilities:{nativeIsolation:false,backgroundContact:false,generatedInterfaces:!!space,generatedScope:'home_canvas_no_private_data'}})
   function push(res){
     if(res.destroyed||blocked.has(res))return
     try{
@@ -44,6 +46,7 @@ export async function createPersonalSpaceServer({runtime,connection=()=>({config
     if(!updateTimer&&!closed)updateTimer=setTimeout(()=>{updateTimer=null;for(const res of peers)push(res)},35)
   }
   const unsubscribe=runtime.subscribe(changed),unsubscribeProgress=progress?.subscribe(changed)
+  const unsubscribeSpace=space?.subscribe(changed)
   const heartbeat=setInterval(()=>{for(const res of peers)push(res)},15000)
   heartbeat.unref()
   const selected=id=>typeof id==='string'&&runtime.snapshot().conversation?.turn?.id===id&&
@@ -87,7 +90,16 @@ export async function createPersonalSpaceServer({runtime,connection=()=>({config
       return chosen.ok?runtime.ui.reminders.cancel():chosen
     }]],
   ])
-  const concurrent=new Set(['snapshot','send','send.cancel','work.start','work.stop','work.reconcile','work.local'])
+  if(space)for(const [action,keys,fn] of [
+    ['space.generate',['prompt','expectedVersion','baseRevision'],args=>space.generate(args)],
+    ['space.cancel',['jobId'],args=>space.cancel(args)],
+    ['space.preview',['revision'],args=>space.preview(args)],
+    ['space.ready',['mountId','revision'],args=>space.ready(args)],
+    ['space.activate',['mountId','revision','expectedVersion'],args=>space.activate(args)],
+    ['space.rollback',['expectedVersion','original'],args=>space.rollback(args)],
+    ['space.source',['revision'],args=>space.source(args)],
+  ])commands.set(action,[keys,fn])
+  const concurrent=new Set(['snapshot','send','send.cancel','work.start','work.stop','work.reconcile','work.local','space.cancel','space.ready','space.preview','space.source'])
   const modelCommands=new Set(['send','work.start'])
   const publicProviderErrors=new Set(['request_in_progress','credential_rejected',
     'provider_insufficient_balance','provider_rate_limited','provider_http_error','provider_timeout',
@@ -95,6 +107,9 @@ export async function createPersonalSpaceServer({runtime,connection=()=>({config
   async function dispatch(action,args){
     const command=commands.get(action)
     if(!command||!exact(args,command[0]))return deny('invalid_request')
+    // Space generation reserves its flag synchronously before yielding; runtime.send does the
+    // same for executionBusy. Opposite starts therefore cannot pass each other in this process.
+    if(['send','work.start','work.local','work.reconcile','send.reconcile'].includes(action)&&space?.snapshot().busy)return deny('runner_busy')
     // Compound select+write operations cannot be rebound by another tab's navigation.
     const management=!concurrent.has(action)
     if(management&&managementBusy)return deny('management_busy')
@@ -108,11 +123,15 @@ export async function createPersonalSpaceServer({runtime,connection=()=>({config
         if(publicProviderErrors.has(detail))return {...result,error:detail}
       }
       return result
+    }catch(error){
+      if(action.startsWith('space.'))return deny(publicProviderErrors.has(error.code)||
+        /^(space_|revision_conflict$|runner_busy$|model_not_configured$|invalid_request$)/.test(error.code??'')?error.code:'space_operation_failed')
+      throw error
     }finally{if(management)managementBusy=false}
   }
   const headers={
     'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer',
-    'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+    'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self'; frame-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
     'Cross-Origin-Resource-Policy':'same-origin','X-Frame-Options':'DENY',
   }
   const server=http.createServer(async(req,res)=>{
@@ -120,6 +139,15 @@ export async function createPersonalSpaceServer({runtime,connection=()=>({config
     try{
       if(closed)return send(503,deny('closing'))
       if(req.headers.host!==new URL(origin).host||req.headers['sec-fetch-site']==='cross-site')return send(403,deny('origin_denied'))
+      if(req.method==='GET'&&/^\/space-frame\/[a-f0-9]{48}$/.test(req.url)&&space){
+        const document=space.document(req.url.slice('/space-frame/'.length))
+        if(!document)return send(404,deny('not_found'))
+        const frameHeaders={...headers,'Content-Type':'text/html; charset=utf-8',
+          'Content-Security-Policy':document.csp+`; frame-ancestors ${origin}`,
+          'Permissions-Policy':'camera=(), microphone=(), geolocation=(), payment=(), fullscreen=(), usb=(), clipboard-read=(), clipboard-write=()',
+          'X-Frame-Options':'SAMEORIGIN'}
+        res.writeHead(200,frameHeaders);res.end(document.html);return
+      }
       if(req.method==='GET'&&staticFiles.has(req.url)){
         if(req.headers.origin&&req.headers.origin!==origin)return send(403,deny('origin_denied'))
         const entry=staticFiles.get(req.url)
@@ -150,10 +178,10 @@ export async function createPersonalSpaceServer({runtime,connection=()=>({config
   await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(port,'127.0.0.1',resolve)})
   origin=`http://127.0.0.1:${server.address().port}`
   return {url:origin,snapshot,async close(){
-    if(closed)return;closed=true;unsubscribe();unsubscribeProgress?.();clearTimeout(updateTimer);clearInterval(heartbeat)
+    if(closed)return;closed=true;unsubscribe();unsubscribeProgress?.();unsubscribeSpace?.();clearTimeout(updateTimer);clearInterval(heartbeat)
     for(const res of peers)res.end();peers.clear();runtime.dispose()
     server.closeIdleConnections()
     const stopped=new Promise(resolve=>server.close(resolve))
-    await runtime.whenIdle();server.closeAllConnections();await stopped
+    await space?.close();await runtime.whenIdle();server.closeAllConnections();await stopped
   }}
 }

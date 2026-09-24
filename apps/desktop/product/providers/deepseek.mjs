@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import {randomUUID} from 'node:crypto'
 import {readChatStream,publicPrefix} from './streaming.mjs'
+import {SPACE_PROMPT,validateSpaceDecision} from '../space/package.mjs'
 
 export const ENDPOINT='https://api.deepseek.com/chat/completions'
 export const MODEL='deepseek-flash'
@@ -65,14 +66,14 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
   async function generate(kind,context,{signal}={}){
     if(busy)throw fail('provider_busy')
     if(signal?.aborted)throw fail('provider_aborted')
-    const messages=[{role:'system',content:kind==='turn'?TURN_PROMPT:CONTACT_PROMPT},
+    const messages=[{role:'system',content:kind==='turn'?TURN_PROMPT:kind==='space'?SPACE_PROMPT:CONTACT_PROMPT},
       {role:'user',content:JSON.stringify({current_time_utc:new Date().toISOString(),context})}]
     if(Buffer.byteLength(JSON.stringify(messages))>96*1024)throw fail('provider_input_too_large')
     busy=true;lastError=null
     let id,status=null
     const stream=streaming&&kind==='turn'
     const turnId=typeof context.turn_id==='string'?context.turn_id:null
-    const transportSignal=AbortSignal.any([...(signal?[signal]:[]),AbortSignal.timeout(timeoutMs)])
+    const transportSignal=AbortSignal.any([...(signal?[signal]:[]),AbortSignal.timeout(kind==='space'?Math.max(timeoutMs,90000):timeoutMs)])
     const emit=(state,preview={})=>{if(stream&&turnId)publish({turnId,runId:id,state,reply:'',summary:'',...preview})}
     try{
       id=journal.reserve(kind)
@@ -80,7 +81,7 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
       const response=await fetchImpl(ENDPOINT,{method:'POST',redirect:'error',
         headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},
         body:JSON.stringify({model:MODEL,messages,response_format:{type:'json_object'},
-          thinking:{type:'disabled'},max_tokens:2048,stream,...(stream?{stream_options:{include_usage:true}}:{})}),
+          thinking:{type:'disabled'},max_tokens:kind==='space'?8192:2048,stream,...(stream?{stream_options:{include_usage:true}}:{})}),
         signal:transportSignal})
       status=response.status
       if(!response.ok){await response.body?.cancel();throw fail(status===401?'credential_rejected':
@@ -104,9 +105,10 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
       const decision=JSON.parse(choice.message.content)
       publicPrefix(choice.message.content) // Reject duplicate top-level keys even in non-stream mode.
       if(JSON.stringify(decision).includes(apiKey))throw fail('credential_echo_detected')
-      const keys=kind==='turn'?['reply','actions','memories','followup','displayable_summary']:['disposition','text','due_at','reason']
+      const keys=kind==='turn'?['reply','actions','memories','followup','displayable_summary']:kind==='space'?['summary','files']:['disposition','text','due_at','reason']
       if(!decision||typeof decision!=='object'||Array.isArray(decision)||Object.keys(decision).some(k=>!keys.includes(k)))throw fail('provider_invalid_output')
       if(kind==='turn'&&typeof decision.reply!=='string')throw fail('provider_invalid_output')
+      if(kind==='space')validateSpaceDecision(decision)
       const summary=decision.displayable_summary
       if(summary!==undefined&&(typeof summary!=='string'||!summary.trim()||summary.length>800))throw fail('provider_invalid_output')
       delete decision.displayable_summary
@@ -115,11 +117,12 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
       lastUsage=Object.fromEntries(numbers.map(key=>[key,Number.isSafeInteger(raw.usage?.[key])&&raw.usage[key]>=0?raw.usage[key]:null]))
       journal.finish(id,{state:'received',http_status:status,usage:lastUsage})
       emit('received',{reply:decision.reply,summary:summary??''})
-      return {decision,...(summary===undefined?{}:{displayableSummary:summary})}
+      return kind==='space'?decision:{decision,...(summary===undefined?{}:{displayableSummary:summary})}
     }catch(error){
       const allowed=new Set(['request_budget_exhausted','request_in_progress','budget_locked','budget_invalid','ledger_locked','ledger_invalid','credential_rejected',
         'provider_insufficient_balance','provider_rate_limited','provider_http_error','provider_response_too_large',
-        'provider_invalid_output','credential_echo_detected'])
+        'provider_invalid_output','credential_echo_detected','space_empty_html','space_html_format','space_external_resource','space_js_syntax',
+        'invalid_file_set','file_too_large','source_too_large','embedded_closing_tag','invalid_source_type','invalid_unicode_scalar'])
       lastError=signal?.aborted?'provider_aborted':transportSignal.aborted||error?.name==='TimeoutError'?'provider_timeout':
         allowed.has(error?.code)?error.code:error instanceof SyntaxError||error?.message==='incomplete_event'?'provider_invalid_output':
         ['event_frame_too_large','event_stream_too_large'].includes(error?.message)?'provider_response_too_large':'provider_failed'
@@ -129,5 +132,6 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
     }finally{busy=false}
   }
   return {turn:{configured:true,respond:(context,options)=>generate('turn',context,options)},
-    contact:{configured:true,reassess:(context,options)=>generate('contact',context,options)},connection,progress}
+    contact:{configured:true,reassess:(context,options)=>generate('contact',context,options)},
+    space:{configured:true,generate:(context,options)=>generate('space',context,options)},connection,progress}
 }

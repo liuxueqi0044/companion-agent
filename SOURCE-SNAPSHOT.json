@@ -1,5 +1,5 @@
 {
-  "scope": "BATCH-015 base, reviewed CORE-006, and architect-implemented CORE-007 through CORE-009; source backup, not a finished desktop release",
+  "scope": "BATCH-015 base, reviewed CORE-006, architect-implemented CORE-007 through CORE-010; not a finished desktop release",
   "source_workspace": "companion-agent-core",
   "core_review": "reviews/CORE-006.md",
   "core_artifact_manifest": "reports/core-006-architect/final-artifacts.json",
@@ -73,8 +73,13 @@
     },
     {
       "path": "apps/desktop/personal-space/app.mjs",
-      "sha256": "a28ed4dd838695a119450c42a6e0545b3e5d11c3baa988927021a4055a9a6f69",
-      "bytes": 38185
+      "sha256": "7ce07b6a343015ec0876d3196515ebc1a4c90d1a8f2676c7576d7dd01bdbce9b",
+      "bytes": 47104
+    },
+    {
+      "path": "apps/desktop/personal-space/canvas.mjs",
+      "sha256": "7d898c275ba4a05b8b393a21d9b8e446d922bea8f5ba60281bce4c1fd611f747",
+      "bytes": 1840
     },
     {
       "path": "apps/desktop/personal-space/client.mjs",
@@ -93,8 +98,8 @@
     },
     {
       "path": "apps/desktop/personal-space/styles.css",
-      "sha256": "c448ad5473f9994795ff1e9529a1fcd1ccfac34db769edffd2dac6a7b9200ffe",
-      "bytes": 18330
+      "sha256": "d8d9acb2a7309e73c96d4c14ec7b22e69f17fe63cec0f98ea062d694d9fd4414",
+      "bytes": 21889
     },
     {
       "path": "apps/desktop/product/application/activity.mjs",
@@ -168,13 +173,13 @@
     },
     {
       "path": "apps/desktop/product/providers/deepseek.mjs",
-      "sha256": "15b67f486fb93100f96b12d50cb7092224aad4ea5946ea481f5409d6c1c9b8bf",
-      "bytes": 11413
+      "sha256": "0548d59ebdaa67336af06308c75269de88065d0a519cdfcd0155eb550f0908b7",
+      "bytes": 11997
     },
     {
       "path": "apps/desktop/product/providers/request-ledger.mjs",
-      "sha256": "3c4d7fb12a51d0af64cf61a6865dd31942ecfdd269588991e90e342fa8a003cc",
-      "bytes": 2870
+      "sha256": "cf4027db811f9ffdc9a06cfc68d51cae1857d37a40072711d8a50c5ed1ab521d",
+      "bytes": 2886
     },
     {
       "path": "apps/desktop/product/providers/streaming.mjs",
@@ -192,14 +197,24 @@
       "bytes": 10964
     },
     {
+      "path": "apps/desktop/product/space/package.mjs",
+      "sha256": "01bb5aca45f9b967ebcac9e9d635aef51a074fa71f27f1b757306119b030f515",
+      "bytes": 4641
+    },
+    {
+      "path": "apps/desktop/product/space/service.mjs",
+      "sha256": "429df9fa3d8936cb52b94a1f55c0a34e56938aa04aac8cbffdacedf25f3fd0a4",
+      "bytes": 10383
+    },
+    {
       "path": "apps/desktop/product/web/instance.mjs",
       "sha256": "313705ac5bbdc47623286954bea43a2598747bc1f8db1fccab4987f38657878e",
       "bytes": 789
     },
     {
       "path": "apps/desktop/product/web/server.mjs",
-      "sha256": "b331275c127a6c87f79a32fd92cfbdcdab04cb579af7e4ebe72fbd97c9d35963",
-      "bytes": 10411
+      "sha256": "5c7746d09542de6ddf8d22fa55aafa490e0e8f4b6174c1ecc886db12a6d3f08a",
+      "bytes": 12624
     },
     {
       "path": "apps/desktop/renderer/main.ts",
@@ -370,6 +385,11 @@
       "path": "docs/development/CORE-009.md",
       "sha256": "22e56f9050dd84c07d4896befb2a351f488151659d9eb1b325cf13c2ab624842",
       "bytes": 4776
+    },
+    {
+      "path": "docs/development/CORE-010.md",
+      "sha256": "e0e67a1bd1ae493f8ccf8cad57ab26de22cb2d5ec46dc8fce9026959fc0f78c2",
+      "bytes": 7623
     },
     {
       "path": "docs/development/core-plan.md",
@@ -1523,8 +1543,8 @@
     },
     {
       "path": "docs/handoff/CURRENT-TASK.md",
-      "sha256": "5095fb63566351da243577e256f1bffb7377a8a1cd19e69027bda3201bacdde3",
-      "bytes": 1846
+      "sha256": "cde035f218c1bb9ce706c4f721e7d41780a0fb780545462c634c2b898971c8bc",
+      "bytes": 1920
     },
     {
       "path": "docs/handoff/DECISIONS-BATCH-001.md",
@@ -2407,6 +2427,16 @@
       "bytes": 2138
     },
     {
+      "path": "reports/core-010/artifacts.json",
+      "sha256": "5566c08d410fdf3af09da0ba8c096c529b434a84c3229fac05400fea445b5d3f",
+      "bytes": 5443
+    },
+    {
+      "path": "reports/core-010/report.json",
+      "sha256": "d853655c15777d08e487834d4139b73bbb6f9ef77d32d1ec870337192daed22b",
+      "bytes": 2548
+    },
+    {
       "path": "requirements-dev.txt",
       "sha256": "0a45546fdf6f570812c0b0da33cdbabc7537ea35a0577899b8b23eaeafc23b8b",
       "bytes": 5397
@@ -3152,6 +3182,21 @@
       "bytes": 9488
     },
     {
+      "path": "tests/product/core010/browser-fixture.mjs",
+      "sha256": "db3cca659d47cc0dbfe4d923307717c290ff3fb1eb8a9d622bd75fddab77330b",
+      "bytes": 2780
+    },
+    {
+      "path": "tests/product/core010/space.test.mjs",
+      "sha256": "e2e5426f80c39d30d11c5175c2bfc7711eafc77cf30eb1d25da1d6f19b5246c2",
+      "bytes": 10879
+    },
+    {
+      "path": "tests/product/core010/transport.test.mjs",
+      "sha256": "6d9c4628411b1c7f388aaecb2af77de274460d3ae2609af0d26ac819a874e320",
+      "bytes": 5148
+    },
+    {
       "path": "tests/product/host.test.mjs",
       "sha256": "2a485069946cd3cdbb9892c784cb615bae40b1f55d436560ead94fb86da0c972",
       "bytes": 8179
@@ -3763,8 +3808,8 @@
     },
     {
       "path": "tools/personal_space.mjs",
-      "sha256": "2b94395f9b2b11e32b7cbc342cefea81c0c6a1867dda4b2b81ed8b3bea5a3959",
-      "bytes": 3286
+      "sha256": "f794e5f80d9e4728b9a97e0e11137323d7c6c1f1248908624e4dcaf1beb8268e",
+      "bytes": 3738
     },
     {
       "path": "tools/personal_workbench.py",
@@ -3842,6 +3887,6 @@
       "bytes": 301
     }
   ],
-  "latest_core_batch": "CORE-009",
-  "latest_batch_report": "reports/core-009/report.json"
+  "latest_core_batch": "CORE-010",
+  "latest_batch_report": "reports/core-010/report.json"
 }
