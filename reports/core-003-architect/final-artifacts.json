@@ -1,0 +1,109 @@
+{
+  "format": "architect-verified-artifacts/1",
+  "source_batch": "CORE-003",
+  "status": "verified_local_scope",
+  "artifacts": [
+    {
+      "path": "apps/desktop/product/application/activity.mjs",
+      "sha256": "e62e0ab5c4e9b877f75c84cb7c344652fe630b1e1595181c347360ca5c3b3a96",
+      "bytes": 4964,
+      "submitted_sha256": "aed07c32668c98c292422bf53acf2d58f8ed3e3ba047dc731882cf31b652b8ed"
+    },
+    {
+      "path": "apps/desktop/product/application/inbox.mjs",
+      "sha256": "89638f45af6bf660890eea7c3f13d043e156baf7b91fcc9ee1b767bfe8263665",
+      "bytes": 7546,
+      "submitted_sha256": "7be619284d1ff9499451590bcdc3d5a76ebb4140a91d51635c614f87d528df3b"
+    },
+    {
+      "path": "apps/desktop/product/application/index.mjs",
+      "sha256": "916ecde85b707741c77410bee36b86378f6eae1535ed5844fa9c2b11eef9b865",
+      "bytes": 10917,
+      "submitted_sha256": "c843bdf5e4a4125f98311864fab834908fe5a03ca477afbe1f0c7848ee016654"
+    },
+    {
+      "path": "apps/desktop/product/application/memory.mjs",
+      "sha256": "901d3a32c3d3427c5880d52374bac537f50cee9b5f64d5dd2dd8afe1ee772871",
+      "bytes": 9755,
+      "submitted_sha256": "5ec0a095944db5d277af03b4710ee217c6e0788f295290f4cfd5049d988f4fd7"
+    },
+    {
+      "path": "apps/desktop/product/application/policy.mjs",
+      "sha256": "6efccd5f3e29d3109f3f7973bcd1d3d1e191f09b82111120bdeddb16b47fae38",
+      "bytes": 6493,
+      "submitted_sha256": "1ec9b2463901a35f9a86c85417c189508e01a443522ff36a73c3599a18ab0949"
+    },
+    {
+      "path": "apps/desktop/product/application/reminders.mjs",
+      "sha256": "b7da296f8d5775e790c86e37f275a8579c50d740e76bed8b7b14543607f44ccc",
+      "bytes": 9354,
+      "submitted_sha256": "3c26cac9952acf655e22f0a32520a349c227570c5132eef8f4fdb5aaba5abbbd"
+    },
+    {
+      "path": "apps/desktop/product/application/results.mjs",
+      "sha256": "63756f8ea89f6d03667034421ad65305c20fe38f65b41650dabd0cbd45fbceb2",
+      "bytes": 6375,
+      "submitted_sha256": "ab67f630ae27c8da87d94019f704a073d5d851a0b1e2f96d824655de7179be37"
+    },
+    {
+      "path": "apps/desktop/product/application/state.mjs",
+      "sha256": "b4cfcd828b4e83ec39f3fe7202897d7a0ff3cfb15fddc9385020d09522888254",
+      "bytes": 3801,
+      "submitted_sha256": "776506d9e83dca0cc9d9d590215b85bba579100b65513fa7e8343a73c9b8ea3a"
+    },
+    {
+      "path": "docs/development/CORE-003.md",
+      "sha256": "4eab0b9b222c44b7d20de836538a7db89636bc353de18c1155d7196ad4fab44f",
+      "bytes": 6799,
+      "submitted_sha256": "4eab0b9b222c44b7d20de836538a7db89636bc353de18c1155d7196ad4fab44f"
+    },
+    {
+      "path": "docs/development/frontend-handoff.md",
+      "sha256": "4a2c8ec15fa87f746ec20481a5a427b1b96f18dd94c6f79d017f4fb85afa4f96",
+      "bytes": 13453,
+      "submitted_sha256": "e672265820e632b20fbee5c11e45c05c198c573ca4fae71cba1c69270065094d"
+    },
+    {
+      "path": "tests/product/core003/activity-results.test.mjs",
+      "sha256": "655d4dcac7a1218d53315fe2af79f63c7c3c7afd833719fc35fb27a593a251d4",
+      "bytes": 8064,
+      "submitted_sha256": "655d4dcac7a1218d53315fe2af79f63c7c3c7afd833719fc35fb27a593a251d4"
+    },
+    {
+      "path": "tests/product/core003/application.test.mjs",
+      "sha256": "b093896c5bcb6b101cc56f491884d683c70f314f7520ffaca4673564d00cc43b",
+      "bytes": 3034,
+      "submitted_sha256": "b093896c5bcb6b101cc56f491884d683c70f314f7520ffaca4673564d00cc43b"
+    },
+    {
+      "path": "tests/product/core003/inbox-reminders.test.mjs",
+      "sha256": "1b1398b013c22c93b23d5f19cab2853493fe3719f63a8827b37028749f129017",
+      "bytes": 7989,
+      "submitted_sha256": "1b1398b013c22c93b23d5f19cab2853493fe3719f63a8827b37028749f129017"
+    },
+    {
+      "path": "tests/product/core003/memory.test.mjs",
+      "sha256": "261f987c02cf126a374db5ef0bc8a9cf13c59d128b738d9ca1df397b4a5d9447",
+      "bytes": 7437,
+      "submitted_sha256": "261f987c02cf126a374db5ef0bc8a9cf13c59d128b738d9ca1df397b4a5d9447"
+    },
+    {
+      "path": "tests/product/core003/policy.test.mjs",
+      "sha256": "183d2401748fd7bc32e41a3b351dfe5f0f0742e33d8003cb3a122310c375bc4c",
+      "bytes": 6673,
+      "submitted_sha256": "183d2401748fd7bc32e41a3b351dfe5f0f0742e33d8003cb3a122310c375bc4c"
+    },
+    {
+      "path": "tools/product_core003_demo.mjs",
+      "sha256": "19bdbd9287ad0ae317cbc3377b1b40e70b846b5d453b0190ab2006d215d0f248",
+      "bytes": 6376,
+      "submitted_sha256": "19bdbd9287ad0ae317cbc3377b1b40e70b846b5d453b0190ab2006d215d0f248"
+    },
+    {
+      "path": "tests/product/core003/architect-regressions.test.mjs",
+      "sha256": "a983d15edb498aacc8191fe4007d8f0621c6a35f722e3b47fd9e1e5960b3f3c2",
+      "bytes": 13365,
+      "submitted_sha256": null
+    }
+  ]
+}

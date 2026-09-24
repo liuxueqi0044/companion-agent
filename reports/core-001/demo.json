@@ -1,0 +1,18 @@
+{
+  "mode": "offline_scripted_model_real_local_services",
+  "model_http_requests": 0,
+  "data_root": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent-core\\.test-data\\demo-cxx6pkkd",
+  "identity_preserved": true,
+  "task_status": "completed",
+  "actual_csv_total": "6",
+  "memory_count": 1,
+  "chat_has_schedule_fields": false,
+  "followup_result": {
+    "state": "sent",
+    "message_id": "3c467c85-e9bb-4061-abb5-f80f686315b3"
+  },
+  "inbox_kinds": [
+    "task",
+    "proactive"
+  ]
+}

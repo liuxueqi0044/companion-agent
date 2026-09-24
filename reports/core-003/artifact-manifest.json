@@ -1,0 +1,86 @@
+{
+  "format": "artifact-manifest/1",
+  "batch": "CORE-003",
+  "artifacts": [
+    {
+      "path": "apps/desktop/product/application/activity.mjs",
+      "bytes": 4683,
+      "sha256": "aed07c32668c98c292422bf53acf2d58f8ed3e3ba047dc731882cf31b652b8ed"
+    },
+    {
+      "path": "apps/desktop/product/application/inbox.mjs",
+      "bytes": 7248,
+      "sha256": "7be619284d1ff9499451590bcdc3d5a76ebb4140a91d51635c614f87d528df3b"
+    },
+    {
+      "path": "apps/desktop/product/application/index.mjs",
+      "bytes": 8766,
+      "sha256": "c843bdf5e4a4125f98311864fab834908fe5a03ca477afbe1f0c7848ee016654"
+    },
+    {
+      "path": "apps/desktop/product/application/memory.mjs",
+      "bytes": 9517,
+      "sha256": "5ec0a095944db5d277af03b4710ee217c6e0788f295290f4cfd5049d988f4fd7"
+    },
+    {
+      "path": "apps/desktop/product/application/policy.mjs",
+      "bytes": 6470,
+      "sha256": "1ec9b2463901a35f9a86c85417c189508e01a443522ff36a73c3599a18ab0949"
+    },
+    {
+      "path": "apps/desktop/product/application/reminders.mjs",
+      "bytes": 8751,
+      "sha256": "3c26cac9952acf655e22f0a32520a349c227570c5132eef8f4fdb5aaba5abbbd"
+    },
+    {
+      "path": "apps/desktop/product/application/results.mjs",
+      "bytes": 6164,
+      "sha256": "ab67f630ae27c8da87d94019f704a073d5d851a0b1e2f96d824655de7179be37"
+    },
+    {
+      "path": "apps/desktop/product/application/state.mjs",
+      "bytes": 3313,
+      "sha256": "776506d9e83dca0cc9d9d590215b85bba579100b65513fa7e8343a73c9b8ea3a"
+    },
+    {
+      "path": "docs/development/CORE-003.md",
+      "bytes": 6799,
+      "sha256": "4eab0b9b222c44b7d20de836538a7db89636bc353de18c1155d7196ad4fab44f"
+    },
+    {
+      "path": "docs/development/frontend-handoff.md",
+      "bytes": 11715,
+      "sha256": "e672265820e632b20fbee5c11e45c05c198c573ca4fae71cba1c69270065094d"
+    },
+    {
+      "path": "tests/product/core003/activity-results.test.mjs",
+      "bytes": 8064,
+      "sha256": "655d4dcac7a1218d53315fe2af79f63c7c3c7afd833719fc35fb27a593a251d4"
+    },
+    {
+      "path": "tests/product/core003/application.test.mjs",
+      "bytes": 3034,
+      "sha256": "b093896c5bcb6b101cc56f491884d683c70f314f7520ffaca4673564d00cc43b"
+    },
+    {
+      "path": "tests/product/core003/inbox-reminders.test.mjs",
+      "bytes": 7989,
+      "sha256": "1b1398b013c22c93b23d5f19cab2853493fe3719f63a8827b37028749f129017"
+    },
+    {
+      "path": "tests/product/core003/memory.test.mjs",
+      "bytes": 7437,
+      "sha256": "261f987c02cf126a374db5ef0bc8a9cf13c59d128b738d9ca1df397b4a5d9447"
+    },
+    {
+      "path": "tests/product/core003/policy.test.mjs",
+      "bytes": 6673,
+      "sha256": "183d2401748fd7bc32e41a3b351dfe5f0f0742e33d8003cb3a122310c375bc4c"
+    },
+    {
+      "path": "tools/product_core003_demo.mjs",
+      "bytes": 6376,
+      "sha256": "19bdbd9287ad0ae317cbc3377b1b40e70b846b5d453b0190ab2006d215d0f248"
+    }
+  ]
+}

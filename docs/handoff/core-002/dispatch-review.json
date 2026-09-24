@@ -1,0 +1,24 @@
+{
+  "kind": "architect_dispatch_probe",
+  "date": "2026-09-24",
+  "model_kind": "synthetic_decisions_only",
+  "http_requests": 0,
+  "model_requests": 0,
+  "credential_reads": 0,
+  "core001_manifest": "reports/core-001/artifact-manifest.json",
+  "artifacts_checked": 36,
+  "hash_mismatches": [],
+  "probe_root": ".test-data/dispatch-probe-2q4ga5a5",
+  "steps": [
+    "Fresh ProductKernel root and bootstrap; fixed 2026-09-24T10:00:00Z clock.",
+    "Enable proactive contact by explicit policy change.",
+    "Submit turn A, begin and accept synthetic reply plus a followup due in one minute and expiring in two hours.",
+    "Submit turn B in the same conversation and begin its generation.",
+    "Advance clock by two minutes; claim the due followup while turn B has no accepted reply.",
+    "Accept B's synthetic reply and a preferences memory. Do not create another turn or edit policy.",
+    "Complete the previously claimed followup with synthetic disposition=send."
+  ],
+  "observed": {"state": "sent", "inbox_count": 1},
+  "required": "Discard the stale generation before inbox delivery because model-visible history and memory changed.",
+  "limits": "Local correctness probe, not an independent acceptance review or a real model judgment. Do not read/reuse the probe database; reproduce from this sequence in a fresh test root."
+}

@@ -1,0 +1,21 @@
+{
+  "batch": "CORE-006",
+  "workspace": "C:/Users/xiayu/Documents/Codex/companion-agent-core",
+  "writable_existing_and_new_prefixes": [],
+  "writable_existing_and_new_files": [
+    "apps/desktop/product/application/index.mjs", "docs/development/frontend-handoff.md",
+    "docs/development/CORE-006.md", "tools/product_core006_demo.mjs"
+  ],
+  "new_only_prefixes": ["apps/desktop/product/runtime/", "tests/product/core006/", "reports/core-006/"],
+  "new_runtime_directory_patterns": ["core-006-*", "core-005-*", "core-004-*", "core-003-*", "core-002-host-*", "core-002-demo-*", "host-*", "demo-*"],
+  "runtime_parent": ".test-data",
+  "deleted_files_allowed": false,
+  "ignored_directory_names": [".git", "__pycache__", ".pytest_cache", "node_modules", ".venv"],
+  "baseline_self_exclusions": ["docs/handoff/core-006/baseline.json", "docs/handoff/core-006/baseline.sha256"],
+  "notes": [
+    "Use architect-patched CORE-005. All existing tests, execution code, session, Python and schemas remain frozen.",
+    "application/index.mjs may only expose the existing read-only refreshHome entrypoint; no controller or business rewrite.",
+    "No visual UI, native IPC, background scheduler, model/HTTP/credentials, installation, agents, generated code or Git.",
+    "Original workspace and all historical data/reports/reviews/dispatches/baselines remain unchanged. Cache exclusions do not authorize hidden changes."
+  ]
+}

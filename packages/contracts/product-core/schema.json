@@ -1,0 +1,757 @@
+{
+  "$defs": {
+    "ContactCompleteRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "$ref": "#/$defs/FollowUpDecision"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "ticket": {
+          "title": "Ticket",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "ticket",
+        "decision"
+      ],
+      "title": "ContactCompleteRequest",
+      "type": "object"
+    },
+    "ContactFailGenerationRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "reason": {
+          "enum": [
+            "provider_failed",
+            "provider_timeout",
+            "provider_invalid_output",
+            "provider_aborted"
+          ],
+          "title": "Reason",
+          "type": "string"
+        },
+        "ticket": {
+          "title": "Ticket",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "ticket",
+        "reason"
+      ],
+      "title": "ContactFailGenerationRequest",
+      "type": "object"
+    },
+    "ContactIdRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "ContactIdRequest",
+      "type": "object"
+    },
+    "ConversationListRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "before": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Before"
+        },
+        "limit": {
+          "default": 20,
+          "maximum": 50,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        },
+        "snapshot": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snapshot"
+        }
+      },
+      "title": "ConversationListRequest",
+      "type": "object"
+    },
+    "ConversationTurnsRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "before": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Before"
+        },
+        "conversation_id": {
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "limit": {
+          "default": 10,
+          "maximum": 20,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        },
+        "snapshot": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snapshot"
+        }
+      },
+      "required": [
+        "conversation_id"
+      ],
+      "title": "ConversationTurnsRequest",
+      "type": "object"
+    },
+    "CsvAction": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "csv.audit",
+          "title": "Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "CsvAction",
+      "type": "object"
+    },
+    "FailGenerationRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "enum": [
+            "provider_failed",
+            "provider_timeout",
+            "provider_invalid_output",
+            "provider_aborted"
+          ],
+          "title": "Reason",
+          "type": "string"
+        },
+        "ticket": {
+          "title": "Ticket",
+          "type": "string"
+        },
+        "turn_id": {
+          "title": "Turn Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "turn_id",
+        "ticket",
+        "reason"
+      ],
+      "title": "FailGenerationRequest",
+      "type": "object"
+    },
+    "FollowUpDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "disposition": {
+          "enum": [
+            "send",
+            "cancel",
+            "defer"
+          ],
+          "title": "Disposition",
+          "type": "string"
+        },
+        "due_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Due At"
+        },
+        "reason": {
+          "enum": [
+            "still_relevant",
+            "resolved",
+            "recent_contact",
+            "not_useful",
+            "later"
+          ],
+          "title": "Reason",
+          "type": "string"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        }
+      },
+      "required": [
+        "disposition",
+        "reason"
+      ],
+      "title": "FollowUpDecision",
+      "type": "object"
+    },
+    "FollowUpSuggestion": {
+      "additionalProperties": false,
+      "properties": {
+        "due_at": {
+          "format": "date-time",
+          "title": "Due At",
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "title": "Expires At",
+          "type": "string"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        },
+        "topic": {
+          "enum": [
+            "work",
+            "daily",
+            "wellbeing"
+          ],
+          "title": "Topic",
+          "type": "string"
+        }
+      },
+      "required": [
+        "topic",
+        "purpose",
+        "due_at",
+        "expires_at"
+      ],
+      "title": "FollowUpSuggestion",
+      "type": "object"
+    },
+    "MemorySuggestion": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "enum": [
+            "work",
+            "preferences",
+            "goals"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "content": {
+          "title": "Content",
+          "type": "string"
+        }
+      },
+      "required": [
+        "category",
+        "content"
+      ],
+      "title": "MemorySuggestion",
+      "type": "object"
+    },
+    "ModelDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "actions": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "csv.audit": "#/$defs/CsvAction",
+                "profile.change": "#/$defs/ProfileAction"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/CsvAction"
+              },
+              {
+                "$ref": "#/$defs/ProfileAction"
+              }
+            ]
+          },
+          "maxItems": 2,
+          "title": "Actions",
+          "type": "array"
+        },
+        "followup": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FollowUpSuggestion"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "memories": {
+          "items": {
+            "$ref": "#/$defs/MemorySuggestion"
+          },
+          "maxItems": 5,
+          "title": "Memories",
+          "type": "array"
+        },
+        "reply": {
+          "title": "Reply",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reply"
+      ],
+      "title": "ModelDecision",
+      "type": "object"
+    },
+    "Policy": {
+      "additionalProperties": false,
+      "properties": {
+        "daily_evaluation_limit": {
+          "default": 3,
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Daily Evaluation Limit",
+          "type": "integer"
+        },
+        "daily_limit": {
+          "default": 1,
+          "maximum": 20,
+          "minimum": 1,
+          "title": "Daily Limit",
+          "type": "integer"
+        },
+        "end_minute": {
+          "default": 1260,
+          "exclusiveMaximum": 1440,
+          "minimum": 0,
+          "title": "End Minute",
+          "type": "integer"
+        },
+        "memory_categories": {
+          "items": {
+            "enum": [
+              "work",
+              "preferences",
+              "goals"
+            ],
+            "type": "string"
+          },
+          "title": "Memory Categories",
+          "type": "array"
+        },
+        "memory_enabled": {
+          "default": true,
+          "title": "Memory Enabled",
+          "type": "boolean"
+        },
+        "paused_until": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Paused Until"
+        },
+        "proactive_enabled": {
+          "default": false,
+          "title": "Proactive Enabled",
+          "type": "boolean"
+        },
+        "revision": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "start_minute": {
+          "default": 540,
+          "exclusiveMaximum": 1440,
+          "minimum": 0,
+          "title": "Start Minute",
+          "type": "integer"
+        },
+        "timezone": {
+          "default": "UTC",
+          "title": "Timezone",
+          "type": "string"
+        },
+        "topics": {
+          "items": {
+            "enum": [
+              "work",
+              "daily",
+              "wellbeing"
+            ],
+            "type": "string"
+          },
+          "title": "Topics",
+          "type": "array"
+        }
+      },
+      "title": "Policy",
+      "type": "object"
+    },
+    "PreferenceChanges": {
+      "additionalProperties": false,
+      "properties": {
+        "address_user_as": {
+          "title": "Address User As",
+          "type": "string"
+        },
+        "ai_name": {
+          "title": "Ai Name",
+          "type": "string"
+        },
+        "communication_instructions": {
+          "title": "Communication Instructions",
+          "type": "string"
+        }
+      },
+      "title": "PreferenceChanges",
+      "type": "object"
+    },
+    "ProfileAction": {
+      "additionalProperties": false,
+      "properties": {
+        "changes": {
+          "$ref": "#/$defs/PreferenceChanges"
+        },
+        "kind": {
+          "const": "profile.change",
+          "title": "Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "changes"
+      ],
+      "title": "ProfileAction",
+      "type": "object"
+    },
+    "ReminderCreateRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "command_id": {
+          "title": "Command Id",
+          "type": "string"
+        },
+        "due_at": {
+          "format": "date-time",
+          "title": "Due At",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "command_id",
+        "text",
+        "due_at"
+      ],
+      "title": "ReminderCreateRequest",
+      "type": "object"
+    },
+    "ReminderIdRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "ReminderIdRequest",
+      "type": "object"
+    },
+    "ReminderListRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "before": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Before"
+        },
+        "limit": {
+          "default": 20,
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        }
+      },
+      "title": "ReminderListRequest",
+      "type": "object"
+    },
+    "ReminderReviseRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "command_id": {
+          "title": "Command Id",
+          "type": "string"
+        },
+        "due_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Due At"
+        },
+        "expected_revision": {
+          "exclusiveMinimum": 0,
+          "title": "Expected Revision",
+          "type": "integer"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "update",
+            "cancel"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        }
+      },
+      "required": [
+        "command_id",
+        "id",
+        "expected_revision",
+        "operation"
+      ],
+      "title": "ReminderReviseRequest",
+      "type": "object"
+    },
+    "StopTurnRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "command_id": {
+          "title": "Command Id",
+          "type": "string"
+        },
+        "turn_id": {
+          "title": "Turn Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "turn_id",
+        "command_id"
+      ],
+      "title": "StopTurnRequest",
+      "type": "object"
+    },
+    "UserTurn": {
+      "additionalProperties": false,
+      "properties": {
+        "command_id": {
+          "title": "Command Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "csv_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Csv Text"
+        },
+        "temporary": {
+          "default": false,
+          "title": "Temporary",
+          "type": "boolean"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "command_id",
+        "conversation_id",
+        "text"
+      ],
+      "title": "UserTurn",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "contact_complete": {
+      "$ref": "#/$defs/ContactCompleteRequest"
+    },
+    "contact_fail_generation": {
+      "$ref": "#/$defs/ContactFailGenerationRequest"
+    },
+    "contact_id": {
+      "$ref": "#/$defs/ContactIdRequest"
+    },
+    "conversation_list": {
+      "$ref": "#/$defs/ConversationListRequest"
+    },
+    "conversation_turns": {
+      "$ref": "#/$defs/ConversationTurnsRequest"
+    },
+    "followup_decision": {
+      "$ref": "#/$defs/FollowUpDecision"
+    },
+    "model_decision": {
+      "$ref": "#/$defs/ModelDecision"
+    },
+    "policy": {
+      "$ref": "#/$defs/Policy"
+    },
+    "reminder_create": {
+      "$ref": "#/$defs/ReminderCreateRequest"
+    },
+    "reminder_id": {
+      "$ref": "#/$defs/ReminderIdRequest"
+    },
+    "reminder_list": {
+      "$ref": "#/$defs/ReminderListRequest"
+    },
+    "reminder_revise": {
+      "$ref": "#/$defs/ReminderReviseRequest"
+    },
+    "turn_fail_generation": {
+      "$ref": "#/$defs/FailGenerationRequest"
+    },
+    "turn_stop": {
+      "$ref": "#/$defs/StopTurnRequest"
+    },
+    "user_turn": {
+      "$ref": "#/$defs/UserTurn"
+    }
+  },
+  "required": [
+    "policy",
+    "user_turn",
+    "model_decision",
+    "followup_decision",
+    "conversation_list",
+    "conversation_turns",
+    "reminder_create",
+    "reminder_id",
+    "reminder_list",
+    "reminder_revise",
+    "turn_stop",
+    "turn_fail_generation",
+    "contact_id",
+    "contact_complete",
+    "contact_fail_generation"
+  ],
+  "title": "Contracts",
+  "type": "object"
+}

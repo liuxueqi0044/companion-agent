@@ -1,0 +1,21 @@
+{
+  "batch": "CORE-002",
+  "role": "independent_reviewer",
+  "status": "changes_requested",
+  "reviewed_manifest_sha256": "b184049c088f9d7edac978520fb85646f1f2cd5c4b5a1131ca5cd8307be75589",
+  "implementation_report_unchanged": true,
+  "regression_rerun": {"python_passed": 83, "node_passed": 11},
+  "integrity": {"artifacts": 21, "mismatches": 0, "schema": "PASS", "scope_before_review_files": "PASS"},
+  "integration_demo": {"task_status": "completed", "csv_total": "6", "identity_stable": true, "reopened_turn": true},
+  "findings": [
+    {"id": "CR2-F03", "priority": 1, "path": "services/product/kernel.py", "line": 83, "title": "Superseded turn generation can be retried against a newer cursor without seeing the newer input", "evidence": "reviews/evidence/CORE-002/kernel-probes.json"},
+    {"id": "CR2-F02", "priority": 1, "path": "apps/desktop/product/session.mjs", "line": 122, "title": "Late overlapping retry clears a newer pending submission", "evidence": "reviews/evidence/CORE-002/session-probes.json"},
+    {"id": "CR2-F01", "priority": 2, "path": "apps/desktop/product/session.mjs", "line": 91, "title": "Out-of-order refreshes overwrite the current turn state", "evidence": "reviews/evidence/CORE-002/session-probes.json"},
+    {"id": "CR2-F04", "priority": 2, "path": "services/product/store.py", "line": 66, "title": "Migration accepts unexpected triggers and can change preserved data", "evidence": "reviews/evidence/CORE-002/kernel-probes.json"}
+  ],
+  "model_requests": 0,
+  "http_requests": 0,
+  "credential_reads": 0,
+  "not_run": ["real_model_semantics", "native_isolation", "system_notification", "persistent_scheduler", "product_visual_ui"],
+  "next_dispatch": "docs/handoff/CORE-002-R1.md"
+}

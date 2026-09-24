@@ -1,0 +1,28 @@
+{
+  "batch": "CORE-003",
+  "workspace": "C:/Users/xiayu/Documents/Codex/companion-agent-core",
+  "writable_existing_and_new_prefixes": [],
+  "writable_existing_and_new_files": [
+    "docs/development/frontend-handoff.md",
+    "docs/development/CORE-003.md",
+    "tools/product_core003_demo.mjs"
+  ],
+  "new_only_prefixes": [
+    "apps/desktop/product/application/",
+    "tests/product/core003/",
+    "reports/core-003/"
+  ],
+  "new_runtime_directory_patterns": ["core-003-*", "core-002-host-*", "core-002-demo-*", "host-*", "demo-*"],
+  "runtime_parent": ".test-data",
+  "deleted_files_allowed": false,
+  "ignored_directory_names": [".git", "__pycache__", ".pytest_cache", "node_modules", ".venv"],
+  "baseline_self_exclusions": ["docs/handoff/core-003/baseline.json", "docs/handoff/core-003/baseline.sha256"],
+  "notes": [
+    "The architect-patched CORE-002-R1 code is the baseline. Do not restore the old submitted versions.",
+    "Only new headless Node application modules, dedicated tests/demo/reports and the frontend handoff are writable.",
+    "All Python production, existing host/session/tests, schemas, dependencies, reviews, prior reports and historical data are frozen.",
+    "No visual UI, model/HTTP/credentials, agents, dependency installation, generated code, Git or original workspace writes.",
+    "New-only prefixes allow editing files added during this batch; no baseline file may be deleted.",
+    "Ignored caches do not authorize dependency installation, artifacts or hidden state there."
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "batch": "CORE-004",
+  "workspace": "C:/Users/xiayu/Documents/Codex/companion-agent-core",
+  "writable_existing_and_new_prefixes": [],
+  "writable_existing_and_new_files": [
+    "services/product/kernel.py", "services/product/entry.py", "services/product/models.py",
+    "services/product/schema.py", "packages/contracts/product-core/schema.json",
+    "packages/contracts/product-core/README.md", "apps/desktop/product/host.mjs",
+    "apps/desktop/product/application/index.mjs", "docs/development/frontend-handoff.md",
+    "docs/development/CORE-004.md", "tools/product_core004_demo.mjs"
+  ],
+  "new_only_prefixes": ["apps/desktop/product/execution/", "tests/product/core004/", "reports/core-004/"],
+  "new_runtime_directory_patterns": ["core-004-*", "core-003-*", "core-002-host-*", "core-002-demo-*", "host-*", "demo-*"],
+  "runtime_parent": ".test-data",
+  "deleted_files_allowed": false,
+  "ignored_directory_names": [".git", "__pycache__", ".pytest_cache", "node_modules", ".venv"],
+  "baseline_self_exclusions": ["docs/handoff/core-004/baseline.json", "docs/handoff/core-004/baseline.sha256"],
+  "notes": [
+    "Start from architect-patched CORE-003. Existing tests and application controllers except index are frozen.",
+    "Kernel/entry/models/schema/host edits only for ticket-bound failure and wiring; no DB migration or broad refactor.",
+    "No model/HTTP/credentials, visual UI, background scheduler, generated code, installation, agents, Git or original workspace mutation.",
+    "Historical data, reports, reviews, dispatches and baselines remain byte-for-byte frozen.",
+    "Cache exclusions never authorize dependency installation or hiding artifacts."
+  ]
+}

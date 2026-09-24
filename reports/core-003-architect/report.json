@@ -1,0 +1,50 @@
+{
+  "batch": "CORE-003-architect",
+  "status": "accepted_with_architect_fixes",
+  "scope": "local_headless_application_only",
+  "review": "reviews/CORE-003.md",
+  "submitted_report_preserved": "reports/core-003/report.json",
+  "artifact_manifest": "reports/core-003-architect/final-artifacts.json",
+  "artifact_manifest_sha256": "3585b55f20423e326a7507dfae59f36cc5fff8d9119d86c1b68ec8ec2c24975c",
+  "artifacts": 17,
+  "validation": {
+    "submitted_python": 99,
+    "submitted_node": 43,
+    "final_node": 65,
+    "architect_new_node": 22,
+    "schema": "PASS",
+    "real_demo_old": "PASS",
+    "real_demo_new": "PASS"
+  },
+  "acceptance": {
+    "A01": "passed_with_architect_fixes_local_scope",
+    "A02": "passed_with_architect_fixes_local_scope",
+    "A03": "passed_with_architect_fixes_local_scope",
+    "B01": "passed_with_architect_fixes_local_scope",
+    "B02": "passed_with_architect_fixes_local_scope",
+    "B03": "passed_with_architect_fixes_local_scope",
+    "C01": "passed_with_architect_fixes_local_scope",
+    "C02": "passed_with_architect_fixes_local_scope",
+    "C03": "passed_with_architect_fixes_local_scope",
+    "D01": "passed_with_architect_fixes_local_scope",
+    "D02": "passed_with_architect_fixes_local_scope",
+    "D03": "passed_with_architect_fixes_local_scope",
+    "E01": "passed_with_architect_fixes_local_scope",
+    "E02": "passed_with_architect_fixes_local_scope",
+    "E03": "passed_with_architect_fixes_local_scope"
+  },
+  "review_scope_evidence": "reviews/evidence/CORE-003/architect-scope-final.json",
+  "patch_review_boundary": "Submitted code independently reviewed; architect-written patches self-tested, not represented as a second independent author review.",
+  "model_http_requests": 0,
+  "credential_reads": 0,
+  "original_project_accepted_count_unchanged": true,
+  "not_run": [
+    "real_model_semantics",
+    "natural_language_understanding",
+    "native_isolation",
+    "system_notifications",
+    "background_after_app_close",
+    "product_visual_ui",
+    "screenshot_review"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "../../../reports/evidence/BATCH-016/build"
+  },
+  "include": ["./protocol.ts", "./host/**/*.ts", "./client/**/*.ts", "./demo.ts"]
+}

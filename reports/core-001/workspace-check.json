@@ -1,0 +1,8 @@
+{
+  "original_source_snapshot_files": 142,
+  "original_source_drift": [],
+  "unexpected_copied_source_changes": [],
+  "python_syntax_files": 19,
+  "schema_matches_source": true,
+  "result": "PASS"
+}

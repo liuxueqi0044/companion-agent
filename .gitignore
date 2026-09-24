@@ -35,3 +35,11 @@ reports/evidence/BATCH-015/*
 tests/fixtures/first-flow/holdout.json
 .DS_Store
 Thumbs.db
+
+# Product runtime state and review-only evidence
+.product-data/
+.test-data/
+**/baseline.json
+**/baseline.sha256
+reports/core-*/evidence/
+reports/core-*/*.txt

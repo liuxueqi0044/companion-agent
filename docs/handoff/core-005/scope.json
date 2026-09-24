@@ -1,0 +1,24 @@
+{
+  "batch": "CORE-005",
+  "workspace": "C:/Users/xiayu/Documents/Codex/companion-agent-core",
+  "writable_existing_and_new_prefixes": ["apps/desktop/product/execution/"],
+  "writable_existing_and_new_files": [
+    "services/product/contact.py", "services/product/entry.py", "services/product/models.py",
+    "services/product/schema.py", "packages/contracts/product-core/schema.json",
+    "packages/contracts/product-core/README.md", "apps/desktop/product/host.mjs",
+    "docs/development/frontend-handoff.md", "docs/development/CORE-005.md", "tools/product_core005_demo.mjs"
+  ],
+  "new_only_prefixes": ["tests/product/core005/", "reports/core-005/"],
+  "new_runtime_directory_patterns": ["core-005-*", "core-004-*", "core-003-*", "core-002-host-*", "core-002-demo-*", "host-*", "demo-*"],
+  "runtime_parent": ".test-data",
+  "deleted_files_allowed": false,
+  "ignored_directory_names": [".git", "__pycache__", ".pytest_cache", "node_modules", ".venv"],
+  "baseline_self_exclusions": ["docs/handoff/core-005/baseline.json", "docs/handoff/core-005/baseline.sha256"],
+  "notes": [
+    "Use architect-patched CORE-004. All existing tests and application controllers remain frozen.",
+    "Execution changes only for shared ownership/slot and contact lane; contact changes limited to narrow boundaries; no DB migration.",
+    "Kernel/store/context/memory/session and original workspace frozen; no production clock/fixture inputs.",
+    "No model/HTTP/credentials, UI, scheduler/background/system notification, generated code, installation, agents or Git.",
+    "Historical runtime data/reports/reviews/dispatches/baselines stay unchanged. Cache exclusions do not permit hiding artifacts."
+  ]
+}

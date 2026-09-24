@@ -1,0 +1,111 @@
+{
+  "format": "artifact-manifest/1",
+  "batch": "CORE-005",
+  "artifacts": [
+    {
+      "path": "apps/desktop/product/execution/contact-provider.mjs",
+      "bytes": 1266,
+      "sha256": "46536588f1a9f6880f7c043d0c110442b8b064f6715683d1d81b565a24c391b7"
+    },
+    {
+      "path": "apps/desktop/product/execution/contact-runner.mjs",
+      "bytes": 15918,
+      "sha256": "5ab64b27b162875da9c1f90277b450e88245ae5a7de12e3f626a047e54436a11"
+    },
+    {
+      "path": "apps/desktop/product/execution/lease.mjs",
+      "bytes": 1392,
+      "sha256": "df7160be2d7937d36efd5164e0cf6a17e7c26169ad5fabe6976ea803a196c392"
+    },
+    {
+      "path": "apps/desktop/product/execution/runner.mjs",
+      "bytes": 19342,
+      "sha256": "0344b2a644fc7dd847cbc9d8f6e14a87ba9aa558a0d0652f0e58acca446056ea"
+    },
+    {
+      "path": "apps/desktop/product/host.mjs",
+      "bytes": 4818,
+      "sha256": "eb2ee9e4a2765a281b449672954c436ce75b5addf2f9a062a02fcdc2e9f7bc9c"
+    },
+    {
+      "path": "docs/development/CORE-005.md",
+      "bytes": 3459,
+      "sha256": "e4cd1cb3ce354a2c658d9405ef4b48a3fef161d7baae165b6d45007afa511f12"
+    },
+    {
+      "path": "docs/development/frontend-handoff.md",
+      "bytes": 19265,
+      "sha256": "b99afad6a8c09ad25a97bb4c0ea693d2038e01b52796c87a82936381b38daf96"
+    },
+    {
+      "path": "packages/contracts/product-core/README.md",
+      "bytes": 5956,
+      "sha256": "d22e6fb2907ed10a02203acc84d58797de87ac7debd972f84e339db85f5a1729"
+    },
+    {
+      "path": "packages/contracts/product-core/schema.json",
+      "bytes": 16801,
+      "sha256": "36d2aa2066d660c94db496b4c31a6a81c42f26d32a0ec4327cf64eb6ab1897e5"
+    },
+    {
+      "path": "services/product/contact.py",
+      "bytes": 20414,
+      "sha256": "828b34c50b65c670952e5c41d755ac7d350610561fd0d7a80b1e2643614366e6"
+    },
+    {
+      "path": "services/product/entry.py",
+      "bytes": 8577,
+      "sha256": "1b098debaf8d13946477615085b36242f383783e010f0030fb014d549ad2d2ba"
+    },
+    {
+      "path": "services/product/models.py",
+      "bytes": 8814,
+      "sha256": "18e60044050c569493eeae0586fe7053b4e0956644ceb4d512d582b2cd021574"
+    },
+    {
+      "path": "services/product/schema.py",
+      "bytes": 1745,
+      "sha256": "97b9e61b1e79b28caeaad7fe5cafb5d6b722bbb2ac956a993a1589c133cd2fe0"
+    },
+    {
+      "path": "tests/product/core005/contact-protocol.test.mjs",
+      "bytes": 3225,
+      "sha256": "b8478694f322fd164b961c2a7c32fc85d3249ffb0bddb4070534881e14ebb1fd"
+    },
+    {
+      "path": "tests/product/core005/contact-runner-faults.test.mjs",
+      "bytes": 15316,
+      "sha256": "e8b833fb0562ba20da480204fd052aceebd4c906f5d013bba8cd2c0a2b807da3"
+    },
+    {
+      "path": "tests/product/core005/contact-runner-real.test.mjs",
+      "bytes": 6948,
+      "sha256": "b511cda33af0bd5aa901e8054598d9402560dafe2394e38558cb096bc02cc0b8"
+    },
+    {
+      "path": "tests/product/core005/lease.test.mjs",
+      "bytes": 2369,
+      "sha256": "5cfb3ee01d4ec3408d5ad94eaf4dc65ca98a90d848e790ffdb39bfae70fbb930"
+    },
+    {
+      "path": "tests/product/core005/prepare_fixture.py",
+      "bytes": 2085,
+      "sha256": "102d737702dd2d5cb49a33477c45107604478d093798cec2c364be2cfedd2eea"
+    },
+    {
+      "path": "tests/product/core005/test_contact_controls.py",
+      "bytes": 4045,
+      "sha256": "c337520c4987304dce839f05764a9694b3d608f08fca07bfa53fef6bc1522b2f"
+    },
+    {
+      "path": "tests/product/core005/test_contact_protocol.py",
+      "bytes": 8057,
+      "sha256": "2281485d7e5968151fc27ee53c4e6f79638f7084872102338325237720dedf02"
+    },
+    {
+      "path": "tools/product_core005_demo.mjs",
+      "bytes": 7867,
+      "sha256": "e30c2fe9cd089f04792c9ad12fef9406fa81fb529db26a58727f8dbad24ac01f"
+    }
+  ]
+}

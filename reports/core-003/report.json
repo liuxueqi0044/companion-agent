@@ -1,0 +1,58 @@
+{
+  "batch": "CORE-003",
+  "status": "submitted",
+  "role": "implementation",
+  "workspace": "C:/Users/xiayu/Documents/Codex/companion-agent-core",
+  "source_of_truth": "docs/handoff/CORE-003.md",
+  "architect_baseline": "reports/core-002-r1-architect/final-artifacts.json",
+  "artifact_manifest": "reports/core-003/artifact-manifest.json",
+  "artifact_manifest_sha256": "6e4168a3888dcd77e34f5c44d4ba1504c0eced50867abbb420d22355f8053661",
+  "model_requests": 0,
+  "http_requests": 0,
+  "credential_reads": 0,
+  "dependency_installs": 0,
+  "regression": {
+    "python": {"passed": 99, "failed": 0, "skipped": 0, "exit_code": 0, "evidence": "reports/core-003/evidence/python-tests.txt"},
+    "node": {"passed": 43, "failed": 0, "skipped": 0, "exit_code": 0, "evidence": "reports/core-003/evidence/node-tests.txt"},
+    "schema": {"result": "PASS", "exit_code": 0, "evidence": "reports/core-003/evidence/schema-check.txt"},
+    "old_demo": {"result": "PASS", "exit_code": 0, "evidence": "reports/core-003/evidence/core002-demo.json"},
+    "new_demo": {"result": "PASS", "exit_code": 0, "evidence": "reports/core-003/evidence/core003-demo.json"},
+    "manifest": {"result": "PASS", "artifacts": 16, "evidence": "reports/core-003/evidence/manifest-check.json"},
+    "architect_artifacts": {"result": "PASS", "unchanged": 14, "authorized_changed": 1, "evidence": "reports/core-003/evidence/architect-artifacts-check.json"},
+    "scope": {"result": "PASS", "exit_code": 0, "evidence": "reports/core-003/evidence/scope-final.json"}
+  },
+  "acceptance": {
+    "A01": {"local_result": "passed", "evidence": ["tests/product/core003/policy.test.mjs", "tests/product/core003/application.test.mjs"]},
+    "A02": {"local_result": "passed", "evidence": ["tests/product/core003/policy.test.mjs", "reports/core-003/evidence/core003-demo.json"]},
+    "A03": {"local_result": "passed", "evidence": ["tests/product/core003/policy.test.mjs", "reports/core-003/evidence/core003-demo.json"]},
+    "B01": {"local_result": "passed", "evidence": ["tests/product/core003/memory.test.mjs", "reports/core-003/evidence/node-tests.txt"]},
+    "B02": {"local_result": "passed", "evidence": ["tests/product/core003/memory.test.mjs"]},
+    "B03": {"local_result": "passed", "evidence": ["tests/product/core003/memory.test.mjs"]},
+    "C01": {"local_result": "passed", "evidence": ["tests/product/core003/inbox-reminders.test.mjs", "reports/core-003/evidence/core003-demo.json"]},
+    "C02": {"local_result": "passed", "evidence": ["tests/product/core003/inbox-reminders.test.mjs", "reports/core-003/evidence/node-tests.txt"]},
+    "C03": {"local_result": "passed", "evidence": ["tests/product/core003/inbox-reminders.test.mjs"]},
+    "D01": {"local_result": "passed", "evidence": ["tests/product/core003/activity-results.test.mjs"]},
+    "D02": {"local_result": "passed", "evidence": ["tests/product/core003/activity-results.test.mjs", "reports/core-003/evidence/core003-demo.json"]},
+    "D03": {"local_result": "passed", "evidence": ["tests/product/core003/activity-results.test.mjs"]},
+    "E01": {"local_result": "passed", "evidence": ["reports/core-003/evidence/core003-demo.json", "tests/product/core003/application.test.mjs"]},
+    "E02": {"local_result": "passed", "evidence": ["reports/core-003/evidence/python-tests.txt", "reports/core-003/evidence/node-tests.txt", "reports/core-003/evidence/schema-check.txt", "reports/core-003/evidence/core002-demo.json", "reports/core-003/evidence/manifest-check.json", "reports/core-003/evidence/scope-final.json"]},
+    "E03": {"local_result": "passed", "evidence": ["docs/development/CORE-003.md", "docs/development/frontend-handoff.md", "reports/core-003/summary.md"]}
+  },
+  "changed_files": [
+    "apps/desktop/product/application/",
+    "docs/development/CORE-003.md",
+    "docs/development/frontend-handoff.md",
+    "tests/product/core003/",
+    "tools/product_core003_demo.mjs",
+    "reports/core-003/"
+  ],
+  "limitations": [
+    "Memory operations lack a backend command log; an unknown memory.add cannot be promised exactly once across application restart.",
+    "Inbox and memory cursors are live rather than snapshot-isolated; each panel keeps at most 200 display items and result rows/issues at most 500 per side.",
+    "A cancellation request or permission revocation does not establish worker exit; current task and attempt state remain authoritative.",
+    "The offline demonstration injects a synthetic model decision from a trusted driver, not from the application."
+  ],
+  "not_run": ["real_model_semantics", "natural_language_understanding", "native_isolation", "system_notifications", "background_after_app_close", "product_visual_ui", "screenshot_review"],
+  "unresolved": [],
+  "independent_review": "pending"
+}

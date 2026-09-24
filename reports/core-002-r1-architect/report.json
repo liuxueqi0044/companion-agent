@@ -1,0 +1,52 @@
+{
+  "batch": "CORE-002-R1-architect",
+  "status": "verified_local_scope",
+  "role": "architect_reviewer_and_patch_author",
+  "user_authorization": "User asked architect to directly repair issues found during review.",
+  "original_submission": {
+    "report": "reports/core-002-r1/report.json",
+    "status": "submitted",
+    "manifest_sha256": "e1748010adc042180535b34cc522ae1fb84aa396c59f9452445e40f609758ed4",
+    "artifact_hashes_verified_before_patch": 13
+  },
+  "review": "reviews/CORE-002-R1.md",
+  "changes_by_architect": [
+    "apps/desktop/product/session.mjs",
+    "docs/development/frontend-handoff.md",
+    "services/product/store.py",
+    "tests/product/core002_r1/session-reentrant.test.mjs",
+    "tests/product/core002_r1/test_architect_migration_prefix.py"
+  ],
+  "regression": {
+    "python": {
+      "passed": 99,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": "evidence/python-after.txt"
+    },
+    "node": {
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": "evidence/node-final.txt"
+    },
+    "schema": "PASS",
+    "real_local_demo": "evidence/demo-final.json",
+    "scope_before_architect_metadata": "evidence/scope-after-code.json"
+  },
+  "final_manifest": "reports/core-002-r1-architect/final-artifacts.json",
+  "final_manifest_sha256": "7e632b9bbff297e0a84003e5eb0637b82a17234faf9b4913b3f688a1fa81171d",
+  "acceptance_boundary": "R1 local core after explicitly recorded architect patches; patches verified by their author, not a different independent reviewer.",
+  "unresolved_in_scope": [],
+  "model_requests": 0,
+  "http_requests": 0,
+  "credential_reads": 0,
+  "not_run": [
+    "real_model_semantics",
+    "native_isolation",
+    "system_notification",
+    "persistent_scheduler",
+    "product_visual_ui",
+    "original_workspace_merge"
+  ]
+}

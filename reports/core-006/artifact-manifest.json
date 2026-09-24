@@ -1,0 +1,51 @@
+{
+  "format": "artifact-manifest/1",
+  "batch": "CORE-006",
+  "artifacts": [
+    {
+      "path": "apps/desktop/product/application/index.mjs",
+      "bytes": 12973,
+      "sha256": "844357a42aec273503d21856cbc362d96900dbb150f8ec2521048fd4aeb7fff5"
+    },
+    {
+      "path": "apps/desktop/product/runtime/index.mjs",
+      "bytes": 24788,
+      "sha256": "0520bea0a9652248150a5f0c42249b286a1bc2d9de3f9a7eb4162a0f1bf9efb8"
+    },
+    {
+      "path": "docs/development/CORE-006.md",
+      "bytes": 6815,
+      "sha256": "bf4df6c1feca766f7aba263839e70e916df617bedcb49e017e8dc46d50ed25fb"
+    },
+    {
+      "path": "docs/development/frontend-handoff.md",
+      "bytes": 22937,
+      "sha256": "7a67c90be41a656516819b51aa33d9cdbe3084c0ca1783314bda2917b83305f1"
+    },
+    {
+      "path": "tests/product/core006/runtime-lifecycle.test.mjs",
+      "bytes": 9503,
+      "sha256": "119ef29795cd121ab99aff095a81145dd3a394371f0e067f3ab74903769cbb31"
+    },
+    {
+      "path": "tests/product/core006/runtime-owner.test.mjs",
+      "bytes": 3199,
+      "sha256": "dbd12275266eaa49a005f627baee6e1f28c4470ced5f6bf4ec32e67c908860f8"
+    },
+    {
+      "path": "tests/product/core006/runtime-real.test.mjs",
+      "bytes": 10855,
+      "sha256": "ccb316b789bfaf06fb6735ee5457c75fbfd1b0859d249c09357af6a8cd42ccc0"
+    },
+    {
+      "path": "tests/product/core006/runtime-send.test.mjs",
+      "bytes": 8403,
+      "sha256": "a1427f8dc66afac876ea218cdd069d02532faaed575d922218575ef8621dc664"
+    },
+    {
+      "path": "tools/product_core006_demo.mjs",
+      "bytes": 7099,
+      "sha256": "686bace721ad1dbef4905543855b17fafe8153a691700879b394165bd4e60abe"
+    }
+  ]
+}

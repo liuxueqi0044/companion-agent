@@ -1,0 +1,10 @@
+{
+  "date": "2026-09-24",
+  "core001_hashes_checked": 36,
+  "core001_hash_mismatches": [],
+  "scope_rule_cases_passed": 10,
+  "required_documents_exist": true,
+  "v1_schema_source_sha256": "29eeea018d8a0b1728c885dd8f4d83e47b055626638c618b95816b7d5f7e464c",
+  "v1_schema_fixture_sha256": "e08431132b01d89700a39edb2eba98173f859df95664637b38ab532e5b1d5dfe",
+  "validation_kind": "dispatch readiness; implementation not started"
+}

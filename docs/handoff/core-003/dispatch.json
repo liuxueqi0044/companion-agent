@@ -1,0 +1,18 @@
+{
+  "batch": "CORE-003",
+  "status": "ready_for_implementation",
+  "created_date": "2026-09-24",
+  "previous_review": "reviews/CORE-002-R1.md",
+  "previous_result": "accepted_with_architect_fixes_local_only",
+  "previous_current_manifest": "reports/core-002-r1-architect/final-artifacts.json",
+  "previous_manifest_sha256": "7e632b9bbff297e0a84003e5eb0637b82a17234faf9b4913b3f688a1fa81171d",
+  "previous_artifacts_verified": 15,
+  "scope_rule_checks": 11,
+  "dispatch": "docs/handoff/CORE-003.md",
+  "architecture": "docs/handoff/core-003/application-contract.md",
+  "prompt": "docs/handoff/CORE-003-PROMPT.md",
+  "evidence_note": "This dispatch verifies prior artifact bytes and scope rules; no new product tests or implementation were performed.",
+  "model_http_requests": 0,
+  "credential_reads": 0,
+  "visual_work": "not_started"
+}

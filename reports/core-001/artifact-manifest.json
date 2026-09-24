@@ -1,0 +1,193 @@
+{
+  "format": "core-development-artifacts/1",
+  "delivery": "CORE-001",
+  "status": "awaiting_integration_review",
+  "items": [
+    {
+      "path": ".gitignore",
+      "sha256": "fac4c7a6d2e86d42fa835c4319732e76f3555d4aa18334098220402a167218ea",
+      "bytes": 400
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "3500b39290cb526b557f5200772a3960fd5db835fe0408ffd2cf38aea04b35ca",
+      "bytes": 1229
+    },
+    {
+      "path": "apps/desktop/product/host.mjs",
+      "sha256": "fcf7affd6e300ff7743acb02ede38784095741e8bcbc6abd85e3a2fe0c001a17",
+      "bytes": 4490
+    },
+    {
+      "path": "docs/decisions/ADR-008-product-core.md",
+      "sha256": "a2c350c231b43f565de30dba82e601423598c28d68c1d8a34165b789ccec4995",
+      "bytes": 4491
+    },
+    {
+      "path": "docs/development/CORE-001.md",
+      "sha256": "943b79945608de20051eedab48fd5b9802624c5839dae80b99ea6e8beb6dab1d",
+      "bytes": 3840
+    },
+    {
+      "path": "docs/development/core-plan.md",
+      "sha256": "e54e7db0119138dda70ad818532e9508649c14d1202f4e20b3de2bc0a61bd819",
+      "bytes": 10450
+    },
+    {
+      "path": "docs/development/frontend-handoff.md",
+      "sha256": "a539f70d9e063583ab8c955fdd03fb66541696f03e38fb772696a068527d50d7",
+      "bytes": 4197
+    },
+    {
+      "path": "docs/development/source-snapshot.json",
+      "sha256": "c73c69f2204db39a8e69525915a3e5737d2490d72dc36e9702cb3a8b664e86a4",
+      "bytes": 22784
+    },
+    {
+      "path": "docs/product/product-experience.md",
+      "sha256": "7e9bf7276411580d58c685cfbaa3f39c515133055da1aa898b4b091885a6bd6a",
+      "bytes": 38976
+    },
+    {
+      "path": "packages/contracts/product-core/README.md",
+      "sha256": "6c7864c10f598a3b0e6210c8215ca7b8ed9a671f6687445bc415e7581860ea81",
+      "bytes": 844
+    },
+    {
+      "path": "packages/contracts/product-core/schema.json",
+      "sha256": "a649146aaba1cdf690f9d4c2b04d7b097ae8b51c22af64d2f5fc3cd1b204764f",
+      "bytes": 8527
+    },
+    {
+      "path": "README.md",
+      "sha256": "9f3cd0feb485283bf217ff4fed21cddbd8c3a842991f66d3f27785a882c688f8",
+      "bytes": 2550
+    },
+    {
+      "path": "reports/core-001/demo.json",
+      "sha256": "26dad12293c939276420b090a3f70ccd5bf58c0640450b585d56580582bb670f",
+      "bytes": 510
+    },
+    {
+      "path": "reports/core-001/node-tests.txt",
+      "sha256": "72be0d7a0f6f37706cf82668ec13145be77a0351bc146a00a95b6fd75ca13ba9",
+      "bytes": 555
+    },
+    {
+      "path": "reports/core-001/python-tests.txt",
+      "sha256": "587b7a49548db8af4b3cc892e7bdb32f43629eb68097abdf2ad6a1f9ce1174b1",
+      "bytes": 101
+    },
+    {
+      "path": "reports/core-001/workspace-check.json",
+      "sha256": "59a93c6c7d17f4a5ea3280596103637efa8bdff8c85b456c672c51f980a34e1d",
+      "bytes": 207
+    },
+    {
+      "path": "services/product/__init__.py",
+      "sha256": "6ff7b385856410aac9b41007e29356b26554fe0579058ccdc93440c57b810015",
+      "bytes": 67
+    },
+    {
+      "path": "services/product/contact.py",
+      "sha256": "2bee2556c42534d7744ccbd72fe27ddde3588317e6e28820f0c1de19d81432d8",
+      "bytes": 14638
+    },
+    {
+      "path": "services/product/entry.py",
+      "sha256": "24217e8cd3f27429da374e7ce04b2e7f254a8ff9036a9bffe73b5d7d84d8ef3a",
+      "bytes": 7319
+    },
+    {
+      "path": "services/product/experience.py",
+      "sha256": "eb9216e24e3b488e78161903fdf8b93232c4ff647ccd247dd2f1bf3c8d64b12f",
+      "bytes": 4616
+    },
+    {
+      "path": "services/product/kernel.py",
+      "sha256": "905edd990b6dcd537cadaab261d58228b1fe840279d41f5b944345dc41a989f1",
+      "bytes": 17118
+    },
+    {
+      "path": "services/product/memory.py",
+      "sha256": "7cb7bbdb035d2deb7dc5ff90327ff3eee5862b6d07d66620abc0d951a2189bb8",
+      "bytes": 7511
+    },
+    {
+      "path": "services/product/models.py",
+      "sha256": "a2e7382f7aeecd988277d2715bc815640601547039a74c6ea5702a75f4ac7d1d",
+      "bytes": 5992
+    },
+    {
+      "path": "services/product/ports.py",
+      "sha256": "40a4b3811bdcafa81a114108c275c722bd3052d9327431c252ac208fbb0192bc",
+      "bytes": 725
+    },
+    {
+      "path": "services/product/schema.py",
+      "sha256": "47ce7321599245a0c6072eb336b6c5db9a8c589e864c89de4d7b601879d3fd4e",
+      "bytes": 939
+    },
+    {
+      "path": "services/product/store.py",
+      "sha256": "29eeea018d8a0b1728c885dd8f4d83e47b055626638c618b95816b7d5f7e464c",
+      "bytes": 6387
+    },
+    {
+      "path": "tests/product/conftest.py",
+      "sha256": "babd1bdb4453cf3c91fb449828578fb11547528ff97554eed83949256bad579d",
+      "bytes": 2328
+    },
+    {
+      "path": "tests/product/host.test.mjs",
+      "sha256": "2a485069946cd3cdbb9892c784cb615bae40b1f55d436560ead94fb86da0c972",
+      "bytes": 8179
+    },
+    {
+      "path": "tests/product/test_contact.py",
+      "sha256": "c95230d641fa589b102d49ae0504331feaa3b16fc1f3b615f31c0bdf64367328",
+      "bytes": 10555
+    },
+    {
+      "path": "tests/product/test_entry.py",
+      "sha256": "ac747c88665ec11b19b042a6fba399c61f27c6079315d37bca7e82ef2dadbf6e",
+      "bytes": 1830
+    },
+    {
+      "path": "tests/product/test_kernel.py",
+      "sha256": "6838a86dc53f7c26338cabe2e00ecfeb58efd9cfc6fb17b5d9a50672048f800b",
+      "bytes": 8426
+    },
+    {
+      "path": "tests/product/test_memory.py",
+      "sha256": "72a99e0e759066010f48b21a1930729c45a608aac1eee95ecb51fe27250cd2c1",
+      "bytes": 4635
+    },
+    {
+      "path": "tools/check_product_workspace.py",
+      "sha256": "8e3194f9358c7ab60607808248a0ffd8d0e11814e7f51b117c5bbac7efef0300",
+      "bytes": 1760
+    },
+    {
+      "path": "tools/product_demo.py",
+      "sha256": "9accdbeb3ab85d2d308a882e80ef93c58e76c669b6d4428f2a61d8fd011a7321",
+      "bytes": 3267
+    },
+    {
+      "path": "tools/product.py",
+      "sha256": "b4a266e7905fb923856a46cdbf164b451de1b09ed84bd71a08225171feed53f5",
+      "bytes": 592
+    },
+    {
+      "path": "tools/run_product_tests.py",
+      "sha256": "ff94e83852af0a90c0e430679344cadf67511d314f8e04ff29b955ab21f3c8cd",
+      "bytes": 399
+    }
+  ],
+  "exclusions": [
+    "runtime_data",
+    "credentials",
+    "dependencies",
+    "original_project_history"
+  ]
+}

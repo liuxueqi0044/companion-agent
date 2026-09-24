@@ -1,0 +1,30 @@
+{
+  "batch": "CORE-002-R1",
+  "workspace": "C:/Users/xiayu/Documents/Codex/companion-agent-core",
+  "writable_existing_and_new_prefixes": [],
+  "writable_existing_and_new_files": [
+    "apps/desktop/product/session.mjs",
+    "services/product/context.py",
+    "services/product/kernel.py",
+    "services/product/store.py",
+    "tests/product/session.test.mjs",
+    "tests/product/host_core002.test.mjs",
+    "tests/product/test_core002_context.py",
+    "docs/development/frontend-handoff.md",
+    "packages/contracts/product-core/README.md",
+    "docs/development/CORE-002-R1.md"
+  ],
+  "new_only_prefixes": ["tests/product/core002_r1/", "reports/core-002-r1/"],
+  "new_runtime_directory_patterns": ["core-002-r1-*", "core-002-host-*", "core-002-demo-*", "host-*", "demo-*"],
+  "runtime_parent": ".test-data",
+  "deleted_files_allowed": false,
+  "ignored_directory_names": [".git", "__pycache__", ".pytest_cache", "node_modules", ".venv"],
+  "baseline_self_exclusions": ["docs/handoff/core-002-r1/baseline.json", "docs/handoff/core-002-r1/baseline.sha256"],
+  "notes": [
+    "Only the four reviewed defects and their integration tests/documentation are in scope.",
+    "All reports/core-002 and reviews files, original dispatch/checkers/baselines and historical runtime files are frozen.",
+    "No generated-code execution, UI changes, credentials, network/model requests, dependencies or original workspace writes.",
+    "A new tests/product/core002_r1 file may be edited during this batch; no existing baseline file may be deleted.",
+    "Cache exclusions do not authorize storing artifacts or installing dependencies there."
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "batch": "CORE-005-architect",
+  "status": "accepted_with_architect_fixes",
+  "scope": "local_trusted_contact_runtime_only",
+  "review": "reviews/CORE-005.md",
+  "submitted_report_preserved": "reports/core-005/report.json",
+  "submitted_manifest_sha256": "345efa7793261be62736923e9f95d330d8a880cd8b521d71f229f7b84eb94185",
+  "artifact_manifest": "reports/core-005-architect/final-artifacts.json",
+  "artifact_manifest_sha256": "b137509a9ec8f31109dddf1983a5f2672359d3720cae52f5f4772b075670c835",
+  "artifacts": 22,
+  "validation": {
+    "submitted_python": 121,
+    "submitted_node": 126,
+    "architect_red_failed": 15,
+    "architect_new_node": 16,
+    "final_node": 142,
+    "schema": "PASS",
+    "real_offline_demos": [
+      "CORE-002",
+      "CORE-003",
+      "CORE-004",
+      "CORE-005"
+    ]
+  },
+  "acceptance": {
+    "A01": "passed_with_architect_fixes_local_scope",
+    "A02": "passed_with_architect_fixes_local_scope",
+    "A03": "passed_with_architect_fixes_local_scope",
+    "B01": "passed_with_architect_fixes_local_scope",
+    "B02": "passed_with_architect_fixes_local_scope",
+    "B03": "passed_with_architect_fixes_local_scope",
+    "C01": "passed_with_architect_fixes_local_scope",
+    "C02": "passed_with_architect_fixes_local_scope",
+    "C03": "passed_with_architect_fixes_local_scope",
+    "D01": "passed_with_architect_fixes_local_scope",
+    "D02": "passed_with_architect_fixes_local_scope",
+    "D03": "passed_with_architect_fixes_local_scope",
+    "E01": "passed_with_architect_fixes_local_scope",
+    "E02": "passed_with_architect_fixes_local_scope",
+    "E03": "passed_with_architect_fixes_local_scope"
+  },
+  "review_scope_evidence": "reviews/evidence/CORE-005/architect-scope-final.json",
+  "patch_review_boundary": "Submitted code independently reviewed; architect patches self-tested, not a second independent author review.",
+  "real_model_http_requests": 0,
+  "credential_reads": 0,
+  "original_project_accepted_count_unchanged": true,
+  "not_run": [
+    "real_model",
+    "natural_language_understanding",
+    "background_after_app_close",
+    "system_notifications",
+    "network_reconnect",
+    "native_isolation",
+    "generated_page_execution",
+    "product_visual_ui",
+    "screenshot_review"
+  ]
+}

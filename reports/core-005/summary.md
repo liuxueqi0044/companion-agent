@@ -1,0 +1,7 @@
+# CORE-005 implementation summary
+
+Status: **submitted** for independent review. The trusted Node contact runner now shares one host-local execution slot with the foreground turn runner. Each explicit pulse first delivers due user reminders, then evaluates at most one proactive plan only when a provider is configured. It validates the decision, sends one ticket-bound completion and verifies the durable receipt. Stop, timeout, dispose and unknown writes keep their actual pending/uncertain state; no write is silently replayed.
+
+The new private stdio actions use the existing Python contact transactions and inbox. A synthetic-provider demo crossed real Node→Python→SQLite→CSV: sent/defer/cancel branches, no duplicate after reopen, explicit reminders while unavailable or switched off, and foreground contention with maximum observed provider concurrency one. The original 105 Node and 101 Python cases remained unchanged; full runs passed **126 Node and 121 Python** cases, with no failures or skips. Schema, four offline demos, 21-artifact manifest, architect patch hash check and CORE-005 scope passed.
+
+The execution slot is scoped to one process and the same host object. Real model behavior, background delivery, system notifications, native isolation and product visual UI remain **not_run**. No independent acceptance is claimed; detailed evidence is in [report.json](report.json) and [verification.md](evidence/verification.md).

@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "models": {
+    "ErrorInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "maxLength": 64,
+          "minLength": 1,
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Code",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "business",
+            "protocol"
+          ],
+          "title": "Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "code"
+      ],
+      "title": "ErrorInfo",
+      "type": "object"
+    },
+    "RequestEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "enum": [
+            "bootstrap",
+            "profile.read",
+            "profile.change",
+            "profile.undo",
+            "task.submit",
+            "task.get",
+            "task.list",
+            "task.events",
+            "task.result",
+            "task.cancel",
+            "task.retry",
+            "worker.run-next",
+            "worker.recover"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "payload": {
+          "additionalProperties": true,
+          "title": "Payload",
+          "type": "object"
+        },
+        "request_id": {
+          "title": "Request Id",
+          "type": "string"
+        },
+        "version": {
+          "const": "desktop-local/1",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "request_id",
+        "action",
+        "payload"
+      ],
+      "title": "RequestEnvelope",
+      "type": "object"
+    },
+    "ResponseEnvelope": {
+      "$defs": {
+        "ErrorInfo": {
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-z][a-z0-9_]*$",
+              "title": "Code",
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "business",
+                "protocol"
+              ],
+              "title": "Kind",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "code"
+          ],
+          "title": "ErrorInfo",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ErrorInfo"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "ok": {
+          "title": "Ok",
+          "type": "boolean"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Request Id"
+        },
+        "result": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result"
+        },
+        "version": {
+          "const": "desktop-local/1",
+          "default": "desktop-local/1",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "ok"
+      ],
+      "title": "ResponseEnvelope",
+      "type": "object"
+    }
+  },
+  "title": "desktop-local/1 transport envelope"
+}

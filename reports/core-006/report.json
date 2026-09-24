@@ -1,0 +1,55 @@
+{
+  "batch": "CORE-006",
+  "status": "submitted",
+  "role": "implementation",
+  "workspace": "C:/Users/xiayu/Documents/Codex/companion-agent-core",
+  "source_of_truth": "docs/handoff/CORE-006.md",
+  "frozen_contract": "docs/handoff/core-006/runtime-contract.md",
+  "baseline_sha256": "ee52adedb55fb01e33fbe7d58ebb3e3abe25a9d8c300504ce3d2b836fdbae6b4",
+  "architect_artifacts_sha256": "b137509a9ec8f31109dddf1983a5f2672359d3720cae52f5f4772b075670c835",
+  "artifact_manifest": "reports/core-006/artifact-manifest.json",
+  "artifact_manifest_sha256": "cc2a440cbb5eef51568ba8d72c6095ea48b13323d5d1701e71b0a879fc67ee84",
+  "real_model_http_requests": 0,
+  "credential_reads": 0,
+  "dependency_installs": 0,
+  "additional_agent_sessions": 0,
+  "regression": {
+    "python": {"passed": 121, "failed": 0, "skipped": 0, "evidence": "reports/core-006/evidence/python-tests.txt"},
+    "node": {"passed": 161, "failed": 0, "skipped": 0, "frozen_old": 142, "new": 19, "evidence": "reports/core-006/evidence/node-tests.txt"},
+    "schema": {"result": "PASS", "evidence": "reports/core-006/evidence/schema.txt"},
+    "demos": {"result": "PASS", "count": 5, "evidence": ["reports/core-006/evidence/demo-core002.json", "reports/core-006/evidence/demo-core003.json", "reports/core-006/evidence/demo-core004.json", "reports/core-006/evidence/demo-core005.json", "reports/core-006/evidence/demo-core006.json"]},
+    "manifest": {"result": "PASS", "artifacts": 9, "evidence": "reports/core-006/evidence/manifest-check.json"},
+    "architect_artifacts": {"result": "PASS", "total": 22, "unchanged": 21, "authorized_changed": 1, "evidence": "reports/core-006/evidence/architect-artifacts-check.json"},
+    "scope": {"result": "PASS", "evidence": "reports/core-006/evidence/scope-final.json"}
+  },
+  "acceptance": {
+    "A01": {"local_result": "passed", "evidence": ["tests/product/core006/runtime-owner.test.mjs", "reports/core-006/evidence/node-tests.txt"]},
+    "A02": {"local_result": "passed", "evidence": ["tests/product/core006/runtime-owner.test.mjs"]},
+    "A03": {"local_result": "passed", "evidence": ["tests/product/core006/runtime-owner.test.mjs", "tests/product/core006/runtime-real.test.mjs"]},
+    "B01": {"local_result": "passed", "evidence": ["tests/product/core006/runtime-send.test.mjs"]},
+    "B02": {"local_result": "passed", "evidence": ["tests/product/core006/runtime-send.test.mjs"]},
+    "B03": {"local_result": "passed", "evidence": ["tests/product/core006/runtime-send.test.mjs", "tests/product/core006/runtime-real.test.mjs"]},
+    "C01": {"local_result": "passed", "evidence": ["tests/product/core006/runtime-real.test.mjs", "reports/core-006/evidence/demo-core006.json"]},
+    "C02": {"local_result": "passed", "evidence": ["tests/product/core006/runtime-real.test.mjs", "tests/product/core006/runtime-lifecycle.test.mjs"]},
+    "C03": {"local_result": "passed", "evidence": ["tests/product/core006/runtime-real.test.mjs"]},
+    "D01": {"local_result": "passed", "evidence": ["tests/product/core006/runtime-lifecycle.test.mjs"]},
+    "D02": {"local_result": "passed", "evidence": ["tests/product/core006/runtime-lifecycle.test.mjs"]},
+    "D03": {"local_result": "passed", "evidence": ["tests/product/core006/runtime-lifecycle.test.mjs", "reports/core-006/evidence/demo-core006.json"]},
+    "E01": {"local_result": "passed", "evidence": ["reports/core-006/evidence/demo-core006.json", "tests/product/core006/runtime-real.test.mjs"]},
+    "E02": {"local_result": "passed", "evidence": ["reports/core-006/evidence/verification.md", "reports/core-006/evidence/manifest-check.json", "reports/core-006/evidence/scope-final.json"]},
+    "E03": {"local_result": "passed", "evidence": ["docs/development/CORE-006.md", "docs/development/frontend-handoff.md", "reports/core-006/summary.md"]}
+  },
+  "development_failures_resolved": [
+    "An initial demo assertion expected zero unread before pulse; a real completed CSV task correctly created one task inbox message. The assertion now verifies the task message and the subsequent two-message increment.",
+    "An initial reentrant-listener test assumed only one notification while closing; the test now guards the one-time close action and verifies the actual no-write/idle invariant."
+  ],
+  "limitations": [
+    "Execution ownership and unknown-write fencing cover this process sharing the identical host object, not other processes or direct Python calls.",
+    "An abort-ignoring provider or unresolved host request can keep whenIdle pending indefinitely; no native process termination policy is implemented.",
+    "Read-only reconciliation cannot prove the outcome of every unknown write or authorize automatic replay.",
+    "Synthetic provider decisions verify the local chain, not model semantics or real-world contact quality."
+  ],
+  "not_run": ["real_model", "natural_language_understanding", "native_ipc_isolation", "generated_page_execution", "background_scheduler", "background_after_app_close", "system_notifications", "product_visual_ui", "screenshot_review"],
+  "unresolved": [],
+  "independent_review": "pending"
+}

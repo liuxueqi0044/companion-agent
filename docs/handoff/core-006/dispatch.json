@@ -1,0 +1,15 @@
+{
+  "batch": "CORE-006",
+  "status": "ready_for_implementation",
+  "created_date": "2026-09-24",
+  "previous_review": "reviews/CORE-005.md",
+  "previous_manifest_sha256": "b137509a9ec8f31109dddf1983a5f2672359d3720cae52f5f4772b075670c835",
+  "previous_artifacts_verified": 22,
+  "scope_rule_checks": 16,
+  "dispatch": "docs/handoff/CORE-006.md",
+  "architecture": "docs/handoff/core-006/runtime-contract.md",
+  "prompt": "docs/handoff/CORE-006-PROMPT.md",
+  "real_model_http_requests": 0,
+  "credential_reads": 0,
+  "visual_work": "not_started"
+}

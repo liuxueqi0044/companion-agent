@@ -1,0 +1,37 @@
+{
+  "batch": "CORE-002",
+  "workspace": "C:/Users/xiayu/Documents/Codex/companion-agent-core",
+  "writable_existing_and_new_prefixes": [
+    "services/product/",
+    "apps/desktop/product/",
+    "tests/product/",
+    "packages/contracts/product-core/"
+  ],
+  "writable_existing_and_new_files": [
+    "README.md",
+    "docs/development/frontend-handoff.md",
+    "docs/development/CORE-002.md",
+    "tools/product.py",
+    "tools/product_demo.py",
+    "tools/run_product_tests.py",
+    "tools/product_core002_demo.py",
+    "tools/product_core002_demo.mjs"
+  ],
+  "new_only_prefixes": ["reports/core-002/"],
+  "new_runtime_directory_patterns": ["core-002-*", "host-*", "demo-*"],
+  "runtime_parent": ".test-data",
+  "deleted_files_allowed": false,
+  "ignored_directory_names": [".git", "__pycache__", ".pytest_cache", "node_modules", ".venv"],
+  "baseline_self_exclusions": [
+    "docs/handoff/core-002/baseline.json",
+    "docs/handoff/core-002/baseline.sha256"
+  ],
+  "notes": [
+    "The handoff, scope, checker, migration fixture and all previous reports are frozen.",
+    "Existing runtime files are frozen even when their directory matches a new-runtime pattern.",
+    "No frontend components, HTML/CSS, arbitrary generated code, credentials, original workspace writes or dependency changes.",
+    "Directory ownership permits coherent refactoring; do not weaken existing regression assertions to obtain green results.",
+    "Ignored cache/dependency directories are not permission to install dependencies or store task artifacts there.",
+    "This is a change-scope check, not a sandbox or proof about network/model calls."
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "format": "artifact-manifest/1",
+  "batch": "CORE-004-architect",
+  "artifacts": [
+    {
+      "path": "apps/desktop/product/application/index.mjs",
+      "bytes": 12961,
+      "sha256": "5cd7a0d7fef90eed25543d16542c9c82ee2f066c7687ed7297c065a04698771f"
+    },
+    {
+      "path": "apps/desktop/product/execution/provider.mjs",
+      "bytes": 843,
+      "sha256": "45ec896d595164a28c64b607120fe55453c63a91e5235d94d88794fe19d9fa1e"
+    },
+    {
+      "path": "apps/desktop/product/execution/runner.mjs",
+      "bytes": 18910,
+      "sha256": "dfc4ee800c3edfe41511b23bfe10a74942500553c354824da7d92bb48db875ff"
+    },
+    {
+      "path": "apps/desktop/product/host.mjs",
+      "bytes": 4716,
+      "sha256": "3fd7842b9948983caceed55ee97bc05942bb25acde90188d750bcab35e731f64"
+    },
+    {
+      "path": "docs/development/CORE-004.md",
+      "bytes": 2841,
+      "sha256": "f574a01a73908ec6fc30d80688b5cc88aa244711b9f4400c480582dfb9c951cf"
+    },
+    {
+      "path": "docs/development/frontend-handoff.md",
+      "bytes": 17638,
+      "sha256": "4687799efbcf6d477a06f12a4d8fd152e14274bd1f97a469551dff589b3f1903"
+    },
+    {
+      "path": "packages/contracts/product-core/README.md",
+      "bytes": 4797,
+      "sha256": "47714bfbb7d56ccb0ca37ad9b599d01631f6c2944078cd1d48b38e45b6729635"
+    },
+    {
+      "path": "packages/contracts/product-core/schema.json",
+      "bytes": 15035,
+      "sha256": "6075891d54b81249c5895a37b7e85fff283e810d1e4d1d9739c8876256564479"
+    },
+    {
+      "path": "services/product/entry.py",
+      "bytes": 8010,
+      "sha256": "2b9081086ae8455e7921729bb9371cf3f85c2b8758144b5d6701abd1987a93d0"
+    },
+    {
+      "path": "services/product/kernel.py",
+      "bytes": 21644,
+      "sha256": "d0676d76936c52b841303279a383f5445a4984b72ab304e6d3330e7fefcef040"
+    },
+    {
+      "path": "services/product/models.py",
+      "bytes": 8497,
+      "sha256": "edefc089798b99d57ef72b5a8fffdc1a3da25f4e2ae867e7673ab8d585f5e73c"
+    },
+    {
+      "path": "services/product/schema.py",
+      "bytes": 1516,
+      "sha256": "80634e8d08b6b9bc76c4daa3e19c9c4a06389b760ebd0708777436989b453eca"
+    },
+    {
+      "path": "tests/product/core004/architect-regressions.test.mjs",
+      "bytes": 12373,
+      "sha256": "fd2ab662604bdbb74912da59732b87570965351103a40e8fffc310fd1d338b9a"
+    },
+    {
+      "path": "tests/product/core004/fail-generation.test.mjs",
+      "bytes": 2408,
+      "sha256": "e64734032146ba49060c3d01de5b7811ee8925b11898f1f3edc16202ebecdc56"
+    },
+    {
+      "path": "tests/product/core004/runner-faults.test.mjs",
+      "bytes": 6715,
+      "sha256": "eebf35a0c8fb98f1ef395e867e099d463316abe807b54b3d53b20e359fc9a45a"
+    },
+    {
+      "path": "tests/product/core004/runner-real.test.mjs",
+      "bytes": 7707,
+      "sha256": "511fcd7d10d12a19fa691e135e4984c01b102100ca2b8ba631e173bb39974780"
+    },
+    {
+      "path": "tests/product/core004/runner-slot.test.mjs",
+      "bytes": 4496,
+      "sha256": "ad304ae6976ef17cfd997e07563aa3aa1a3e4ff49b353663528b258a0ac67baf"
+    },
+    {
+      "path": "tests/product/core004/runner-stop-app.test.mjs",
+      "bytes": 6618,
+      "sha256": "a2487f80da9d9a9b1ab5a87a9034975ae2d890995e194bf6cbdf33bf3a2b3545"
+    },
+    {
+      "path": "tests/product/core004/test_fail_generation.py",
+      "bytes": 3343,
+      "sha256": "65b3ebefd452726af9f1cbd8a8f9a411eecfe6d240f7ada84bc51197825e0f55"
+    },
+    {
+      "path": "tools/product_core004_demo.mjs",
+      "bytes": 4851,
+      "sha256": "31f3b34a3fa3a060918bb023405a747e045e1b1a5579006dc67204d150c858f6"
+    }
+  ]
+}

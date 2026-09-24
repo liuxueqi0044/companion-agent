@@ -1,0 +1,52 @@
+{
+  "batch": "CORE-005",
+  "status": "submitted",
+  "role": "implementation",
+  "workspace": "C:/Users/xiayu/Documents/Codex/companion-agent-core",
+  "source_of_truth": "docs/handoff/CORE-005.md",
+  "frozen_contract": "docs/handoff/core-005/contact-runtime-contract.md",
+  "baseline_sha256": "4121444e6c78b3dd9b99b87173eb37b169ea5663400a4aca83b491c59f4805e0",
+  "architect_artifacts_sha256": "c23ed1e5b22494dd361bfc8b0a0055d0447a7e07d13eb456a4436efc0bd4b979",
+  "artifact_manifest": "reports/core-005/artifact-manifest.json",
+  "artifact_manifest_sha256": "345efa7793261be62736923e9f95d330d8a880cd8b521d71f229f7b84eb94185",
+  "real_model_http_requests": 0,
+  "credential_reads": 0,
+  "dependency_installs": 0,
+  "additional_agent_sessions": 0,
+  "regression": {
+    "python": {"passed": 121, "failed": 0, "skipped": 0, "evidence": "reports/core-005/evidence/python-tests.txt"},
+    "node": {"passed": 126, "failed": 0, "skipped": 0, "evidence": "reports/core-005/evidence/node-tests.txt"},
+    "schema": {"result": "PASS", "evidence": "reports/core-005/evidence/schema-check.txt"},
+    "old_demos": {"result": "PASS", "count": 3, "evidence": ["reports/core-005/evidence/demo-core002.json", "reports/core-005/evidence/demo-core003.json", "reports/core-005/evidence/demo-core004.json"]},
+    "new_demo": {"result": "PASS", "evidence": "reports/core-005/evidence/demo-core005.json"},
+    "manifest": {"result": "PASS", "artifacts": 21, "evidence": "reports/core-005/evidence/manifest-check.json"},
+    "architect_artifacts": {"result": "PASS", "total": 20, "unchanged": 12, "authorized_changed": 8, "evidence": "reports/core-005/evidence/architect-artifacts-check.json"},
+    "scope": {"result": "PASS", "evidence": "reports/core-005/evidence/scope-final.json"}
+  },
+  "acceptance": {
+    "A01": {"local_result": "passed", "evidence": ["tests/product/core005/lease.test.mjs", "reports/core-005/evidence/node-tests.txt"]},
+    "A02": {"local_result": "passed", "evidence": ["tests/product/core005/contact-runner-faults.test.mjs", "reports/core-005/evidence/demo-core005.json"]},
+    "A03": {"local_result": "passed", "evidence": ["reports/core-005/evidence/node-tests.txt", "tests/product/core004/architect-regressions.test.mjs"]},
+    "B01": {"local_result": "passed", "evidence": ["tests/product/core005/test_contact_protocol.py", "tests/product/core005/contact-protocol.test.mjs"]},
+    "B02": {"local_result": "passed", "evidence": ["tests/product/core005/test_contact_protocol.py", "tests/product/core005/contact-runner-real.test.mjs"]},
+    "B03": {"local_result": "passed", "evidence": ["tests/product/core005/contact-protocol.test.mjs", "reports/core-005/evidence/schema-check.txt"]},
+    "C01": {"local_result": "passed", "evidence": ["tests/product/core005/contact-runner-real.test.mjs", "reports/core-005/evidence/demo-core005.json"]},
+    "C02": {"local_result": "passed", "evidence": ["tests/product/core005/contact-runner-real.test.mjs", "tests/product/core005/contact-runner-faults.test.mjs"]},
+    "C03": {"local_result": "passed", "evidence": ["tests/product/core005/contact-runner-faults.test.mjs", "reports/core-005/evidence/node-tests.txt"]},
+    "D01": {"local_result": "passed", "evidence": ["tests/product/core005/contact-runner-faults.test.mjs", "tests/product/core004/architect-regressions.test.mjs"]},
+    "D02": {"local_result": "passed", "evidence": ["tests/product/core005/test_contact_controls.py", "reports/core-005/evidence/python-tests.txt"]},
+    "D03": {"local_result": "passed", "evidence": ["tests/product/core005/test_contact_controls.py", "tests/product/core005/contact-runner-real.test.mjs"]},
+    "E01": {"local_result": "passed", "evidence": ["reports/core-005/evidence/demo-core005.json", "reports/core-005/evidence/demo-core004.json"]},
+    "E02": {"local_result": "passed", "evidence": ["reports/core-005/evidence/verification.md", "reports/core-005/evidence/manifest-check.json", "reports/core-005/evidence/scope-final.json"]},
+    "E03": {"local_result": "passed", "evidence": ["docs/development/CORE-005.md", "reports/core-005/summary.md"]}
+  },
+  "limitations": [
+    "The owner/lease covers only one process sharing the identical host object; it does not arbitrate other processes or direct Python calls.",
+    "An abort-ignoring provider or unresolved host request can keep the owner and slot pending indefinitely; this is not reported as exited.",
+    "An uncertain write remains behind a shared reconciliation barrier. Readback can show a committed message, but cannot clear the barrier or justify an automatic replay.",
+    "The synthetic provider and explicit pulse do not establish real model quality, natural-language understanding, or background delivery."
+  ],
+  "not_run": ["real_model", "natural_language_understanding", "background_after_app_close", "scheduler", "system_notifications", "network_reconnect", "native_isolation", "generated_page_execution", "product_visual_ui", "screenshot_review"],
+  "unresolved": [],
+  "independent_review": "pending"
+}

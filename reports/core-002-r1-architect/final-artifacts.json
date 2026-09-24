@@ -1,0 +1,97 @@
+{
+  "format": "architect-verified-artifacts/1",
+  "source_batch": "CORE-002-R1",
+  "status": "verified_local_scope",
+  "artifacts": [
+    {
+      "path": "apps/desktop/product/session.mjs",
+      "sha256": "9642b7d5d9e7d4011cc0a4f06c5c4eb1a623f6fee68b12e823245946c72c7320",
+      "bytes": 10964,
+      "submitted_sha256": "989629af5ffb33e0218ecd60f7dbcb1c0f4564721989e3769456529a25cd9c6a"
+    },
+    {
+      "path": "docs/development/CORE-002-R1.md",
+      "sha256": "61e7f177cc987f7715bf3e67bcc6ffe05ea1980be1b7259cf2982dc4c508c649",
+      "bytes": 2419,
+      "submitted_sha256": "61e7f177cc987f7715bf3e67bcc6ffe05ea1980be1b7259cf2982dc4c508c649"
+    },
+    {
+      "path": "docs/development/frontend-handoff.md",
+      "sha256": "0902ba5a5645dbf122af056c0e77b5be2fbd7e6ce696c487d97f024aa0abdc1a",
+      "bytes": 10346,
+      "submitted_sha256": "3d3a993b5f40658b61af33092062aed001b197169b79934933034883f8d5d603"
+    },
+    {
+      "path": "packages/contracts/product-core/README.md",
+      "sha256": "cae4a3f4cb5489a2cd10e31a0078c0c336ec0c40155f7c66bb8a7c49840fba04",
+      "bytes": 4122,
+      "submitted_sha256": "cae4a3f4cb5489a2cd10e31a0078c0c336ec0c40155f7c66bb8a7c49840fba04"
+    },
+    {
+      "path": "services/product/context.py",
+      "sha256": "f3d75a1b7618fd2e02dca676cbb1206babe430bb11eeae532a63db049e03f8e2",
+      "bytes": 4259,
+      "submitted_sha256": "f3d75a1b7618fd2e02dca676cbb1206babe430bb11eeae532a63db049e03f8e2"
+    },
+    {
+      "path": "services/product/kernel.py",
+      "sha256": "6178859efdc0fcbae4ef8988263a30bd75ebbd468c72d377327a9966c4ea4748",
+      "bytes": 20882,
+      "submitted_sha256": "6178859efdc0fcbae4ef8988263a30bd75ebbd468c72d377327a9966c4ea4748"
+    },
+    {
+      "path": "services/product/store.py",
+      "sha256": "6981469fdb0c1fbd2c1e27a7dcc2b80f3b369a831cf74a835c607a408544e518",
+      "bytes": 10748,
+      "submitted_sha256": "eb58f1fe9815885e3998f0f36193b2b72e1ecb1e289019df840c57383b0c63fd"
+    },
+    {
+      "path": "tests/product/core002_r1/session-races.test.mjs",
+      "sha256": "e6bb8692cab8bea40b44a17e208381b9186144ef0fd3608b019956ba82702876",
+      "bytes": 3865,
+      "submitted_sha256": "e6bb8692cab8bea40b44a17e208381b9186144ef0fd3608b019956ba82702876"
+    },
+    {
+      "path": "tests/product/core002_r1/session-submit.test.mjs",
+      "sha256": "fdeeb9e0103a4af9cd593457853ef0e9edaea8116ec51e5c585c37efb90e3767",
+      "bytes": 4607,
+      "submitted_sha256": "fdeeb9e0103a4af9cd593457853ef0e9edaea8116ec51e5c585c37efb90e3767"
+    },
+    {
+      "path": "tests/product/core002_r1/test_migration_shape.py",
+      "sha256": "a9eac4a990767e8b41ca2a35d7dc571e758d8a3042ba2335cfc39ba6531142bd",
+      "bytes": 4846,
+      "submitted_sha256": "a9eac4a990767e8b41ca2a35d7dc571e758d8a3042ba2335cfc39ba6531142bd"
+    },
+    {
+      "path": "tests/product/core002_r1/test_superseded.py",
+      "sha256": "4e6b02020e4843d16d3352c3657644682738223c184c6c19718b6dd3742712cb",
+      "bytes": 2853,
+      "submitted_sha256": "4e6b02020e4843d16d3352c3657644682738223c184c6c19718b6dd3742712cb"
+    },
+    {
+      "path": "tests/product/host_core002.test.mjs",
+      "sha256": "0206c5f4f8bb20ffd7a39889d89163796377e674fd2214ba4699693cc0b17150",
+      "bytes": 6679,
+      "submitted_sha256": "0206c5f4f8bb20ffd7a39889d89163796377e674fd2214ba4699693cc0b17150"
+    },
+    {
+      "path": "tests/product/test_core002_context.py",
+      "sha256": "b7d9a49b44d5d92f5326b3bcc54aadd77a079de42bda3a0881f274fc9463a453",
+      "bytes": 8896,
+      "submitted_sha256": "b7d9a49b44d5d92f5326b3bcc54aadd77a079de42bda3a0881f274fc9463a453"
+    },
+    {
+      "path": "tests/product/core002_r1/session-reentrant.test.mjs",
+      "sha256": "d10ee95d20887062de91e7d545a154da761a9cea781c43b2019770f2a61ecb21",
+      "bytes": 2334,
+      "submitted_sha256": null
+    },
+    {
+      "path": "tests/product/core002_r1/test_architect_migration_prefix.py",
+      "sha256": "bdec9cada755094d90d001dd9808b5e5ef92b90159fbadbc4eae37b9a7be6dbb",
+      "bytes": 1022,
+      "submitted_sha256": null
+    }
+  ]
+}

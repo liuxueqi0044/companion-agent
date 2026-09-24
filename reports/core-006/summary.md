@@ -1,0 +1,7 @@
+# CORE-006 implementation summary
+
+Status: **submitted** for independent review. The new trusted headless runtime combines the existing application, turn runner and contact runner around one original host. A single explicit `send` saves the user turn and, only after a confirmed queued receipt, advances the permitted local chain. It preserves unknown outcomes, prevents a second send while execution is reserved, and keeps cancellation, permission revocation and actual worker exit distinct.
+
+The runtime offers fixed front-end method groups, real selected-turn and message readback, an explicit host-only contact pulse, and close ownership through actual provider/host/cleanup settlement. The local demo used synthetic decisions over real Node→Python→SQLite→CSV and reopened durable identity, policy, completed task/result and inbox messages; maximum synthetic provider concurrency was one. No real model, HTTP request or credential read occurred.
+
+Full verification passed: **121 Python**, **161 Node** (142 frozen plus 19 new), private Schema, five offline demos, 9-artifact manifest, CORE-005 architect artifact comparison and CORE-006 scope. Earlier test/demo assertion mistakes were corrected and are recorded in `report.json`. Real model semantics, native isolation, background delivery and product visual review remain **not_run**. Independent acceptance is pending; see [report.json](report.json) and [verification.md](evidence/verification.md).
