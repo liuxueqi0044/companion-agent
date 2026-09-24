@@ -1,0 +1,14 @@
+{
+  "task_cards": 156,
+  "modules": 12,
+  "shared_contracts": 11,
+  "original_parents_covered": 55,
+  "supplementary_foundation_cards": 5,
+  "acyclic": true,
+  "missing_local_links": [],
+  "architecture_hash_bindings_valid": true,
+  "max_base_context_chars": 11573,
+  "helper_tests_passed": 11,
+  "product_tests_run": false,
+  "application_implemented": false
+}

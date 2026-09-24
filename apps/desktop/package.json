@@ -1,0 +1,14 @@
+{
+  "name": "@companion/desktop",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Companion Agent 桌面壳：M00.0.03 只建立 renderer 空壳的构建入口，不含 Electron main/preload、托盘、认证与任务流程。",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite --host 127.0.0.1"
+  },
+  "dependencies": {
+    "vue": "3.5.43"
+  }
+}

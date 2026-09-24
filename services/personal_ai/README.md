@@ -1,0 +1,13 @@
+# Local Personal AI identity and explicit preferences
+
+`PersonalAIService` is a process-local, single-user application service. It stores a stable UUID profile ID and three user-confirmed UTF-8 preference strings. It does not parse natural language, call a model, keep conversation memory, grant permissions, or change task/executor state. `communication_instructions` remains lower-trust user preference data; callers must not turn it into an overriding system prompt or authorization.
+
+## Calls
+
+Construct `PersonalAIService(SQLitePersonalAIRepository(db_path))` inside a local trusted process. `bootstrap()` explicitly initializes once; `read()` never creates a database or a replacement identity. `change({expected_revision, command_id, changes})` replaces one to three named strings, preserving omitted fields. `undo({expected_revision, target_revision, command_id})` copies a historical preference snapshot into a new revision. `history({limit?, before_revision?})` returns newest first, default 20, maximum 100.
+
+`command_id` is a canonical UUIDv4 string. Replaying the exact request returns a receipt whose `result_snapshot` is the original command result and `current_snapshot` is the head now. Reusing its ID with different content returns `idempotency_conflict`. Two writers with the same old expected revision cannot both commit. Errors are `not_initialized`, `conflict`, `invalid_request`, `idempotency_conflict`, `recovery_required`, or `busy`. A damaged or unfamiliar database requires explicit recovery; the service never silently resets identity. `response_too_large` is a CLI-only output-limit error.
+
+`tools/personal_ai.py` accepts one strict UTF-8 JSON request from stdin and writes one JSON response to stdout. Commands are `bootstrap`, `read`, `change`, `undo`, `history`; the script has no path/owner override and uses only `reports/evidence/BATCH-014/local-state/personal_ai.sqlite3`. The CLI caps input at 32 KiB and output at 128 KiB. Exit 0 means success, 2 a classified request/state error, 3 an unexpected internal error. Its success response may contain profile preferences because this is a local business read; diagnostic logs do not print preference text.
+
+SQLite is the local development store and transaction authority only. Production PostgreSQL/Supabase remains a separate architecture decision; any migration must be explicit through the narrow repository boundary. There is no remote authentication or multi-user isolation in this spike. Do not expose the CLI as a network API. The generated contract is at `packages/contracts/personal-ai-local/schema.json` and is not the frozen C01–C11 public contract.

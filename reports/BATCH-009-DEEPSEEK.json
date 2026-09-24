@@ -1,0 +1,206 @@
+{
+  "schema_version": "1",
+  "batch_id": "BATCH-009",
+  "dispatch_ref": "docs/handoff/BATCH-009.md",
+  "status": "submitted",
+  "base_ref": "sha256:023bd23dc65eb51eb6298a7ec65cae29f880e175c1b79b146ce5813e2741e341",
+  "interfaces_changed": [],
+  "batch_level_changed_files": [
+    "reports/BATCH-009.md"
+  ],
+  "task_id": "BATCH-009-DEEPSEEK",
+  "phase": "optional_model_smoke_preparation",
+  "result_manifest": "reports/evidence/BATCH-009-DEEPSEEK/artifact-manifest.json",
+  "result_ref": "manifest-sha256:63f06a3b8cc46ac97b413297aae3a9c40f8c02a18c80ace43e028af6fb31cb74",
+  "summary": "Fixed deepseek-flash non-thinking JSON adapter with injectable HTTP and strict fictional output validator. Five offline tests, strict TS, CLI plan/offline and import guard pass. User has not configured DEEPSEEK_API_KEY; live not_run.",
+  "changed_files": [
+    "tests/spikes/deepseek_client.ts",
+    "tests/spikes/deepseek_smoke.ts",
+    "docs/evidence/deepseek-smoke.md",
+    "reports/BATCH-009-DEEPSEEK.json",
+    "reports/evidence/BATCH-009-DEEPSEEK/B9-final-scope.txt",
+    "reports/evidence/BATCH-009-DEEPSEEK/B9-manifest-create.txt",
+    "reports/evidence/BATCH-009-DEEPSEEK/B9-manifest-verify.txt",
+    "reports/evidence/BATCH-009-DEEPSEEK/B9-report-audit.txt",
+    "reports/evidence/BATCH-009-DEEPSEEK/B9-report-write.txt",
+    "reports/evidence/BATCH-009-DEEPSEEK/B9-scope-post-logs.txt",
+    "reports/evidence/BATCH-009-DEEPSEEK/B9-taskctl-next.txt",
+    "reports/evidence/BATCH-009-DEEPSEEK/B9-taskctl-validate.txt",
+    "reports/evidence/BATCH-009-DEEPSEEK/C-import.txt",
+    "reports/evidence/BATCH-009-DEEPSEEK/C-offline.txt",
+    "reports/evidence/BATCH-009-DEEPSEEK/C-plan.txt",
+    "reports/evidence/BATCH-009-DEEPSEEK/C-typecheck.txt",
+    "reports/evidence/BATCH-009-DEEPSEEK/C-vitest.txt",
+    "reports/evidence/BATCH-009-DEEPSEEK/artifact-manifest.json",
+    "reports/evidence/BATCH-009-DEEPSEEK/checkpoint.md",
+    "reports/evidence/BATCH-009-DEEPSEEK/deepseek.test.ts",
+    "reports/evidence/BATCH-009-DEEPSEEK/finalize_batch009.py",
+    "reports/evidence/BATCH-009-DEEPSEEK/sources.json"
+  ],
+  "dispatch_changed_files": [],
+  "commands": [
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "reports/evidence/BATCH-009-DEEPSEEK/deepseek.test.ts"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-009-DEEPSEEK/C-vitest.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "--strict",
+        "--target",
+        "es2022",
+        "--module",
+        "esnext",
+        "--moduleResolution",
+        "bundler",
+        "--allowImportingTsExtensions",
+        "--types",
+        "node",
+        "--skipLibCheck",
+        "tests/spikes/deepseek_client.ts",
+        "tests/spikes/deepseek_smoke.ts",
+        "reports/evidence/BATCH-009-DEEPSEEK/deepseek.test.ts"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-009-DEEPSEEK/C-typecheck.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "tests/spikes/deepseek_smoke.ts",
+        "--plan"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-009-DEEPSEEK/C-plan.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "tests/spikes/deepseek_smoke.ts",
+        "--offline"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-009-DEEPSEEK/C-offline.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "--input-type=module",
+        "-e",
+        "await import('./tests/spikes/deepseek_smoke.ts'); console.log('import completed')"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-009-DEEPSEEK/C-import.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/BATCH-009-DEEPSEEK/finalize_batch009.py",
+        "--write-manifests"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-009-DEEPSEEK/B9-manifest-create.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/BATCH-009-DEEPSEEK/finalize_batch009.py",
+        "--write-reports"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-009-DEEPSEEK/B9-report-write.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/handoff/check_batch009_scope.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-009-DEEPSEEK/B9-final-scope.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/handoff/check_batch009_scope.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-009-DEEPSEEK/B9-scope-post-logs.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/BATCH-009-DEEPSEEK/finalize_batch009.py",
+        "--verify-manifests"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-009-DEEPSEEK/B9-manifest-verify.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/execution/taskctl.py",
+        "validate",
+        "--repo",
+        "."
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-009-DEEPSEEK/B9-taskctl-validate.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/execution/taskctl.py",
+        "next",
+        "--repo",
+        "."
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-009-DEEPSEEK/B9-taskctl-next.txt",
+      "evidence_kind": "actual"
+    }
+  ],
+  "preparation_results": [
+    {
+      "id": "B9-C01",
+      "status": "passed",
+      "evidence": "C-vitest.txt: five focused offline cases; C-typecheck.txt and C-plan/offline/import logs."
+    },
+    {
+      "id": "B9-C02",
+      "status": "passed",
+      "evidence": "Explicit --live and single-attempt ledger guard implemented; user has not configured key, so live is not_run."
+    }
+  ],
+  "live_result": {
+    "status": "not_run",
+    "reason": "User stated DeepSeek API key is not configured; no --live was invoked, no key was searched or read.",
+    "http_request_count": 0,
+    "account_or_model_requests": 0,
+    "cost_amount_usd": null,
+    "preflight_estimate_usd": 0.0008388
+  },
+  "unresolved": [
+    "Any real model response and actual cost require a later explicit configured run with same-day price recheck.",
+    "This provider smoke cannot satisfy Codex/Hermes official Agent lifecycle acceptance."
+  ],
+  "next_step": "Independent review of offline adapter and later explicit configuration/authorization if desired."
+}

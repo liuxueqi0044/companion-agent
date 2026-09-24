@@ -1,0 +1,144 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.2.01",
+  "task_spec_sha256": "a4d73d7e29ab513d3dfdd1812b79bdc8fa9f3a2dfb83b9e3d5f6751fbecad55d",
+  "batch_id": "BATCH-002",
+  "dispatch_ref": "docs/handoff/CURRENT-TASK.md",
+  "status": "submitted",
+  "base_ref": "sha256:02359edd95aa09ae294f78bca6d950527d9b63d95ff885c6f1b4c5828adb620e",
+  "result_ref": "file-sha256:ea2f7b18a6d80f951f4225fbce8e45ca5ba606622883c689d2b7346cf7497572",
+  "summary": "交付 docs/dependencies/runtime-matrix.json：26 个条目（20 candidate / 6 planned）逐项记录用途、部署面、真实包名、精确版本或不可变 commit、发布时间、查询时间、支持系统、语言约束、接口证据、来源 URL、证据文件及 SHA-256、验证层级与 unknown。覆盖 Hermes（主运行时）、Codex 与 Claude Code（两个可替换工程执行器，适配角色不同、不是三套记忆主控）、CPython 3.13.15、Node v24.21.0 LTS、npm/pnpm/uv/pip，以及初始化需要的主依赖（fastapi/uvicorn/pydantic/json-schema-to-typescript/pytest/vitest/electron/vue/vite/typescript/@types/node）与计划项（supabase/pgmq/e2b/mcp/langfuse/AIRI commit）。关键结论：(1) Python 冻结候选取 3.13.15 而非最新稳定 3.14.7，因为 hermes-agent 0.19.0 的 requires_python 为 >=3.11,<3.14；(2) Node 取 24 线 LTS 而非 26 线（26 尚未 LTS），并满足全部已声明 engines 的交集；(3) Hermes 钉死 pydantic==2.13.4 与我方候选 2.13.5 不能同环境共存，故独立执行器自带环境与源码构建工具链分开记录，不合并进程环境；(4) @types/node 取 24.x 线 24.13.6（与运行时大版本对齐）而不是对应 Node 26 的 26.6.2。全部证据来自本轮对官方 PyPI/npm/GitHub/nodejs.org/python.org 的真实 HTTP 查询（原始日志 fetch-run.txt / retry-tag-refs.txt / extra-evidence.txt），未用模型记忆填版本，未登录、未下载安装包本体。GitHub 匿名为 tag 解引用时被限流 403（如实记录），tag→commit 改用发行页 HTML + commit 页面 200 核实并写明 caveat。",
+  "changed_files": [
+    "docs/dependencies/runtime-matrix.json",
+    "reports/M00.2.01.json",
+    "reports/M00.2.01.checkpoint.md",
+    "reports/evidence/M00.2.01/check_runtime_matrix.py",
+    "reports/evidence/M00.2.01/extra-evidence.txt",
+    "reports/evidence/M00.2.01/fetch-run.txt",
+    "reports/evidence/M00.2.01/fetch_extra_evidence.py",
+    "reports/evidence/M00.2.01/fetch_runtime_metadata.py",
+    "reports/evidence/M00.2.01/fetch_tag_refs_retry.py",
+    "reports/evidence/M00.2.01/github-NousResearch-hermes-agent.json",
+    "reports/evidence/M00.2.01/github-commit-airi-308ee2b3.json",
+    "reports/evidence/M00.2.01/github-commit-hermes-agent-7ce19044.json",
+    "reports/evidence/M00.2.01/github-latest-releases.json",
+    "reports/evidence/M00.2.01/github-openai-codex.json",
+    "reports/evidence/M00.2.01/github-release-tag-pages.json",
+    "reports/evidence/M00.2.01/github-tag-refs.json",
+    "reports/evidence/M00.2.01/nodejs-dist-index.json",
+    "reports/evidence/M00.2.01/npm-anthropic-ai-claude-code.json",
+    "reports/evidence/M00.2.01/npm-electron.json",
+    "reports/evidence/M00.2.01/npm-json-schema-to-typescript.json",
+    "reports/evidence/M00.2.01/npm-npm.json",
+    "reports/evidence/M00.2.01/npm-openai-codex.json",
+    "reports/evidence/M00.2.01/npm-pnpm.json",
+    "reports/evidence/M00.2.01/npm-types-node-24.json",
+    "reports/evidence/M00.2.01/npm-types-node.json",
+    "reports/evidence/M00.2.01/npm-typescript.json",
+    "reports/evidence/M00.2.01/npm-vite.json",
+    "reports/evidence/M00.2.01/npm-vitest.json",
+    "reports/evidence/M00.2.01/npm-vue.json",
+    "reports/evidence/M00.2.01/official-docs-extra.json",
+    "reports/evidence/M00.2.01/official-docs.json",
+    "reports/evidence/M00.2.01/pypi-e2b.json",
+    "reports/evidence/M00.2.01/pypi-fastapi.json",
+    "reports/evidence/M00.2.01/pypi-hermes-agent.json",
+    "reports/evidence/M00.2.01/pypi-langfuse.json",
+    "reports/evidence/M00.2.01/pypi-mcp.json",
+    "reports/evidence/M00.2.01/pypi-pgmq.json",
+    "reports/evidence/M00.2.01/pypi-pip.json",
+    "reports/evidence/M00.2.01/pypi-pydantic.json",
+    "reports/evidence/M00.2.01/pypi-pytest.json",
+    "reports/evidence/M00.2.01/pypi-supabase.json",
+    "reports/evidence/M00.2.01/pypi-uv.json",
+    "reports/evidence/M00.2.01/pypi-uvicorn.json",
+    "reports/evidence/M00.2.01/python-releases.json",
+    "reports/evidence/M00.2.01/retry-tag-refs.txt",
+    "reports/evidence/M00.2.01/verification.txt"
+  ],
+  "commands": [
+    {
+      "argv": ["python", "reports/evidence/M00.2.01/fetch_runtime_metadata.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.01/fetch-run.txt",
+      "evidence_kind": "actual",
+      "note": "首次抓取 12 个 PyPI 包、11 个 npm 包、2 个 GitHub 仓库、2 个历史 commit、node/python 发行索引与 8 个官方文档页；每个证据文件带 _source(url/http_status/fetched_at/user_agent/response_bytes)"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.2.01/fetch_tag_refs_retry.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.01/retry-tag-refs.txt",
+      "evidence_kind": "actual",
+      "note": "重试 release tag 的 API 解引用，仍为 403（匿名限流），照实记录状态码，未借凭据绕过"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.2.01/fetch_extra_evidence.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.01/extra-evidence.txt",
+      "evidence_kind": "actual",
+      "note": "补齐两块证据：python.org FTP 目录清单（3.13.15 有 amd64/arm64 Windows 安装器；3.12.14 无安装器条目）与 @types/node 时间表（24.13.6 = 24.x 最新，2026-09-19 发布）"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.2.01/check_runtime_matrix.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.01/verification.txt",
+      "evidence_kind": "actual",
+      "note": "total=15 failed=0：结构/字段、A01（pinned 仅精确版本或 40 位 commit）、A02（未知项明确 unknown）、证据哈希逐文件实算、无未引用证据、版本可回溯到本条目证据文本、适配角色与环境分离、约束交集核算，另加 7 条内存负例证明各校验器会失败"
+    },
+    {
+      "argv": ["python", "docs/execution/taskctl.py", "validate"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.01/verification.txt",
+      "evidence_kind": "actual",
+      "note": "任务包结构正常：{\"valid\": true, \"tasks\": 156, \"first\": \"M00.1.01\"}"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.1.03/check_correction.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.01/verification.txt",
+      "evidence_kind": "actual",
+      "note": "回归：本卡未改 M00.1.03 产物，其自检仍为 total=110 failed=0"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.1.02/check_fixtures.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.01/verification.txt",
+      "evidence_kind": "actual",
+      "note": "回归：公开样本检查仍通过"
+    },
+    {
+      "argv": ["sha256sum", "docs/dependencies/runtime-matrix.json", "reports/evidence/M00.2.01/check_runtime_matrix.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.01/verification.txt",
+      "evidence_kind": "actual",
+      "note": "runtime-matrix.json = ea2f7b18…（即 result_ref）；check_runtime_matrix.py = c287c055…"
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.2.01-A01",
+      "status": "passed",
+      "evidence": "不以 latest 作为冻结版本：pinned 只有精确版本号（如 0.19.0 / 3.13.15 / v24.21.0 / 44.4.4）或 40 位 commit（d337b736… / fe74a774… / 308ee2b3…）；检查脚本对每个 pinned 值做正则判定（必须三段式版本、可带生态前缀如 rust-，或 40 位 hex）并显式拒绝 latest/main/^/*/>=/~，负例 1、2 证明该判定会失败。对照信息（最新 tag、最新 npm 版本、最新稳定 Python、Node 26 线）一律放在 reference_not_frozen 并写明为何不冻结：Python 因 hermes-agent 的 <3.14 约束取 3.13.15；Node 取 24 LTS 而非 26（26 未 LTS）；@types/node 取 24.x 对齐运行时而非最新 26.x；Hermes 的 PyPI 0.19.0 与 git tag v2026.9.21 版本体系不同，未把“最新 tag”当安装版本。写入 pinned 的历史 commit 均已核实仍可获取（git_commit_check：发行页唯一 commit 链接 + commit 页面 200）。"
+    },
+    {
+      "id": "M00.2.01-A02",
+      "status": "passed",
+      "evidence": "未能核实的兼容项明确 unknown：26 个条目每条都有 unknowns 数组（脚本断言非空），且在 supported_systems / language_constraints 里凡是本轮未核实的都写 unknown 而不是留空或猜测——hermes-agent 的官方支持系统矩阵与接口版本、Codex 的 App Server 协议版本与 npm/rust 发行物映射、Claude Code 的接口兼容承诺与条款、Node 的 Electron 内置运行时版本、Python 3.13 支持周期、vue 未声明 engines 因而“与 Node 24 相容”不能由包元数据断言、各个包的官方 OS 分类器列表。矩阵顶部 unknown_and_gaps 汇总 7 条跨条目缺口，其中明确写出“全部条目只到约束相容/元数据已核实，没有真实安装或端到端运行”。检查脚本负例 3、7 证明缺 unknowns 或未核实却不写 unknown 会被拦下。"
+    }
+  ],
+  "integration_evidence_kind": "not_run",
+  "unresolved": [],
+  "evaluator_followups": [
+    "本卡全部结论为“约束相容”，不是安装验证；M00.0/M00.3 的初始化卡需要实际安装后再验证一遍 Python 3.13.15 + Node 24.21.0 上的安装结果与锁文件。",
+    "GitHub 匿名 API 限流导致两个 release tag 的 commit 解引用未完成，现为页面证据（发行页唯一 commit 链接 + commit 页 200）。M00.2.03 冻结前若配额恢复，应以 git/ref/tags + git/tags 解引用复核 annotated tag。",
+    "Hermes 的 API Server 接口版本、官方支持系统矩阵、以及会话/取消/隔离/恢复四项能力仍未核实，属后续卡的实测项；本卡只记录了接口入口可达。",
+    "pydantic 版本分歧（Hermes 钉死 2.13.4 vs 我方候选 2.13.5）需要架构决策：要么两套环境完全分离，要么我方降到 2.13.4。本卡只记录冲突事实，不擅自合并环境。",
+    "Electron 44.4.4 内置的 Node/Chromium 版本未核实；桌面运行时与系统 Node 24 是两套运行时，打包卡需要单独核实。"
+  ],
+  "architect_notes": [
+    "runtime-matrix.json 原本就是未来产品仓库的文档路径（docs/dependencies/），本卡按“先记录事实、不下许可结论”的方式写：许可字段只记 registry 里的原始值（包括 Claude Code 的 \"SEE LICENSE IN README.md\" 与 Langfuse 的多许可提示），许可判定留给 M00.2.02。",
+    "适配角色与运行环境分开写：Hermes 是唯一主控，Codex/Claude Code 是可替换执行器；env-executors 明确这三个上游程序自带运行环境，与 env-server/env-desktop 不共用进程环境，理由由 pydantic 的 == 钉死给出（不是凭偏好分环境）。",
+    "证据文件均保留 _source（url/http_status/fetched_at/user_agent/response_bytes），失败也照实记录（tag 解引用 403、python.org downloads 页对脚本返回压缩内容改用 FTP 目录清单）。矩阵不引用证据正文之外的推断，避免把模型记忆当版本来源。"
+  ],
+  "next_step": "本卡已自检并提交，按 BATCH-002 授权直接进入 M00.2.02（docs/dependencies/license-register.json、docs/dependencies/asset-register.json）；四张卡完成后统一交接，等待独立复核，不自行标记 accepted。"
+}

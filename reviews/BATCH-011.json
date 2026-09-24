@@ -1,0 +1,58 @@
+{
+  "batch_id": "BATCH-011",
+  "decision": "changes_requested",
+  "original_accepted_count": 12,
+  "submitted_result_ref": "sha256:c345ad35cfa6994741c8d5ea02311a474e6a492be2b9a30c14bbe0624f95eb65",
+  "acceptance_results": {
+    "B11-A01": "changes_requested",
+    "B11-B01": "changes_requested",
+    "B11-B02": "changes_requested",
+    "B11-C01": "changes_requested",
+    "B11-C02": "not_run"
+  },
+  "findings": [
+    {
+      "id": "B11-R01",
+      "priority": 1,
+      "file": "tests/spikes/personal-space/host/main.ts",
+      "line": 72,
+      "title": "装载资源必须按操作归属清理，撤销必须恢复实际视图",
+      "acceptance": "B11-B01",
+      "evidence": "reviews/evidence/BATCH-011/probe-results.json",
+      "detail": "旧activate完成后关闭全局pendingBridge，导致新候选端口在ready之前被关闭并最终timeout。两次装入fixture后undo返回restored且active_revision=fixture-v1，但iframe数量为0。mountCurrent另走无代次装配路径，也必须统一纳入取消/恢复生命周期。"
+    },
+    {
+      "id": "B11-R02",
+      "priority": 1,
+      "file": "tests/spikes/personal-space/host/bridge.ts",
+      "line": 27,
+      "title": "主动状态推送绕过读取授权",
+      "acceptance": "B11-B02",
+      "evidence": "reviews/evidence/BATCH-011/probe-results.json",
+      "detail": "使用空grant且尚未ready的BoundBridge，stateChanged仍发送完整host.snapshot，含草稿。入站read校验不能代替出站授权；候选、失活、已关闭或权限撤销后的端口均不得收到私有状态。"
+    },
+    {
+      "id": "B11-R03",
+      "priority": 2,
+      "file": "tests/spikes/personal-space/core/store.mjs",
+      "line": 118,
+      "title": "封存幂等比较遗漏包身份和权限元数据",
+      "acceptance": "B11-A01",
+      "evidence": "reviews/evidence/BATCH-011/probe-results.json",
+      "detail": "代码字节相同但package_id/source_type/requested_scopes不同的r1候选被already_sealed接受并返回另一清单。应比较完整的规范化可信manifest，不能仅比较artifact/build_input hash。已有封存目录仍未被覆盖，但调用者收到的是不同包的成功回执。"
+    },
+    {
+      "id": "B11-R04",
+      "priority": 1,
+      "file": "tests/spikes/personal-space/deepseek/live-launcher.ps1",
+      "line": 65,
+      "title": "凭据解码格式不匹配且恢复入口违反冻结尝试规则",
+      "acceptance": "B11-C01",
+      "evidence": "reviews/evidence/BATCH-011/dpapi-format-result.json",
+      "detail": "凭据由ConvertFrom-SecureString保存为文本；launcher将文件文本字节交给原始ProtectedData.Unprotect。使用合成值复现原读取失败，而ConvertTo-SecureString可正确还原。ResumeReserved重用预留失败attempt不符合本批无重试规则，应移除；Node路径应使用项目冻结runtime。真实key本次未读取，API有效性/余额未知。"
+    }
+  ],
+  "review_model_requests": 0,
+  "review_real_credential_reads": 0,
+  "product_visual": "not_run"
+}

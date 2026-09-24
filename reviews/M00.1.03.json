@@ -1,0 +1,30 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.1.03",
+  "task_spec_sha256": "81b7b4f2710508cfb6625e7f46c07130c04739f90365861ce565f13687ac9778",
+  "report_sha256": "a467c7411918b1a6c2d8179c50979082ea656d9dca60610e8c2b55546956e782",
+  "decision": "accepted",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_result_ref": "manifest-sha256:612da2e9c058de193a064eade7fe0d95cbb64d0234917cfdb0ec34e5f88271d2",
+  "checked_acceptance_ids": [
+    "M00.1.03-A01",
+    "M00.1.03-A02"
+  ],
+  "acceptance_decisions": [
+    {
+      "id": "M00.1.03-A01",
+      "decision": "passed",
+      "basis": "预留输入哈希与已审核基线一致；当前检查不解析预留答案，作者未知的运行时验证不伪造。"
+    },
+    {
+      "id": "M00.1.03-A02",
+      "decision": "passed",
+      "basis": "纠正快照与复用快照齐备；新输入来源、行名/单位、分币种金额及公式可独立核对；已有字段继承说明明确。"
+    }
+  ],
+  "reviewed_at": "2026-09-23T00:40:18.726411+00:00",
+  "notes": "核对实际字节、范围与证据哈希，复跑检查器，并抽查官方固定版本源文件。当前只验收文档/样本与候选约束，未安装产品、未调用模型、未证明真实集成。受查文件保存在 reviews/history/BATCH-002/submitted；本轮复核之后的派工变更不归责于开发者。",
+  "evidence_ref": "reviews/evidence/BATCH-002/audit.json",
+  "findings": []
+}

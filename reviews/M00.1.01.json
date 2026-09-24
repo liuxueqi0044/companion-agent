@@ -1,0 +1,31 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.1.01",
+  "task_spec_sha256": "7f230ca6b214c80dfd74f4476df5321a0828cc7b5dbba4533f5492bc3c106818",
+  "report_sha256": "f5b0aadcd2f3ffbd7ccba573fd8b2bf5deeecace6734bc4d7516f820b3df2e8e",
+  "decision": "accepted",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_result_ref": "file-sha256:d809480ff49b633ad75c60968474f2a26c2e8566ba5e2647b58daff5812c3caf",
+  "checked_acceptance_ids": [
+    "M00.1.01-A01",
+    "M00.1.01-A02"
+  ],
+  "acceptance_decisions": [
+    {
+      "id": "M00.1.01-A01",
+      "decision": "passed",
+      "basis": "单一 S0–S5 链路；任务身份和验证后发布规则与裁定一致。"
+    },
+    {
+      "id": "M00.1.01-A02",
+      "decision": "passed",
+      "basis": "排除对外业务发送、自动付款和持续屏幕采集；授权基础设施边界明确。"
+    }
+  ],
+  "reviewed_at": "2026-09-22T23:36:02.368834+00:00",
+  "notes": "独立核对实际产物、哈希、全部批次文件边界，复跑作者自检并检查语义。仅为文档/样本验收，未运行产品集成。本卡可作为后续任务已验收依赖。",
+  "evidence_ref": "reviews/evidence/BATCH-001/review-evidence.json",
+  "findings": [],
+  "evaluator_followups_closed": {}
+}

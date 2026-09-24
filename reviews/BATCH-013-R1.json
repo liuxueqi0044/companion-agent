@@ -1,0 +1,31 @@
+{
+  "batch_id": "BATCH-013-R1",
+  "decision": "accepted",
+  "scope": "offline authoring, receipt validation, trusted fixture recovery and static model-descendant revalidation only",
+  "original_accepted_count": 12,
+  "result_ref": "sha256:970c8182ef0e2e76e6f568c22a3c7662480e0c6229705fa52e80321a225fd208",
+  "acceptance_results": {
+    "R1-A01": "accepted",
+    "R1-B01": "accepted",
+    "R1-C01": "accepted",
+    "R1-D01": "accepted"
+  },
+  "closed_findings": [
+    "B13-R01",
+    "B13-R02"
+  ],
+  "independent_validation": {
+    "authoring_tests": 28,
+    "core_tests": 5,
+    "host_tests": 16,
+    "typecheck": "passed",
+    "syntax_files": 16,
+    "manifest_items": 49,
+    "historical_files": 76,
+    "submitted_files_unchanged": 1733
+  },
+  "model_http_requests": 0,
+  "real_credential_reads": 0,
+  "browser_native_visual": "not_run",
+  "next_batch": "BATCH-014"
+}

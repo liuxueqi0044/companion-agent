@@ -1,0 +1,204 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.0.05",
+  "task_spec_sha256": "f2208cc8a424cd4246c1076b7db2fc955377d6e211ace5a4b423804590413174",
+  "batch_id": "BATCH-004-R1",
+  "dispatch_ref": "docs/handoff/BATCH-004-R1.md",
+  "status": "submitted",
+  "base_ref": "sha256:9afbbb2389076ffd57867c0f61cd7b5d54d803e1b6940a7e81f1114599f4831d",
+  "result_ref": "manifest-sha256:354fa4e619226eb29a4e5aed5c0a3fa152275c05553ec265f4b32c252980bbd7",
+  "result_manifest": "reports/evidence/M00.0.05/artifact-manifest.json",
+  "summary": "BATCH-004-R1 将 create_app(settings=None) 默认接到 Settings.from_env()，模块级 app 走同一工厂；显式 Settings 实例继续优先。新进程证明有效环境值进入默认工厂与模块 app，非法 PORT/ENVIRONMENT/LOG_LEVEL 明确失败。无密钥健康服务、导入前 socket 拦截、真实 uvicorn 本机 200/404、两组回归均通过。标准 uvicorn CLI 的监听地址和端口仍由 CLI 参数控制。",
+  "changed_files": [
+    "services/control/settings.py",
+    "services/control/routes.py",
+    "services/control/app.py",
+    "reports/M00.0.05.json",
+    "reports/M00.0.05.checkpoint.md",
+    "reports/evidence/M00.0.05/verification.txt",
+    "reports/evidence/M00.0.05/artifact-manifest.json",
+    "reports/evidence/M00.0.05/logs/01-uv-lock.txt",
+    "reports/evidence/M00.0.05/logs/02-uv-sync.txt",
+    "reports/evidence/M00.0.05/logs/03-uv-export-and-repro.txt",
+    "reports/evidence/M00.0.05/logs/04-pytest-control-app.txt",
+    "reports/evidence/M00.0.05/logs/05-uvicorn-http-smoke.txt",
+    "reports/evidence/M00.0.05/logs/06-import-no-network.txt",
+    "reports/evidence/M00.0.05/logs/07-pytest-batch-both-suites.txt",
+    "reports/evidence/M00.0.05/logs/08-vitest-targeted-smoke.txt",
+    "reports/evidence/M00.0.05/logs/09-verify-task-cross-check.txt",
+    "reports/evidence/M00.0.05/logs/10-uvicorn-cli-entrypoint.txt",
+    "reports/evidence/M00.0.05/logs/R1-settings-and-smoke.txt",
+    "reports/evidence/M00.0.05/logs/R1-pytest-batch.txt",
+    "reports/evidence/M00.0.05/logs/R1-final-scope.txt",
+    "reports/evidence/M00.0.05/logs/R1-taskctl.txt"
+  ],
+  "dispatch_changed_files": {
+    "ref": "docs/handoff/BATCH-004.md",
+    "files": [
+      {
+        "path": "tests/unit/test_control_app.py",
+        "sha256": "3eed9f8ea0d7b990a88d53105b3a0abcf69e1d62923865031dbde1e58b9e97cf",
+        "previous_sha256": null,
+        "note": "BATCH-004 原派工额外授权新增此单测；BATCH-004-R1 §3 再授权修订。sha256 为当前提交字节，r1_previous_sha256 为本轮基线；单独列入 changed_files_this_round，不冒充原卡 write_allowlist。",
+        "r1_previous_sha256": "e97618e8489b0c567cf70832f720a8549d67b6901ec042d14d9e6e6e1a10923f",
+        "current_round_ref": "docs/handoff/BATCH-004-R1.md"
+      },
+      {
+        "path": "pyproject.toml",
+        "sha256": "3be629a2d75c3b88248b92332a37bb955ec7d8bd668ccd565fa9b9979fe9ab4c",
+        "previous_sha256": "3a882095ccf928373def4310bc4af5a4294e592dcd3f90c849e86f037a7463cc",
+        "note": "派工 §2 授权：dependencies 增加 fastapi==0.141.1、uvicorn==0.53.0；pydantic/pytest/hatchling 钉版与打包设置未动。previous_sha256 取自 BATCH-004-BASELINE.json。"
+      },
+      {
+        "path": "uv.lock",
+        "sha256": "6647e4f1290bb2285186266d3af473954bcc584984537e82fbebb0a71cc6430d",
+        "previous_sha256": "d252b1d25276d6c714172b1a731302db76bdf68e76681abd5203efb3f5782185",
+        "note": "派工 §2 授权：由真实 .local-tools/uv-0.12.18/uv.exe lock 解析生成（20 包），非手写。previous_sha256 取自 BATCH-004-BASELINE.json。"
+      },
+      {
+        "path": "requirements-dev.txt",
+        "sha256": "0a45546fdf6f570812c0b0da33cdbabc7537ea35a0577899b8b23eaeafc23b8b",
+        "previous_sha256": "2e7ba7e4e9cfd0c1d1892196099a307432d760d0eaee01f641b9a20ae9bbac72",
+        "note": "派工 §2 授权：由真实 uv export --format requirements-txt --locked 重新导出（含哈希），非手写解析结果。previous_sha256 取自 BATCH-004-BASELINE.json。"
+      }
+    ],
+    "note": "历史额外授权的当前文件哈希在此保留；本轮仅 test_control_app.py 再修改，其余三个依赖/锁文件未修改。"
+  },
+  "supersedes": [
+    {
+      "path": "pyproject.toml",
+      "previous_sha256": "3a882095ccf928373def4310bc4af5a4294e592dcd3f90c849e86f037a7463cc",
+      "new_sha256": "3be629a2d75c3b88248b92332a37bb955ec7d8bd668ccd565fa9b9979fe9ab4c",
+      "reason": "派工 §2 明确授权新增已冻结的 fastapi==0.141.1、uvicorn==0.53.0；其余钉版与打包设置不变。历史 .01 的 accepted 指其提交时版本，原字节在 reviews/history/BATCH-003/submitted/ 可复核，未改旧报告/manifest。"
+    },
+    {
+      "path": "uv.lock",
+      "previous_sha256": "d252b1d25276d6c714172b1a731302db76bdf68e76681abd5203efb3f5782185",
+      "new_sha256": "6647e4f1290bb2285186266d3af473954bcc584984537e82fbebb0a71cc6430d",
+      "reason": "同一授权下的真实 uv 解析结果（新增 8 包，既有钉版无变化）。supersedes 只登记哈希替换，不改历史 accepted 报告。"
+    },
+    {
+      "path": "requirements-dev.txt",
+      "previous_sha256": "2e7ba7e4e9cfd0c1d1892196099a307432d760d0eaee01f641b9a20ae9bbac72",
+      "new_sha256": "0a45546fdf6f570812c0b0da33cdbabc7537ea35a0577899b8b23eaeafc23b8b",
+      "reason": "同一授权下的真实 uv export --locked 重新导出；导出文件始终是生成物，非手写依赖解析。"
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "tests/unit/test_control_app.py",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-s",
+        "-k",
+        "fresh_process or explicit_settings or network_free or real_uvicorn"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.05/logs/R1-settings-and-smoke.txt",
+      "evidence_kind": "actual",
+      "note": "7 passed；全新子进程环境设置、显式注入、导入前 socket 拦截、真实本机 uvicorn HTTP smoke。"
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "tests/unit/test_verify_task.py",
+        "tests/unit/test_control_app.py",
+        "-p",
+        "no:cacheprovider",
+        "-q"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.05/logs/R1-pytest-batch.txt",
+      "evidence_kind": "actual",
+      "note": "本轮两组完整回归 168 passed（旧 130 + 本轮新增 38）。"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/handoff/check_batch004_r1_scope.py"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.05/logs/R1-final-scope.txt",
+      "evidence_kind": "actual",
+      "note": "最终重复检查，范围日志自身已入集合：modified=12、added=9、missing=0、outside=[]、PASS。"
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "docs/execution/taskctl.py",
+        "validate"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.05/logs/R1-taskctl.txt",
+      "evidence_kind": "actual",
+      "note": "valid=true；只检查计划结构。"
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "docs/execution/taskctl.py",
+        "next",
+        "--repo",
+        "."
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.05/logs/R1-taskctl.txt",
+      "evidence_kind": "actual",
+      "note": "M00.0.04 changes_requested、accepted=9；明确 --repo . 指向产品目录。"
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.0.05-A01",
+      "status": "passed",
+      "evidence": "无密钥本地 uvicorn /health 200；默认工厂和模块 app 在全新进程读取人工 COMPANION_PORT/ENVIRONMENT/LOG_LEVEL；非法值抛 SettingsError 且不回显哨兵原值；日志 R1-settings-and-smoke.txt、R1-pytest-batch.txt。"
+    },
+    {
+      "id": "M00.0.05-A02",
+      "status": "passed",
+      "evidence": "新进程在导入前拦截 socket 连接、绑定、监听和 DNS；模块 app 与默认工厂构造均零网络调用、零新线程；日志 R1-settings-and-smoke.txt。"
+    },
+    {
+      "id": "M00.0.05-A03",
+      "status": "passed",
+      "evidence": "真实本机 uvicorn 仍仅 GET /health 200，POST /health 405，未知路径、/api/v1/tasks、/docs、/openapi.json 均 404；日志 R1-settings-and-smoke.txt。"
+    }
+  ],
+  "dispatch_acceptance_map": {
+    "ref": "docs/handoff/BATCH-004-R1.md",
+    "repair_ids": [
+      "B4-R4"
+    ]
+  },
+  "integration_evidence_kind": "actual",
+  "unresolved": [],
+  "evaluator_followups": [
+    "标准 uvicorn CLI 的监听 host/port 由 uvicorn 参数决定；本轮仅接通应用内部默认 Settings，未新增启动器，也不宣称 COMPANION_PORT 自动覆盖 CLI 监听参数。",
+    "本轮未开展 Hermes、认证、数据库或外部模型接入；/health 只证明本地服务响应。"
+  ],
+  "next_step": "submitted；等待交接方独立复核 BATCH-004-R1；不自行写 accepted，不开展批外任务。",
+  "changed_files_this_round": [
+    "services/control/app.py",
+    "tests/unit/test_control_app.py",
+    "reports/M00.0.05.json",
+    "reports/M00.0.05.checkpoint.md",
+    "reports/evidence/M00.0.05/artifact-manifest.json",
+    "reports/evidence/M00.0.05/verification.txt",
+    "reports/evidence/M00.0.05/logs/R1-settings-and-smoke.txt",
+    "reports/evidence/M00.0.05/logs/R1-pytest-batch.txt",
+    "reports/evidence/M00.0.05/logs/R1-final-scope.txt",
+    "reports/evidence/M00.0.05/logs/R1-taskctl.txt"
+  ]
+}

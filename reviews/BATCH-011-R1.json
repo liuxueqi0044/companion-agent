@@ -1,0 +1,34 @@
+{
+  "batch_id": "BATCH-011-R1",
+  "decision": "accepted",
+  "scope": "R1 offline corrections and configured local decode evidence only",
+  "original_accepted_count": 12,
+  "result_ref": "sha256:572c23bcc46ce476b4fc650e76a1fd0e3e29227827ba80c3563b155bccc0f586",
+  "closed_findings": [
+    "B11-R01",
+    "B11-R02",
+    "B11-R03",
+    "B11-R04"
+  ],
+  "acceptance_results": {
+    "R1-A01": "accepted",
+    "R1-B01": "accepted",
+    "R1-B02": "accepted",
+    "R1-C01": "accepted",
+    "R1-C02": "accepted"
+  },
+  "verification_channels": {
+    "real_model": "not_run",
+    "real_browser": "not_run",
+    "native_isolation": "not_run",
+    "product_visual": "not_run"
+  },
+  "review_model_requests": 0,
+  "review_real_credential_reads": 0,
+  "scope_counts": {
+    "modified": 11,
+    "added": 173,
+    "missing": 0
+  },
+  "submitted_files_unchanged": 184
+}

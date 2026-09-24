@@ -1,0 +1,690 @@
+{
+  "format": "selected-versions/1",
+  "task_id": "M00.2.03",
+  "batch_id": "BATCH-002-R1",
+  "title": "下一阶段初始化冻结版本、兼容交集与替换条件",
+  "frozen_at": "2026-09-23",
+  "task_spec_sha256": "bb69b5af0ab602c6a62331a09130e21990f56a33c709ce183bd78a9bce227f59",
+  "dispatch_ref": "docs/handoff/CURRENT-TASK.md",
+  "base_ref": "sha256:950d5733baf3c6ef47f41e17a9d111c1addd3a620c61a0c5d0b32124989f960d",
+  "inputs": {
+    "runtime_matrix": {"path": "docs/dependencies/runtime-matrix.json", "sha256": "ea2f7b18a6d80f951f4225fbce8e45ca5ba606622883c689d2b7346cf7497572", "task_id": "M00.2.01"},
+    "license_register": {"path": "docs/dependencies/license-register.json", "sha256": "1d918a1c010f144fd30676d4b9d535c839eb1b43e2163148247a624f0c96e302", "task_id": "M00.2.02"},
+    "asset_register": {"path": "docs/dependencies/asset-register.json", "sha256": "12f5cbc0aea6f8a8e4867f59e2e805b6bff25602284cae8828bd823bf70569ae", "task_id": "M00.2.02"},
+    "architecture": {"path": "docs/execution/common/ARCHITECTURE.md", "sha256": "4ad7de74bc64d748409f71cb59653dc06ef08f489e0f23cbeb7bbc0299dbecec"},
+    "dispatch": {"path": "docs/handoff/CURRENT-TASK.md", "sha256": "dde1913fc762e03561037e88dc5b0a6ace40691d5e5a296e82bfd769963a3ac3"}
+  },
+  "installation_status": {
+    "status": "not_installed",
+    "evidence_kind": "not_run",
+    "lockfiles": "本卡不生成也不预造任何锁文件。uv.lock 与 package-lock.json 应由 M00.0.01 / M00.0.02 的真实安装在各自目录产生，本卡的版本号是安装时的目标值，不是已解析的依赖树。",
+    "note": "本机未安装也未升级任何上述组件（含 Codex / Claude Code / Hermes）；所有结论来自公共 registry/页面元数据。"
+  },
+  "freeze_rules": [
+    "初始化组合里每一项都写具体版本号（Python/Node 写 x.y.z，npm/PyPI 包写 x.y.z，源码项写 40 位 commit）。latest / main / ^ / * / ~ / >= 只出现在证据原文引用里，不作为冻结值。",
+    "source_only 组件绑定到具体 commit；本卡涉及的 source_only 项是 AIRI（deferred，仍给 commit）。",
+    "尚未采用的项标 deferred，逐项给类别与理由；不把候选版本写成已采用，也不伪造锁文件或已安装状态。",
+    "兼容性结论严格区分“约束相容”（只核对元数据区间与交集）与“真实安装/端到端已验证”（本卡未达到）。本文件里所有相容结论都是前者。",
+    "替代路线最多一条并附触发条件；不因偏好增加第二套主控、记忆框架、包管理器或浏览器驱动。",
+    "未知项显式写 unknown；影响下一步安装且无法核实的约束按 blocked 报告。"
+  ],
+  "freeze_decisions": [
+    {
+      "id": "D1",
+      "question": "Python 侧用 uv 还是 pip（runtime-matrix 的 npm/pip 条目把取舍留给本卡）",
+      "decision": "选 uv 0.12.18 作为服务端与工具链的 Python 环境/依赖管理器；pip 26.2.1 不采用为独立冻结项。",
+      "why": "uv 能把解释器分发与依赖解析一起锁定（跨平台锁文件 + 托管 Python 版本），pip 单独无法锁定解释器版本；两者在本卡只核对元数据，未做安装对比。pip 仍随 CPython 分发，仅作引导用途，不写入依赖清单。",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-uv.json", "sha256": "e3ed9cf6ffbad76681a8e10dc03fb7ddbf99fda022d221e4d1cb11229ed72f1b"},
+        {"path": "reports/evidence/M00.2.01/pypi-pip.json", "sha256": "3956f71e70ae557097a00d6827c4e0bdeb5a5420e6c87201eeff7028cf863422"}
+      ],
+      "not_a_route": "本决定不附带替代路线。若 uv 在实际初始化中不可用，那是新证据，需按变更流程重新决策，不在本卡预置第二方案。"
+    },
+    {
+      "id": "D2",
+      "question": "Node 侧包管理器用 npm 12.1.0、Node 自带的 npm 11.19.0，还是 pnpm（runtime-matrix 的 npm/pnpm 条目把取舍留给本卡）",
+      "decision": "选 npm 11.19.0（随 Node v24.21.0 分发）；npm 12.1.0 与 pnpm 12.5.1 不采用。",
+      "why": "只保留一个包管理器，不引入第二套。(a) M00.0.02 的文件边界（package.json + package-lock.json + TypeScript/Vitest 配置）与 npm 工作区/npm ci 的能力一致；(b) npm 12.1.0 的发布时间是查询窗口前一天（2026-09-22），收益不明而需要额外的全局安装与升级动作；(c) pnpm 会增加第二套锁文件与第二套工作区语义，与本批“不因偏好增加第二套”的规则冲突。",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/nodejs-dist-index.json", "sha256": "2635760e972f8cce7269062690a4a75f12907345e444602fa53fba8fea6fafc9"},
+        {"path": "reports/evidence/M00.2.01/npm-npm.json", "sha256": "f8a4285a572ae240bd7bc00a06ec4c7603f8ef13e002cb44d3969e931d63b2c8"},
+        {"path": "reports/evidence/M00.2.01/npm-pnpm.json", "sha256": "c5c82efcf954ac46d89e617824c83a25fd333d15e7676969a0bba8ef0a05149f"}
+      ],
+      "not_a_route": "本决定不附带替代路线；npm 12.1.0 与 pnpm 12.5.1 记入 deferred（not_adopted）。"
+    },
+    {
+      "id": "D3",
+      "question": "TypeScript 取哪条线：7.0.2（registry latest，也是 runtime-matrix 的候选）还是 6.x 稳定线",
+      "decision": "冻结 TypeScript 6.0.3；把 TypeScript 7.0.2 作为本卡唯一的替代路线并写明触发条件。",
+      "why": "冻结组合里唯一对 TS 版本表态的成员是 json-schema-to-typescript 16.0.0（2026-08-28 发布，晚于 TS 7.0.2 的 2026-07-08），其 devDependencies 写 typescript ^6.0.3，说明类型生成工具链尚未采用 7；vite/vitest/@types/node/electron/vue 均未声明 TS>=7 要求（vue 的 peer typescript 是 \"*\"，无信息量）。6.x 稳定线最高版本为 6.0.3（6.0.4 与 6.1.0 直接探测均 404），已发布约五个月。按“不把 latest 当冻结结果”的规则，选证据指向的稳定线，并把 7.0.2 记为唯一替代路线。",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.03/npm-json-schema-to-typescript-16.0.0.json", "sha256": "05ca735ed63ff35b092b7a272d6a24d2c8e2ccf79ced4b963f3b047db3721133"},
+        {"path": "reports/evidence/M00.2.03/npm-typescript-6x-scan.json", "sha256": "aafebfdc2e9719c3eb9a8427d156c102cce0ea54f57080eed18dbaa2eb43376e"},
+        {"path": "reports/evidence/M00.2.03/npm-typescript-publish-dates.json", "sha256": "6c5a2fbe5aae4c4b48562df38743b9c5271c434f99b46737b6ee2c8b0f68927b"}
+      ],
+      "not_a_route": "TypeScript 5.9.3（5.x 线最高，证据 npm-typescript-5x-latest.json）只作为证据留痕，不构成第二条路线。"
+    },
+    {
+      "id": "D4",
+      "question": "M00.2.02 许可登记里 shadcn-vue 与 VueUse 只写到 main（注明“M00.2.03 冻结时需补”），本卡补什么",
+      "decision": "补记可复核的具体版本候选：shadcn-vue 2.8.2、@vueuse/core 15.0.0、@jsonforms/core 3.8.0（与 git tag v3.8.0 对应）。三项仍标 deferred，不进入初始化组合。",
+      "why": "冻结卡要求候选版本具体可复核；这三项的实际引入在后续卡（UI 小样与表单方案），现在补版本只为关闭登记里的悬空项，不代表已采用。",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.03/npm-shadcn-vue.json", "sha256": "0daf5072143c3e75990a3d76e71d5e99d118bff6d88c8ca2fcbdd73bf8fef95f"},
+        {"path": "reports/evidence/M00.2.03/npm-vueuse-core.json", "sha256": "66d8938bad38bc69a1915b6541f676dd19a6c02a294b50892ba46d932752fcd3"},
+        {"path": "reports/evidence/M00.2.03/npm-jsonforms-core.json", "sha256": "3732a9682603996399e64d994a585f4117e3bf03f634b4933067ef679799c39b"}
+      ],
+      "not_a_route": "不附带替代路线；三项均为 later_stage 的 deferred。"
+    },
+    {
+      "id": "D5",
+      "question": "pydantic 的分歧（Hermes 钉死 2.13.4，我方候选 2.13.5）怎么落进冻结",
+      "decision": "按环境划分落进冻结：env-server 用 pydantic 2.13.5；Hermes 自带环境保留其钉死的 2.13.4。两者不在同一进程环境共存。",
+      "why": "Hermes 源码 pyproject 的 dependencies 是对 pydantic 的精确钉死（pydantic==2.13.4），与我方 2.13.5 不可同环境解析；而两版行为差异未核实，不能在冻结阶段擅自降版或合并环境。这属于环境划分问题，不是版本替换问题，故不列为替代路线；已按 escalation 交架构裁决并由 E1 关闭（独立进程/venv，我方环境不 import Hermes）。",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.03/hermes-pinned-pyproject.toml", "sha256": "d660dc790a25a8eb20c5ec209df3939f3d6f3f872d7c987c286e90fa759ec499"},
+        {"path": "reports/evidence/M00.2.01/pypi-pydantic.json", "sha256": "d98d18888b8f5b378ff87e416c71f61f13284313bdc4428f42af9a9e90d64519"}
+      ],
+      "not_a_route": "不附带替代路线（降版到 2.13.4 属架构裁决后的动作，本卡不预置）。"
+    },
+    {
+      "id": "D6",
+      "question": "Hermes 的冻结安装身份：PyPI 0.19.0 还是不可变源码 commit（BATCH-002-R1 / R1-01 落地，架构裁决 E2）",
+      "decision": "以官方源码 commit d337b736aa1e8ebecfab043842d13e4a2d2f48a3（其 pyproject 声明 version = 0.21.4）为唯一冻结安装目标；PyPI 0.19.0 降为未采用参考（deferred.not_adopted）。",
+      "why": "独立复核 B2-R1 指出：原条目把 install_source 写成 PyPI 0.19.0，却把 source_binding 指向声明 0.21.4 的源码 commit；两套非同源证据不能构成一个安装目标，且依赖声明有实际差别（如 uvicorn>=0.31.0,<1 对 uvicorn[standard]>=0.24.0,<1；cryptography==50.0.0 对 46.0.7）。架构裁决 E2 给出唯一目标：后续 Hermes 验证选择已记录且已核查许可证的不可变源码 commit，安装 profile 与 extras 在 M00.3.01 读取同一 commit 后决定。本卡只统一身份与来源约束证据，不安装、不运行、不验证账号。",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.03/hermes-pinned-pyproject.toml", "sha256": "d660dc790a25a8eb20c5ec209df3939f3d6f3f872d7c987c286e90fa759ec499"},
+        {"path": "reports/evidence/M00.2.03/hermes-pypi-0.19.0.json", "sha256": "583a687c25444809eebacfb46e86c1cfdf84453ca0293e844c04ac452e24cc5c"}
+      ],
+      "not_a_route": "PyPI 0.19.0 不构成第二路线，也不构成该 commit 的源码/二进制绑定；按 not_adopted 参考留档。若 M00.3.01 需要发行物形态，属新证据，按变更流程重新决策。"
+    }
+  ],
+  "environments": [
+    {
+      "id": "env-server",
+      "name": "服务端运行时（我方源码构建）",
+      "selected_ids": ["python", "uv", "fastapi", "uvicorn", "pydantic", "pytest"],
+      "detail": "服务端 API、契约与测试在同一 Python 环境构建运行。Hermes 不在此环境中安装（见 env-executors 与 D5）。"
+    },
+    {
+      "id": "env-desktop",
+      "name": "桌面客户端构建环境（构建与运行分离）",
+      "selected_ids": ["nodejs", "npm", "typescript", "vite", "vitest", "types-node", "vue", "electron", "json-schema-to-typescript"],
+      "detail": "构建用系统 Node v24.21.0；界面运行时用 Electron 自带的 Node/Chromium（其版本本轮未核实，见 unknowns）。两者互不替代。"
+    },
+    {
+      "id": "env-executors",
+      "name": "独立执行器自带环境",
+      "selected_ids": ["hermes-agent", "codex", "claude-code"],
+      "detail": "上游程序自带运行环境（含各自的 Python/Node 依赖），不与我方源码构建工具链共用进程环境。Hermes 是唯一主控与唯一记忆；Codex 与 Claude Code 是可替换执行器。按裁决 E1：Hermes 与我方服务端使用独立进程/虚拟环境，我方 pydantic 2.13.5 不注入 Hermes 环境，我方服务代码不直接 import Hermes，未来通过适配器接入。"
+    }
+  ],
+  "selected": [
+    {
+      "id": "python",
+      "matrix_item": "python",
+      "license_entry": "python",
+      "environment": "env-server",
+      "role": "服务端与工具链的 Python 解释器",
+      "version": "3.13.15",
+      "install_source": "python.org 官方发行物（Windows 安装器 python-3.13.15-amd64.exe 已核实存在）",
+      "introduced_at": "M00.0.01",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/python-releases.json", "sha256": "8b84b047c8611c23aa86eb2baa539605fed51f4fed59208d4c496c4bd62c6551"}
+      ],
+      "selection_basis": "落在全部 Python 依赖的 requires_python 交集 [3.11,3.14) 内；3.14.7（最新稳定）被 hermes-agent 的 <3.14 排除。"
+    },
+    {
+      "id": "uv",
+      "matrix_item": "uv",
+      "license_entry": "uv",
+      "environment": "env-server",
+      "role": "Python 环境与依赖管理器",
+      "version": "0.12.18",
+      "install_source": "PyPI（官方发行物）",
+      "introduced_at": "M00.0.01",
+      "decision_ref": "D1",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-uv.json", "sha256": "e3ed9cf6ffbad76681a8e10dc03fb7ddbf99fda022d221e4d1cb11229ed72f1b"}
+      ],
+      "selection_basis": "requires_python >=3.8，与 3.13.15 相容；D1 决定它承担解释器与依赖的锁定。"
+    },
+    {
+      "id": "fastapi",
+      "matrix_item": "fastapi",
+      "license_entry": "fastapi",
+      "environment": "env-server",
+      "role": "服务端 API 框架",
+      "version": "0.141.1",
+      "install_source": "PyPI",
+      "introduced_at": "M00.0.01（依赖清单）",
+      "first_consumer": "M00.0.05",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-fastapi.json", "sha256": "722c4db59c97651664d9a31c1dc5a729d22066ef2850a82a867ce21bdd898ecb"}
+      ],
+      "selection_basis": "requires_python >=3.10；落在 Hermes 声明的 fastapi>=0.104.0,<1 区间内。"
+    },
+    {
+      "id": "uvicorn",
+      "matrix_item": "uvicorn",
+      "license_entry": "uvicorn",
+      "environment": "env-server",
+      "role": "服务端 ASGI 服务器",
+      "version": "0.53.0",
+      "install_source": "PyPI",
+      "introduced_at": "M00.0.01（依赖清单）",
+      "first_consumer": "M00.0.05",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-uvicorn.json", "sha256": "bcfb8ec692f876031fe93615428f1df1eab2579b836f93b02fcf4185ab667162"}
+      ],
+      "selection_basis": "requires_python >=3.10；落在 Hermes 声明的 uvicorn[standard]>=0.24.0,<1 区间内。"
+    },
+    {
+      "id": "pydantic",
+      "matrix_item": "pydantic",
+      "license_entry": "pydantic",
+      "environment": "env-server",
+      "role": "契约与数据校验（单一契约源 packages/contracts）",
+      "version": "2.13.5",
+      "install_source": "PyPI",
+      "introduced_at": "M00.0.01（依赖清单）",
+      "decision_ref": "D5",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-pydantic.json", "sha256": "d98d18888b8f5b378ff87e416c71f61f13284313bdc4428f42af9a9e90d64519"}
+      ],
+      "selection_basis": "requires_python >=3.9；与 Hermes 钉死的 2.13.4 不同版本，按 D5 分环境处理。"
+    },
+    {
+      "id": "pytest",
+      "matrix_item": "pytest",
+      "license_entry": "pytest",
+      "environment": "env-server",
+      "role": "Python 测试框架",
+      "version": "9.1.1",
+      "install_source": "PyPI",
+      "introduced_at": "M00.0.01",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-pytest.json", "sha256": "678f485faaaad285c31dba0abd813903014f7048a08532c7a51ef5f0caed78f0"}
+      ],
+      "selection_basis": "requires_python >=3.10。"
+    },
+    {
+      "id": "nodejs",
+      "matrix_item": "nodejs",
+      "license_entry": "nodejs",
+      "environment": "env-desktop",
+      "role": "桌面客户端构建与前端工具链的 Node 运行时",
+      "version": "v24.21.0",
+      "install_source": "nodejs.org 官方发行物（Windows 构建物已核实：win-x64-msi 等）",
+      "introduced_at": "M00.0.02",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/nodejs-dist-index.json", "sha256": "2635760e972f8cce7269062690a4a75f12907345e444602fa53fba8fea6fafc9"}
+      ],
+      "selection_basis": "满足全部 JS 依赖声明的 engines（见 compatibility.check_c2）；26 线未进 LTS，不采用。"
+    },
+    {
+      "id": "npm",
+      "matrix_item": "npm",
+      "license_entry": "npm",
+      "environment": "env-desktop",
+      "role": "Node 包管理器",
+      "version": "11.19.0",
+      "version_kind": "bundled_with_node",
+      "install_source": "随 Node v24.21.0 分发（dist index 的 npm 字段），不额外全局安装",
+      "introduced_at": "M00.0.02",
+      "decision_ref": "D2",
+      "supersedes_matrix_pinned": "12.1.0",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/nodejs-dist-index.json", "sha256": "2635760e972f8cce7269062690a4a75f12907345e444602fa53fba8fea6fafc9"}
+      ],
+      "selection_basis": "D2：只用 Node 自带 npm，不引入全局 npm 12.1.0，也不引入 pnpm。",
+      "license_binding": {
+        "license_entry": "npm",
+        "license": "Artistic-2.0",
+        "version": "11.19.0",
+        "text": {"path": "reports/evidence/M00.2.03/npm-11.19.0-license.txt", "sha256": "7610d223851f421d315df5e77974f1c68a04b97e02060e5bbbcf13d95e3ca257", "bytes": 9742, "url": "https://raw.githubusercontent.com/npm/cli/v11.19.0/LICENSE", "http_status": 200},
+        "version_manifest": {"path": "reports/evidence/M00.2.03/npm-11.19.0-manifest.json", "sha256": "273001988fcaf184d7c3240940a2f8d0a04f7444e84498d100a48727abb71456", "bytes": 67079, "url": "https://registry.npmjs.org/npm/11.19.0", "http_status": 200},
+        "fetched_at": "2026-09-23T00:32:47Z",
+        "provenance": "独立评审核查取得的正文与请求元数据（reviews/evidence/BATCH-002/upstream-evidence.json 记录），本卡只读复制并按上游记录复算哈希；正文与已 accepted 的 license-register v12.1.0 登记文本（reports/evidence/M00.2.02/licenses/npm-LICENSE.txt）逐字节相同（cmp 实测），故不修改 accepted 许可表，本绑定只补精确版本对应。"
+      }
+    },
+    {
+      "id": "typescript",
+      "matrix_item": "typescript",
+      "license_entry": "typescript",
+      "environment": "env-desktop",
+      "role": "类型系统与编译器（客户端与契约 TS 类型检查/编译）",
+      "version": "6.0.3",
+      "install_source": "npm registry",
+      "introduced_at": "M00.0.02",
+      "decision_ref": "D3",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.03/npm-typescript-6x-scan.json", "sha256": "aafebfdc2e9719c3eb9a8427d156c102cce0ea54f57080eed18dbaa2eb43376e"},
+        {"path": "reports/evidence/M00.2.03/npm-json-schema-to-typescript-16.0.0.json", "sha256": "05ca735ed63ff35b092b7a272d6a24d2c8e2ccf79ced4b963f3b047db3721133"},
+        {"path": "reports/evidence/M00.2.01/npm-typescript.json", "sha256": "cc1096155b241e9714b7ab8879bfcc8db39c1d3dd0d8e91c76bf4bdb3d1c78cb"}
+      ],
+      "selection_basis": "D3：6.x 稳定线最高版本（6.0.4/6.1.0 探测 404）；engines.node >=14.17；替代路线为 7.0.2。",
+      "supersedes_matrix_pinned": "7.0.2",
+      "license_binding": {
+        "license_entry": "typescript",
+        "license": "Apache-2.0",
+        "version": "6.0.3",
+        "text": {"path": "reports/evidence/M00.2.03/typescript-6.0.3-license.txt", "sha256": "a7d00bfd54525bc694b6e32f64c7ebcf5e6b7ae3657be5cc12767bce74654a47", "bytes": 9197, "url": "https://raw.githubusercontent.com/microsoft/TypeScript/v6.0.3/LICENSE.txt", "http_status": 200},
+        "version_manifest": {"path": "reports/evidence/M00.2.03/typescript-6.0.3-manifest.json", "sha256": "c3b095f0ba61c854843c4965598d3d1de8eb8e3d41cfec93c5ffbfd8bde537cc", "bytes": 3772, "url": "https://registry.npmjs.org/typescript/6.0.3", "http_status": 200},
+        "fetched_at": "2026-09-23T00:32:47Z",
+        "provenance": "独立评审核查取得的正文与请求元数据（reviews/evidence/BATCH-002/upstream-evidence.json 记录），本卡只读复制并按上游记录复算哈希；正文与已 accepted 的 license-register v7.0.2 登记文本（reports/evidence/M00.2.02/licenses/typescript-LICENSE.txt.txt）逐字节相同（cmp 实测），故不修改 accepted 许可表，本绑定只补精确版本对应。"
+      }
+    },
+    {
+      "id": "vite",
+      "matrix_item": "vite",
+      "license_entry": "vite",
+      "environment": "env-desktop",
+      "role": "前端构建工具",
+      "version": "8.3.0",
+      "install_source": "npm registry",
+      "introduced_at": "M00.0.02",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.03/npm-vite-8.3.0.json", "sha256": "e3f2c80f907f3150f53a7cb5097d84cf07e640b08924425ffcc2e5019f684ba6"},
+        {"path": "reports/evidence/M00.2.01/npm-vite.json", "sha256": "265b560672fde1b8fb3bbb805c95a27551097021b032542e5f5541d14da3b7ed"}
+      ],
+      "selection_basis": "engines.node ^20.19.0 || >=22.12.0；满足 vitest 5.0.1 对 vite 的必需 peer 区间。"
+    },
+    {
+      "id": "vitest",
+      "matrix_item": "vitest",
+      "license_entry": "vitest",
+      "environment": "env-desktop",
+      "role": "前端/客户端测试框架",
+      "version": "5.0.1",
+      "install_source": "npm registry",
+      "introduced_at": "M00.0.02",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.03/npm-vitest-5.0.1.json", "sha256": "406aea4cc564b2e5af6cb463031c4111a30fe464b52b8f53950c784456cdeb41"},
+        {"path": "reports/evidence/M00.2.01/npm-vitest.json", "sha256": "8c149fb56464455d1d5121688b2f737ca9750deac5eedfda5e0a3107fa4dc96a"}
+      ],
+      "selection_basis": "engines.node ^22.12.0 || ^24.0.0 || >=26.0.0；对 vite 的 peer 区间含 8.3.0。"
+    },
+    {
+      "id": "types-node",
+      "matrix_item": "types-node",
+      "license_entry": "types-node",
+      "environment": "env-desktop",
+      "role": "Node 类型定义（@types/node，devDependency）",
+      "version": "24.13.6",
+      "install_source": "npm registry",
+      "introduced_at": "M00.0.02",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.03/npm-types-node-24.13.6.json", "sha256": "e2c5c47295af7412828c5a31f9cab65ee88d51554b06c66168e5d4b5121af551"},
+        {"path": "reports/evidence/M00.2.01/npm-types-node-24.json", "sha256": "84b4d1aaafc76eeba5d014cf7db2ced0c98f17d07360e1ab8a56c9d2d12b2a4e"}
+      ],
+      "selection_basis": "与运行时 Node 24 LTS 同大版本；同时满足 vite/vitest 的 @types/node peer 区间与 electron 的 ^24.9.0 依赖，可去重为单版本。"
+    },
+    {
+      "id": "vue",
+      "matrix_item": "vue",
+      "license_entry": "vue",
+      "environment": "env-desktop",
+      "role": "桌面客户端 UI 框架",
+      "version": "3.5.43",
+      "install_source": "npm registry",
+      "introduced_at": "M00.0.02（依赖清单）",
+      "first_consumer": "M00.0.03",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.03/npm-vue-3.5.43.json", "sha256": "8c90a5573841ad7c2c19b656bcb9ce2c8cbaf98a1008399ce0bf59e74c76399e"},
+        {"path": "reports/evidence/M00.2.01/npm-vue.json", "sha256": "71c1959cea47f810d29c1884ec53a5a4681dc5f5ac890bbea9a8f7dc202578d9"}
+      ],
+      "selection_basis": "未声明 engines（unknown，不能断言与 Node 的相容性）；peer typescript 为 \"*\"，对 TS 线路无约束。"
+    },
+    {
+      "id": "electron",
+      "matrix_item": "electron",
+      "license_entry": "electron",
+      "environment": "env-desktop",
+      "role": "桌面客户端外壳",
+      "version": "44.4.4",
+      "install_source": "npm registry（运行时自带 Node/Chromium）",
+      "introduced_at": "M00.0.02（依赖清单）",
+      "first_consumer": "M00.0.03",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.03/npm-electron-44.4.4.json", "sha256": "0af514ab064eccf8ab7fa33b88a21d6ef41e2d4124840467dca1bc32aac09078"},
+        {"path": "reports/evidence/M00.2.01/npm-electron.json", "sha256": "3b3c7b8a071f05ccfee0329eb7be6aa3254b72a04b0d8d003b61d3202d071883"}
+      ],
+      "selection_basis": "engines.node >= 22.12.0（构建期）；依赖 @types/node ^24.9.0，与选定的 24.13.6 同线。"
+    },
+    {
+      "id": "json-schema-to-typescript",
+      "matrix_item": "json-schema-to-typescript",
+      "license_entry": "json-schema-to-typescript",
+      "environment": "env-desktop",
+      "role": "契约类型生成器（JSON Schema → TS）",
+      "version": "16.0.0",
+      "install_source": "npm registry",
+      "introduced_at": "后续阶段（契约类型导出卡）",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.03/npm-json-schema-to-typescript-16.0.0.json", "sha256": "05ca735ed63ff35b092b7a272d6a24d2c8e2ccf79ced4b963f3b047db3721133"},
+        {"path": "reports/evidence/M00.2.01/npm-json-schema-to-typescript.json", "sha256": "aa0db078749b8341ae48f9fe4791c76c3f7170613f9bb4604dd899d1b26f7853"}
+      ],
+      "selection_basis": "engines.node >=16.0.0；无 peer 声明；其 devDependencies 里的 typescript ^6.0.3 是 D3 的主要依据。"
+    },
+    {
+      "id": "hermes-agent",
+      "matrix_item": "hermes-agent",
+      "license_entry": "hermes-agent",
+      "environment": "env-executors",
+      "role": "主运行时（唯一主控：会话、编排、记忆与任务状态）",
+      "version": "0.21.4",
+      "version_kind": "source_commit_with_declared_version",
+      "install_source": "官方源码 commit（自托管、未修改上游源码）：https://github.com/NousResearch/hermes-agent/tree/d337b736aa1e8ebecfab043842d13e4a2d2f48a3 ；不用 PyPI 发行物",
+      "source_binding": {"git_tag": "v2026.9.21", "git_commit": "d337b736aa1e8ebecfab043842d13e4a2d2f48a3", "declared_version": "0.21.4", "declared_version_source": "该 commit 的 pyproject.toml [project].version（原文 version = \"0.21.4\"）"},
+      "introduced_at": "后续阶段（Hermes 接入与生命周期验证卡，M00.3.01）",
+      "decision_ref": "D6",
+      "supersedes_matrix_pinned": "0.19.0",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.03/hermes-pinned-pyproject.toml", "sha256": "d660dc790a25a8eb20c5ec209df3939f3d6f3f872d7c987c286e90fa759ec499", "role": "source_authority"},
+        {"path": "reports/evidence/M00.2.01/github-commit-hermes-agent-7ce19044.json", "sha256": "384b5e3b8862f245def0d2450d41f49228dab2aeab9c40b0b2fc2a79fabe5bc4", "role": "commit_identity"},
+        {"path": "reports/evidence/M00.2.03/hermes-pypi-0.19.0.json", "sha256": "583a687c25444809eebacfb46e86c1cfdf84453ca0293e844c04ac452e24cc5c", "role": "reference_only"}
+      ],
+      "selection_basis": "R1-01/D6（架构裁决 E2）：唯一安装目标为该不可变源码 commit，其 pyproject 声明 version=0.21.4；PyPI 0.19.0 降为未采用参考，不再作为 install_source 或源码绑定。requires-python 与 pydantic/fastapi/uvicorn 约束证据一律取自该 commit 的 pyproject 原文（见 C1/C5）。"
+    },
+    {
+      "id": "codex",
+      "matrix_item": "codex",
+      "license_entry": "codex",
+      "environment": "env-executors",
+      "role": "工程执行器（可替换）",
+      "version": "0.156.0",
+      "version_kind": "npm_version_with_source_binding",
+      "install_source": "npm 包 @openai/codex；上游源码 openai/codex（Rust）",
+      "source_binding": {"git_tag": "rust-v0.156.0", "git_commit": "fe74a774532af67b5a4a3dec03ce9469e17f89af"},
+      "introduced_at": "后续阶段（Codex 官方接入卡，M00.5.01）",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/npm-openai-codex.json", "sha256": "ce3ab0bb8b28a59146e488861fe636e933e3557f1c81e18b2383d74b5c6c4069"}
+      ],
+      "selection_basis": "npm 与 release tag 版本号一致；engines.node >=16，与 Node 24 相容。"
+    },
+    {
+      "id": "claude-code",
+      "matrix_item": "claude-code",
+      "license_entry": "claude-code",
+      "environment": "env-executors",
+      "role": "工程执行器（可替换，按官方程序集成）",
+      "version": "2.1.280",
+      "install_source": "npm 包 @anthropic-ai/claude-code（官方程序，不修改、不作可 fork 底座）",
+      "introduced_at": "后续阶段（Claude Code 官方接入卡，M00.5.02）",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/npm-anthropic-ai-claude-code.json", "sha256": "0a706816dc87275082cda9ae0292be82d4a537f86b37f26d6e2adadacc7b1163"}
+      ],
+      "selection_basis": "engines.node >=22.0.0，与 Node 24 相容；许可非 SPDX（SEE LICENSE IN README.md），使用条款见 M00.2.02 登记。"
+    }
+  ],
+  "compatibility": {
+    "level_definition": {
+      "constraint_compatible": "约束相容：只读取并解析 registry/页面元数据（requires_python、engines、peerDependencies、依赖区间），与选定版本求交集；未安装、未编译、未运行。",
+      "install_verified": "真实安装/端到端已验证：本卡未达到。runtime-matrix 与本文件的所有相容结论都停在“约束相容”，integration_evidence_kind = not_run。"
+    },
+    "checks": [
+      {
+        "id": "C1",
+        "topic": "Python：CPython 3.13.15 × 全部 Python 依赖的 requires_python",
+        "level": "constraint_compatible",
+        "claims": [
+          {"subject": "hermes-agent 0.21.4（源码 commit d337b736…；pyproject 原文 requires-python = \">=3.11,<3.14\"）", "constraint": ">=3.11,<3.14", "source": "reports/evidence/M00.2.03/hermes-pinned-pyproject.toml", "satisfied": true},
+          {"subject": "fastapi 0.141.1", "constraint": ">=3.10", "source": "reports/evidence/M00.2.01/pypi-fastapi.json", "satisfied": true},
+          {"subject": "uvicorn 0.53.0", "constraint": ">=3.10", "source": "reports/evidence/M00.2.01/pypi-uvicorn.json", "satisfied": true},
+          {"subject": "pydantic 2.13.5", "constraint": ">=3.9", "source": "reports/evidence/M00.2.01/pypi-pydantic.json", "satisfied": true},
+          {"subject": "pytest 9.1.1", "constraint": ">=3.10", "source": "reports/evidence/M00.2.01/pypi-pytest.json", "satisfied": true},
+          {"subject": "uv 0.12.18", "constraint": ">=3.8", "source": "reports/evidence/M00.2.01/pypi-uv.json", "satisfied": true},
+          {"subject": "pip 26.2.1（deferred，不采用为冻结项）", "constraint": ">=3.10", "source": "reports/evidence/M00.2.01/pypi-pip.json", "satisfied": true}
+        ],
+        "result": "交集上界由 hermes-agent（源码 pyproject 原文 >=3.11,<3.14）的 <3.14 决定、下界由 >=3.11 决定，即 [3.11,3.14)；3.13.15 落在其中。Hermes 按其独立 venv 运行该解释器，与我方环境不共用进程（E1）。",
+        "unverified": "真实安装与导入（含 Windows 上的 venv 创建、包解析冲突）未做。"
+      },
+      {
+        "id": "C2",
+        "topic": "Node：v24.21.0 × JS 依赖的 engines.node",
+        "level": "constraint_compatible",
+        "claims": [
+          {"subject": "vite 8.3.0", "constraint": "^20.19.0 || >=22.12.0", "source": "reports/evidence/M00.2.03/npm-vite-8.3.0.json", "satisfied": true},
+          {"subject": "vitest 5.0.1", "constraint": "^22.12.0 || ^24.0.0 || >=26.0.0", "source": "reports/evidence/M00.2.03/npm-vitest-5.0.1.json", "satisfied": true},
+          {"subject": "electron 44.4.4", "constraint": ">= 22.12.0", "source": "reports/evidence/M00.2.03/npm-electron-44.4.4.json", "satisfied": true},
+          {"subject": "typescript 6.0.3", "constraint": ">=14.17", "source": "reports/evidence/M00.2.03/npm-typescript-6x-scan.json", "satisfied": true},
+          {"subject": "json-schema-to-typescript 16.0.0", "constraint": ">=16.0.0", "source": "reports/evidence/M00.2.03/npm-json-schema-to-typescript-16.0.0.json", "satisfied": true},
+          {"subject": "claude-code 2.1.280", "constraint": ">=22.0.0", "source": "reports/evidence/M00.2.01/npm-anthropic-ai-claude-code.json", "satisfied": true},
+          {"subject": "codex 0.156.0", "constraint": ">=16", "source": "reports/evidence/M00.2.01/npm-openai-codex.json", "satisfied": true},
+          {"subject": "vue 3.5.43", "constraint": "未声明 engines", "source": "reports/evidence/M00.2.03/npm-vue-3.5.43.json", "satisfied": null, "note": "unknown：不能从包元数据断言与 Node 24 的相容性。"},
+          {"subject": "npm", "constraint": "不独立核对（取 Node 自带 11.19.0）", "source": "reports/evidence/M00.2.01/nodejs-dist-index.json", "satisfied": true}
+        ],
+        "result": "除 vue 为 unknown 外，全部声明了 engines 的条目都被 v24.21.0 满足。",
+        "unverified": "真实 npm ci 解析与 Electron 内置运行时（其 Node 版本 unknown）。"
+      },
+      {
+        "id": "C3",
+        "topic": "npm 包之间的 peerDependencies / 依赖区间交集",
+        "level": "constraint_compatible",
+        "claims": [
+          {"subject": "vitest 5.0.1 → peer vite（optional=false，必需）", "constraint": "^6.4.0 || ^7.0.0 || ^8.0.0", "satisfied_by": "vite 8.3.0", "satisfied": true},
+          {"subject": "vitest 5.0.1 → peer @types/node（optional）", "constraint": "^22.0.0 || >=24.0.0", "satisfied_by": "@types/node 24.13.6", "satisfied": true},
+          {"subject": "vite 8.3.0 → peer @types/node（optional）", "constraint": "^20.19.0 || >=22.12.0", "satisfied_by": "@types/node 24.13.6", "satisfied": true},
+          {"subject": "electron 44.4.4 → dependency @types/node", "constraint": "^24.9.0", "satisfied_by": "@types/node 24.13.6", "satisfied": true},
+          {"subject": "vue 3.5.43 → peer typescript（optional）", "constraint": "*", "satisfied_by": "typescript 6.0.3", "satisfied": true, "note": "区间无信息量，不构成 TS 线路证据。"}
+        ],
+        "result": "唯一必需 peer（vitest→vite）被满足；其余可选 peer 与依赖区间也被满足，@types/node 三个来源可去重到单一 24.13.6。",
+        "unverified": "未实际安装，故未验证 npm 的真实去重结果与 vite 8 的 rolldown 依赖链（vite 8.3.0 的打包核心是 dependency rolldown ~1.2.6，非本卡替换对象）。"
+      },
+      {
+        "id": "C4",
+        "topic": "TypeScript 线路选择（D3）的证据充分性",
+        "level": "constraint_compatible",
+        "claims": [
+          {"subject": "json-schema-to-typescript 16.0.0 的开发依赖", "constraint": "devDependencies.typescript = ^6.0.3", "source": "reports/evidence/M00.2.03/npm-json-schema-to-typescript-16.0.0.json", "satisfied": true},
+          {"subject": "TypeScript 6.x 稳定线最高版本", "constraint": "6.0.3（6.0.4、6.1.0 探测 404）", "source": "reports/evidence/M00.2.03/npm-typescript-6x-scan.json", "satisfied": true},
+          {"subject": "TypeScript 7.0.2", "constraint": "dist-tags.latest；依赖 20 个 @typescript/typescript-* 平台包（原生编译器的分发形态）", "source": "reports/evidence/M00.2.03/npm-typescript-5x-scan.json", "satisfied": null, "note": "作为替代路线记录，不作为冻结值。"}
+        ],
+        "result": "冻结 6.0.3；7.0.2 单列为替代路线（见 alternative_route）。",
+        "unverified": "6.0.3 与 vite 8 / vue 3.5 类型定义的实际编译（vue-tsc 等 SFC 检查工具尚未登记，引入前需按 M00.2.02 流程补登记）。"
+      },
+      {
+        "id": "C5",
+        "topic": "pydantic / fastapi / uvicorn 与 Hermes 声明约束的关系",
+        "level": "约束冲突已识别（分环境）+ 约束相容（区间项）",
+        "claims": [
+          {"subject": "pydantic：Hermes（源码 commit）==2.13.4 × 我方 2.13.5", "constraint": "==2.13.4", "source": "reports/evidence/M00.2.03/hermes-pinned-pyproject.toml", "satisfied": false, "note": "该 commit 的 pyproject 原文 pydantic==2.13.4；不可同环境解析，按 D5/E1 分环境——Hermes 用独立 venv，我方环境不注入其 2.13.4、也不被其注入。"},
+          {"subject": "fastapi：Hermes（源码 commit）>=0.104.0,<1 × 0.141.1", "constraint": ">=0.104.0,<1", "source": "reports/evidence/M00.2.03/hermes-pinned-pyproject.toml", "satisfied": true},
+          {"subject": "uvicorn：Hermes（源码 commit）>=0.31.0,<1（core，无 [standard] extra）× 0.53.0", "constraint": ">=0.31.0,<1", "source": "reports/evidence/M00.2.03/hermes-pinned-pyproject.toml", "satisfied": true, "note": "源码 pyproject 的 core 声明为 uvicorn>=0.31.0,<1，不带 [standard] extra（与旧 PyPI 0.19.0 的 uvicorn[standard]>=0.24.0,<1 不同）；[standard] 及 web 等 extra 的兼容性未核，采用与否在 M00.3.01 决定。"}
+        ],
+        "result": "区间项相容（按源码 commit 原文）；精确钉死项按环境划分处理；E1 已裁决独立进程/venv、不直接 import Hermes。",
+        "unverified": "extras/profile 相容性未核实：本组只核对 core 元数据原文，不把 core 元数据冒充全 extras 相容（该 commit 存在 web 等 extra，含 fastapi==0.133.1、uvicorn==0.41.0 这类精确钉死）。"
+      },
+      {
+        "id": "C6",
+        "topic": "环境划分与 A02（不因偏好增加第二套主控/记忆框架）",
+        "level": "结构声明（可对照本文件 environments 与 runtime-matrix 的 adapter_roles 核查）",
+        "claims": [
+          {"subject": "主控与记忆", "constraint": "Hermes 是唯一主控与唯一记忆；Codex/Claude Code 是可替换执行器，不持有产品记忆", "satisfied": true},
+          {"subject": "包管理器", "constraint": "Python 侧只 uv、Node 侧只 npm（Node 自带），无第二套锁文件语义", "satisfied": true, "decision_ref": "D1/D2"},
+          {"subject": "测试框架", "constraint": "服务端 pytest、前端/客户端 vitest，各环境一个，不并行引入第二套", "satisfied": true},
+          {"subject": "浏览器驱动", "constraint": "本卡未引入任何浏览器自动化/驱动组件", "satisfied": true},
+          {"subject": "环境划分的性质", "constraint": "env-server / env-desktop / env-executors 是安装与运行位置的划分，不是三套主控", "satisfied": true}
+        ],
+        "result": "满足 A02：冻结过程没有因偏好新增第二套主控、记忆框架、包管理器或浏览器驱动。",
+        "unverified": "无（属可对照文档核查的结构性声明）。"
+      }
+    ]
+  },
+  "deviations_from_matrix": [
+    {"item": "hermes-agent", "matrix_pinned": "0.19.0（PyPI 发行物）", "selected": "0.21.4（源码 commit d337b736aa1e8ebecfab043842d13e4a2d2f48a3 的 pyproject 声明版本）", "reason": "D6（R1-01 / 架构裁决 E2）", "note": "不修改已 accepted 的 runtime-matrix；按裁决在本卡记录偏离：安装目标统一为该不可变源码 commit，PyPI 0.19.0 留未采用参考。矩阵条目的 reference_not_frozen 已记 release 名 v0.21.4。"},
+    {"item": "typescript", "matrix_pinned": "7.0.2", "selected": "6.0.3", "reason": "D3", "note": "矩阵该条目的 unknowns 已把回退留给本卡的替代路线机制。"},
+    {"item": "npm", "matrix_pinned": "12.1.0", "selected": "11.19.0（Node 自带）", "reason": "D2", "note": "矩阵 unknowns 明确把“升级到 12.1.0 还是沿用自带 11.19.0”留给本卡决策。"},
+    {"item": "pnpm", "matrix_pinned": "12.5.1", "selected": null, "reason": "D2", "note": "不采用；矩阵 unknowns 明确把 npm/pnpm 二者取一留给本卡。"}
+  ],
+  "alternative_route": {
+    "count": 1,
+    "id": "typescript-7-line",
+    "route": "把 typescript 从 6.0.3 换成 7.0.2（dist-tags.latest，2026-07-08 发布），其余组合保持不变。",
+    "trigger": "M00.0.02 初始化时出现下列任一情况即触发：(a) 冻结组合或届时即将引入的依赖声明要求 TypeScript >=7（含等价的编译要求）；(b) 6.0.3 的 typecheck/构建链在本组合（vite 8.3.0 + vitest 5.0.1 + vue 3.5.43 + @types/node 24.13.6）上不可用。",
+    "scope": "切换只改 typescript 一个包的版本；不动主控（Hermes）、记忆框架、运行环境划分、包管理器与测试框架。",
+    "evidence": [
+      {"path": "reports/evidence/M00.2.03/npm-typescript-5x-scan.json", "sha256": "c747c3488f45972b74547f1ccf51b6a3afcb686a8be051baa56f8a797ed0b26a"},
+      {"path": "reports/evidence/M00.2.03/npm-typescript-publish-dates.json", "sha256": "6c5a2fbe5aae4c4b48562df38743b9c5271c434f99b46737b6ee2c8b0f68927b"}
+    ],
+    "known_facts": [
+      "7.0.2 engines.node >=16.20.0，满足 Node v24.21.0。",
+      "7.0.2 的分发依赖一组 @typescript/typescript-<platform> 平台包（含 win32-x64），属原生编译器的按平台分发。",
+      "5.x 线最高版本为 5.9.3，仅作证据留痕，不构成第二条替代路线。"
+    ]
+  },
+  "deferred": [
+    {
+      "id": "supabase",
+      "category": "later_stage",
+      "license_entry": "supabase",
+      "candidate_version": "2.31.0",
+      "reason": "数据与对象存储属后续阶段（服务端数据落地与部署卡）；requires_python >=3.9 与本组合相容，但本卡不把它写进初始化依赖清单。",
+      "evidence": [{"path": "reports/evidence/M00.2.01/pypi-supabase.json", "sha256": "e566f8e01033f63e13bd8a72246df4a9025be6edcd4ee65fa379b98043ef5d30"}]
+    },
+    {
+      "id": "pgmq",
+      "category": "later_stage",
+      "license_entry": "pgmq",
+      "candidate_version": "1.1.4",
+      "reason": "任务队列在服务端数据层就绪后引入；PostgreSQL 侧扩展版本要求未核实。",
+      "evidence": [{"path": "reports/evidence/M00.2.01/pypi-pgmq.json", "sha256": "f6b2ad75217c7bdf963061040a63b753362291eae61fb16637a7ddd9ed48f057"}]
+    },
+    {
+      "id": "e2b",
+      "category": "later_stage",
+      "license_entry": "e2b",
+      "candidate_version": "2.51.0",
+      "reason": "沙箱属隔离执行路径，待执行器接入后引入；计费与条款在 M00.2.02 登记为托管服务条目。",
+      "evidence": [{"path": "reports/evidence/M00.2.01/pypi-e2b.json", "sha256": "39ba89a9f22ac8f67bfc3fb6aa5514b119f1dc22b27af02edb6ddca2e9ba2864"}]
+    },
+    {
+      "id": "mcp-sdk",
+      "category": "later_stage",
+      "license_entry": "mcp-sdk",
+      "candidate_version": "2.2.0",
+      "reason": "标准工具入口属服务端能力扩展，引入时需与 Hermes/客户端的对接方式一并确定。",
+      "evidence": [{"path": "reports/evidence/M00.2.01/pypi-mcp.json", "sha256": "b97631285e97e0db3417e33440208b419dc4e5fdfd2916658faeedaea89fa6d0"}]
+    },
+    {
+      "id": "langfuse",
+      "category": "later_stage",
+      "license_entry": "langfuse",
+      "candidate_version": "4.15.4",
+      "reason": "观测在服务端成形后引入；仅采用已核实的社区许可范围（不使用 ee/ 企业目录组件）。",
+      "evidence": [{"path": "reports/evidence/M00.2.01/pypi-langfuse.json", "sha256": "0c0b529b450d8ea149515956c262ed871eb59404feecadc144b82dac4d6ce63b"}]
+    },
+    {
+      "id": "airi",
+      "category": "later_stage_source_only",
+      "license_entry": "airi",
+      "candidate_git_commit": "308ee2b3aa8587262aa7a458d5d68407cb5f2342",
+      "reason": "组件抽取试验（M00.4.01）与 UI 小样（M00.4.02）阶段才引入；首版只参考，不复制其美术/音频素材（asset-register 已排除）。",
+      "evidence": [{"path": "reports/evidence/M00.2.01/github-commit-airi-308ee2b3.json", "sha256": "732baccad3f6aa987ebc2018ab20b48e67bcb743cb4f7434c66d16820c7d4372"}]
+    },
+    {
+      "id": "shadcn-vue",
+      "category": "later_stage",
+      "license_entry": "shadcn-vue",
+      "candidate_version": "2.8.2",
+      "reason": "UI 小样阶段（M00.4.02）按复制组件模式引入；本卡补记具体版本以关闭 M00.2.02 登记里的悬空项（原写 main）。",
+      "evidence": [{"path": "reports/evidence/M00.2.03/npm-shadcn-vue.json", "sha256": "0daf5072143c3e75990a3d76e71d5e99d118bff6d88c8ca2fcbdd73bf8fef95f"}],
+      "decision_ref": "D4"
+    },
+    {
+      "id": "vueuse",
+      "category": "later_stage",
+      "license_entry": "vueuse",
+      "candidate_version": "15.0.0",
+      "reason": "与 UI 小样同阶段引入；本卡补记具体版本（原写 main）。其 engines.node >=22 与 peer vue ^3.5.0 与冻结组合相容（约束层面），此处只作记录，不代表已采用。",
+      "evidence": [{"path": "reports/evidence/M00.2.03/npm-vueuse-core.json", "sha256": "66d8938bad38bc69a1915b6541f676dd19a6c02a294b50892ba46d932752fcd3"}],
+      "decision_ref": "D4"
+    },
+    {
+      "id": "jsonforms",
+      "category": "later_stage",
+      "license_entry": "jsonforms",
+      "candidate_version": "3.8.0",
+      "reason": "表单渲染方案候选，待桌面端表单需求明确后评估；3.8.0 与仓库 tag v3.8.0 对应。",
+      "evidence": [{"path": "reports/evidence/M00.2.03/npm-jsonforms-core.json", "sha256": "3732a9682603996399e64d994a585f4117e3bf03f634b4933067ef679799c39b"}],
+      "decision_ref": "D4"
+    },
+    {
+      "id": "npm-12",
+      "category": "not_adopted",
+      "license_entry": "npm",
+      "candidate_version": "12.1.0",
+      "reason": "D2：不采用全局 npm 12.1.0（发布仅比查询窗口早一天，且需要额外的全局安装与升级动作）；用 Node 自带的 11.19.0。",
+      "evidence": [{"path": "reports/evidence/M00.2.01/npm-npm.json", "sha256": "f8a4285a572ae240bd7bc00a06ec4c7603f8ef13e002cb44d3969e931d63b2c8"}]
+    },
+    {
+      "id": "pnpm",
+      "category": "not_adopted",
+      "license_entry": "pnpm",
+      "candidate_version": "12.5.1",
+      "reason": "D2：不引入第二套包管理器与第二套锁文件语义。",
+      "evidence": [{"path": "reports/evidence/M00.2.01/npm-pnpm.json", "sha256": "c5c82efcf954ac46d89e617824c83a25fd333d15e7676969a0bba8ef0a05149f"}]
+    },
+    {
+      "id": "pip",
+      "category": "not_adopted",
+      "license_entry": "pip",
+      "candidate_version": "26.2.1",
+      "reason": "D1：不采用 pip 作为独立冻结项；它随 CPython 分发，仅作引导用途，不进依赖清单。",
+      "evidence": [{"path": "reports/evidence/M00.2.01/pypi-pip.json", "sha256": "3956f71e70ae557097a00d6827c4e0bdeb5a5420e6c87201eeff7028cf863422"}]
+    },
+    {
+      "id": "hermes-pypi-0.19.0",
+      "category": "not_adopted",
+      "license_entry": "hermes-agent",
+      "candidate_version": "0.19.0",
+      "reason": "R1-01/D6：按架构裁决 E2 降为未采用参考；唯一冻结目标是源码 commit d337b736…（声明 0.21.4）。其依赖声明与源码 commit 有实际差别（如 uvicorn[standard]>=0.24.0,<1 对 uvicorn>=0.31.0,<1；cryptography 46.0.7 对 50.0.0），不能再作为安装目标或该 commit 的发行物绑定。",
+      "evidence": [{"path": "reports/evidence/M00.2.03/hermes-pypi-0.19.0.json", "sha256": "583a687c25444809eebacfb46e86c1cfdf84453ca0293e844c04ac452e24cc5c"}]
+    }
+  ],
+  "unknowns": [
+    "Electron 44.4.4 内置的 Node/Chromium 版本未核实（桌面运行时不等于系统 Node 24）；影响 @types/node 与真实运行时的对应，属 M00.0.03 的实测项。",
+    "@types/node 24.13.6 对 TypeScript 编译器的**最低**版本要求未核实（类型包不声明 engines/peer；DefinitelyTyped 的 tag 机制只给近似）。",
+    "vue 3.5.43 未声明 engines，故“与 Node 24 相容”只能由工具链（vite/vitest）间接支持，不能从包元数据直接断言。",
+    "uv 0.12.18 在 Windows 上的可用性与支持矩阵未核实（决定 D1 依赖它承担解释器与依赖锁定）。",
+    "vue-tsc 等 SFC 类型检查工具不在 runtime-matrix 与许可登记范围内；引入前需按 M00.2.02 的流程补登记与版本冻结。",
+    "Hermes 源码 commit 与 PyPI 0.19.0 之间的完整差异清单未逐一核实：已确证的例子包括 uvicorn 约束（core \"uvicorn>=0.31.0,<1\" 对 \"uvicorn[standard]>=0.24.0,<1\"）与 cryptography（50.0.0 对 46.0.7）；0.19.0→0.21.4 的功能变化与两套版本号体系的关系全貌仍未知。",
+    "Hermes 源码 commit 的 extras/profile 相容性未核实：本卡只核对 core 元数据原文，不把 core 元数据冒充全 extras 相容；web 等 extra 含精确钉死（fastapi==0.133.1、uvicorn==0.41.0），安装 profile 与 extras 在 M00.3.01 读取同一 commit 后决定。",
+    "Langfuse 核心（MIT）与 ee/ 企业目录的功能边界未逐项核实（M00.2.02 已记录，属部署卡逐功能核对项）。",
+    "真实安装与端到端未验证：本机未安装任何组件，本文件全部相容结论都停在约束层。",
+    "本机 Windows 上的 venv/npm 工作区实际行为（路径长度、编码、原生模块）未验证。"
+  ],
+  "escalations": [
+    {
+      "id": "E1",
+      "topic": "pydantic 环境划分需架构确认",
+      "status": "closed_by_ruling",
+      "ruling": "架构裁决（reviews/BATCH-002.md §架构裁决 1）：Hermes 与我方服务端使用独立进程/虚拟环境；我方 pydantic 2.13.5 不注入 Hermes 环境；不在我方服务代码里直接 import Hermes。未来通过适配器接入。",
+      "detail": "原议题：若架构要求服务端在同一进程环境导入 hermes 包，则 pydantic 必须降到 2.13.4（或整体与 Hermes 共用环境）。裁决为分环境 + 不直接 import，故冻结保持 env-server pydantic 2.13.5、Hermes 自带 2.13.4（D5）。",
+      "blocking_next_install": false,
+      "ref": "reviews/BATCH-002.md §架构裁决 1；本文件 D5 / C5 / environments.env-executors"
+    },
+    {
+      "id": "E2",
+      "topic": "Hermes 版本号体系澄清",
+      "status": "closed_by_ruling",
+      "ruling": "架构裁决（reviews/BATCH-002.md §架构裁决 2）：后续 Hermes 验证的唯一目标 = 已记录并已核查许可证的不可变源码 commit（声明版本 0.21.4）；PyPI 0.19.0 只作未采用参考，不能当它的二进制/源码绑定；安装 profile 与 extras 在 M00.3.01 读取同一 commit 后决定。",
+      "detail": "落地于 D6 与 selected.hermes-agent：version=0.21.4、version_kind=source_commit_with_declared_version、install_source=该源码 commit；PyPI 0.19.0 记入 deferred.not_adopted。",
+      "blocking_next_install": false,
+      "ref": "reviews/BATCH-002.md §架构裁决 2；本文件 D6 / selected.hermes-agent / deferred#hermes-pypi-0.19.0"
+    },
+    {
+      "id": "E3",
+      "topic": "Langfuse 核心/ee 边界",
+      "detail": "自托管时只使用核心（MIT）部分；ee/ 目录组件的功能边界需逐项核对后再决定观测方案范围（后续部署卡）。",
+      "blocking_next_install": false,
+      "ref": "M00.2.02 许可登记 langfuse 条目"
+    }
+  ],
+  "blocking_next_install": {
+    "blocked": false,
+    "detail": "未发现阻塞 M00.0.01 / M00.0.02 初始化的未决约束。E1/E2 已按架构裁决关闭（独立进程/venv、不直接 import Hermes；Hermes 唯一目标为源码 commit 0.21.4，落地于 D6）；E3 属部署卡事项。TS 线路已按 D3 用证据选定并附唯一替代路线。"
+  },
+  "review_status": "submitted（BATCH-002-R1 修订，第 4 项）。本轮修订：R1-01/R1-02 统一 Hermes 冻结身份为源码 commit（0.21.4）并更新同源约束证据与 C1/C5；R1-03 补 TypeScript 6.0.3 / npm 11.19.0 精确版本 license_binding；R1-04 更新收尾记录。本文件未经独立复核，不等于 accepted；accepted 只能由独立评审写入。"
+}

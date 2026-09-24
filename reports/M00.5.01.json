@@ -1,0 +1,100 @@
+{
+  "schema_version": "1",
+  "batch_id": "BATCH-009",
+  "dispatch_ref": "docs/handoff/BATCH-009.md",
+  "status": "submitted",
+  "base_ref": "sha256:023bd23dc65eb51eb6298a7ec65cae29f880e175c1b79b146ce5813e2741e341",
+  "interfaces_changed": [],
+  "batch_level_changed_files": [
+    "reports/BATCH-009.md"
+  ],
+  "task_id": "M00.5.01",
+  "task_spec_sha256": "c093e205e6ac6403255a33632fcdb10174836b3db46f122481c48bbde3e0f473",
+  "phase": "offline_protocol_review_revision",
+  "task_completion": "partial",
+  "result_manifest": "reports/evidence/M00.5.01/artifact-manifest.json",
+  "result_ref": "manifest-sha256:02da6c7d44a3fddb149ac0524ce687ebdaf04e29fd10a94dcc5f3e174b2b7d08",
+  "summary": "Corrected fixed Codex 0.156.0 account/read null semantics and message direction/category validation. Original 8 plus 6 new offline tests and strict TS pass. Live A01-A03 remain not_run.",
+  "changed_files": [
+    "docs/evidence/codex-connection.json",
+    "reports/M00.5.01.json",
+    "reports/M00.5.01.checkpoint.md",
+    "reports/evidence/M00.5.01/artifact-manifest.json",
+    "reports/evidence/M00.5.01/BATCH-009/A-typecheck.txt",
+    "reports/evidence/M00.5.01/BATCH-009/A-vitest.txt",
+    "reports/evidence/M00.5.01/BATCH-009/codex_protocol_r1.test.ts"
+  ],
+  "dispatch_changed_files": [
+    "tests/spikes/codex_protocol.ts",
+    "docs/evidence/codex-live-runbook.md"
+  ],
+  "commands": [
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "reports/evidence/M00.5.01/codex_protocol.test.ts",
+        "reports/evidence/M00.5.01/BATCH-009/codex_protocol_r1.test.ts"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.5.01/BATCH-009/A-vitest.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "--strict",
+        "--target",
+        "es2022",
+        "--module",
+        "esnext",
+        "--moduleResolution",
+        "bundler",
+        "--allowImportingTsExtensions",
+        "--types",
+        "node",
+        "--skipLibCheck",
+        "tests/spikes/codex_protocol.ts",
+        "tests/spikes/codex_connection.ts",
+        "reports/evidence/M00.5.01/codex_protocol.test.ts",
+        "reports/evidence/M00.5.01/BATCH-009/codex_protocol_r1.test.ts"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.5.01/BATCH-009/A-typecheck.txt",
+      "evidence_kind": "actual"
+    }
+  ],
+  "preparation_results": [
+    {
+      "id": "B9-A01",
+      "status": "passed",
+      "evidence": "A-vitest.txt: 14 tests; A-typecheck.txt: strict TS exit 0. Independent B8 review probes are now explicit unknown/invalid without positive state."
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.5.01-A01",
+      "status": "not_run",
+      "evidence": "No live official account, quota or native task in BATCH-009."
+    },
+    {
+      "id": "M00.5.01-A02",
+      "status": "not_run",
+      "evidence": "No live official account, quota or native task in BATCH-009."
+    },
+    {
+      "id": "M00.5.01-A03",
+      "status": "not_run",
+      "evidence": "No live official account, quota or native task in BATCH-009."
+    }
+  ],
+  "integration_evidence_kind": "fixed_public_source_plus_offline_regression_only",
+  "unresolved": [
+    "Official account, quota, billing and native lifecycle remain untested.",
+    "Observer reconnection across official stdio/server closure is unproven; future experiments are separated in the unexecuted runbook."
+  ],
+  "next_step": "Independent review of the narrow R1/R2 fixes; do not infer live acceptance."
+}

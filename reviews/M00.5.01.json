@@ -1,0 +1,41 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.5.01",
+  "report_sha256": "42af520ca9b947625f5d70557514dfda149367b31ec2ffddf7ba6bbd97301c4e",
+  "decision": "not_run",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_at": "2026-09-23T13:10:40.117986+00:00",
+  "reviewed_result_ref": "manifest-sha256:02da6c7d44a3fddb149ac0524ce687ebdaf04e29fd10a94dcc5f3e174b2b7d08",
+  "evidence_ref": "reviews/evidence/BATCH-009/review-summary.json",
+  "task_spec_sha256": "c093e205e6ac6403255a33632fcdb10174836b3db46f122481c48bbde3e0f473",
+  "preparation_decision": "accepted",
+  "checked_acceptance_ids": [
+    "M00.5.01-A01",
+    "M00.5.01-A02",
+    "M00.5.01-A03"
+  ],
+  "acceptance_decisions": [
+    {
+      "id": "M00.5.01-A01",
+      "decision": "not_run",
+      "basis": "未运行官方认证或真实任务，不以离线证据替代。"
+    },
+    {
+      "id": "M00.5.01-A02",
+      "decision": "not_run",
+      "basis": "未运行官方认证或真实任务，不以离线证据替代。"
+    },
+    {
+      "id": "M00.5.01-A03",
+      "decision": "not_run",
+      "basis": "未运行官方认证或真实任务，不以离线证据替代。"
+    }
+  ],
+  "findings": [],
+  "closed_findings": [
+    "B8-R1",
+    "B8-R2"
+  ],
+  "preparation_basis": "A原8测+6修订回归与严格TS独立通过，源码核查修复了缺字段与方向类别问题，未来stdio恢复假设已移为独立未验证场景。"
+}

@@ -1,0 +1,1704 @@
+{
+  "schema_version": "1",
+  "designed_on": "2026-09-23",
+  "status": "design_only",
+  "stages": {
+    "P0": "选型与接入验证",
+    "P1": "首个内测版本",
+    "P2": "需求成立后的扩展"
+  },
+  "rules": [
+    "只执行依赖已完成的任务",
+    "改接口先更新契约",
+    "每项以实际验收证据完成",
+    "模块拥有者不得覆盖其他模块改动",
+    "开发代理不自行扩大权限或购买服务"
+  ],
+  "modules": [
+    {
+      "id": "M00",
+      "name": "关键接入验证与开发基线",
+      "owner_paths": [
+        "docs/decisions/",
+        "tests/spikes/",
+        "packages/contracts/"
+      ],
+      "goal": "先证实复用路线可落地，再承诺排期。",
+      "boundary": "只做短验证和契约，不把验证脚本变成未经评审的生产服务。",
+      "tasks": [
+        {
+          "id": "M00.1",
+          "title": "冻结首条用户链路和验收样本",
+          "stage": "P0",
+          "status": "todo",
+          "depends_on": [],
+          "owner_paths": [
+            "docs/decisions/",
+            "tests/spikes/",
+            "packages/contracts/"
+          ],
+          "inputs": "产品目标、首批用户访谈假设",
+          "outputs": "文本需求 + CSV 样例、正确结果、纠正记录及未见样本",
+          "reuse": [
+            "现有文档工具",
+            "CSV 标准库"
+          ],
+          "acceptance": [
+            "主链路可用一句话说明",
+            "正常、缺失字段与错误输入有期望结果",
+            "明确首版不包含持续语音和公开技能市场"
+          ]
+        },
+        {
+          "id": "M00.2",
+          "title": "建立依赖与许可证基线",
+          "stage": "P0",
+          "status": "todo",
+          "depends_on": [
+            "M00.1"
+          ],
+          "owner_paths": [
+            "docs/decisions/",
+            "tests/spikes/",
+            "packages/contracts/"
+          ],
+          "inputs": "本交付包来源清单",
+          "outputs": "候选版本、来源、LICENSE/NOTICE、资产登记及升级策略",
+          "reuse": [
+            "各项目官方仓库",
+            "现成包管理器锁文件"
+          ],
+          "acceptance": [
+            "区分开源代码与云服务",
+            "记录实际选定版本及间接依赖",
+            "Claude Code 单列官方集成条件"
+          ]
+        },
+        {
+          "id": "M00.3",
+          "title": "验证 Hermes 与云端工程执行路径",
+          "stage": "P0",
+          "status": "todo",
+          "depends_on": [
+            "M00.2"
+          ],
+          "owner_paths": [
+            "docs/decisions/",
+            "tests/spikes/",
+            "packages/contracts/"
+          ],
+          "inputs": "两个隔离用户目录、同一任务样本、受限测试预算",
+          "outputs": "Runs/取消/中断/隔离记录，原生 Codex runtime 与直接 SDK 路径选择",
+          "reuse": [
+            "Hermes API/目标/委派",
+            "Hermes Codex runtime",
+            "Codex App Server"
+          ],
+          "acceptance": [
+            "不同用户不能互读文件",
+            "取消和进程退出状态真实",
+            "记录原生桥缺失能力",
+            "不需要重写核心循环即可回收工程成果"
+          ]
+        },
+        {
+          "id": "M00.4",
+          "title": "验证 AIRI 组件抽取与桌面壳",
+          "stage": "P0",
+          "status": "todo",
+          "depends_on": [
+            "M00.2"
+          ],
+          "owner_paths": [
+            "docs/decisions/",
+            "tests/spikes/",
+            "packages/contracts/"
+          ],
+          "inputs": "AIRI 指定提交和目标系统",
+          "outputs": "最小 Electron/Vue 构建及组件取舍记录",
+          "reuse": [
+            "AIRI",
+            "Electron",
+            "Vue"
+          ],
+          "acceptance": [
+            "选中的组件可独立构建",
+            "列出实际仓库内依赖和素材许可",
+            "抽取代价高时保留成熟桌面壳并停止迁移该组件"
+          ]
+        },
+        {
+          "id": "M00.5",
+          "title": "验证用户官方 Agent 与订阅接入",
+          "stage": "P0",
+          "status": "todo",
+          "depends_on": [
+            "M00.2"
+          ],
+          "owner_paths": [
+            "docs/decisions/",
+            "tests/spikes/",
+            "packages/contracts/"
+          ],
+          "inputs": "用户自行授权的测试账号/官方程序、当前官方文档",
+          "outputs": "Codex 和 Claude Code 各一份登录、运行、取消、计费来源证据",
+          "reuse": [
+            "Codex App Server",
+            "未修改的 Claude Code 官方 SDK/CLI"
+          ],
+          "acceptance": [
+            "官方登录完成且产品不接触订阅 token",
+            "成果可回收",
+            "不能读取额度时标未知",
+            "记录版本和规则核查日期"
+          ]
+        },
+        {
+          "id": "M00.6",
+          "title": "冻结接口草案并重估范围",
+          "stage": "P0",
+          "status": "todo",
+          "depends_on": [
+            "M00.3",
+            "M00.4",
+            "M00.5"
+          ],
+          "owner_paths": [
+            "docs/decisions/",
+            "tests/spikes/",
+            "packages/contracts/"
+          ],
+          "inputs": "所有接入验证、05-contracts.md",
+          "outputs": "v1 Schema、能力矩阵、选型 ADR 与调整后的工期",
+          "reuse": [
+            "Pydantic",
+            "JSON Schema",
+            "上游生成类型"
+          ],
+          "acceptance": [
+            "失败路线有可执行替代方案",
+            "原生协议字段与产品字段分开",
+            "首版所需能力全部有验证入口"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M01",
+      "name": "产品体验与桌面界面",
+      "owner_paths": [
+        "apps/desktop/renderer/",
+        "packages/ui/"
+      ],
+      "goal": "让用户自然地聊天、看成果、重复使用功能。",
+      "boundary": "不在渲染进程直接操作本机 shell、供应商凭据和产品数据库。",
+      "tasks": [
+        {
+          "id": "M01.1",
+          "title": "确定设计语言与核心交互",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M00.1",
+            "M00.4"
+          ],
+          "owner_paths": [
+            "apps/desktop/renderer/",
+            "packages/ui/"
+          ],
+          "inputs": "真实用户链路、桌面技术验证",
+          "outputs": "设计变量、伙伴/工作区布局、状态文案与交互原型",
+          "reuse": [
+            "shadcn-vue",
+            "VueUse",
+            "选定 AIRI 组件"
+          ],
+          "acceptance": [
+            "聊天、任务、成果、功能、记忆及连接入口可找到",
+            "异常状态有清晰下一步",
+            "键盘操作和对比度可用"
+          ]
+        },
+        {
+          "id": "M01.2",
+          "title": "实现桌面壳和受限系统桥",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M00.6",
+            "M01.1"
+          ],
+          "owner_paths": [
+            "apps/desktop/renderer/",
+            "packages/ui/"
+          ],
+          "inputs": "UI 原型和桥接权限定义",
+          "outputs": "窗口、托盘、单实例、通知入口和类型化 IPC",
+          "reuse": [
+            "Electron",
+            "Vue"
+          ],
+          "acceptance": [
+            "渲染进程不具备 Node 权限",
+            "窗口关闭/退出语义清楚",
+            "所有 IPC 校验来源和参数"
+          ]
+        },
+        {
+          "id": "M01.3",
+          "title": "接入会话和任务状态",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M01.2",
+            "M03.2"
+          ],
+          "owner_paths": [
+            "apps/desktop/renderer/",
+            "packages/ui/"
+          ],
+          "inputs": "ProductTaskAPI、RunEvent",
+          "outputs": "流式对话、任务卡、取消与重连快照",
+          "reuse": [
+            "VueUse",
+            "既有 API 客户端"
+          ],
+          "acceptance": [
+            "重连无重复消息",
+            "执行进度与最终验收分开",
+            "等待设备/额度/用户均有真实状态"
+          ]
+        },
+        {
+          "id": "M01.4",
+          "title": "接入成果和功能页面",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M01.3",
+            "M05.3",
+            "M07.4"
+          ],
+          "owner_paths": [
+            "apps/desktop/renderer/",
+            "packages/ui/"
+          ],
+          "inputs": "ArtifactRef、已发布技能 Schema",
+          "outputs": "安全预览、下载、功能输入表单与再次运行入口",
+          "reuse": [
+            "JSON Forms",
+            "可信表格/文件组件"
+          ],
+          "acceptance": [
+            "新输入可再次运行",
+            "恶意 HTML 不进入主 UI 执行",
+            "运行结果可追溯到技能版本"
+          ]
+        },
+        {
+          "id": "M01.5",
+          "title": "完成首次使用与可用性验证",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M01.4",
+            "M04.4",
+            "M06.3",
+            "M08.3"
+          ],
+          "owner_paths": [
+            "apps/desktop/renderer/",
+            "packages/ui/"
+          ],
+          "inputs": "完整首版链路和连接设置",
+          "outputs": "简短引导、示例任务、错误恢复文案及用户走查记录",
+          "reuse": [
+            "现有 UI 组件",
+            "系统无障碍支持"
+          ],
+          "acceptance": [
+            "新用户能连接一个 Agent 并完成样例",
+            "不要求理解框架术语",
+            "关闭主动问候和查看费用来源都容易找到"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M02",
+      "name": "身份、数据与产品控制服务",
+      "owner_paths": [
+        "services/control/identity/",
+        "services/control/tasks/",
+        "infra/database/"
+      ],
+      "goal": "提供可靠的多用户任务入口和持久产品状态。",
+      "boundary": "产品保存任务投影；不另建一套 Agent 推理循环或重复历史库。",
+      "tasks": [
+        {
+          "id": "M02.1",
+          "title": "接入身份和工作区",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M00.6"
+          ],
+          "owner_paths": [
+            "services/control/identity/",
+            "services/control/tasks/",
+            "infra/database/"
+          ],
+          "inputs": "身份/工作区 Schema",
+          "outputs": "登录、令牌验证、用户/设备/工作区表",
+          "reuse": [
+            "Supabase Auth",
+            "FastAPI"
+          ],
+          "acceptance": [
+            "服务端从可信会话取得用户身份",
+            "过期和撤销会话失效",
+            "用户无法指定别人所有者身份"
+          ]
+        },
+        {
+          "id": "M02.2",
+          "title": "实现数据与对象隔离",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M02.1"
+          ],
+          "owner_paths": [
+            "services/control/identity/",
+            "services/control/tasks/",
+            "infra/database/"
+          ],
+          "inputs": "数据归属表、保留策略",
+          "outputs": "数据库迁移、RLS、对象路径及限时访问",
+          "reuse": [
+            "PostgreSQL",
+            "Supabase Storage/RLS"
+          ],
+          "acceptance": [
+            "跨用户读写被拒绝",
+            "高权限后端也校验归属",
+            "私有文件不产生永久公开地址"
+          ]
+        },
+        {
+          "id": "M02.3",
+          "title": "实现任务队列和持久事件",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M02.2",
+            "M11.1"
+          ],
+          "owner_paths": [
+            "services/control/identity/",
+            "services/control/tasks/",
+            "infra/database/"
+          ],
+          "inputs": "TaskBrief/RunEvent Schema",
+          "outputs": "幂等提交、PGMQ 消费者、状态投影、事件游标和死信记录",
+          "reuse": [
+            "PGMQ",
+            "FastAPI",
+            "PostgreSQL"
+          ],
+          "acceptance": [
+            "重复投递不重复启动",
+            "相同幂等键不同内容冲突",
+            "消费者崩溃后可对账",
+            "游标过期返回刷新快照信号"
+          ]
+        },
+        {
+          "id": "M02.4",
+          "title": "提供隔离用户运行单元",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M02.2",
+            "M00.3"
+          ],
+          "owner_paths": [
+            "services/control/identity/",
+            "services/control/tasks/",
+            "infra/database/"
+          ],
+          "inputs": "已验证 Hermes 启动配置",
+          "outputs": "用户进程/卷生命周期、私网访问、备份入口",
+          "reuse": [
+            "Hermes profiles",
+            "标准容器运行工具"
+          ],
+          "acceptance": [
+            "每用户独立可写目录",
+            "任意代码不能触及宿主服务",
+            "重启后能定位原会话和中断任务"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M03",
+      "name": "主控 Agent 与长期任务",
+      "owner_paths": [
+        "adapters/hermes/",
+        "services/control/runtime/"
+      ],
+      "goal": "复用强模型规划、委派和验收能力，保证产品状态真实。",
+      "boundary": "不做硬编码行业流程引擎；只约束权限、资源、状态与结果。",
+      "tasks": [
+        {
+          "id": "M03.1",
+          "title": "封装 Hermes 运行接口",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M02.4",
+            "M00.6"
+          ],
+          "owner_paths": [
+            "adapters/hermes/",
+            "services/control/runtime/"
+          ],
+          "inputs": "固定版本 API 和产品契约",
+          "outputs": "SupervisorRuntime 的会话、启动、停止及能力探测",
+          "reuse": [
+            "Hermes Runs/Sessions API"
+          ],
+          "acceptance": [
+            "适配器通过契约测试",
+            "原生错误保留可诊断信息",
+            "不依赖解析人类终端文本"
+          ]
+        },
+        {
+          "id": "M03.2",
+          "title": "接入主会话及事件映射",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M03.1",
+            "M02.3"
+          ],
+          "owner_paths": [
+            "adapters/hermes/",
+            "services/control/runtime/"
+          ],
+          "inputs": "会话映射与队列消息",
+          "outputs": "任务到原生 run 的绑定、标准事件与恢复查询",
+          "reuse": [
+            "Hermes SSE/会话历史"
+          ],
+          "acceptance": [
+            "UI 断开不终止云任务",
+            "原生回合结束不伪报任务验收通过",
+            "上游短期事件丢失可由快照恢复重要状态"
+          ]
+        },
+        {
+          "id": "M03.3",
+          "title": "配置模型分工与预算入口",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M03.2",
+            "M10.1"
+          ],
+          "owner_paths": [
+            "adapters/hermes/",
+            "services/control/runtime/"
+          ],
+          "inputs": "任务复杂度提示、两档模型配置",
+          "outputs": "强主控、便宜工作者和确定性执行规则",
+          "reuse": [
+            "Hermes delegate_task",
+            "现有提供商配置"
+          ],
+          "acceptance": [
+            "简单任务可直接完成",
+            "普通委派不假装支持每任务模型参数",
+            "预算检查覆盖主控、子任务及评审"
+          ]
+        },
+        {
+          "id": "M03.4",
+          "title": "加入目标、检查点与恢复",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M03.3",
+            "M05.2"
+          ],
+          "owner_paths": [
+            "adapters/hermes/",
+            "services/control/runtime/"
+          ],
+          "inputs": "长期任务状态和故障样例",
+          "outputs": "目标运行、检查点、超时和中断对账",
+          "reuse": [
+            "Hermes goals",
+            "必要时 Hermes Kanban"
+          ],
+          "acceptance": [
+            "子进程退出不被标继续运行",
+            "系统进程约束有验证",
+            "无法确认的外部写入不自动重做",
+            "已有成果不丢失"
+          ]
+        },
+        {
+          "id": "M03.5",
+          "title": "实现结果验收与受限重试",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M03.4",
+            "M05.3"
+          ],
+          "owner_paths": [
+            "adapters/hermes/",
+            "services/control/runtime/"
+          ],
+          "inputs": "完成条件、成果和验证报告",
+          "outputs": "机械校验 + 语义验收、失败反馈、有限重试",
+          "reuse": [
+            "JSON Schema",
+            "现有测试工具",
+            "强模型评审"
+          ],
+          "acceptance": [
+            "缺失文件和错误 Schema 必须失败",
+            "语义评审引用实际产物",
+            "重试受预算和次数限制",
+            "保留未解决项"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M04",
+      "name": "外部 Agent 联动",
+      "owner_paths": [
+        "adapters/agents/",
+        "apps/desktop/main/agent-bridge/"
+      ],
+      "goal": "让用户已有 Codex、Claude Code 与伙伴协作。",
+      "boundary": "凭据留在官方客户端；不改写其认证、不将订阅转成共享代理。",
+      "tasks": [
+        {
+          "id": "M04.1",
+          "title": "实现连接注册与设备配对",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M00.6",
+            "M01.2",
+            "M02.1"
+          ],
+          "owner_paths": [
+            "adapters/agents/",
+            "apps/desktop/main/agent-bridge/"
+          ],
+          "inputs": "AgentConnection、设备配对协议",
+          "outputs": "执行器注册、白名单、能力和在线状态",
+          "reuse": [
+            "Electron 主进程",
+            "上游版本探测"
+          ],
+          "acceptance": [
+            "只启动已登记程序",
+            "配对可撤销",
+            "不上传完整本机环境或凭据文件",
+            "费用来源可见"
+          ]
+        },
+        {
+          "id": "M04.2",
+          "title": "接入本机 Codex",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M04.1",
+            "M03.2",
+            "M05.1"
+          ],
+          "owner_paths": [
+            "adapters/agents/",
+            "apps/desktop/main/agent-bridge/"
+          ],
+          "inputs": "已验证 Codex 版本、TaskBrief",
+          "outputs": "官方登录、stdio 运行、事件、授权、取消及文件回收",
+          "reuse": [
+            "Codex App Server"
+          ],
+          "acceptance": [
+            "用户通过官方流程登录",
+            "同一任务不重复开 run",
+            "官方授权请求绑定原动作",
+            "产物完整且取消有实际证据"
+          ]
+        },
+        {
+          "id": "M04.3",
+          "title": "接入本机 Claude Code",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M04.2"
+          ],
+          "owner_paths": [
+            "adapters/agents/",
+            "apps/desktop/main/agent-bridge/"
+          ],
+          "inputs": "同一契约、M00.5 接入证据",
+          "outputs": "Claude 适配器及能力差异说明",
+          "reuse": [
+            "未修改的 Claude Code",
+            "官方 SDK/程序化接口"
+          ],
+          "acceptance": [
+            "前端无需另写任务页面",
+            "用户自有认证和使用账单",
+            "不支持功能返回明确原因",
+            "官方程序和认证方式保持原样"
+          ]
+        },
+        {
+          "id": "M04.4",
+          "title": "加入离线、额度与付费路由",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M04.3",
+            "M02.3",
+            "M10.2"
+          ],
+          "owner_paths": [
+            "adapters/agents/",
+            "apps/desktop/main/agent-bridge/"
+          ],
+          "inputs": "设备心跳、额度结果、用户费用偏好",
+          "outputs": "等待、到期、断线对账和有授权的执行器切换",
+          "reuse": [
+            "PGMQ",
+            "官方状态接口"
+          ],
+          "acceptance": [
+            "过期任务不上线补跑",
+            "不能读取额度显示未知",
+            "换计费来源须已有授权",
+            "同一工作区仅一个写任务"
+          ]
+        },
+        {
+          "id": "M04.5",
+          "title": "按真实需求接第三种 ACP Agent",
+          "stage": "P2",
+          "status": "todo",
+          "depends_on": [
+            "M04.4"
+          ],
+          "owner_paths": [
+            "adapters/agents/",
+            "apps/desktop/main/agent-bridge/"
+          ],
+          "inputs": "第三种执行器需求、许可核查",
+          "outputs": "ACP 客户端及现成适配器组合",
+          "reuse": [
+            "ACP 官方协议/SDK",
+            "已有 Agent ACP 适配器"
+          ],
+          "acceptance": [
+            "认证、成果、取消逐项验证",
+            "能力差异可见",
+            "不能为统一接口捏造恢复支持"
+          ]
+        },
+        {
+          "id": "M04.6",
+          "title": "向外暴露已保存功能",
+          "stage": "P2",
+          "status": "todo",
+          "depends_on": [
+            "M04.4",
+            "M07.4"
+          ],
+          "owner_paths": [
+            "adapters/agents/",
+            "apps/desktop/main/agent-bridge/"
+          ],
+          "inputs": "可调用技能、授权范围",
+          "outputs": "产品 MCP 的运行功能/查询成果入口",
+          "reuse": [
+            "MCP 官方 SDK"
+          ],
+          "acceptance": [
+            "外部 Agent 只能操作授权用户和技能",
+            "结果包含任务 ID",
+            "长任务可查状态且不重复执行"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M05",
+      "name": "工具、沙箱与成果",
+      "owner_paths": [
+        "integrations/tools/",
+        "services/control/artifacts/"
+      ],
+      "goal": "提供可复用执行工具和可信成果交接。",
+      "boundary": "生成代码在隔离环境，不能接触产品主机、计费和发布权限。",
+      "tasks": [
+        {
+          "id": "M05.1",
+          "title": "实现工具权限入口",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M02.2",
+            "M00.6"
+          ],
+          "owner_paths": [
+            "integrations/tools/",
+            "services/control/artifacts/"
+          ],
+          "inputs": "工具 Schema、权限范围和动作账本",
+          "outputs": "MCP 工具网关、审批关联、输入验证和回执",
+          "reuse": [
+            "MCP Python SDK",
+            "Pydantic"
+          ],
+          "acceptance": [
+            "工具参数变更使旧审批失效",
+            "跨用户资源被拒绝",
+            "读写动作区分",
+            "日志脱敏"
+          ]
+        },
+        {
+          "id": "M05.2",
+          "title": "接入云端执行沙箱",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M05.1",
+            "M10.1"
+          ],
+          "owner_paths": [
+            "integrations/tools/",
+            "services/control/artifacts/"
+          ],
+          "inputs": "E2B 账户配置、资源和费用限制",
+          "outputs": "沙箱创建、输入挂载、执行、停止与清理工具",
+          "reuse": [
+            "E2B SDK",
+            "所选官方工程运行时"
+          ],
+          "acceptance": [
+            "超时与取消释放资源",
+            "不注入产品主密钥",
+            "文件仅落授权范围",
+            "记录沙箱费用和残留资源"
+          ]
+        },
+        {
+          "id": "M05.3",
+          "title": "建立成果登记和安全预览",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M05.2",
+            "M02.2"
+          ],
+          "owner_paths": [
+            "integrations/tools/",
+            "services/control/artifacts/"
+          ],
+          "inputs": "执行输出和 ArtifactRef",
+          "outputs": "上传、哈希校验、下载、预览及保留期",
+          "reuse": [
+            "Supabase Storage",
+            "既有文件解析/预览组件"
+          ],
+          "acceptance": [
+            "缺失或被篡改成果校验失败",
+            "生成 HTML/SVG 无宿主权限",
+            "用户可导出自己的成果"
+          ]
+        },
+        {
+          "id": "M05.4",
+          "title": "接入首条业务工具链",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M05.3"
+          ],
+          "owner_paths": [
+            "integrations/tools/",
+            "services/control/artifacts/"
+          ],
+          "inputs": "M00.1 文本和 CSV 样本",
+          "outputs": "读取、结构化、转换、输出工具；确需浏览器时接已有驱动",
+          "reuse": [
+            "Python 标准库",
+            "Hermes 既有工具",
+            "按需 Docling/浏览器驱动"
+          ],
+          "acceptance": [
+            "输出与期望字段匹配",
+            "错误输入有可读提示",
+            "不同时维护重复浏览器栈",
+            "新增依赖有来源"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M06",
+      "name": "人格、长期记忆与工作记录",
+      "owner_paths": [
+        "adapters/hermes/memory/",
+        "services/control/memory/",
+        "apps/desktop/renderer/memory/"
+      ],
+      "goal": "记住人的偏好与纠正，让用户能理解和控制记忆。",
+      "boundary": "不增加第二套长期记忆引擎；不把工作者的猜测自动当成用户事实。",
+      "tasks": [
+        {
+          "id": "M06.1",
+          "title": "定义统一人格和记忆范围",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M03.2",
+            "M00.1"
+          ],
+          "owner_paths": [
+            "adapters/hermes/memory/",
+            "services/control/memory/",
+            "apps/desktop/renderer/memory/"
+          ],
+          "inputs": "伙伴产品定位、事实来源和用户设置",
+          "outputs": "人格配置、记忆种类、保留期与来源规则",
+          "reuse": [
+            "Hermes 用户/记忆机制"
+          ],
+          "acceptance": [
+            "人格不随执行器切换",
+            "事实与推断区分",
+            "没有观测依据不声称看见用户行为"
+          ]
+        },
+        {
+          "id": "M06.2",
+          "title": "接入纠正和工作摘要",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M06.1",
+            "M05.4"
+          ],
+          "owner_paths": [
+            "adapters/hermes/memory/",
+            "services/control/memory/",
+            "apps/desktop/renderer/memory/"
+          ],
+          "inputs": "对话、工具回执、用户纠正",
+          "outputs": "带来源的记忆建议与工作步骤摘要",
+          "reuse": [
+            "Hermes memory/历史检索",
+            "插件钩子"
+          ],
+          "acceptance": [
+            "记住的是用户工作方式",
+            "工作者只提议、主控串行写入",
+            "原始私密文件不无限复制进提示词"
+          ]
+        },
+        {
+          "id": "M06.3",
+          "title": "实现查看、修改与忘记",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M06.2",
+            "M01.3"
+          ],
+          "owner_paths": [
+            "adapters/hermes/memory/",
+            "services/control/memory/",
+            "apps/desktop/renderer/memory/"
+          ],
+          "inputs": "记忆管理契约和当前快照",
+          "outputs": "记忆页、来源、修改/删除、历史联动删除选项",
+          "reuse": [
+            "Hermes 管理工具",
+            "必要的范围明确插件"
+          ],
+          "acceptance": [
+            "删除后当前会话快照更新",
+            "被删除来源不重新进入检索",
+            "解释只删偏好与同时删历史的差异",
+            "跨用户隔离"
+          ]
+        },
+        {
+          "id": "M06.4",
+          "title": "验证长期一致性与检索",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M06.3"
+          ],
+          "owner_paths": [
+            "adapters/hermes/memory/",
+            "services/control/memory/",
+            "apps/desktop/renderer/memory/"
+          ],
+          "inputs": "跨会话样本、矛盾偏好、删除记录",
+          "outputs": "记忆回归集和实际结果",
+          "reuse": [
+            "Hermes 现有检索",
+            "测试框架"
+          ],
+          "acceptance": [
+            "新纠正覆盖过时偏好",
+            "不混淆不同用户",
+            "精简记忆和详细技能分开",
+            "召回不足先有证据再引入新框架"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M07",
+      "name": "工作流学习与功能生成",
+      "owner_paths": [
+        "services/control/capabilities/",
+        "skills/templates/",
+        "integrations/validation/"
+      ],
+      "goal": "把重复劳动变成经过验证、可再次使用的功能。",
+      "boundary": "由强模型判断怎么改进；产品负责版本、权限与可验证成果。",
+      "tasks": [
+        {
+          "id": "M07.1",
+          "title": "识别重复并提出功能建议",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M06.2",
+            "M03.5"
+          ],
+          "owner_paths": [
+            "services/control/capabilities/",
+            "skills/templates/",
+            "integrations/validation/"
+          ],
+          "inputs": "任务摘要、纠正与已有功能目录",
+          "outputs": "说明输入、输出、节省步骤及局限的候选建议",
+          "reuse": [
+            "Hermes 记忆/Skills",
+            "强模型"
+          ],
+          "acceptance": [
+            "能引用真实重复证据",
+            "已有功能能满足时直接复用",
+            "一次性任务允许不开发"
+          ]
+        },
+        {
+          "id": "M07.2",
+          "title": "检索依赖并生成候选技能",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M07.1",
+            "M04.2",
+            "M05.4"
+          ],
+          "owner_paths": [
+            "services/control/capabilities/",
+            "skills/templates/",
+            "integrations/validation/"
+          ],
+          "inputs": "已接受建议、已有技能和开源依赖清单",
+          "outputs": "版本化 SKILL.md、脚本、Schema、依赖锁与示例",
+          "reuse": [
+            "Agent Skills 格式",
+            "Codex",
+            "审核过的开源工具"
+          ],
+          "acceptance": [
+            "先组合现有实现",
+            "新增代码只补缺口",
+            "依赖与许可证可追溯",
+            "不要求宿主安装未知命令"
+          ]
+        },
+        {
+          "id": "M07.3",
+          "title": "独立验证候选版本",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M07.2",
+            "M03.5"
+          ],
+          "owner_paths": [
+            "services/control/capabilities/",
+            "skills/templates/",
+            "integrations/validation/"
+          ],
+          "inputs": "技能包哈希、原样本、未见样本和错误输入",
+          "outputs": "实际执行报告、输出比对及失败证据",
+          "reuse": [
+            "E2B",
+            "JSON Schema",
+            "语言自带测试框架"
+          ],
+          "acceptance": [
+            "至少一个未参与生成的样本通过",
+            "报告关联包和输入哈希",
+            "模型自报成功不能代替运行",
+            "新增权限单列"
+          ]
+        },
+        {
+          "id": "M07.4",
+          "title": "实现发布、执行与回退",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M07.3",
+            "M02.2"
+          ],
+          "owner_paths": [
+            "services/control/capabilities/",
+            "skills/templates/",
+            "integrations/validation/"
+          ],
+          "inputs": "通过验证的不可变技能包",
+          "outputs": "版本登记、活动指针、权限检查和运行入口",
+          "reuse": [
+            "PostgreSQL 事务",
+            "Hermes Skills"
+          ],
+          "acceptance": [
+            "切换原子化",
+            "运行中任务固定版本",
+            "坏版本可回退",
+            "技能无法修改发布器或其他技能"
+          ]
+        },
+        {
+          "id": "M07.5",
+          "title": "验收完整学习闭环",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M07.4",
+            "M01.4",
+            "M06.4"
+          ],
+          "owner_paths": [
+            "services/control/capabilities/",
+            "skills/templates/",
+            "integrations/validation/"
+          ],
+          "inputs": "真实工作样例和新的输入文件",
+          "outputs": "从首次协作到重复使用的连续演示及质量报告",
+          "reuse": [
+            "已有模块",
+            "固定验收样本"
+          ],
+          "acceptance": [
+            "用户纠正进入后续结果",
+            "第二次不用重写提示词",
+            "功能复用有实际产物",
+            "记录总花费与人工介入"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M08",
+      "name": "主动消息与调度",
+      "owner_paths": [
+        "services/control/notifications/",
+        "adapters/hermes/jobs/"
+      ],
+      "goal": "让伙伴在有价值的时刻主动出现，而且容易控制。",
+      "boundary": "一个定时任务只由一个调度器触发；模型不直接绕过用户通知偏好。",
+      "tasks": [
+        {
+          "id": "M08.1",
+          "title": "定义通知偏好和候选策略",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M02.2",
+            "M06.1"
+          ],
+          "owner_paths": [
+            "services/control/notifications/",
+            "adapters/hermes/jobs/"
+          ],
+          "inputs": "用户时区、安静时段、消息类别",
+          "outputs": "候选 Schema、频率/去重/到期规则",
+          "reuse": [
+            "Pydantic",
+            "PostgreSQL"
+          ],
+          "acceptance": [
+            "任务通知与问候分别可控",
+            "默认规则不声称未授权观测",
+            "无变化不重复唤醒强模型"
+          ]
+        },
+        {
+          "id": "M08.2",
+          "title": "接入既有定时任务",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M08.1",
+            "M03.4"
+          ],
+          "owner_paths": [
+            "services/control/notifications/",
+            "adapters/hermes/jobs/"
+          ],
+          "inputs": "Hermes Jobs 和运行进程约束",
+          "outputs": "创建/暂停/删除映射、重启和错过执行规则",
+          "reuse": [
+            "Hermes cron/heartbeat",
+            "script-only 检查"
+          ],
+          "acceptance": [
+            "调度进程存活要求有监测",
+            "重启不重复执行同一事件",
+            "修改时区行为明确",
+            "停止任务不继续唤醒"
+          ]
+        },
+        {
+          "id": "M08.3",
+          "title": "实现收件箱与桌面通知",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M08.2",
+            "M01.3"
+          ],
+          "owner_paths": [
+            "services/control/notifications/",
+            "adapters/hermes/jobs/"
+          ],
+          "inputs": "已通过策略的消息候选",
+          "outputs": "持久收件箱、投递记录、桌面提示及点击定位",
+          "reuse": [
+            "PGMQ",
+            "Electron 通知"
+          ],
+          "acceptance": [
+            "离线后消息仍可查",
+            "过期消息不补打扰",
+            "投递与已读不混淆",
+            "关闭声音或问候立即生效"
+          ]
+        },
+        {
+          "id": "M08.4",
+          "title": "加入可解释的主动改进建议",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M08.3",
+            "M07.5"
+          ],
+          "owner_paths": [
+            "services/control/notifications/",
+            "adapters/hermes/jobs/"
+          ],
+          "inputs": "已授权的工作摘要和改进证据",
+          "outputs": "低频建议、接受/拒绝反馈及静默策略",
+          "reuse": [
+            "Hermes 主控",
+            "现有通知策略"
+          ],
+          "acceptance": [
+            "建议引用实际工作依据",
+            "用户拒绝后减少同类提示",
+            "不以情绪施压诱导继续使用",
+            "关闭陪伴不影响工作功能"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M09",
+      "name": "语音与角色表现",
+      "owner_paths": [
+        "apps/desktop/renderer/companion/",
+        "integrations/voice/"
+      ],
+      "goal": "在工作价值成立后增加自然表达和演示吸引力。",
+      "boundary": "语音是输入输出通道，不拥有另一份人格、记忆和任务状态。",
+      "tasks": [
+        {
+          "id": "M09.1",
+          "title": "实现按住说话",
+          "stage": "P2",
+          "status": "todo",
+          "depends_on": [
+            "M01.5",
+            "M10.2"
+          ],
+          "owner_paths": [
+            "apps/desktop/renderer/companion/",
+            "integrations/voice/"
+          ],
+          "inputs": "目标语言、硬件与隐私选择",
+          "outputs": "录音状态、转写、文字修改和取消",
+          "reuse": [
+            "faster-whisper 或已支持的语音服务",
+            "现成音频采集组件"
+          ],
+          "acceptance": [
+            "麦克风状态清楚",
+            "松开/取消停止采集",
+            "转写错误可修正",
+            "原音频按设置删除"
+          ]
+        },
+        {
+          "id": "M09.2",
+          "title": "加入短 TTS 与角色动作",
+          "stage": "P2",
+          "status": "todo",
+          "depends_on": [
+            "M09.1"
+          ],
+          "owner_paths": [
+            "apps/desktop/renderer/companion/",
+            "integrations/voice/"
+          ],
+          "inputs": "已完成文字回复、音色和资产许可",
+          "outputs": "可打断短语音、音量设置、少量状态动作",
+          "reuse": [
+            "Kokoro 或已支持服务",
+            "选定 AIRI 组件"
+          ],
+          "acceptance": [
+            "目标语言质量实测",
+            "停止播放立即生效",
+            "安静时段无自动出声",
+            "角色不遮挡关键工作"
+          ]
+        },
+        {
+          "id": "M09.3",
+          "title": "按需求验证持续语音",
+          "stage": "P2",
+          "status": "todo",
+          "depends_on": [
+            "M09.2"
+          ],
+          "owner_paths": [
+            "apps/desktop/renderer/companion/",
+            "integrations/voice/"
+          ],
+          "inputs": "真实使用需求、延迟/费用数据",
+          "outputs": "实时管线取舍及打断/回声测试",
+          "reuse": [
+            "Pipecat 或 LiveKit Agents，二选一"
+          ],
+          "acceptance": [
+            "主会话和权限不旁路",
+            "测到的延迟和费用可接受才上线",
+            "无需求则停止本项"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M10",
+      "name": "成本、额度与商业化",
+      "owner_paths": [
+        "services/control/usage/",
+        "services/control/billing/"
+      ],
+      "goal": "让每次任务的费用有归属，让产品能测出真实毛利。",
+      "boundary": "不把订阅未知费用写成零，不自建支付收单，也不默认转售官方 Agent 使用量。",
+      "tasks": [
+        {
+          "id": "M10.1",
+          "title": "建立全链路用量账本",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M02.2",
+            "M00.6"
+          ],
+          "owner_paths": [
+            "services/control/usage/",
+            "services/control/billing/"
+          ],
+          "inputs": "供应商用量字段、执行器和沙箱引用",
+          "outputs": "usage_events、幂等计量和付款方分类",
+          "reuse": [
+            "PostgreSQL",
+            "提供商实际回执",
+            "Langfuse 社区能力"
+          ],
+          "acceptance": [
+            "规划/执行/评审/重试都计入",
+            "未知金额用 null",
+            "用户订阅与平台 API 分开",
+            "同一回执不重复入账"
+          ]
+        },
+        {
+          "id": "M10.2",
+          "title": "实施任务和账户预算",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M10.1",
+            "M02.3"
+          ],
+          "owner_paths": [
+            "services/control/usage/",
+            "services/control/billing/"
+          ],
+          "inputs": "预算策略、并行执行及供应商限额",
+          "outputs": "预留/结算、限额停止、新付费来源授权规则",
+          "reuse": [
+            "PostgreSQL 事务",
+            "执行器原生限额信息"
+          ],
+          "acceptance": [
+            "并行任务不各自花掉全部预算",
+            "不再启动超限新调用",
+            "取消尾部费用可查",
+            "不静默切 API 账单"
+          ]
+        },
+        {
+          "id": "M10.3",
+          "title": "设计并接入产品付费方案",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M10.2",
+            "M07.5"
+          ],
+          "owner_paths": [
+            "services/control/usage/",
+            "services/control/billing/"
+          ],
+          "inputs": "实际使用成本、目标用户所在市场和访谈",
+          "outputs": "服务费用与推理来源分开呈现的套餐、支付与权益映射",
+          "reuse": [
+            "所选支付服务的官方 SDK/托管收银台",
+            "现有权限表"
+          ],
+          "acceptance": [
+            "价格来自成本数据而非拍脑袋",
+            "支付回调幂等并验签",
+            "退款/停订行为明确",
+            "官方 Agent 路径不代收转售其用量"
+          ]
+        },
+        {
+          "id": "M10.4",
+          "title": "建立商业验证指标",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M10.3",
+            "M08.4"
+          ],
+          "owner_paths": [
+            "services/control/usage/",
+            "services/control/billing/"
+          ],
+          "inputs": "匿名化产品事件和成本记录",
+          "outputs": "复用率、成功任务成本、人工介入、留存和付费意愿看板",
+          "reuse": [
+            "PostgreSQL 查询",
+            "Langfuse 现有数据"
+          ],
+          "acceptance": [
+            "区分演示吸引力与持续使用",
+            "订阅账单缺失不计假毛利",
+            "看板不包含原始私密内容"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M11",
+      "name": "测试、观测、部署与发布",
+      "owner_paths": [
+        "tests/acceptance/",
+        "infra/",
+        "services/control/observability/"
+      ],
+      "goal": "从第一个接口起建立可诊断、可回退的交付过程。",
+      "boundary": "本模块从早期开始，不是最后才做安全和恢复。",
+      "tasks": [
+        {
+          "id": "M11.1",
+          "title": "建立契约测试和持续集成",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M00.6"
+          ],
+          "owner_paths": [
+            "tests/acceptance/",
+            "infra/",
+            "services/control/observability/"
+          ],
+          "inputs": "Schema、样本、目录责任边界",
+          "outputs": "类型检查、接口模拟、固定样本和构建流水线",
+          "reuse": [
+            "现有测试框架",
+            "包管理器",
+            "CI 服务"
+          ],
+          "acceptance": [
+            "验证真实状态和业务结果",
+            "不只测试实现自证",
+            "密钥与用户数据不进仓库",
+            "模块变更有兼容性检查"
+          ]
+        },
+        {
+          "id": "M11.2",
+          "title": "接入观测与故障定位",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M03.2",
+            "M10.1"
+          ],
+          "owner_paths": [
+            "tests/acceptance/",
+            "infra/",
+            "services/control/observability/"
+          ],
+          "inputs": "任务/attempt/trace ID 与脱敏规则",
+          "outputs": "结构化日志、错误链、耗时/费用关联和运行健康检查",
+          "reuse": [
+            "Langfuse 社区功能",
+            "结构化日志"
+          ],
+          "acceptance": [
+            "一个失败任务能追到执行器版本和产物",
+            "日志默认不含 token/原始私密文件",
+            "调度/设备状态异常可发现"
+          ]
+        },
+        {
+          "id": "M11.3",
+          "title": "建立可回退的内测部署",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M02.4",
+            "M05.2",
+            "M11.2"
+          ],
+          "owner_paths": [
+            "tests/acceptance/",
+            "infra/",
+            "services/control/observability/"
+          ],
+          "inputs": "固定依赖、桌面构建和数据库迁移",
+          "outputs": "部署脚本、备份恢复、运行升级与桌面签名更新方案",
+          "reuse": [
+            "标准容器工具",
+            "托管 Supabase/E2B",
+            "Electron 发布工具"
+          ],
+          "acceptance": [
+            "恢复备份实际演练",
+            "上游升级先过兼容测试",
+            "生成技能无发布主程序权限",
+            "正式分发前完成签名验证"
+          ]
+        },
+        {
+          "id": "M11.4",
+          "title": "完成核心发布验收",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M01.5",
+            "M03.5",
+            "M04.4",
+            "M06.4",
+            "M07.5",
+            "M08.4",
+            "M10.2",
+            "M11.3"
+          ],
+          "owner_paths": [
+            "tests/acceptance/",
+            "infra/",
+            "services/control/observability/"
+          ],
+          "inputs": "完整产品和故障注入场景",
+          "outputs": "端到端报告、已知限制和上线/暂缓结论",
+          "reuse": [
+            "统一契约测试",
+            "真实执行器",
+            "固定验收集"
+          ],
+          "acceptance": [
+            "黄金链路新输入通过",
+            "跨用户攻击失败",
+            "取消/断线/额度/到期真实",
+            "技能可回退",
+            "记忆可删",
+            "重复投递无重复副作用"
+          ]
+        },
+        {
+          "id": "M11.5",
+          "title": "小规模用户验证并决定后续投入",
+          "stage": "P1",
+          "status": "todo",
+          "depends_on": [
+            "M11.4",
+            "M10.4"
+          ],
+          "owner_paths": [
+            "tests/acceptance/",
+            "infra/",
+            "services/control/observability/"
+          ],
+          "inputs": "内测者实际使用、授权采集的指标和反馈",
+          "outputs": "继续/收缩/停止判断，下一阶段优先级",
+          "reuse": [
+            "现有成本与任务数据",
+            "用户访谈"
+          ],
+          "acceptance": [
+            "验证用户是否反复使用学成的功能",
+            "衡量连接已有 Agent 是否降低流失",
+            "有留存和付费证据后才增加语音/市场/多区域平台"
+          ]
+        }
+      ]
+    }
+  ],
+  "topological_waves": [
+    [
+      "M00.1"
+    ],
+    [
+      "M00.2"
+    ],
+    [
+      "M00.3",
+      "M00.4",
+      "M00.5"
+    ],
+    [
+      "M00.6",
+      "M01.1"
+    ],
+    [
+      "M01.2",
+      "M02.1",
+      "M11.1"
+    ],
+    [
+      "M02.2",
+      "M04.1"
+    ],
+    [
+      "M02.3",
+      "M02.4",
+      "M05.1",
+      "M10.1"
+    ],
+    [
+      "M03.1",
+      "M05.2",
+      "M10.2"
+    ],
+    [
+      "M03.2",
+      "M05.3"
+    ],
+    [
+      "M01.3",
+      "M03.3",
+      "M04.2",
+      "M05.4",
+      "M06.1",
+      "M11.2"
+    ],
+    [
+      "M03.4",
+      "M04.3",
+      "M06.2",
+      "M08.1",
+      "M11.3"
+    ],
+    [
+      "M03.5",
+      "M04.4",
+      "M06.3",
+      "M08.2"
+    ],
+    [
+      "M04.5",
+      "M06.4",
+      "M07.1",
+      "M08.3"
+    ],
+    [
+      "M07.2"
+    ],
+    [
+      "M07.3"
+    ],
+    [
+      "M07.4"
+    ],
+    [
+      "M01.4",
+      "M04.6"
+    ],
+    [
+      "M01.5",
+      "M07.5"
+    ],
+    [
+      "M08.4",
+      "M09.1",
+      "M10.3"
+    ],
+    [
+      "M09.2",
+      "M10.4",
+      "M11.4"
+    ],
+    [
+      "M09.3",
+      "M11.5"
+    ]
+  ]
+}

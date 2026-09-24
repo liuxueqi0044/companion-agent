@@ -1,0 +1,174 @@
+{
+  "batch_id": "BATCH-011",
+  "track": "personal-ai-supplement",
+  "status": "submitted",
+  "dispatch_ref": "docs/handoff/BATCH-011.md",
+  "dispatch_sha256": "835b83cb969ca877bd8f33f9fda4e0c15d99867120a43842b7c49e64d571c790",
+  "base_ref": "sha256:6d26d3203edf15c1815b63a942191555e188fe293b42349f25813510c8a0e7cf",
+  "result_ref": "sha256:c345ad35cfa6994741c8d5ea02311a474e6a492be2b9a30c14bbe0624f95eb65",
+  "original_accepted_count": 12,
+  "acceptance_results": [
+    {
+      "id": "B11-A01",
+      "status": "passed",
+      "evidence": [
+        "reports/evidence/BATCH-011/core-tests.txt",
+        "reports/evidence/BATCH-011/integration.md"
+      ],
+      "note": "4 Node tests cover byte-preserving roundtrip and independent hashes, patch inheritance, tamper, limits, strict data and real Windows junction. Source execution not_run."
+    },
+    {
+      "id": "B11-B01",
+      "status": "passed",
+      "evidence": [
+        "reports/evidence/BATCH-011/host-tests.txt",
+        "reports/evidence/BATCH-011/host-typecheck.txt"
+      ],
+      "note": "Ready/timeout/failure/cancel/late/base/concurrency/undo/reload, stable draft and bound running task verified."
+    },
+    {
+      "id": "B11-B02",
+      "status": "passed",
+      "evidence": [
+        "reports/evidence/BATCH-011/host-tests.txt",
+        "reports/evidence/BATCH-011/host-build.txt"
+      ],
+      "note": "Bound MessagePort rejects bad channel/revision/request, grants, size, rate and undeclared methods; DOM test covers engineering shell persistence. Model candidate returns untrusted_execution_unavailable. Actual browser security and native isolation not_run."
+    },
+    {
+      "id": "B11-C01",
+      "status": "passed",
+      "evidence": [
+        "reports/evidence/BATCH-011/deepseek-tests.txt",
+        "reports/evidence/BATCH-011/deepseek-plan.txt",
+        "reports/evidence/BATCH-011/deepseek-offline.txt"
+      ],
+      "note": "5 offline Node tests cover bounded request/response, invalid JSON, truncation, timeout, redirect setting, reservation policy, lock and synthetic key non-disclosure; plan/offline report zero key reads and zero network calls."
+    },
+    {
+      "id": "B11-C02",
+      "status": "not_run",
+      "evidence": [
+        "reports/evidence/BATCH-011/live-attempts.json",
+        "reports/evidence/BATCH-011/live-observation.json"
+      ],
+      "blocked_reason": "DPAPI CurrentUser credential decryption failed before network send. One durable attempt reserved; sent_at_utc is null. A second launcher invocation resumed the same pre-send reservation and failed at decryption; live path stopped."
+    }
+  ],
+  "commands": [
+    {
+      "argv": "node --test tests/spikes/personal-space/core/core.test.mjs",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-011/core-tests.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": "node --test tests/spikes/personal-space/deepseek/deepseek.test.mjs",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-011/deepseek-tests.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": "node_modules/.bin/vitest.cmd run --config tests/spikes/personal-space/vitest.config.ts",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-011/host-tests.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": "node_modules/.bin/tsc.cmd -p tests/spikes/personal-space/host/tsconfig.json",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-011/host-typecheck.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": "tests/spikes/node_modules/.bin/vite.cmd build --config tests/spikes/personal-space/host/vite.config.ts",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-011/host-build.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": "npm run typecheck",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-011/root-typecheck.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": "npm run build",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-011/root-build.txt",
+      "evidence_kind": "actual"
+    }
+  ],
+  "model_requests": {
+    "reserved": 1,
+    "http_sent": 0,
+    "successful_responses": 0,
+    "candidate_hashes": [],
+    "usage_tokens": null,
+    "cost_usd": null
+  },
+  "verification_channels": {
+    "offline_functions": "passed",
+    "real_model": "blocked_pre_send",
+    "real_browser": "not_run",
+    "native_isolation": "not_run",
+    "product_visual": "not_run"
+  },
+  "changed_files_this_round": [
+    "reports/BATCH-011.checkpoint.md",
+    "reports/BATCH-011.json",
+    "reports/BATCH-011.md",
+    "reports/evidence/BATCH-011/artifact-manifest.json",
+    "reports/evidence/BATCH-011/core-tests.txt",
+    "reports/evidence/BATCH-011/deepseek-doc-check.json",
+    "reports/evidence/BATCH-011/deepseek-offline.txt",
+    "reports/evidence/BATCH-011/deepseek-plan.txt",
+    "reports/evidence/BATCH-011/deepseek-tests.txt",
+    "reports/evidence/BATCH-011/host-build.txt",
+    "reports/evidence/BATCH-011/host-tests.txt",
+    "reports/evidence/BATCH-011/host-typecheck.txt",
+    "reports/evidence/BATCH-011/integration.md",
+    "reports/evidence/BATCH-011/live-attempts.json",
+    "reports/evidence/BATCH-011/live-observation.json",
+    "reports/evidence/BATCH-011/live.lock",
+    "reports/evidence/BATCH-011/make_manifest.py",
+    "reports/evidence/BATCH-011/manifest-verify.json",
+    "reports/evidence/BATCH-011/root-build.txt",
+    "reports/evidence/BATCH-011/root-typecheck.txt",
+    "reports/evidence/BATCH-011/scope-final.json",
+    "reports/evidence/BATCH-011/scope-prelive.json",
+    "reports/evidence/BATCH-011/scope-rerun.json",
+    "reports/evidence/BATCH-011/taskctl-next.txt",
+    "reports/evidence/BATCH-011/taskctl-validate.txt",
+    "tests/spikes/personal-space/core/cli.mjs",
+    "tests/spikes/personal-space/core/core.test.mjs",
+    "tests/spikes/personal-space/core/package.mjs",
+    "tests/spikes/personal-space/core/store.mjs",
+    "tests/spikes/personal-space/deepseek/deepseek.test.mjs",
+    "tests/spikes/personal-space/deepseek/live-launcher.ps1",
+    "tests/spikes/personal-space/deepseek/plan.mjs",
+    "tests/spikes/personal-space/deepseek/policy.mjs",
+    "tests/spikes/personal-space/deepseek/worker.mjs",
+    "tests/spikes/personal-space/host/bridge.test.ts",
+    "tests/spikes/personal-space/host/bridge.ts",
+    "tests/spikes/personal-space/host/dom.test.ts",
+    "tests/spikes/personal-space/host/fixture/artifact.html",
+    "tests/spikes/personal-space/host/fixture/manifest.json",
+    "tests/spikes/personal-space/host/fixture/view.css",
+    "tests/spikes/personal-space/host/fixture/view.html",
+    "tests/spikes/personal-space/host/fixture/view.js",
+    "tests/spikes/personal-space/host/index.html",
+    "tests/spikes/personal-space/host/main.ts",
+    "tests/spikes/personal-space/host/prepare-fixture.mjs",
+    "tests/spikes/personal-space/host/state.test.ts",
+    "tests/spikes/personal-space/host/state.ts",
+    "tests/spikes/personal-space/host/tsconfig.json",
+    "tests/spikes/personal-space/host/vite.config.ts",
+    "tests/spikes/personal-space/vitest.config.ts"
+  ],
+  "unresolved": [
+    "DPAPI credential could not be decrypted by the authorized launcher; cause and key validity remain unknown. The retained lock and failed_pre_send ledger entry must not be cleared to force another request in this batch.",
+    "No model-generated candidate or second incremental request exists; B11-C02 remains not_run.",
+    "Real browser observation, hostile-code native isolation and architect-owned product visual remain not_run."
+  ]
+}

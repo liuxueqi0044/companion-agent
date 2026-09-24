@@ -1,0 +1,137 @@
+{
+  "register_format": "asset-register/1",
+  "task_id": "M00.2.02",
+  "batch_id": "BATCH-002",
+  "title": "首版素材登记：字体、占位图形与排除项（不含角色音频与模型权重）",
+  "generated_at": "2026-09-23T00:00:00+00:00",
+  "policy": [
+    "不杜撰授权：任何素材没有可核实的许可证据，一律不进首版（status=excluded），并写明原因",
+    "首版只使用：系统内置字体（不再分发字体文件）与本项目自绘/生成的占位图形",
+    "首版不含任何角色语音/音频素材，不下载也不引入任何模型权重（含 AIRI 等候选的角色素材）",
+    "引入新素材必须补登记：来源、许可、证据文件与哈希，缺一不可",
+    "第三方品牌标识（OpenAI / Anthropic / Eclipse / Supabase 等）不用于本项目 UI 或宣传"
+  ],
+  "entries": [
+    {
+      "id": "system-fonts",
+      "category": "字体",
+      "status": "allowed",
+      "description": "界面使用操作系统内置字体（通过 CSS 系统字体栈），项目不打包、不分发任何字体文件",
+      "license": "随操作系统提供；本项目不再分发，因此不产生额外字体许可义务",
+      "evidence": [],
+      "evidence_status": "not_applicable",
+      "verified_scope": [
+        "选择“不再分发”这一用法从根上规避字体授权问题"
+      ],
+      "unverified": [
+        "具体字体栈在目标平台的渲染效果（视觉验收项，非许可项）"
+      ]
+    },
+    {
+      "id": "own-placeholder-graphics",
+      "category": "图形/插图",
+      "status": "allowed",
+      "description": "占位图形由本项目自绘/程序生成（纯色块、几何形状、简单线条与文字），版权归本项目所有",
+      "license": "本项目自有（自有版权）",
+      "evidence": [],
+      "evidence_status": "not_applicable",
+      "verified_scope": [
+        "不使用任何来源不明的网络图片/图标素材"
+      ],
+      "unverified": [
+        "未来如引入第三方图标集，需按 policy 补登记（当前未引入）"
+      ]
+    },
+    {
+      "id": "character-audio-and-model-weights",
+      "category": "音频/模型权重",
+      "status": "excluded_from_v1",
+      "description": "角色语音、音效与任何模型权重（TTS/视觉/语言）均不进入首版",
+      "license": "无（未引入任何此类素材，也无对应授权文件）",
+      "reason": "首版不需要；且此类素材的授权（含模型权重条款）复杂且需单独核实",
+      "evidence": [],
+      "evidence_status": "no_evidence_available",
+      "verified_scope": [
+        "首版依赖清单与素材清单中均无音频/权重条目"
+      ],
+      "unverified": [
+        "如未来引入，需逐项登记许可与来源（本卡不预判任何授权）"
+      ]
+    },
+    {
+      "id": "airi-character-assets",
+      "category": "角色形象素材",
+      "status": "excluded",
+      "description": "AIRI 仓库中的角色形象、立绘、模型与语音素材一律不用于本项目",
+      "license": "unknown（AIRI 仓库的 MIT 只核实覆盖代码；素材是否在覆盖范围内本轮未核实）",
+      "reason": "A02：未获许可的角色素材不进入首版。代码许可已核实，素材许可未核实 → 不使用",
+      "evidence": [
+        "reports/evidence/M00.2.02/licenses/airi-LICENSE.txt"
+      ],
+      "evidence_status": "code_license_only",
+      "verified_scope": [
+        "AIRI 仓库根 LICENSE 为 MIT（1075B，与钉定 commit 绑定）"
+      ],
+      "unverified": [
+        "仓库内美术/模型素材的逐个授权情况（未核实即不用）"
+      ]
+    },
+    {
+      "id": "third-party-icons-images",
+      "category": "图标/图片",
+      "status": "excluded",
+      "description": "任何第三方图标集、插图、照片（含网上可得的“免费”素材）",
+      "license": "无（本轮未登记任何第三方图标/图片素材）",
+      "reason": "无许可证据的素材不得进入首版（policy 第 1 条）",
+      "evidence": [],
+      "evidence_status": "no_evidence_available",
+      "verified_scope": [
+        "首版界面仅使用自有占位图形与系统字体"
+      ],
+      "unverified": [
+        "后续引入时需补登记（含 CC 类素材的署名要求）"
+      ]
+    },
+    {
+      "id": "component-code-vs-assets",
+      "category": "边界说明",
+      "status": "not_an_asset",
+      "description": "shadcn-vue / VueUse / JSON Forms / AIRI 的源码属“代码依赖”，在 license-register.json 登记；其中携带的示例图片、演示素材不算代码，不在首版使用",
+      "license": "见 license-register.json 对应条目",
+      "evidence": [],
+      "evidence_status": "cross_reference",
+      "verified_scope": [
+        "代码许可与素材许可分开登记，避免把 MIT 代码许可当成素材许可"
+      ],
+      "unverified": []
+    },
+    {
+      "id": "brand-marks",
+      "category": "品牌标识",
+      "status": "excluded",
+      "description": "OpenAI、Anthropic、EclipseSource、Supabase、ClickHouse 等第三方名称与标识",
+      "license": "无（商标不属于开源许可范围）",
+      "reason": "不得使用第三方商标暗示背书；产品内只做事实性文字提及（如“通过 Codex 执行”）",
+      "evidence": [],
+      "evidence_status": "no_evidence_available",
+      "verified_scope": [
+        "首版不包含任何第三方 logo 资源"
+      ],
+      "unverified": []
+    }
+  ],
+  "summary": {
+    "allowed": [
+      "system-fonts",
+      "own-placeholder-graphics"
+    ],
+    "excluded": [
+      "character-audio-and-model-weights",
+      "airi-character-assets",
+      "third-party-icons-images",
+      "brand-marks"
+    ],
+    "note": "首版素材面很小：系统字体 + 自有占位图形；其余一律 excluded 或排除出首版"
+  },
+  "legal_disclaimer": "本登记是工程取证记录，不是法律意见；许可结论以许可正文为准，未做法律审查。"
+}

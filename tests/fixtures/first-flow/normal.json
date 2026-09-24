@@ -1,0 +1,28 @@
+{
+  "fixture_format": "first-flow-input/1",
+  "case_id": "ff-normal-01",
+  "case_kind": "normal",
+  "fictional": true,
+  "fictional_notice": "本样本的公司名、人名、地点、条目与价格全部虚构，不含任何真实个人或客户信息（对应 M00.1.02-A01）。输入来源按 FICTIONAL 标注，未取自任何真实对话、CRM 或客户资料。",
+  "input_source": {
+    "kind": "user_provided",
+    "requirement_text_origin": "用户粘贴的询价文字；本样本原样内嵌在 requirement_text，不引用外部文件",
+    "csv_origin": "用户自备的条目价格表；本样本以 UTF-8 换行字符串内嵌在 csv.text，不新增外部 .csv 文件",
+    "workspace_scope": "用户选定的单一授权工作区（样本不绑定具体目录，由执行时的授权工作区提供）",
+    "corrections": "无（本案例为首次结构化，S1 快照，尚无用户纠正）"
+  },
+  "requirement_text": "你好，我是青湾会展服务的老周。10 月 12 日到 10 月 14 日我们在滨江市国际会展中心办行业展，需要 3 天同声传译、2 套耳返设备租赁，另外准备 50 个会议资料袋。请按我们发过去的条目价格表整理一份明细和总价，单价都是含税价，本周内给我就行。",
+  "csv": {
+    "filename": "qingwan-event-price-list.csv",
+    "encoding": "UTF-8",
+    "delimiter": ",",
+    "header_line": 1,
+    "line_convention": "第 1 行为表头；第 2 行起为数据行。明细行号按数据行顺序从 1 开始，csv_line 为文件中的物理行号。",
+    "text": "item,unit,qty,unit_price,currency\n同声传译（每天）,day,3,1800.00,USD\n耳返设备租赁（每套）,set,2,120.50,USD\n会议资料袋（每个）,piece,50,2.40,USD\n"
+  },
+  "notes": [
+    "本案例刻意做成信息齐备：需求要素、数量、单价、币种、含税口径都能从输入直接读出，因此结果中没有待确认问题，用来与 ff-missing-01 对照。",
+    "币种只取 CSV 的 currency 列（本案例三行均为 USD），不按客户所在地推断；含税口径来自需求文本“单价都是含税价”的明确表述，不使用地域默认值。",
+    "本案例不涉及税额计算、换汇、折扣或运费规则；行小计只由数量 × 单价得到。"
+  ]
+}

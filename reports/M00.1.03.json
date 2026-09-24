@@ -1,0 +1,94 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.1.03",
+  "task_spec_sha256": "81b7b4f2710508cfb6625e7f46c07130c04739f90365861ce565f13687ac9778",
+  "batch_id": "BATCH-002",
+  "dispatch_ref": "docs/handoff/CURRENT-TASK.md",
+  "status": "submitted",
+  "base_ref": "sha256:02359edd95aa09ae294f78bca6d950527d9b63d95ff885c6f1b4c5828adb620e",
+  "result_ref": "manifest-sha256:612da2e9c058de193a064eade7fe0d95cbb64d0234917cfdb0ec34e5f88271d2",
+  "result_manifest": "reports/evidence/M00.1.03/artifact-manifest.json",
+  "summary": "BATCH-002 修订（R2-01/R2-02/R2-03）：把 reuse_case.expected 补成完整业务快照——沿用既有字段命名，含 requirement_summary 与四类 requirement_elements、两行完整明细（name/unit/qty/unit_price/currency/subtotal 与各自公式/操作数）、partial_subtotal 与 complete_total（不适用并说明混币种）、open_questions 与 missing_fields（冲突项）、execution_info 与顶层币种 source_ref；不再用“结构不变”一句话代替，另加 structure_check 说明必需字段集。corrected_result 同样给成完整快照，并显式写明从 expected.json#/expectations/ff-missing-01 继承、哪些字段继承未变（input_validation、requirement_summary、requirement_elements 与基线逐项相等，由脚本断言），运行时身份占位（包哈希、execution_info）明确不当作业务缺失、不产生待确认问题。两条 currency_totals 补 formula 与 operands（GBP 指向 line_items[1].subtotal、EUR 指向 line_items[2].subtotal），顶层币种给出 source_ref，全部金额可用本次 CSV 与本次明细按 decimal 复算。check_correction.py 扩展到 110 项：新增完整快照结构断言、金额逐格回溯，并用深拷贝后删除来源的四条结构负例与两条金额负例证明检查确实会失败（不改正式样本、不搭新框架）；预留输入隔离改为只核对其实际 SHA-256 与 BATCH-002 基线已审核哈希一致（cfde4a5d…，本轮未改其字节），不再解析其内容或推导金额；泄漏扫描改为显式公开文件列表，不遍历整个工作区。docs/product/acceptance.md 的 V3/V4 把完整快照、继承来源、公式/操作数、币种来源写成可核对期望与判失败条件。本卡 changed_files 补列 BATCH-001 收尾日志 final-batch-check.txt。",
+  "changed_files": [
+    "tests/fixtures/first-flow/correction.json",
+    "docs/product/acceptance.md",
+    "reports/evidence/M00.1.03/check_correction.py",
+    "reports/evidence/M00.1.03/check_write_scope_batch002.py",
+    "reports/evidence/M00.1.03/revision-batch002.txt",
+    "reports/evidence/M00.1.03/artifact-manifest.json",
+    "reports/evidence/M00.1.03/final-batch-check.txt",
+    "reports/M00.1.03.json",
+    "reports/M00.1.03.checkpoint.md"
+  ],
+  "commands": [
+    {
+      "argv": ["python", "reports/evidence/M00.1.03/check_correction.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.1.03/revision-batch002.txt",
+      "evidence_kind": "actual",
+      "note": "total=110 failed=0：完整快照字段集（13 必需字段 + 币种合计扩展）、明细/合计的公式与操作数、顶层币种 source_ref、金额逐格回溯、四条深拷贝结构负例与两条金额回溯负例均如预期失败、holdout 只核对 SHA-256、四个已验收产物哈希等于 BATCH-002 基线、显式扫描列表内无预留案例名"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.1.02/check_fixtures.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.1.03/revision-batch002.txt",
+      "evidence_kind": "actual",
+      "note": "回归 M00.1.02：normal/missing/expected 未被本次修订破坏（原有 60 项结论不变）"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.1.01/check_first_flow.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.1.03/revision-batch002.txt",
+      "evidence_kind": "actual",
+      "note": "回归 M00.1.01：first-flow.md 未改动，其结构化自检 total=24 failed=0"
+    },
+    {
+      "argv": ["python", "docs/execution/taskctl.py", "validate"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.1.03/revision-batch002.txt",
+      "evidence_kind": "actual",
+      "note": "任务包结构正常：{\"valid\": true, \"tasks\": 156, \"first\": \"M00.1.01\"}"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.1.03/check_write_scope_batch002.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.1.03/revision-batch002.txt",
+      "evidence_kind": "actual",
+      "note": "与 BATCH-002 基线逐文件比对：MODIFIED/ADDED 全部落在本批允许写集内，MISSING 0，RESULT: PASS。不用 BATCH-001 的 check_baseline.py 作本批判据（它把架构师后写的 reviews/handoff 视为变化）"
+    },
+    {
+      "argv": ["sha256sum", "tests/fixtures/first-flow/correction.json", "docs/product/acceptance.md", "tests/fixtures/first-flow/holdout.json", "reports/evidence/M00.1.03/artifact-manifest.json"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.1.03/revision-batch002.txt",
+      "evidence_kind": "actual",
+      "note": "修订后哈希：correction.json f44c8d17…、acceptance.md 85c5215f…、holdout.json cfde4a5d…（未改动，与基线一致）；manifest 自身 612da2e9… 即 result_ref"
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.1.03-A01",
+      "status": "passed",
+      "evidence": "本轮改用不可变哈希隔离评审资料：脚本断言 holdout.json 的实际 SHA-256 == BATCH-002 基线中已审核的 cfde4a5ddcaeb6b6c814ee6e9bc61a5ea9358528e9aa632e307ca81e272a93d6，且不解析其内容、不推导其金额（旧的“加载预留输入并计算金额用于字符串扫描”的逻辑已移除）；expected.json 不含任何 ff-holdout 键的检查保留。公开面上的泄漏扫描改为显式文件列表（四个样本、first-flow.md、acceptance.md、docs/dependencies/、docs/decisions/），不用仓库级 rglob，避免把 reviews/history/ 的合法存档误判为泄漏：本次 hits=0（acceptance.md 的 V8 交接说明除外，属预期）。holdout 的用途、不接受“作者未见”的说法、不作代码生成示例，仍写在文件自身的 holdout_notice 中。A01 的内容层面证据已由独立评审存档，本轮只保证该内容字节未变。"
+    },
+    {
+      "id": "M00.1.03-A02",
+      "status": "passed",
+      "evidence": "首次执行由 V1（ff-normal-01）与 V2（ff-missing-01）在 M00.1.02 已覆盖；第二次重复使用由 V4（ff-reuse-01）覆盖，本轮补齐可核对性：reuse_case.expected 是完整业务快照（13 个必需字段 + 混币种扩展 currency_totals），新 task（TASK-REUSE-01）、新业务幂等键（IDEM-REUSE-01）、初始 attempt 1、固定技能 v1；应用 RULE-CUR 后币种取清单列（第 1 行 GBP、第 2 行 EUR）而非按“欧洲客户”推断，顶层币种 source_ref 指向本次 CSV 的 currency 列；行小计 2100.00 GBP 与 165.00 EUR 带公式与操作数，可按本次 CSV 逐格复算；两条币种合计分别列出、不合成单一总额（complete_total 不适用）；REQ 冲突项（本次不含税 vs 已保存 RULE-TAX 含税）记为待确认问题 Q1 与 missing_fields，不静默覆盖；no_leak_check 的 13 个禁用串在复用输入、结果与规则中均未出现。acceptance.md 的 V4 与判失败条件把这些写成验收者可逐条核对的期望。"
+    }
+  ],
+  "integration_evidence_kind": "not_run",
+  "unresolved": [],
+  "evaluator_followups": [
+    "D6 移交：现在可对 ff-holdout-01（tests/fixtures/first-flow/holdout.json）生成期望并保管；该输入与 normal/missing/correction 的取值与缺失组合都不同，期望不由开发者提供，也不在任何公开文件里。本轮开发者只计算并核对它的 SHA-256（cfde4a5d…），未读取其内容。",
+    "V5（拒绝保存）、V6（验证失败或缺授权）、V7（停用）在本批只固定行为口径，没有运行时证据；有实现后应作为独立验收条目补跑。",
+    "'混合币种不相加' 由本卡的 reuse_case 覆盖（GBP 2100.00 + EUR 165.00 分别列出、complete_total 不适用，且两行均可用本次输入复算）；'CSV 缺整列' 仍未被任何样本触发，如需覆盖请追加案例。",
+    "acceptance.md 的 V1–V4 沿用样本里已写明的数字；若后续实现改变了字段命名，请以 C02/C08 契约字段为准重新映射，样本内部命名不是公共契约。currency_totals 是混币种案例在 13 个必需字段之外的唯一扩展键（单币种合计写在 complete_total，见 ff-normal-01），如需进入公共契约请由架构负责人裁定。"
+  ],
+  "architect_notes": [
+    "R2-01 采用“完整快照”路线而非只写差分：reuse_case.expected 与 corrected_result 都可在不依赖别处的情况下逐字段核对；同时用 base_expected_ref + inheritance_note 显式声明 corrected_result 从 ff-missing-01 期望继承哪三个字段，并由脚本断言这三项与基线逐项相等，避免快照与基线漂移。",
+    "R2-02 的负例用 copy.deepcopy 后删来源的内存副本执行，正式样本未被篡改；四条结构负例分别删 formula、operands、source_ref、name，两条金额负例分别篡改小计与把合计指向错币种行，均如预期触发失败。",
+    "运行时身份占位（capability_binding 的包哈希、execution_info）在快照中标“运行时绑定/不在样本期望内”，理由里写明它不是用户业务缺失，避免它被读成待确认问题；这不与 D2 冲突（包哈希仍由 C08 在打包时产生）。",
+    "correction.json 仍按“一次性字段值/格式纠正/可复用规则”三类分开记录，并显式列出 not_saved_into_rules（旧客户资料、旧金额、C2 的冲突裁决方式），对应 first-flow 第 4.2 节与第 6 节第 11 条。"
+  ],
+  "next_step": "本卡修订已按 BATCH-002 授权提交，批内直接继续 M00.2.01（docs/dependencies/runtime-matrix.json）；四张卡完成后统一交接，等待独立复核，不自行标记 accepted。"
+}

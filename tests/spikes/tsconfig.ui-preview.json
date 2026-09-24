@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "types": ["vite/client", "node"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"]
+  },
+  "include": [
+    "ui-preview-env.d.ts",
+    "ui-preview-model.ts",
+    "ui-preview.ts",
+    "ui-preview.vue",
+    "input-workbench/**/*.ts",
+    "input-workbench/**/*.vue"
+  ]
+}

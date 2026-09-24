@@ -1,0 +1,48 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.0.04",
+  "task_spec_sha256": "b7f42e512a782b1619baf058c2a2e9b5aa9ee5d8c763e9ef5236bc4e36c361a3",
+  "report_sha256": "a984652bbd85791414f0ed22b522de19800d1600ddd929cc2dd4efcad525f0c6",
+  "decision": "accepted",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_result_ref": "manifest-sha256:5764c10b2ed021cfb69f2ab006b8b5be1e2ebe78c8a7d262caeb0afeed14942a",
+  "checked_acceptance_ids": [
+    "M00.0.04-A01",
+    "M00.0.04-A02",
+    "M00.0.04-A03",
+    "M00.0.04-A04"
+  ],
+  "acceptance_decisions": [
+    {
+      "id": "M00.0.04-A01",
+      "decision": "passed",
+      "basis": "精确 include 未改；独立三个真实 Vitest 夹具中的同名前缀 decoy 均未执行；94 项回归保留路径/集合校验。"
+    },
+    {
+      "id": "M00.0.04-A02",
+      "decision": "passed",
+      "basis": "同名组 3 suites/2 tests、嵌套同名 5 suites/2 tests 通过；空组与原生失败一致；三份用例计数损坏报告拒绝；94 项全量回归通过。"
+    },
+    {
+      "id": "M00.0.04-A03",
+      "decision": "passed",
+      "basis": "live/bootstrap 和混合语言保持 not_run；此轮未调用产品模型/账号。"
+    },
+    {
+      "id": "M00.0.04-A04",
+      "decision": "passed",
+      "basis": "固定 argv、shell=False 与超时机制未改；相关完整回归通过。"
+    }
+  ],
+  "reviewed_at": "2026-09-23T08:51:25.802331+00:00",
+  "evidence_ref": "reviews/evidence/BATCH-004-R2/review-summary.json",
+  "findings": [],
+  "resolved_findings": [
+    "B4-R1",
+    "B4-R2",
+    "B4-R3",
+    "B4R1-R1"
+  ],
+  "notes": "R2 全量 94 测试与真实 Vitest 6 smoke 通过；独立同名/嵌套同名 probe 正常通过，空组失败保留真实 runner 语义。M00.0.05 原 accepted review 与 report/hash 未改，依赖现已满足。"
+}

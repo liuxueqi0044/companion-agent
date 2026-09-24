@@ -1,0 +1,39 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.0.05",
+  "task_spec_sha256": "f2208cc8a424cd4246c1076b7db2fc955377d6e211ace5a4b423804590413174",
+  "report_sha256": "22490cd6c6936b9a19d9365dfb5423bec73d321297103a4038b3e52abcfddbb3",
+  "decision": "accepted",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_result_ref": "manifest-sha256:354fa4e619226eb29a4e5aed5c0a3fa152275c05553ec265f4b32c252980bbd7",
+  "checked_acceptance_ids": [
+    "M00.0.05-A01",
+    "M00.0.05-A02",
+    "M00.0.05-A03"
+  ],
+  "acceptance_decisions": [
+    {
+      "id": "M00.0.05-A01",
+      "decision": "passed",
+      "basis": "无密钥可运行；默认模块 app 与工厂实际读取有效设置，并在新进程拒绝非法设置。"
+    },
+    {
+      "id": "M00.0.05-A02",
+      "decision": "passed",
+      "basis": "完整测试包含新进程导入前 socket 拦截；环境读取接线不引入联网行为。"
+    },
+    {
+      "id": "M00.0.05-A03",
+      "decision": "passed",
+      "basis": "只有 GET /health，未知/业务/docs 路由不可访问。"
+    }
+  ],
+  "reviewed_at": "2026-09-23T05:10:22.148028+00:00",
+  "evidence_ref": "reviews/evidence/BATCH-004-R1/review-summary.json",
+  "findings": [],
+  "resolved_findings": [
+    "B4-R4"
+  ],
+  "notes": "168 项原测试通过；原提交字节未改。M00.0.05 独立内容验收 accepted，但其前置 M00.0.04 尚未 accepted，taskctl 不计入可解锁集合；累计仍 9。R2 不再修改 .05；当 .04 通过且 .05 report/hash 保持一致时，计划状态才可累计到 11。"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.0.03",
+  "task_spec_sha256": "f1da4479e0dd1797f37e69faf136a09986e70dfc06cc411a12c1d792e7c2876c",
+  "report_sha256": "b39b21501a3088ad1ef6c4d6d16d8decbff10211ed6fa4b368ee20c86547ed6b",
+  "decision": "accepted",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_result_ref": "manifest-sha256:0a02aa6aca6ee3f58e201c11df7a3234d4c983a244352c08ed84c41e28cee80a",
+  "checked_acceptance_ids": [
+    "M00.0.03-A01",
+    "M00.0.03-A02",
+    "M00.0.03-A03"
+  ],
+  "acceptance_decisions": [
+    {
+      "id": "M00.0.03-A01",
+      "decision": "passed",
+      "basis": "独立完整 workspace 构建成功，生成入口及引用资源存在；真实源码纳入类型检查。"
+    },
+    {
+      "id": "M00.0.03-A02",
+      "decision": "passed",
+      "basis": "人工读取五个源文件，只有静态占位，没有用户数据或远程脚本、字体、账户连接。未独立重复浏览器预览，结论不依赖该项作者叙述。"
+    },
+    {
+      "id": "M00.0.03-A03",
+      "decision": "passed",
+      "basis": "没有 Electron main/preload、托盘、认证、任务实现。此次只验收 renderer 构建空壳。"
+    }
+  ],
+  "reviewed_at": "2026-09-23T02:43:54.911104+00:00",
+  "evidence_ref": "reviews/evidence/BATCH-003/runtime-audit.json",
+  "scope_evidence_ref": "reviews/evidence/BATCH-003/pre-audit.json",
+  "findings": [],
+  "notes": "原提交报告与产物不改，复核证据弥补完整 workspace 重建缺口并纠正记录表述。Python 安装器的 InstallAllUsers=0 是用户级注册而非纯便携解压：实测 HKCU PythonCore/3.13/InstallPath 指向项目工具目录，作者“完全无用户级安装”的概括不成立。架构负责人保留当前已工作的工具，不卸载/不改注册表；后续禁止重复安装器，只复用或明确采用便携工具。无历史注册表快照，不能断言所有注册项变化或其他安装均未受影响。此有界偏差不影响三项卡内产品验收，已独立登记；真实运行证据不是 Electron 或 Agent 能力验收。"
+}

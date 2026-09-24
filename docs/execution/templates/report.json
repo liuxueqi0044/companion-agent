@@ -1,0 +1,15 @@
+{
+  "schema_version": "1",
+  "task_id": "<task-id>",
+  "task_spec_sha256": "<from-card>",
+  "status": "submitted",
+  "base_ref": "<commit-or-worktree-snapshot>",
+  "result_ref": "<reviewable-result-ref>",
+  "summary": "<short factual summary>",
+  "changed_files": [],
+  "commands": [],
+  "acceptance_results": [],
+  "integration_evidence_kind": "not_run",
+  "unresolved": [],
+  "next_step": "<precise next action or none>"
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.1.01",
+  "task_spec_sha256": "7f230ca6b214c80dfd74f4476df5321a0828cc7b5dbba4533f5492bc3c106818",
+  "batch_id": "BATCH-001",
+  "dispatch_ref": "docs/handoff/CURRENT-TASK.md",
+  "status": "submitted",
+  "base_ref": "sha256:bae549c2e16c904fec61aec504f138451bf7e250eb962668eb9781930e4bfc99",
+  "result_ref": "file-sha256:d809480ff49b633ad75c60968474f2a26c2e8566ba5e2647b58daff5812c3caf",
+  "summary": "修订版（r2）：在 r1 成果上修正 docs/product/first-flow.md，逐项落实 reviews/M00.1.01.md 的 R1–R5 与 docs/handoff/DECISIONS-BATCH-001.md 的 D1–D5，原交付哈希 640e122d… 已由 d809480f… 取代。（1）S4 由“接受即生效”改为：接受只授权制作候选包，候选包经 draft → testing → ready、独立验证通过、包哈希与拟发布版本一致、授权覆盖该版本与所需权限后才切换 active 指针，缺授权先请求确认，验证失败可修改或取消（D2/R1）；（2）S5 由“同任务新 attempt”改为新的业务任务：新 task_id、业务幂等键、初始 attempt，并绑定已发布的技能版本与包哈希，attempt 仅用于同一业务任务的重试与恢复，会话只用于界面归组（D1/R2）；（3）第 6 节重写为“缺失信息、计算与来源规则”11 条：允许行小计 = 数量 × 单价等确定性计算并记录公式与操作数字段引用，计算用十进制定点语义，部分可计算时给部分小计，未知为 null 且与已知 0 分开，混合币种不相加（D4/R3）；（4）删除 r1 故事中的“人民币/含税”设定，币种与含税口径只来自 CSV 币种列或用户明确确认，不设地域默认值，并排除换汇与税率计算（D3）；（5）第 8 节排除范围改为排除对外业务动作（客户邮件、聊天消息、CRM/ERP 写入、网页表单提交、下单、支付、报价承诺），并写明已授权的模型推理、对象存储与沙箱属于基础设施但仍受 permission_grant、allowed_connections、cloud_fallback_allowed、数据范围与预算约束（D5/R4）；（6）第 10 节改为架构裁定结论与移交，关闭 r1 的四个未决点，并按 D6 写明 holdout 预期由独立验收者生成。验收标准相应扩为 FLOW-A01…A08。r1 原文与复核意见存档于 reviews/history/M00.1.01/r1/，本次修订未触碰 reviews/、AGENTS.md、CLAUDE.md、docs/handoff/、docs/execution/ 及公共契约。",
+  "revision_of": "file-sha256:640e122d7071b0f0f0197016a550b550ab9abae6b2ba7070735388984c27dce1",
+  "changed_files": [
+    "docs/product/first-flow.md",
+    "reports/M00.1.01.json",
+    "reports/M00.1.01.checkpoint.md",
+    "reports/evidence/M00.1.01/check_baseline.py",
+    "reports/evidence/M00.1.01/check_first_flow.py",
+    "reports/evidence/M00.1.01/verification-r2.txt",
+    "reports/evidence/M00.1.01/verification.txt"
+  ],
+  "commands": [
+    {
+      "argv": ["python", "docs/execution/taskctl.py", "validate"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.1.01/verification-r2.txt",
+      "evidence_kind": "actual",
+      "note": "任务包结构未改坏：{\"valid\": true, \"tasks\": 156, \"first\": \"M00.1.01\"}（validate 只做计划检查，不跑应用测试）"
+    },
+    {
+      "argv": ["sha256sum", "docs/product/first-flow.md"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.1.01/verification-r2.txt",
+      "evidence_kind": "actual",
+      "note": "r2 交付物哈希 d809480ff49b633ad75c60968474f2a26c2e8566ba5e2647b58daff5812c3caf，与 result_ref 一致"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.1.01/check_baseline.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.1.01/verification-r2.txt",
+      "evidence_kind": "actual",
+      "note": "与 docs/handoff/BATCH-001-BASELINE.json（229 文件）逐文件哈希比对：MODIFIED 1（docs/product/first-flow.md）、MISSING 0、ADDED 3（本卡 evidence 脚本与日志），全部 ok-in-scope；RESULT: PASS"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.1.01/check_first_flow.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.1.01/verification-r2.txt",
+      "evidence_kind": "actual",
+      "note": "D1–D5 与 A01/A02 在步骤表/输出/用户动作/验收标准/排除范围五个部位的一致性检索：total=24 failed=0；脚本自带说明其只作结构化检索，C01–C04/C08 语义对照由全文人工核对完成"
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.1.01-A01",
+      "status": "passed",
+      "evidence": "docs/product/first-flow.md 第 1 节单链声明明确只有一条链路，并说明保存内部的验证与发布是 S4 的内部阶段、不构成第二条用户链路（D2 边界澄清）；第 2 节步骤表只有 S0–S5 一条链，缺文本或缺 CSV 时按 S0 前置条件返回 C01 的 INVALID_INPUT，不退化成“仅文本”链路。第 7 节 FLOW-A01 与“卡验收对应”把 M00.1.01-A01 显式绑定到该声明。结构化检索见 reports/evidence/M00.1.01/verification-r2.txt 的 check_first_flow.py 输出（A01 三项 PASS，exit 0）。"
+    },
+    {
+      "id": "M00.1.01-A02",
+      "status": "passed",
+      "evidence": "docs/product/first-flow.md 第 8 节第 1–3 条逐条排除对外业务动作、自动付款与报价承诺、持续屏幕采集；第 3 条明确不推断未获授权的桌面活动，用户未主动提供的内容不作为输入。第 8 节补充边界把已授权的模型推理、对象存储与沙箱限定为基础设施，且仍受 permission_grant、allowed_connections、cloud_fallback_allowed、数据范围与预算约束，本批不调用任何云端模型、账号、支付或沙箱。全文不存在“必须/应当/要求 + 发送|付款|支付|截屏|屏幕|录制”的要求式表述（正则 hits=[]），相关词只出现在否定式排除条款与验收标准中。检索输出见 reports/evidence/M00.1.01/verification-r2.txt 的 check_first_flow.py（A02 PASS，exit 0）与 check_baseline.py（PASS，exit 0）。"
+    }
+  ],
+  "integration_evidence_kind": "not_run",
+  "unresolved": [],
+  "evaluator_followups": [
+    "D6 移交：tests/fixtures/first-flow/holdout.json 只放预留输入、不含任何预期结果（M00.1.03 制作）。该文件的期望由独立验收者在本批提交后生成并保管；开发者不声称对该输入真正未见，也不把它当演示或代码生成示例。",
+    "M00.1.02 的 tests/fixtures/first-flow/expected.json 只包含 normal/missing 两个 case_id 的公开期望，其中衍生金额可由独立验收者用标准库 decimal 复算核对。",
+    "M00.1.03 的 docs/product/acceptance.md 按本文件第 7 节 FLOW-A01…A08 编号写验收方式；FLOW-A 是链路层标准，卡层验收 ID 仍只有 M00.1.01-A01/A02。"
+  ],
+  "architect_notes": [
+    "r1 报告中列为 architect_notes 的四条未决点已全部关闭，不再作为待确认项：任务身份按 D1、保存与启用按 D2、首版字段按 D3、金额与来源按 D4、对外动作边界按 D5，结论写入 docs/product/first-flow.md 第 10 节（第 10 节标题已由“未决点”改为“架构裁定结论与移交”）。",
+    "报告已修订：r1 的 reports/M00.1.01.json 中含 CMD3/CMD4 argv 与日志不一致的问题（R5），本版 commands 一律引用 reports/evidence/M00.1.01/verification-r2.txt 中实际执行的 argv；r1 的 reports/evidence/M00.1.01/verification.txt 已加“已被取代”说明并保留追溯，原文同时存档于 reviews/history/M00.1.01/r1/。",
+    "本批不执行任何产品功能测试：integration_evidence_kind=not_run 是如实记录，本地 JSON/文档检查为真实执行。"
+  ],
+  "next_step": "等待独立验收者按 M00.1.01-A01/A02 复核 r2 交付物（file-sha256:d809480ff49b633ad75c60968474f2a26c2e8566ba5e2647b58daff5812c3caf）。按 BATCH-001 派工，开发者已在同一批内继续 M00.1.02（tests/fixtures/first-flow/normal.json、missing.json、expected.json）与 M00.1.03（correction.json、holdout.json、docs/product/acceptance.md），三卡状态汇总见 reports/BATCH-001.md。"
+}

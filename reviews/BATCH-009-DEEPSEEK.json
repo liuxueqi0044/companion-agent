@@ -1,0 +1,19 @@
+{
+  "schema_version": "1",
+  "task_id": "BATCH-009-DEEPSEEK",
+  "report_sha256": "69584a9540e727af7f08aa99adf351e461b4071721b1b033042dcae8dc7c835f",
+  "decision": "not_run",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_at": "2026-09-23T13:10:40.117986+00:00",
+  "reviewed_result_ref": "manifest-sha256:63f06a3b8cc46ac97b413297aae3a9c40f8c02a18c80ace43e028af6fb31cb74",
+  "evidence_ref": "reviews/evidence/BATCH-009/review-summary.json",
+  "preparation_decision": "accepted",
+  "findings": [],
+  "live_decision": "not_run",
+  "basis": "5项离线测试与严格TS通过；默认plan/offline无账号或网络调用。固定端点、禁止redirect、无retry、单次CLI独占创建ledger、时间/体积/usage边界在代码中；未配置key，真实调用及供应商兼容性未验证。",
+  "limitations": [
+    "单次live路径尚未实际执行，不对真实账单/取消/账号可用性作保证。",
+    "价格校验日期固定2026-09-23，后续live前需重新核当天官方价格。"
+  ]
+}

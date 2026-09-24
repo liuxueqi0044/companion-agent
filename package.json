@@ -1,0 +1,22 @@
+{
+  "name": "companion-agent",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Companion Agent 根工作区：M00.0.02 只建立 TypeScript 工作区与测试入口，不实现产品功能。",
+  "type": "module",
+  "workspaces": [
+    "apps/desktop",
+    "packages/*"
+  ],
+  "scripts": {
+    "test:unit": "vitest run",
+    "typecheck": "tsc -p apps/desktop/tsconfig.json --noEmit",
+    "build": "npm run build --workspace @companion/desktop"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.6",
+    "typescript": "6.0.3",
+    "vite": "8.3.0",
+    "vitest": "5.0.1"
+  }
+}

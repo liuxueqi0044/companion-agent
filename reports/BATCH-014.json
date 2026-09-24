@@ -1,0 +1,353 @@
+{
+  "batch_id": "BATCH-014",
+  "track": "personal-ai-supplement",
+  "status": "submitted",
+  "dispatch_ref": "docs/handoff/BATCH-014.md",
+  "dispatch_sha256": "04e935a43c6f98eb8d5809a179ad3074cb1a56d7c6348a748102b446abde4898",
+  "base_ref": "sha256:2a4d285a1f8f718e22de58b6888678c98b9faf351184684e2cd19ef6d38efe00",
+  "result_ref": "sha256:1b0cd01c4e95448ef8093deb3d925fc83161550bd0965bdd71085fab01a08708",
+  "original_accepted_count": 12,
+  "independent_review": "pending",
+  "implementation_results": [
+    {
+      "id": "B14-A01",
+      "package": "A",
+      "local_result": "passed",
+      "evidence": [
+        "tests/unit/personal_ai/test_models.py",
+        "packages/contracts/personal-ai-local/schema.json",
+        "reports/evidence/BATCH-014/a-models-test-final.txt"
+      ],
+      "note": "Pydantic single source, strict explicit preference fields and deterministic generated Schema; 9 targeted tests."
+    },
+    {
+      "id": "B14-B01",
+      "package": "B",
+      "local_result": "passed",
+      "evidence": [
+        "services/personal_ai/repository.py",
+        "tests/unit/personal_ai/test_repository.py",
+        "reports/evidence/BATCH-014/b-repository-test.txt"
+      ],
+      "note": "SQLite atomic bootstrap, CAS, idempotency, restart, undo/history and actual local subprocess competition; 5 targeted tests."
+    },
+    {
+      "id": "B14-C01",
+      "package": "C",
+      "local_result": "passed",
+      "evidence": [
+        "services/personal_ai/service.py",
+        "tools/personal_ai.py",
+        "reports/evidence/BATCH-014/c-cli-test.txt"
+      ],
+      "note": "Nonvisual application service and fixed-root CLI actual subprocess chain; 2 targeted tests."
+    },
+    {
+      "id": "B14-D01",
+      "package": "D",
+      "local_result": "passed_with_one_skipped",
+      "evidence": [
+        "reports/evidence/BATCH-014/full-test.txt",
+        "reports/evidence/BATCH-014/d-junction-test.txt",
+        "reports/evidence/BATCH-014/service-handoff.md",
+        "reports/evidence/BATCH-014/artifact-manifest.json"
+      ],
+      "note": "Fictional Mira/Alex lifecycle, damage/busy/JSON/path and fixed-directory race cases; 26 full-suite passes and one OS-restricted symlink skip, with real Windows junction regression passed."
+    }
+  ],
+  "verification_runs": [
+    {
+      "argv": ".venv/Scripts/python.exe -m pytest -q tests/unit/personal_ai/test_models.py --basetemp reports/evidence/BATCH-014/tmp/a-models-final",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/a-models-test-final.txt",
+      "assertions": "9 passed"
+    },
+    {
+      "argv": ".venv/Scripts/python.exe -m pytest -q tests/unit/personal_ai/test_repository.py --basetemp reports/evidence/BATCH-014/tmp/b-repository",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/b-repository-test.txt",
+      "assertions": "5 passed"
+    },
+    {
+      "argv": ".venv/Scripts/python.exe -m pytest -q tests/unit/personal_ai/test_cli.py --basetemp reports/evidence/BATCH-014/tmp/c-cli",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/c-cli-test.txt",
+      "assertions": "2 passed"
+    },
+    {
+      "argv": ".venv/Scripts/python.exe -m pytest -q tests/unit/personal_ai/test_flow.py tests/unit/personal_ai/test_boundaries.py --basetemp reports/evidence/BATCH-014/tmp/d-boundaries",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/d-boundaries-test.txt",
+      "assertions": "8 passed, 1 symlink skipped before adding real junction regression"
+    },
+    {
+      "argv": ".venv/Scripts/python.exe -m pytest -q tests/unit/personal_ai/test_boundaries.py -k junction --basetemp reports/evidence/BATCH-014/tmp/d-junction",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/d-junction-test.txt",
+      "assertions": "1 real Windows junction passed"
+    },
+    {
+      "argv": ".venv/Scripts/python.exe -m pytest -q tests/unit/personal_ai --basetemp reports/evidence/BATCH-014/tmp/d-full",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/full-test.txt",
+      "assertions": "initial full suite: 25 passed, 1 skipped; retained before directory-race fix"
+    },
+    {
+      "argv": ".venv/Scripts/python.exe -m services.personal_ai.schema --check",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/schema-check.txt",
+      "assertions": "generated Schema byte-identical"
+    },
+    {
+      "argv": "AST parse services/personal_ai/*.py tools/personal_ai.py tests/unit/personal_ai/*.py",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/syntax-check.txt",
+      "assertions": "12 Python files parsed"
+    },
+    {
+      "argv": ".venv/Scripts/python.exe -m services.personal_ai.verification manifest",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/manifest-run.txt",
+      "assertions": "16 source, contract, test, handoff files listed"
+    },
+    {
+      "argv": ".venv/Scripts/python.exe -m services.personal_ai.verification verify",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/integrity-final.json",
+      "assertions": "16 refreshed manifest items and 12 frozen historical hashes match"
+    },
+    {
+      "argv": ".venv/Scripts/python.exe -m services.personal_ai.verification verify (final repeat)",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/verification-final.txt",
+      "assertions": "16 manifest items and 12 frozen historical hashes unchanged"
+    },
+    {
+      "argv": "python docs/execution/taskctl.py validate --repo .",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/taskctl-validate.txt",
+      "assertions": "156 original cards valid"
+    },
+    {
+      "argv": "python docs/execution/taskctl.py next --repo .",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/taskctl-next.txt",
+      "assertions": "accepted remains 12; M00.3.01 not_run"
+    },
+    {
+      "argv": "python docs/handoff/check_batch014_scope.py",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/scope-final.json",
+      "assertions": "PASS; modified 0, added 83, missing 0, outside 0"
+    },
+    {
+      "argv": ".venv/Scripts/python.exe -m pytest -q tests/unit/personal_ai/test_boundaries.py -k directory_creation --basetemp reports/evidence/BATCH-014/tmp/d-directory-race",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/d-directory-race-test.txt",
+      "assertions": "1 fixed-root directory race passed"
+    },
+    {
+      "argv": ".venv/Scripts/python.exe -m pytest -q tests/unit/personal_ai --basetemp reports/evidence/BATCH-014/tmp/d-full-final",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/full-test-final.txt",
+      "assertions": "26 passed, 1 OS-restricted symlink skipped"
+    },
+    {
+      "argv": ".venv/Scripts/python.exe -m services.personal_ai.verification manifest (final)",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/manifest-run-final.txt",
+      "assertions": "16 updated source/contract/test/handoff files"
+    },
+    {
+      "argv": ".venv/Scripts/python.exe -m services.personal_ai.verification verify (final)",
+      "exit_code": 0,
+      "log_path": "reports/evidence/BATCH-014/verification-final.txt",
+      "assertions": "16 manifest items and 12 historical files match"
+    }
+  ],
+  "first_failures_preserved": [
+    {
+      "log_path": "reports/evidence/BATCH-014/a-models-test.txt",
+      "cause": "nullable cursor Field constraint raised TypeError and pytest base parent was missing; corrected without hiding the log"
+    }
+  ],
+  "manifest": {
+    "path": "reports/evidence/BATCH-014/artifact-manifest.json",
+    "count": 16,
+    "result_ref": "sha256:1b0cd01c4e95448ef8093deb3d925fc83161550bd0965bdd71085fab01a08708",
+    "excludes": "SQLite database, logs, tmp, dependencies and reports"
+  },
+  "historical_hashes": [
+    {
+      "path": "reports/evidence/BATCH-011/live-attempts.json",
+      "sha256": "2503398cf3278e7b730b3dbae1cc493d3c6c2d77e48dc5623b24f1789064acf4"
+    },
+    {
+      "path": "reports/evidence/BATCH-011/live.lock",
+      "sha256": "44e0b3e313c7b3695c16486134d793209f39dac30fefc9f4c2884f5cbbebbfcd"
+    },
+    {
+      "path": "reports/evidence/BATCH-012/live-attempts.json",
+      "sha256": "3bfd60449ddb98f56a8d005aee2c672628c4823002be3ed5c6f71ceefa8c9972"
+    },
+    {
+      "path": "reports/BATCH-013-R1.json",
+      "sha256": "0f08372087ce06041aae3166054ae767d52e6827da2c1871651ca7c14191a564"
+    },
+    {
+      "path": "reports/BATCH-013-R1.md",
+      "sha256": "2c9156c672f7008be05054860b80810312e80b596db2f207f491c8e0e5059e19"
+    },
+    {
+      "path": "reports/evidence/BATCH-013-R1/artifact-manifest.json",
+      "sha256": "970c8182ef0e2e76e6f568c22a3c7662480e0c6229705fa52e80321a225fd208"
+    },
+    {
+      "path": "reports/evidence/BATCH-013-R1/model-revalidation.json",
+      "sha256": "1ef3efa34c55d04e2a4e71dd41e5cc340d5d31466a4e037a8f37c8eee657244a"
+    },
+    {
+      "path": "reports/evidence/BATCH-012/model-store/revisions/model-v1/view.html",
+      "sha256": "f45b4cf1911bf7d8d4b93d2cfb2f7caa01dd4f340b620183676b5bda5e8b70d6"
+    },
+    {
+      "path": "reports/evidence/BATCH-012/model-store/revisions/model-v1/view.css",
+      "sha256": "469e6efdca20a697fb88d2a00258af8beabaa23ba81187eb4a3367da63c87301"
+    },
+    {
+      "path": "reports/evidence/BATCH-012/model-store/revisions/model-v1/view.js",
+      "sha256": "2f8811132b8a3e50d81714f2819f537499f51805beb2607725d6f80b5d20384b"
+    },
+    {
+      "path": "reports/evidence/BATCH-012/model-store/revisions/model-v1/manifest.json",
+      "sha256": "9ec367a977e67c8e0024fbb7f673a48279f041bcfd4042c7b091647e520c3e3c"
+    },
+    {
+      "path": "reports/evidence/BATCH-012/model-store/revisions/model-v1/artifact.html",
+      "sha256": "dc052f84b995aa375d6e2ded8f0240d45da8118d6804ac3e5e3ab57fcacd855b"
+    }
+  ],
+  "changed_files_this_round": [
+    "packages/contracts/personal-ai-local/README.md",
+    "packages/contracts/personal-ai-local/schema.json",
+    "reports/BATCH-014.checkpoint.md",
+    "reports/BATCH-014.json",
+    "reports/BATCH-014.md",
+    "reports/evidence/BATCH-014/a-models-test-final.txt",
+    "reports/evidence/BATCH-014/a-models-test.txt",
+    "reports/evidence/BATCH-014/artifact-manifest.json",
+    "reports/evidence/BATCH-014/b-repository-test.txt",
+    "reports/evidence/BATCH-014/c-cli-test.txt",
+    "reports/evidence/BATCH-014/d-boundaries-test.txt",
+    "reports/evidence/BATCH-014/d-directory-race-test.txt",
+    "reports/evidence/BATCH-014/d-junction-test.txt",
+    "reports/evidence/BATCH-014/full-test-final.txt",
+    "reports/evidence/BATCH-014/full-test.txt",
+    "reports/evidence/BATCH-014/integrity-final.json",
+    "reports/evidence/BATCH-014/local-state/personal_ai.sqlite3",
+    "reports/evidence/BATCH-014/manifest-run-final.txt",
+    "reports/evidence/BATCH-014/manifest-run.txt",
+    "reports/evidence/BATCH-014/schema-check.txt",
+    "reports/evidence/BATCH-014/scope-final.json",
+    "reports/evidence/BATCH-014/scope-preliminary.json",
+    "reports/evidence/BATCH-014/service-handoff.md",
+    "reports/evidence/BATCH-014/syntax-check.txt",
+    "reports/evidence/BATCH-014/taskctl-next.txt",
+    "reports/evidence/BATCH-014/taskctl-validate.txt",
+    "reports/evidence/BATCH-014/tmp/b-repository/test_bootstrap_is_explicit_sta0/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/b-repository/test_cas_idempotency_old_resul0/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/b-repository/test_two_connections_race_old_0/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/b-repository/test_two_local_processes_boots0/bootstrap.gate",
+    "reports/evidence/BATCH-014/tmp/b-repository/test_two_local_processes_boots0/change.gate",
+    "reports/evidence/BATCH-014/tmp/b-repository/test_two_local_processes_boots0/two-processes.sqlite3",
+    "reports/evidence/BATCH-014/tmp/b-repository/test_unknown_or_damaged_databa0/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/b-repository/test_unknown_or_damaged_databa0/unknown.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-boundaries/test_bounded_sqlite_busy_prese0/busy/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-boundaries/test_mira_alex_full_chain_surv0/fictional-profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-boundaries/test_valid_sqlite_with_broken_0/missing_head/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-boundaries/test_valid_sqlite_with_broken_1/invalid_preferences/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-boundaries/test_valid_sqlite_with_broken_2/wrong_marker/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-boundaries/test_valid_sqlite_with_broken_3/extra_table/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_bootstrap_is_explicit_sta0/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_bounded_sqlite_busy_prese0/busy/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_cas_idempotency_old_resul0/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_mira_alex_full_chain_surv0/fictional-profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_two_connections_race_old_0/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_two_local_processes_boots0/bootstrap.gate",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_two_local_processes_boots0/change.gate",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_two_local_processes_boots0/two-processes.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_unknown_or_damaged_databa0/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_unknown_or_damaged_databa0/unknown.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_valid_sqlite_with_broken_0/missing_head/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_valid_sqlite_with_broken_1/invalid_preferences/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_valid_sqlite_with_broken_2/wrong_marker/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full-final/test_valid_sqlite_with_broken_3/extra_table/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full/test_bootstrap_is_explicit_sta0/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full/test_bounded_sqlite_busy_prese0/busy/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full/test_cas_idempotency_old_resul0/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full/test_mira_alex_full_chain_surv0/fictional-profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full/test_two_connections_race_old_0/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full/test_two_local_processes_boots0/bootstrap.gate",
+    "reports/evidence/BATCH-014/tmp/d-full/test_two_local_processes_boots0/change.gate",
+    "reports/evidence/BATCH-014/tmp/d-full/test_two_local_processes_boots0/two-processes.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full/test_unknown_or_damaged_databa0/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full/test_unknown_or_damaged_databa0/unknown.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full/test_valid_sqlite_with_broken_0/missing_head/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full/test_valid_sqlite_with_broken_1/invalid_preferences/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full/test_valid_sqlite_with_broken_2/wrong_marker/profile.sqlite3",
+    "reports/evidence/BATCH-014/tmp/d-full/test_valid_sqlite_with_broken_3/extra_table/profile.sqlite3",
+    "reports/evidence/BATCH-014/verification-final.txt",
+    "reports/evidence/BATCH-014/verification-run.txt",
+    "services/personal_ai/README.md",
+    "services/personal_ai/__init__.py",
+    "services/personal_ai/models.py",
+    "services/personal_ai/repository.py",
+    "services/personal_ai/schema.py",
+    "services/personal_ai/service.py",
+    "services/personal_ai/verification.py",
+    "tests/unit/personal_ai/test_boundaries.py",
+    "tests/unit/personal_ai/test_cli.py",
+    "tests/unit/personal_ai/test_flow.py",
+    "tests/unit/personal_ai/test_models.py",
+    "tests/unit/personal_ai/test_repository.py",
+    "tools/personal_ai.py"
+  ],
+  "model_requests_this_batch": 0,
+  "http_requests_this_batch": 0,
+  "real_credential_reads_this_batch": 0,
+  "verification_channels": {
+    "local_profile_service": "passed",
+    "local_cli": "passed",
+    "real_windows_junction": "passed",
+    "symlink_creation": "not_run_os_restricted",
+    "real_agent": "not_run",
+    "model_inference": "not_run",
+    "real_browser": "not_run",
+    "native_isolation": "not_run",
+    "product_visual": "not_run",
+    "production_database": "not_run",
+    "multi_user_auth": "not_run"
+  },
+  "unresolved": [
+    "The OS prevented creation of a test symlink; that one test was skipped. A real Windows junction path test passed.",
+    "Natural-language extraction, production PostgreSQL migration, multi-user authentication, true Agent integration, browser/native/visual acceptance remain not_run."
+  ],
+  "scope": {
+    "result": "PASS",
+    "counts": {
+      "modified": 0,
+      "added": 83,
+      "missing": 0
+    },
+    "outside": [],
+    "checker": "docs/handoff/check_batch014_scope.py",
+    "log_path": "reports/evidence/BATCH-014/scope-final.json"
+  },
+  "taskctl": {
+    "valid": true,
+    "tasks": 156,
+    "accepted": 12,
+    "next_original_card": "M00.3.01",
+    "next_state": "not_run"
+  }
+}

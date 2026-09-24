@@ -1,0 +1,44 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.2.03",
+  "task_spec_sha256": "bb69b5af0ab602c6a62331a09130e21990f56a33c709ce183bd78a9bce227f59",
+  "report_sha256": "efd31db8326d7625494115dda48f83f64d5c5a29757c00b49880ae256b56b65d",
+  "decision": "accepted",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_result_ref": "manifest-sha256:30c49601e56821f7a1514820b8aa8ecf5d1610ff84fe6622224af91fd81d7e34",
+  "checked_acceptance_ids": [
+    "M00.2.03-A01",
+    "M00.2.03-A02"
+  ],
+  "acceptance_decisions": [
+    {
+      "id": "M00.2.03-A01",
+      "decision": "passed",
+      "basis": "源码 commit、pyproject 声明 0.21.4、安装来源及同源 core 依赖一致；复算 67 处证据哈希、7 份原件副本、两个精确版本许可绑定、manifest；直接执行错版本负例并确认拒绝。约束核查通过，实际安装与 extras 未验证，按既有本卡边界后置。"
+    },
+    {
+      "id": "M00.2.03-A02",
+      "decision": "passed",
+      "basis": "人工检查 selected 与环境分组，Hermes 唯一主控/记忆、官方执行器边界保持；没有增加第二套主控或记忆框架。"
+    }
+  ],
+  "reviewed_at": "2026-09-23T01:45:41.254998+00:00",
+  "evidence_ref": "reviews/evidence/BATCH-002-R1/audit.json",
+  "record_reconciliation_ref": "reviews/evidence/BATCH-002-R1/record-reconciliation.json",
+  "resolved_findings": [
+    "B2-R1"
+  ],
+  "findings": [],
+  "notes": "开发者原始提交完整归档；架构师仅整理报告元数据并纠正检查器能力表述后绑定新 report hash。两个业务产物和 result_ref 未变，报告仍为 submitted。未安装产品、未调用模型、未启动新会话；真实安装/构建留初始化卡。",
+  "followups": [
+    "Hermes extras/profile 相容性未验证：本卡 C5 只核对 core 元数据（fastapi>=0.104.0,<1 / uvicorn>=0.31.0,<1）；该源码的 web extra 自钉 fastapi==0.133.1、uvicorn==0.41.0（与 core 不同）。若 M00.3.01 采用 [web] 或其他 extras，须按同一流程补证后再改冻结值。",
+    "Hermes 两版本差异清单（PyPI 0.19.0 与源码 0.21.4 的依赖与功能差异，如 uvicorn[standard]>=0.24.0,<1 对 uvicorn>=0.31.0,<1、cryptography 46.0.7 对 50.0.0）未逐项核对；冻结身份已按裁决定为源码 commit，此清单供 M00.3.01 接入时对照，不影响本卡结论（已列入 selected-versions.json unknowns）。",
+    "替代路线只有一条（TypeScript 7.0.2）且带两条触发条件，请复核 D3 的证据强度是否足以支撑'冻结 6.0.3 而非 registry latest 7.0.2'：核心证据是 json-schema-to-typescript 16.0.0（2026-08-28 发布，晚于 TS 7.0.2 的 2026-07-08）devDependencies 写 'typescript': '^6.0.3'；6.x 稳定线最高 6.0.3（6.0.4/6.1.0 直探 404）；vue 的 peer 'typescript: *' 无信息量。若复核认为该证据不足，请指出，按变更流程补证。",
+    "约束相容结论全部基于 registry 元数据与源码元数据（requires_python / engines / peerDependencies / 依赖区间），未做真实安装。M00.0.01/M00.0.02 初始化时应把本 ADR 的版本号与真实安装结果对照；若 npm/uv 解析出与本清单不同的强制版本，那是安装卡的新证据，按第 9 节变更流程处理而不是就地改冻结值。",
+    "四处与 runtime-matrix 的偏离（hermes-agent 0.19.0→源码 commit 0.21.4、typescript 7.0.2→6.0.3、npm 12.1.0→自带 11.19.0、pnpm 不采用）均为本卡决策职责内或按架构裁决的收敛，已双向记录在 selected-versions.json 的 deviations_from_matrix 与 ADR 第 3 节；runtime-matrix.json 本身未改（保持 M00.2.01 提交态），如需矩阵与冻结结果完全一致，请在复核时说明由哪张卡执行该同步。",
+    "deferred 现为 13 项（本轮新增 hermes-agent PyPI 发行物 0.19.0，not_adopted），均未给触发条件（它们是'未采用'，不是替代路线）；其中 shadcn-vue / @vueuse/core / @jsonforms/core 三项在 BATCH-002 轮补记为具体版本以关闭 M00.2.02 的 main 占位符，但引入时仍须按当时的真实版本重新登记许可与 commit。",
+    "本卡未安装、未生成锁文件、未端到端运行（integration_evidence_kind=not_run）；'可安装'一词在本卡仅指版本具体、约束交集已被核对，不指真实安装成功。E3（Langfuse 边界）、真实安装、vue-tsc 等 SFC 工具登记为后续卡工作。",
+    "Electron 44.4.4 内置的 Node/Chromium 版本不等于系统 Node 24（桌面运行时的真实版本需 M00.0.03 实测）；@types/node 24.13.6 对 TS 编译器的最低版本要求无声明（类型包不写 engines/peer）；vue 3.5.43 未声明 engines 只能由工具链间接支持；uv 0.12.18 在 Windows 的可用性未实测；vue-tsc 等 SFC 类型检查工具尚未登记，引入前须按 M00.2.02 流程补登记与冻结。全部已显式写入 ADR 第 7 节与 selected-versions.json 的 unknowns。"
+  ]
+}

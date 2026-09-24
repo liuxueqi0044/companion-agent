@@ -1,0 +1,49 @@
+{
+  "batch_id": "BATCH-013",
+  "decision": "changes_requested",
+  "original_accepted_count": 12,
+  "submitted_result_ref": "sha256:33aa5057b3f60fba3c5f8d6515767ccd6df1c1b63aae92bfe25cf3c6e62c16b3",
+  "manifest_items": 88,
+  "submission_files_archived": 2329,
+  "submission_unchanged_before_dispatch": true,
+  "independent_tests": {
+    "authoring": 20,
+    "core": 5,
+    "host": 16,
+    "typecheck": "passed"
+  },
+  "findings": [
+    {
+      "id": "B13-R01",
+      "priority": "P1",
+      "file": "tests/spikes/personal-space/authoring/validation/validate.mjs",
+      "issue": "TS JS-mode parseDiagnostics accepts non-classic JS; invalid code reaches successful build",
+      "examples": [
+        "const count: number = 1;",
+        "interface Foo {x:number};",
+        "return 1;",
+        "await Promise.resolve();"
+      ],
+      "required": "real classic-script grammar validation on author and effective source without executing it"
+    },
+    {
+      "id": "B13-R02",
+      "priority": "P2",
+      "file": "tests/spikes/personal-space/authoring/workspace/workspace.mjs",
+      "issue": "current_build pointer accepts a check receipt, including failed validation; current_build_valid=true without effective revision",
+      "required": "validate pointer roles and receipt/source/meta cross-relations; reject inconsistent sealed state with recovery_required"
+    }
+  ],
+  "acceptance_results": {
+    "B13-A01": "regressions_passed_recovery_followup",
+    "B13-B01": "changes_requested",
+    "B13-C01": "changes_requested",
+    "B13-D01": "static_evidence_passed_revalidate_after_tool_change",
+    "B13-E01": "trusted_fixture_passed_not_browser",
+    "B13-E02": "artifact_hashes_passed_architect_scope_checker_gap"
+  },
+  "review_model_http_requests": 0,
+  "review_real_credential_reads": 0,
+  "browser_native_visual": "not_run",
+  "next_batch": "BATCH-013-R1"
+}

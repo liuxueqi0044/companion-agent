@@ -1,0 +1,36 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.2.02",
+  "task_spec_sha256": "68ea0223a7ef5f39f00ca7dcdecc148a272111b66d7545c40820016fed6d22d7",
+  "report_sha256": "6dd162e00ceab54fa7ff99b32f80d2542e2bc7335d032195e1c39bafce6418c1",
+  "decision": "accepted",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_result_ref": "manifest-sha256:e5dc42b985c3cc7cf06ed3e3e5bbde097f039e97abc4e7579f1722a1dea3c3bd",
+  "checked_acceptance_ids": [
+    "M00.2.02-A01",
+    "M00.2.02-A02",
+    "M00.2.02-A03"
+  ],
+  "acceptance_decisions": [
+    {
+      "id": "M00.2.02-A01",
+      "decision": "passed",
+      "basis": "29 项登记有来源、许可文件与哈希；代码/SDK/服务/企业目录边界有区分。最终版本改变需由冻结卡补绑定。"
+    },
+    {
+      "id": "M00.2.02-A02",
+      "decision": "passed",
+      "basis": "系统字体不再分发；角色、音频、模型权重等未授权素材排除。"
+    },
+    {
+      "id": "M00.2.02-A03",
+      "decision": "passed",
+      "basis": "Claude Code 明确为调用官方程序，不作为可任意 fork 底座；订阅/API授权差异未作无证据保证。"
+    }
+  ],
+  "reviewed_at": "2026-09-23T00:40:18.726411+00:00",
+  "notes": "核对实际字节、范围与证据哈希，复跑检查器，并抽查官方固定版本源文件。当前只验收文档/样本与候选约束，未安装产品、未调用模型、未证明真实集成。受查文件保存在 reviews/history/BATCH-002/submitted；本轮复核之后的派工变更不归责于开发者。",
+  "evidence_ref": "reviews/evidence/BATCH-002/audit.json",
+  "findings": []
+}

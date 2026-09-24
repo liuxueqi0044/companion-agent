@@ -1,0 +1,23 @@
+{
+  "batch_id": "BATCH-012",
+  "decision": "accepted",
+  "scope": "bounded request, unexecuted source candidate and handoff evidence; not candidate functional acceptance",
+  "original_accepted_count": 12,
+  "result_ref": "sha256:783857ec0e3dda0d319b6296028ed943eae66323290ed22bbe2134e6bcc3dda5",
+  "acceptance_results": {
+    "B12-A01": "accepted",
+    "B12-B01": "accepted",
+    "B12-C01": "accepted"
+  },
+  "candidate_instruction_fit": false,
+  "candidate_execution": "not_run",
+  "review_http_model_requests": 0,
+  "review_real_credential_reads": 0,
+  "historical_reservations_used": 2,
+  "next_batch": "BATCH-013 offline only",
+  "followups": [
+    "provide reusable bridge client and exact authoring contract",
+    "validate document fragment before sealing deliverable",
+    "wait for active state and actual write receipt before claiming saved"
+  ]
+}

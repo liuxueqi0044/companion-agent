@@ -1,0 +1,904 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.3.01",
+  "task_spec_sha256": "ef1059622f442ad61ef855c23efb305af1506805401fb09a16efbf190256bbca",
+  "batch_id": "BATCH-006",
+  "dispatch_ref": "docs/handoff/BATCH-006.md",
+  "status": "submitted",
+  "phase": "offline_observer_preparation",
+  "task_completion": "partial",
+  "base_ref": "sha256:4a6be0d556bfe57be4dde9e347f535f4afcb20a6234b9be0f7e6c3ef50da4d2c",
+  "result_ref": "manifest-sha256:c5882f1474dfda83ce2787bee0d8a0ac9288cd1c7be13ffa678d93736838eef0",
+  "result_manifest": "reports/evidence/M00.3.01/artifact-manifest.json",
+  "summary": "Fixed offline JSONL observer records bounded raw streams, ordered local events, cancellation requests and actual owned-child exits. Observer reconnect reads the same persisted observation without rerun. 13 focused regressions and 23 prior preflight regressions pass. Hermes A01-A03 remain not_run; no live integration.",
+  "changed_files": [
+    "docs/evidence/hermes-lifecycle.json",
+    "reports/M00.3.01.checkpoint.md",
+    "reports/M00.3.01.json",
+    "reports/evidence/M00.3.01/artifact-manifest.json",
+    "reports/evidence/M00.3.01/logs/01-preflight.json",
+    "reports/evidence/M00.3.01/logs/02-plan.json",
+    "reports/evidence/M00.3.01/logs/03-regressions.txt",
+    "reports/evidence/M00.3.01/logs/04-invalid-path.json",
+    "reports/evidence/M00.3.01/logs/05-unknown-mode.json",
+    "reports/evidence/M00.3.01/logs/06-help.txt",
+    "reports/evidence/M00.3.01/logs/07-final-scope.txt",
+    "reports/evidence/M00.3.01/logs/08-hash-check.txt",
+    "reports/evidence/M00.3.01/logs/09-taskctl-validate.txt",
+    "reports/evidence/M00.3.01/logs/10-taskctl-next.txt",
+    "reports/evidence/M00.3.01/logs/B6-final-scope.txt",
+    "reports/evidence/M00.3.01/logs/B6-fixture-execution.txt",
+    "reports/evidence/M00.3.01/logs/B6-hash-check.txt",
+    "reports/evidence/M00.3.01/logs/B6-offline-regressions.txt",
+    "reports/evidence/M00.3.01/logs/B6-preflight-regressions.txt",
+    "reports/evidence/M00.3.01/logs/B6-taskctl-next.txt",
+    "reports/evidence/M00.3.01/logs/B6-taskctl-validate.txt",
+    "reports/evidence/M00.3.01/logs/R1-final-scope.txt",
+    "reports/evidence/M00.3.01/logs/R1-hash-check.txt",
+    "reports/evidence/M00.3.01/logs/R1-help.txt",
+    "reports/evidence/M00.3.01/logs/R1-invalid-path.json",
+    "reports/evidence/M00.3.01/logs/R1-junction-targeted.txt",
+    "reports/evidence/M00.3.01/logs/R1-plan.json",
+    "reports/evidence/M00.3.01/logs/R1-pre-fix-junction.txt",
+    "reports/evidence/M00.3.01/logs/R1-preflight.json",
+    "reports/evidence/M00.3.01/logs/R1-regressions.txt",
+    "reports/evidence/M00.3.01/logs/R1-taskctl-next.txt",
+    "reports/evidence/M00.3.01/logs/R1-taskctl-validate.txt",
+    "reports/evidence/M00.3.01/logs/R1-unknown-mode.json",
+    "reports/evidence/M00.3.01/offline/B6-fixture-execution.json",
+    "reports/evidence/M00.3.01/offline/finalize_batch006.py",
+    "reports/evidence/M00.3.01/offline/fixture_child.py",
+    "reports/evidence/M00.3.01/offline/run_cases.py",
+    "reports/evidence/M00.3.01/offline/test_observer.py",
+    "reports/evidence/M00.3.01/offline/write_batch_summary.py",
+    "reports/evidence/M00.3.01/test_preflight.py",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/27c12a2f-d65b-4290-afb8-4181879cb61d/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/27c12a2f-d65b-4290-afb8-4181879cb61d/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/27c12a2f-d65b-4290-afb8-4181879cb61d/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/27c12a2f-d65b-4290-afb8-4181879cb61d/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/27c12a2f-d65b-4290-afb8-4181879cb61d/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/7ed8dfbd-09e4-410a-bfc5-fb1067586745/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/7ed8dfbd-09e4-410a-bfc5-fb1067586745/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/7ed8dfbd-09e4-410a-bfc5-fb1067586745/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/7ed8dfbd-09e4-410a-bfc5-fb1067586745/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/7ed8dfbd-09e4-410a-bfc5-fb1067586745/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/a3fade0c-f6d7-4adf-add7-79fa8065c249/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/a3fade0c-f6d7-4adf-add7-79fa8065c249/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/a3fade0c-f6d7-4adf-add7-79fa8065c249/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/a3fade0c-f6d7-4adf-add7-79fa8065c249/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/a3fade0c-f6d7-4adf-add7-79fa8065c249/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/ae76d1e2-5611-4488-8bb7-7ee42d49e315/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/ae76d1e2-5611-4488-8bb7-7ee42d49e315/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/ae76d1e2-5611-4488-8bb7-7ee42d49e315/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/ae76d1e2-5611-4488-8bb7-7ee42d49e315/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/ae76d1e2-5611-4488-8bb7-7ee42d49e315/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/fa30edcf-e9d1-40c5-8b89-da1e2aa2daec/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/fa30edcf-e9d1-40c5-8b89-da1e2aa2daec/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/fa30edcf-e9d1-40c5-8b89-da1e2aa2daec/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/fa30edcf-e9d1-40c5-8b89-da1e2aa2daec/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/fa30edcf-e9d1-40c5-8b89-da1e2aa2daec/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/6085956f-e3eb-4594-8bd7-425bab6ac7c5/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/6085956f-e3eb-4594-8bd7-425bab6ac7c5/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/6085956f-e3eb-4594-8bd7-425bab6ac7c5/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/6085956f-e3eb-4594-8bd7-425bab6ac7c5/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/6085956f-e3eb-4594-8bd7-425bab6ac7c5/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/941c3bc2-ffa6-495c-8d4c-9196014de307/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/941c3bc2-ffa6-495c-8d4c-9196014de307/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/941c3bc2-ffa6-495c-8d4c-9196014de307/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/941c3bc2-ffa6-495c-8d4c-9196014de307/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/941c3bc2-ffa6-495c-8d4c-9196014de307/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/cc53a111-c895-4069-968a-ea1c3def34f4/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/cc53a111-c895-4069-968a-ea1c3def34f4/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/cc53a111-c895-4069-968a-ea1c3def34f4/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/cc53a111-c895-4069-968a-ea1c3def34f4/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/cc53a111-c895-4069-968a-ea1c3def34f4/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/d80d9f81-adce-49ef-9adf-8e56ccf1d455/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/d80d9f81-adce-49ef-9adf-8e56ccf1d455/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/d80d9f81-adce-49ef-9adf-8e56ccf1d455/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/d80d9f81-adce-49ef-9adf-8e56ccf1d455/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/d80d9f81-adce-49ef-9adf-8e56ccf1d455/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/eac4477c-7496-4c6e-931a-a42ceb4c739e/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/eac4477c-7496-4c6e-931a-a42ceb4c739e/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/eac4477c-7496-4c6e-931a-a42ceb4c739e/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/eac4477c-7496-4c6e-931a-a42ceb4c739e/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/eac4477c-7496-4c6e-931a-a42ceb4c739e/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/f4cf47de-74f3-4bdc-8fe4-e7652c74e89c/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/f4cf47de-74f3-4bdc-8fe4-e7652c74e89c/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/f4cf47de-74f3-4bdc-8fe4-e7652c74e89c/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/f4cf47de-74f3-4bdc-8fe4-e7652c74e89c/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/f4cf47de-74f3-4bdc-8fe4-e7652c74e89c/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/027ffc44-67c4-4925-8312-edc864514499/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/027ffc44-67c4-4925-8312-edc864514499/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/027ffc44-67c4-4925-8312-edc864514499/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/027ffc44-67c4-4925-8312-edc864514499/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/027ffc44-67c4-4925-8312-edc864514499/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/4c991e16-db1d-4f64-85ed-6833820e95be/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/4c991e16-db1d-4f64-85ed-6833820e95be/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/4c991e16-db1d-4f64-85ed-6833820e95be/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/4c991e16-db1d-4f64-85ed-6833820e95be/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/4c991e16-db1d-4f64-85ed-6833820e95be/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/685d3156-5d94-4067-9dda-e47d0279626a/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/685d3156-5d94-4067-9dda-e47d0279626a/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/685d3156-5d94-4067-9dda-e47d0279626a/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/685d3156-5d94-4067-9dda-e47d0279626a/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/685d3156-5d94-4067-9dda-e47d0279626a/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/cbce69e3-ba26-410c-94c1-4ec283476979/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/cbce69e3-ba26-410c-94c1-4ec283476979/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/cbce69e3-ba26-410c-94c1-4ec283476979/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/cbce69e3-ba26-410c-94c1-4ec283476979/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/cbce69e3-ba26-410c-94c1-4ec283476979/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/d9c3b5c5-c009-41ad-bd01-076e66c7a769/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/d9c3b5c5-c009-41ad-bd01-076e66c7a769/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/d9c3b5c5-c009-41ad-bd01-076e66c7a769/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/d9c3b5c5-c009-41ad-bd01-076e66c7a769/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/d9c3b5c5-c009-41ad-bd01-076e66c7a769/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/11f5992f-2782-4612-9920-d98a9c3f11c8/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/11f5992f-2782-4612-9920-d98a9c3f11c8/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/11f5992f-2782-4612-9920-d98a9c3f11c8/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/11f5992f-2782-4612-9920-d98a9c3f11c8/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/11f5992f-2782-4612-9920-d98a9c3f11c8/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/18145f18-c806-465d-9277-b24b4184dfef/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/18145f18-c806-465d-9277-b24b4184dfef/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/18145f18-c806-465d-9277-b24b4184dfef/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/18145f18-c806-465d-9277-b24b4184dfef/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/18145f18-c806-465d-9277-b24b4184dfef/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/20f9a60c-3f6b-4999-910b-b09512c45f19/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/20f9a60c-3f6b-4999-910b-b09512c45f19/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/20f9a60c-3f6b-4999-910b-b09512c45f19/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/20f9a60c-3f6b-4999-910b-b09512c45f19/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/20f9a60c-3f6b-4999-910b-b09512c45f19/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/864c7e39-33ab-4fce-8fb6-f8d1211df6e9/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/864c7e39-33ab-4fce-8fb6-f8d1211df6e9/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/864c7e39-33ab-4fce-8fb6-f8d1211df6e9/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/864c7e39-33ab-4fce-8fb6-f8d1211df6e9/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/864c7e39-33ab-4fce-8fb6-f8d1211df6e9/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eec29d6c-739d-48c3-97c3-6d3f5b8b6c6b/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eec29d6c-739d-48c3-97c3-6d3f5b8b6c6b/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eec29d6c-739d-48c3-97c3-6d3f5b8b6c6b/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eec29d6c-739d-48c3-97c3-6d3f5b8b6c6b/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eec29d6c-739d-48c3-97c3-6d3f5b8b6c6b/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eef7860c-314e-4a38-bd6a-2a70d085aac6/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eef7860c-314e-4a38-bd6a-2a70d085aac6/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eef7860c-314e-4a38-bd6a-2a70d085aac6/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eef7860c-314e-4a38-bd6a-2a70d085aac6/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eef7860c-314e-4a38-bd6a-2a70d085aac6/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/29b4956f-31b5-4b94-89ea-2a6c53c287d1/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/29b4956f-31b5-4b94-89ea-2a6c53c287d1/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/29b4956f-31b5-4b94-89ea-2a6c53c287d1/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/29b4956f-31b5-4b94-89ea-2a6c53c287d1/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/29b4956f-31b5-4b94-89ea-2a6c53c287d1/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/593ee1b2-8e5b-4c11-b346-a50b27eee21f/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/593ee1b2-8e5b-4c11-b346-a50b27eee21f/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/593ee1b2-8e5b-4c11-b346-a50b27eee21f/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/593ee1b2-8e5b-4c11-b346-a50b27eee21f/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/593ee1b2-8e5b-4c11-b346-a50b27eee21f/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/5d112cbc-9ae4-4b33-8c6f-63df9008ddea/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/5d112cbc-9ae4-4b33-8c6f-63df9008ddea/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/5d112cbc-9ae4-4b33-8c6f-63df9008ddea/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/5d112cbc-9ae4-4b33-8c6f-63df9008ddea/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/5d112cbc-9ae4-4b33-8c6f-63df9008ddea/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/886b13f9-626e-49b6-a273-c1e40b96d7bf/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/886b13f9-626e-49b6-a273-c1e40b96d7bf/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/886b13f9-626e-49b6-a273-c1e40b96d7bf/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/886b13f9-626e-49b6-a273-c1e40b96d7bf/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/886b13f9-626e-49b6-a273-c1e40b96d7bf/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/ebc2b337-4205-422e-aa4f-0bed1988a92f/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/ebc2b337-4205-422e-aa4f-0bed1988a92f/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/ebc2b337-4205-422e-aa4f-0bed1988a92f/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/ebc2b337-4205-422e-aa4f-0bed1988a92f/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/ebc2b337-4205-422e-aa4f-0bed1988a92f/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/185c393a-e77e-481e-992c-6b1c8361ab3b/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/185c393a-e77e-481e-992c-6b1c8361ab3b/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/185c393a-e77e-481e-992c-6b1c8361ab3b/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/185c393a-e77e-481e-992c-6b1c8361ab3b/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/185c393a-e77e-481e-992c-6b1c8361ab3b/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/556b07b5-72ee-457a-aec2-52c7398cb513/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/556b07b5-72ee-457a-aec2-52c7398cb513/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/556b07b5-72ee-457a-aec2-52c7398cb513/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/556b07b5-72ee-457a-aec2-52c7398cb513/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/556b07b5-72ee-457a-aec2-52c7398cb513/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/b1e4c902-0b7b-4936-a421-4498863b95af/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/b1e4c902-0b7b-4936-a421-4498863b95af/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/b1e4c902-0b7b-4936-a421-4498863b95af/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/b1e4c902-0b7b-4936-a421-4498863b95af/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/b1e4c902-0b7b-4936-a421-4498863b95af/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/da20c323-4b14-4197-ae53-ddf0e3faa3d7/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/da20c323-4b14-4197-ae53-ddf0e3faa3d7/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/da20c323-4b14-4197-ae53-ddf0e3faa3d7/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/da20c323-4b14-4197-ae53-ddf0e3faa3d7/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/da20c323-4b14-4197-ae53-ddf0e3faa3d7/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/f080fd95-625d-4e11-b055-1d588f1a7f81/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/f080fd95-625d-4e11-b055-1d588f1a7f81/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/f080fd95-625d-4e11-b055-1d588f1a7f81/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/f080fd95-625d-4e11-b055-1d588f1a7f81/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/f080fd95-625d-4e11-b055-1d588f1a7f81/stdout.bin",
+    "reports/evidence/M00.3.01/upstream/hermes_cli/_parser.py",
+    "reports/evidence/M00.3.01/upstream/hermes_cli/cli_single_query.py",
+    "reports/evidence/M00.3.01/upstream/hermes_cli/main.py",
+    "reports/evidence/M00.3.01/upstream/hermes_cli/pty_session.py",
+    "reports/evidence/M00.3.01/upstream/hermes_cli/stream_json.py",
+    "reports/evidence/M00.3.01/upstream/hermes_cli/subcommands/dashboard.py",
+    "reports/evidence/M00.3.01/upstream/hermes_cli/web_routers/chat_ws.py",
+    "reports/evidence/M00.3.01/upstream/hermes_cli/web_routers/sessions.py",
+    "reports/evidence/M00.3.01/upstream/hermes_cli/web_routers/status.py",
+    "reports/evidence/M00.3.01/upstream/hermes_cli/web_server.py",
+    "reports/evidence/M00.3.01/upstream/hermes_cli/web_server_chat.py",
+    "reports/evidence/M00.3.01/upstream/hermes_cli/web_server_sessions.py",
+    "reports/evidence/M00.3.01/upstream/hermes_state_sessions.py",
+    "reports/evidence/M00.3.01/upstream/pyproject.toml",
+    "reports/evidence/M00.3.01/upstream/source-index.json",
+    "reports/evidence/M00.3.01/upstream/tree-hermes_cli.html",
+    "reports/evidence/M00.3.01/upstream/tree-root.html",
+    "reports/evidence/M00.3.01/upstream/web-routers-tree.html",
+    "tests/spikes/hermes_eventlog.py",
+    "tests/spikes/hermes_lifecycle.py",
+    "tests/spikes/hermes_observer.py"
+  ],
+  "batch_level_changed_files": [
+    "reports/BATCH-006.md"
+  ],
+  "commands": [
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "tests/spikes/hermes_lifecycle.py",
+        "--preflight"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/01-preflight.json",
+      "evidence_kind": "actual",
+      "note": "11 pinned files and two planned homes passed; integration not_run."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "tests/spikes/hermes_lifecycle.py",
+        "--plan"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/02-plan.json",
+      "evidence_kind": "actual",
+      "note": "Fixed future plan printed; no run or installation."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.3.01/test_preflight.py"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/03-regressions.txt",
+      "evidence_kind": "actual",
+      "note": "13 fixture and real-source regression tests passed, including no network/process side effects."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "tests/spikes/hermes_lifecycle.py",
+        "--home-a",
+        "../../outside"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 2,
+      "log_path": "reports/evidence/M00.3.01/logs/04-invalid-path.json",
+      "evidence_kind": "actual",
+      "note": "Escaping home rejected with structured home_path_escape."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "tests/spikes/hermes_lifecycle.py",
+        "--live"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 2,
+      "log_path": "reports/evidence/M00.3.01/logs/05-unknown-mode.json",
+      "evidence_kind": "actual",
+      "note": "Unsupported mode rejected with structured invalid_arguments."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "tests/spikes/hermes_lifecycle.py",
+        "--help"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/06-help.txt",
+      "evidence_kind": "actual",
+      "note": "Read-only CLI help available."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/handoff/check_batch005_scope.py"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/07-final-scope.txt",
+      "evidence_kind": "actual",
+      "note": "Scope checker rerun with its own final log; outside=[] and PASS."
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "docs/execution/taskctl.py",
+        "validate"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/09-taskctl-validate.txt",
+      "evidence_kind": "actual",
+      "note": "Plan validation only: valid=true, 156 tasks."
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "docs/execution/taskctl.py",
+        "next",
+        "--repo",
+        "."
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/10-taskctl-next.txt",
+      "evidence_kind": "actual",
+      "note": "M00.3.01 remains submitted; accepted=11."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.3.01/test_preflight.py",
+        "-k",
+        "test_real_"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 1,
+      "log_path": "reports/evidence/M00.3.01/logs/R1-pre-fix-junction.txt",
+      "evidence_kind": "actual",
+      "note": "Before implementation: real upstream and shared-home junction tests failed as expected; fixture creation succeeded and cleanup completed."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.3.01/test_preflight.py"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/R1-regressions.txt",
+      "evidence_kind": "actual",
+      "note": "23 tests passed, including real Windows junctions, old negative cases, metadata errors and no side effects."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.3.01/test_preflight.py",
+        "-k",
+        "junction"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/R1-junction-targeted.txt",
+      "evidence_kind": "actual",
+      "note": "6 targeted real Windows junction cases passed; both preflight and plan covered."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "tests/spikes/hermes_lifecycle.py",
+        "--preflight"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/R1-preflight.json",
+      "evidence_kind": "actual",
+      "note": "Pinned source and normal planned homes passed locally; integration not_run."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "tests/spikes/hermes_lifecycle.py",
+        "--plan"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/R1-plan.json",
+      "evidence_kind": "actual",
+      "note": "Fixed future plan printed; integration not_run."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "tests/spikes/hermes_lifecycle.py",
+        "--home-a",
+        "../../outside"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 2,
+      "log_path": "reports/evidence/M00.3.01/logs/R1-invalid-path.json",
+      "evidence_kind": "actual",
+      "note": "Lexical path escape rejected with structured home_path_escape."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "tests/spikes/hermes_lifecycle.py",
+        "--live"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 2,
+      "log_path": "reports/evidence/M00.3.01/logs/R1-unknown-mode.json",
+      "evidence_kind": "actual",
+      "note": "Unsupported mode rejected with structured invalid_arguments."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "tests/spikes/hermes_lifecycle.py",
+        "--help"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/R1-help.txt",
+      "evidence_kind": "actual",
+      "note": "Read-only CLI help remains available."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/handoff/check_batch005_r1_scope.py"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/R1-final-scope.txt",
+      "evidence_kind": "actual",
+      "note": "R1 scope checker rerun with its own log; PASS and outside=[]."
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "docs/execution/taskctl.py",
+        "validate"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/R1-taskctl-validate.txt",
+      "evidence_kind": "actual",
+      "note": "Plan valid=true, 156 tasks; no application/live test."
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "docs/execution/taskctl.py",
+        "next",
+        "--repo",
+        "."
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/R1-taskctl-next.txt",
+      "evidence_kind": "actual",
+      "note": "M00.3.01 still changes_requested from independent BATCH-005 review; accepted=11."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.3.01/offline/test_observer.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/B6-offline-regressions.txt",
+      "evidence_kind": "offline_fixture",
+      "note": "13 focused tests passed; own fixed child only."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.3.01/offline/run_cases.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/B6-fixture-execution.txt",
+      "evidence_kind": "offline_fixture",
+      "note": "Six actual local fixed child processes observed and reaped."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.3.01/test_preflight.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/B6-preflight-regressions.txt",
+      "evidence_kind": "actual",
+      "note": "Prior 23 offline preflight regressions pass; their existing Windows junction setup internally uses cmd.exe mklink. No Hermes or Agent was started."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/handoff/check_batch006_scope.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/B6-final-scope.txt",
+      "evidence_kind": "actual",
+      "note": "BATCH-006 scope final self-including rerun: PASS, outside=[]."
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "docs/execution/taskctl.py",
+        "validate"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/B6-taskctl-validate.txt",
+      "evidence_kind": "actual",
+      "note": "Plan valid, 156 tasks."
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "docs/execution/taskctl.py",
+        "next",
+        "--repo",
+        "."
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/B6-taskctl-next.txt",
+      "evidence_kind": "actual",
+      "note": "M00.3.01 not_run for live card; accepted remains 11."
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.3.01-A01",
+      "status": "not_run",
+      "evidence": "No Hermes process or cancellation was executed; request receipt and actual exit were not observed."
+    },
+    {
+      "id": "M00.3.01-A02",
+      "status": "not_run",
+      "evidence": "No live client was disconnected or same native run queried."
+    },
+    {
+      "id": "M00.3.01-A03",
+      "status": "not_run",
+      "evidence": "Only offline unknown-state guard is checked; no real uncertain lifecycle result was observed."
+    }
+  ],
+  "integration_evidence_kind": "not_run",
+  "preparation_checks": [
+    {
+      "id": "B5-P01",
+      "status": "passed",
+      "evidence": "source-index.json records 17 pinned official source/data files; 11 critical files are hard-hash checked by preflight, all 17 recomputed by test_real_source_index_hashes_and_commit_urls."
+    },
+    {
+      "id": "B5-P02",
+      "status": "passed",
+      "evidence": "01-preflight.json and 02-plan.json show local passed and integration not_run; homes are planned paths only."
+    },
+    {
+      "id": "B5-P03",
+      "status": "passed",
+      "evidence": "03-regressions.txt: 13 tests passed for tamper/missing/identity/path/overlap/symlink-fixture/no network or subprocess/unknown state."
+    },
+    {
+      "id": "B5-P04",
+      "status": "passed",
+      "evidence": "04-invalid-path.json and 05-unknown-mode.json exit 2 with structured reasons."
+    },
+    {
+      "id": "B5-P05",
+      "status": "passed",
+      "evidence": "08-hash-check.txt recomputed manifest/result_ref, all three artifact files, source-index binding and all 17 upstream files."
+    },
+    {
+      "id": "B5-R1-P01",
+      "status": "passed",
+      "evidence": "R1-pre-fix-junction.txt confirms two real Windows junction bypasses before repair; R1-junction-targeted.txt confirms 6 real junction cases pass after repair."
+    },
+    {
+      "id": "B5-R1-P02",
+      "status": "passed",
+      "evidence": "R1-regressions.txt: 23 tests pass, including source/index pre-read rejection, temp/home components, same real target, normal/missing homes, tamper/missing source, metadata errors and no network/process side effects."
+    },
+    {
+      "id": "B5-R1-P03",
+      "status": "passed",
+      "evidence": "R1-preflight.json/R1-plan.json: local passed but integration not_run/live_verified=false; invalid path/unknown mode exit 2 structured."
+    },
+    {
+      "id": "B5-R1-P04",
+      "status": "passed",
+      "evidence": "R1-final-scope.txt: PASS outside=[]; R1-hash-check.txt: three manifest artifacts and all 17 unchanged source entries match; R1-taskctl-validate/next: valid plan, changes_requested/accepted=11."
+    },
+    {
+      "id": "B6-P01",
+      "status": "passed",
+      "evidence": "13 offline fixture regressions pass: B6-offline-regressions.txt, including parser, limits, cancellation, fixed-fixture hash and read-only recovery."
+    },
+    {
+      "id": "B6-P02",
+      "status": "passed",
+      "evidence": "Six real self-authored Python child scenarios with raw streams/events/snapshots: offline/B6-fixture-execution.json; no Hermes process."
+    },
+    {
+      "id": "B6-P03",
+      "status": "passed",
+      "evidence": "Original 23 preflight regressions pass: B6-preflight-regressions.txt; pinned source and preflight unchanged."
+    }
+  ],
+  "unresolved": [
+    "No approved provider/model credential source, hard USD account budget cap, or enforced read-only tool policy; no live call was made.",
+    "Stable C03 NativeRunRef is unresolved: native CLI emits session_id and process PID, not an independently durable run_id.",
+    "Native per-run get/stop receipt/cursor replay are absent or unknown; client disconnect versus server restart and Windows cancellation semantics require live validation.",
+    "Pinned commit installation, actual runtime compatibility, model cost, A01-A03 and two-user isolation are all untested.",
+    "Path checks are only a check-time preflight, not a runtime isolation sandbox; future live process setup must enforce its own path ownership and race-resistant boundary.",
+    "BATCH-006: offline observation does not establish Hermes native run ID, native cancel receipt, replay cursor, or real product task completion.",
+    "BATCH-006: isolated pinned Hermes installation, enforced read-only tool policy, provider/model/key category and hard USD budget cap remain prerequisites; no model/account call was made."
+  ],
+  "next_step": "Submitted BATCH-006 offline preparation for independent review. Real Hermes A01-A03 need a separately approved isolated install, enforced read-only tools, provider/model/key category and hard USD cap; do not advance M00.3.02.",
+  "changed_files_this_round": [
+    "docs/evidence/hermes-lifecycle.json",
+    "reports/M00.3.01.checkpoint.md",
+    "reports/M00.3.01.json",
+    "reports/evidence/M00.3.01/artifact-manifest.json",
+    "reports/evidence/M00.3.01/logs/B6-final-scope.txt",
+    "reports/evidence/M00.3.01/logs/B6-fixture-execution.txt",
+    "reports/evidence/M00.3.01/logs/B6-hash-check.txt",
+    "reports/evidence/M00.3.01/logs/B6-offline-regressions.txt",
+    "reports/evidence/M00.3.01/logs/B6-preflight-regressions.txt",
+    "reports/evidence/M00.3.01/logs/B6-taskctl-next.txt",
+    "reports/evidence/M00.3.01/logs/B6-taskctl-validate.txt",
+    "reports/evidence/M00.3.01/offline/B6-fixture-execution.json",
+    "reports/evidence/M00.3.01/offline/finalize_batch006.py",
+    "reports/evidence/M00.3.01/offline/fixture_child.py",
+    "reports/evidence/M00.3.01/offline/run_cases.py",
+    "reports/evidence/M00.3.01/offline/test_observer.py",
+    "reports/evidence/M00.3.01/offline/write_batch_summary.py",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/27c12a2f-d65b-4290-afb8-4181879cb61d/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/27c12a2f-d65b-4290-afb8-4181879cb61d/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/27c12a2f-d65b-4290-afb8-4181879cb61d/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/27c12a2f-d65b-4290-afb8-4181879cb61d/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/27c12a2f-d65b-4290-afb8-4181879cb61d/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/7ed8dfbd-09e4-410a-bfc5-fb1067586745/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/7ed8dfbd-09e4-410a-bfc5-fb1067586745/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/7ed8dfbd-09e4-410a-bfc5-fb1067586745/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/7ed8dfbd-09e4-410a-bfc5-fb1067586745/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/7ed8dfbd-09e4-410a-bfc5-fb1067586745/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/a3fade0c-f6d7-4adf-add7-79fa8065c249/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/a3fade0c-f6d7-4adf-add7-79fa8065c249/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/a3fade0c-f6d7-4adf-add7-79fa8065c249/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/a3fade0c-f6d7-4adf-add7-79fa8065c249/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/a3fade0c-f6d7-4adf-add7-79fa8065c249/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/ae76d1e2-5611-4488-8bb7-7ee42d49e315/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/ae76d1e2-5611-4488-8bb7-7ee42d49e315/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/ae76d1e2-5611-4488-8bb7-7ee42d49e315/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/ae76d1e2-5611-4488-8bb7-7ee42d49e315/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/ae76d1e2-5611-4488-8bb7-7ee42d49e315/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/fa30edcf-e9d1-40c5-8b89-da1e2aa2daec/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/fa30edcf-e9d1-40c5-8b89-da1e2aa2daec/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/fa30edcf-e9d1-40c5-8b89-da1e2aa2daec/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/fa30edcf-e9d1-40c5-8b89-da1e2aa2daec/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-1101b301f18f4eeca8e866a33db241c0/fa30edcf-e9d1-40c5-8b89-da1e2aa2daec/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/6085956f-e3eb-4594-8bd7-425bab6ac7c5/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/6085956f-e3eb-4594-8bd7-425bab6ac7c5/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/6085956f-e3eb-4594-8bd7-425bab6ac7c5/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/6085956f-e3eb-4594-8bd7-425bab6ac7c5/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/6085956f-e3eb-4594-8bd7-425bab6ac7c5/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/941c3bc2-ffa6-495c-8d4c-9196014de307/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/941c3bc2-ffa6-495c-8d4c-9196014de307/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/941c3bc2-ffa6-495c-8d4c-9196014de307/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/941c3bc2-ffa6-495c-8d4c-9196014de307/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/941c3bc2-ffa6-495c-8d4c-9196014de307/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/cc53a111-c895-4069-968a-ea1c3def34f4/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/cc53a111-c895-4069-968a-ea1c3def34f4/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/cc53a111-c895-4069-968a-ea1c3def34f4/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/cc53a111-c895-4069-968a-ea1c3def34f4/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/cc53a111-c895-4069-968a-ea1c3def34f4/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/d80d9f81-adce-49ef-9adf-8e56ccf1d455/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/d80d9f81-adce-49ef-9adf-8e56ccf1d455/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/d80d9f81-adce-49ef-9adf-8e56ccf1d455/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/d80d9f81-adce-49ef-9adf-8e56ccf1d455/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/d80d9f81-adce-49ef-9adf-8e56ccf1d455/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/eac4477c-7496-4c6e-931a-a42ceb4c739e/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/eac4477c-7496-4c6e-931a-a42ceb4c739e/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/eac4477c-7496-4c6e-931a-a42ceb4c739e/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/eac4477c-7496-4c6e-931a-a42ceb4c739e/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/eac4477c-7496-4c6e-931a-a42ceb4c739e/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/f4cf47de-74f3-4bdc-8fe4-e7652c74e89c/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/f4cf47de-74f3-4bdc-8fe4-e7652c74e89c/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/f4cf47de-74f3-4bdc-8fe4-e7652c74e89c/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/f4cf47de-74f3-4bdc-8fe4-e7652c74e89c/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-22aa5ee4577d4ffc89c431531a411406/f4cf47de-74f3-4bdc-8fe4-e7652c74e89c/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/027ffc44-67c4-4925-8312-edc864514499/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/027ffc44-67c4-4925-8312-edc864514499/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/027ffc44-67c4-4925-8312-edc864514499/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/027ffc44-67c4-4925-8312-edc864514499/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/027ffc44-67c4-4925-8312-edc864514499/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/4c991e16-db1d-4f64-85ed-6833820e95be/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/4c991e16-db1d-4f64-85ed-6833820e95be/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/4c991e16-db1d-4f64-85ed-6833820e95be/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/4c991e16-db1d-4f64-85ed-6833820e95be/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/4c991e16-db1d-4f64-85ed-6833820e95be/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/685d3156-5d94-4067-9dda-e47d0279626a/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/685d3156-5d94-4067-9dda-e47d0279626a/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/685d3156-5d94-4067-9dda-e47d0279626a/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/685d3156-5d94-4067-9dda-e47d0279626a/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/685d3156-5d94-4067-9dda-e47d0279626a/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/cbce69e3-ba26-410c-94c1-4ec283476979/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/cbce69e3-ba26-410c-94c1-4ec283476979/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/cbce69e3-ba26-410c-94c1-4ec283476979/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/cbce69e3-ba26-410c-94c1-4ec283476979/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/cbce69e3-ba26-410c-94c1-4ec283476979/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/d9c3b5c5-c009-41ad-bd01-076e66c7a769/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/d9c3b5c5-c009-41ad-bd01-076e66c7a769/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/d9c3b5c5-c009-41ad-bd01-076e66c7a769/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/d9c3b5c5-c009-41ad-bd01-076e66c7a769/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-6f1fa07e4ac94671b45514e781fe5a61/d9c3b5c5-c009-41ad-bd01-076e66c7a769/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/11f5992f-2782-4612-9920-d98a9c3f11c8/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/11f5992f-2782-4612-9920-d98a9c3f11c8/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/11f5992f-2782-4612-9920-d98a9c3f11c8/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/11f5992f-2782-4612-9920-d98a9c3f11c8/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/11f5992f-2782-4612-9920-d98a9c3f11c8/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/18145f18-c806-465d-9277-b24b4184dfef/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/18145f18-c806-465d-9277-b24b4184dfef/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/18145f18-c806-465d-9277-b24b4184dfef/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/18145f18-c806-465d-9277-b24b4184dfef/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/18145f18-c806-465d-9277-b24b4184dfef/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/20f9a60c-3f6b-4999-910b-b09512c45f19/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/20f9a60c-3f6b-4999-910b-b09512c45f19/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/20f9a60c-3f6b-4999-910b-b09512c45f19/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/20f9a60c-3f6b-4999-910b-b09512c45f19/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/20f9a60c-3f6b-4999-910b-b09512c45f19/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/864c7e39-33ab-4fce-8fb6-f8d1211df6e9/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/864c7e39-33ab-4fce-8fb6-f8d1211df6e9/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/864c7e39-33ab-4fce-8fb6-f8d1211df6e9/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/864c7e39-33ab-4fce-8fb6-f8d1211df6e9/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/864c7e39-33ab-4fce-8fb6-f8d1211df6e9/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eec29d6c-739d-48c3-97c3-6d3f5b8b6c6b/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eec29d6c-739d-48c3-97c3-6d3f5b8b6c6b/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eec29d6c-739d-48c3-97c3-6d3f5b8b6c6b/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eec29d6c-739d-48c3-97c3-6d3f5b8b6c6b/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eec29d6c-739d-48c3-97c3-6d3f5b8b6c6b/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eef7860c-314e-4a38-bd6a-2a70d085aac6/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eef7860c-314e-4a38-bd6a-2a70d085aac6/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eef7860c-314e-4a38-bd6a-2a70d085aac6/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eef7860c-314e-4a38-bd6a-2a70d085aac6/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-8679a4cf4bc5476cb29ccb4a55808edf/eef7860c-314e-4a38-bd6a-2a70d085aac6/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/29b4956f-31b5-4b94-89ea-2a6c53c287d1/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/29b4956f-31b5-4b94-89ea-2a6c53c287d1/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/29b4956f-31b5-4b94-89ea-2a6c53c287d1/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/29b4956f-31b5-4b94-89ea-2a6c53c287d1/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/29b4956f-31b5-4b94-89ea-2a6c53c287d1/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/593ee1b2-8e5b-4c11-b346-a50b27eee21f/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/593ee1b2-8e5b-4c11-b346-a50b27eee21f/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/593ee1b2-8e5b-4c11-b346-a50b27eee21f/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/593ee1b2-8e5b-4c11-b346-a50b27eee21f/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/593ee1b2-8e5b-4c11-b346-a50b27eee21f/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/5d112cbc-9ae4-4b33-8c6f-63df9008ddea/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/5d112cbc-9ae4-4b33-8c6f-63df9008ddea/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/5d112cbc-9ae4-4b33-8c6f-63df9008ddea/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/5d112cbc-9ae4-4b33-8c6f-63df9008ddea/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/5d112cbc-9ae4-4b33-8c6f-63df9008ddea/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/886b13f9-626e-49b6-a273-c1e40b96d7bf/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/886b13f9-626e-49b6-a273-c1e40b96d7bf/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/886b13f9-626e-49b6-a273-c1e40b96d7bf/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/886b13f9-626e-49b6-a273-c1e40b96d7bf/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/886b13f9-626e-49b6-a273-c1e40b96d7bf/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/ebc2b337-4205-422e-aa4f-0bed1988a92f/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/ebc2b337-4205-422e-aa4f-0bed1988a92f/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/ebc2b337-4205-422e-aa4f-0bed1988a92f/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/ebc2b337-4205-422e-aa4f-0bed1988a92f/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-9415184c11f54de0a4858b3a201bcb05/ebc2b337-4205-422e-aa4f-0bed1988a92f/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/185c393a-e77e-481e-992c-6b1c8361ab3b/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/185c393a-e77e-481e-992c-6b1c8361ab3b/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/185c393a-e77e-481e-992c-6b1c8361ab3b/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/185c393a-e77e-481e-992c-6b1c8361ab3b/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/185c393a-e77e-481e-992c-6b1c8361ab3b/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/556b07b5-72ee-457a-aec2-52c7398cb513/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/556b07b5-72ee-457a-aec2-52c7398cb513/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/556b07b5-72ee-457a-aec2-52c7398cb513/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/556b07b5-72ee-457a-aec2-52c7398cb513/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/556b07b5-72ee-457a-aec2-52c7398cb513/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/b1e4c902-0b7b-4936-a421-4498863b95af/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/b1e4c902-0b7b-4936-a421-4498863b95af/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/b1e4c902-0b7b-4936-a421-4498863b95af/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/b1e4c902-0b7b-4936-a421-4498863b95af/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/b1e4c902-0b7b-4936-a421-4498863b95af/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/da20c323-4b14-4197-ae53-ddf0e3faa3d7/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/da20c323-4b14-4197-ae53-ddf0e3faa3d7/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/da20c323-4b14-4197-ae53-ddf0e3faa3d7/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/da20c323-4b14-4197-ae53-ddf0e3faa3d7/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/da20c323-4b14-4197-ae53-ddf0e3faa3d7/stdout.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/f080fd95-625d-4e11-b055-1d588f1a7f81/events.jsonl",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/f080fd95-625d-4e11-b055-1d588f1a7f81/fixture-starts.txt",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/f080fd95-625d-4e11-b055-1d588f1a7f81/snapshot.json",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/f080fd95-625d-4e11-b055-1d588f1a7f81/stderr.bin",
+    "reports/evidence/M00.3.01/tmp/B6-evidence-af96dbe3c52845a3b67a45cc343c09c3/f080fd95-625d-4e11-b055-1d588f1a7f81/stdout.bin",
+    "tests/spikes/hermes_eventlog.py",
+    "tests/spikes/hermes_observer.py"
+  ],
+  "batch_level_changed_files_this_round": [
+    "reports/BATCH-006.md"
+  ],
+  "commands_this_round": [
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.3.01/offline/test_observer.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/B6-offline-regressions.txt",
+      "evidence_kind": "offline_fixture",
+      "note": "13 focused tests passed; own fixed child only."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.3.01/offline/run_cases.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/B6-fixture-execution.txt",
+      "evidence_kind": "offline_fixture",
+      "note": "Six actual local fixed child processes observed and reaped."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.3.01/test_preflight.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/B6-preflight-regressions.txt",
+      "evidence_kind": "actual",
+      "note": "Prior 23 offline preflight regressions pass; their existing Windows junction setup internally uses cmd.exe mklink. No Hermes or Agent was started."
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/handoff/check_batch006_scope.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/B6-final-scope.txt",
+      "evidence_kind": "actual",
+      "note": "BATCH-006 scope final self-including rerun: PASS, outside=[]."
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "docs/execution/taskctl.py",
+        "validate"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/B6-taskctl-validate.txt",
+      "evidence_kind": "actual",
+      "note": "Plan valid, 156 tasks."
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "docs/execution/taskctl.py",
+        "next",
+        "--repo",
+        "."
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.3.01/logs/B6-taskctl-next.txt",
+      "evidence_kind": "actual",
+      "note": "M00.3.01 not_run for live card; accepted remains 11."
+    }
+  ],
+  "review_finding_addressed": "B5-R1; implementation and local checks submitted, independent acceptance pending.",
+  "dispatch_changed_files": [
+    "tests/spikes/hermes_eventlog.py",
+    "tests/spikes/hermes_observer.py"
+  ],
+  "offline_fixture_execution": {
+    "evidence_kind": "offline_fixture",
+    "scenarios": 6,
+    "record": "reports/evidence/M00.3.01/offline/B6-fixture-execution.json",
+    "regressions": "reports/evidence/M00.3.01/logs/B6-offline-regressions.txt",
+    "actual_hermes_run": false,
+    "native_run_id": null,
+    "product_task_state": null
+  }
+}

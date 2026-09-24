@@ -1,0 +1,328 @@
+{
+  "fixture_format": "first-flow-correction/1",
+  "case_id": "ff-correction-01",
+  "case_kind": "correction",
+  "fictional": true,
+  "fictional_notice": "本样本的公司名、人名、地点、条目与价格全部虚构，不含任何真实个人或客户信息（对应 M00.1.02-A01 与 first-flow 第 8 节第 7 条）。",
+  "base_task": {
+    "case_id": "ff-missing-01",
+    "input_ref": "tests/fixtures/first-flow/missing.json",
+    "expected_ref": "tests/fixtures/first-flow/expected.json#/expectations/ff-missing-01",
+    "task_identity": "与 ff-missing-01 是同一个业务任务（同一 task_id 与同一业务幂等键）。本案例是 S2 的补充与纠正输入，不创建新任务、不创建新 attempt，旧结果不被覆盖。",
+    "state": "waiting_user（first-flow 第 2 节 S2 / 第 5 节 U3）"
+  },
+  "corrections": [
+    {
+      "id": "C1",
+      "kind": "一次性字段值",
+      "target_field": "line_items[2].unit_price",
+      "answers_question_id": "Q1",
+      "user_input": "物料运输这次按 320.00 一车次算，就这一趟。",
+      "before": {"value": null, "status": "待确认", "source": "待确认"},
+      "after": {"value": "320.00", "status": "确定", "source": "用户确认", "source_ref": "C1"},
+      "effect": {
+        "field": "line_items[2].subtotal",
+        "before": null,
+        "after": "320.00",
+        "formula": "qty × unit_price",
+        "operands": ["csv:line3:qty", "C1"],
+        "currency": "EUR",
+        "note": "单价来自用户确认而不是 csv，操作数里记录的是 C1 这条纠正，仍保留币种来自 csv:line3:currency。"
+      }
+    },
+    {
+      "id": "C2",
+      "kind": "一次性字段值",
+      "target_field": "line_items[3].unit_price",
+      "answers_question_id": "Q2",
+      "user_input": "加急排期费这次按清单里的 150.00 算。",
+      "before": {"value": null, "status": "待确认", "conflict": true, "candidates": ["150.00", "180.00"]},
+      "after": {"value": "150.00", "status": "确定", "source": "用户确认", "source_ref": "C2"},
+      "effect": {
+        "field": "line_items[3].subtotal",
+        "before": null,
+        "after": "150.00",
+        "formula": "qty × unit_price",
+        "operands": ["csv:line4:qty", "C2"],
+        "currency": "USD",
+        "note": "用户选择的是本次取值；这条选择本身不写成规则，以后遇到同样冲突仍要问（first-flow 第 6 节第 7 条）。"
+      }
+    },
+    {
+      "id": "C3",
+      "kind": "格式纠正",
+      "target_field": "line_items[1].unit",
+      "answers_question_id": null,
+      "user_input": "现场技术支持按“天”记，不要写 day。",
+      "before": {"value": "day", "status": "确定", "source": "输入", "source_ref": "csv:line2:unit"},
+      "after": {"value": "天", "status": "确定", "source": "用户确认", "source_ref": "C3"},
+      "note": "格式纠正只改单位的呈现写法，不改数量与金额，因此不触发任何重新计算；本次纠正不写成规则。",
+      "affects_amount": false
+    },
+    {
+      "id": "C4",
+      "kind": "可复用规则",
+      "target_field": "currency_and_tax.tax_basis",
+      "answers_question_id": "Q3",
+      "user_input": "我这份清单里的单价一律按含税价看，以后也这样。",
+      "before": {"value": null, "status": "待确认", "source": "待确认"},
+      "after": {"value": "含税", "status": "确定", "source": "用户确认", "source_ref": "C4"},
+      "rule_id": "RULE-TAX"
+    },
+    {
+      "id": "C5",
+      "kind": "可复用规则",
+      "target_field": "currency_and_tax.currency",
+      "answers_question_id": null,
+      "user_input": "币种一律看清单里写明的 currency 列，不要按客户在哪儿猜。",
+      "before": {"value": "混合（USD 3 行 / EUR 1 行）", "status": "确定", "source": "输入"},
+      "after": {"value": "混合（USD 3 行 / EUR 1 行）", "status": "确定", "source": "用户确认", "source_ref": "C5"},
+      "note": "这是对处理方式的确认，不改变本次任何币种取值，只把规则写成以后可复用的条目。",
+      "rule_id": "RULE-CUR",
+      "affects_amount": false
+    }
+  ],
+  "one_time_values": [
+    {"correction_id": "C1", "field": "line_items[2].unit_price", "value": "320.00", "currency": "EUR", "note": "只属于本次这份清单，不写入规则，也不进入复用案例。"},
+    {"correction_id": "C2", "field": "line_items[3].unit_price", "value": "150.00", "currency": "USD", "note": "本次取值（用户从两个候选中选择），不写入规则。"},
+    {"correction_id": "C3", "field": "line_items[1].unit", "value": "天", "note": "本次呈现写法，不写入规则。"}
+  ],
+  "reusable_rules": [
+    {
+      "id": "RULE-CUR",
+      "statement": "币种一律取清单 CSV 写明的 currency 列；不按客户所在地、语言或结算习惯推断币种。",
+      "confirmed_by": "C5",
+      "scope": "该用户、该工作区",
+      "goes_into": "S3/S4 保存提议中的固化规则条目（first-flow 第 4.2 节）",
+      "contains_customer_data": false,
+      "contains_amount": false
+    },
+    {
+      "id": "RULE-TAX",
+      "statement": "清单 CSV 的单价按含税价处理；本版不做税额计算。",
+      "confirmed_by": "C4",
+      "scope": "该用户、该工作区",
+      "goes_into": "S3/S4 保存提议中的固化规则条目（first-flow 第 4.2 节）",
+      "contains_customer_data": false,
+      "contains_amount": false
+    }
+  ],
+  "not_saved_into_rules": [
+    "上一次的客户名、联系人、地点等资料不进入规则（first-flow 第 4.2 节“不固化的内容”）。",
+    "上一次的具体金额与单价（包括 C1 的 320.00、C2 的 150.00、以及各行小计）不进入规则。",
+    "C2 选择的 150.00 只对本次生效；冲突的裁决方式没有固化成规则，以后遇到同类冲突仍按 first-flow 第 6 节第 7 条问用户。"
+  ],
+  "corrected_result": {
+    "case_id": "ff-correction-01",
+    "input_ref": "tests/fixtures/first-flow/correction.json",
+    "snapshot": "同一业务任务在 S2 之后的纠正版结果（S2 快照）；旧结果不被覆盖，两次结果都保留可追溯。",
+    "base_expected_ref": "tests/fixtures/first-flow/expected.json#/expectations/ff-missing-01",
+    "inheritance_note": "input_validation、requirement_summary、requirement_elements 与基线快照逐项相同：纠正只改明细取值与口径，不改需求本身。check_correction.py 断言这三项与基线相等，其余字段在本对象内完整给出，可直接当完整快照核对。",
+    "recompute_note": "所有金额仍为十进制字符串；行小计 = 数量 × 单价，币种分组合计只汇总同一币种。",
+    "input_validation": {
+      "value": "accepted",
+      "status": "确定",
+      "source": "输入",
+      "source_ref": "requirement_text 与 csv 同时齐备",
+      "contract_note": "输入齐备，链路启动；行内字段缺失属于结果层待确认，不触发 C01 的 INVALID_INPUT。"
+    },
+    "requirement_summary": {
+      "value": "北海文旅需要 10 月 8 日到 9 日北海滨海剧场两场路演的 2 天现场技术支持、1 车次物料运输和 20 本附赠展会手册，并要求整理一份明细。",
+      "status": "确定",
+      "source": "输入",
+      "source_ref": "requirement_text"
+    },
+    "requirement_elements": [
+      {"element": "交付物", "value": "现场技术支持 2 天、物料运输 1 车次、展会手册 20 本（附赠）", "status": "确定", "source": "输入", "source_ref": "requirement_text"},
+      {"element": "时间", "value": "10 月 8 日到 9 日", "status": "确定", "source": "输入", "source_ref": "requirement_text"},
+      {"element": "地点", "value": "北海滨海剧场", "status": "确定", "source": "输入", "source_ref": "requirement_text"},
+      {"element": "特殊要求", "value": "该需求未提及", "status": "未提及", "source": "输入", "source_ref": "requirement_text（全文未出现特殊要求）", "note": "未提及只表示需求文本没有这类要求，不产生待确认问题，也不是 null。"}
+    ],
+    "currency_and_tax": {
+      "currency": {"value": "混合（USD 3 行 / EUR 1 行）", "status": "确定", "source": "用户确认", "source_ref": "C5", "note": "各行币种仍取 csv 的 currency 列；C5 把该处理方式确认为可复用规则。"},
+      "tax_basis": {"value": "含税", "status": "确定", "source": "用户确认", "source_ref": "C4"}
+    },
+    "line_items": [
+      {
+        "row": 1,
+        "csv_line": 2,
+        "name": {"value": "现场技术支持（每天）", "status": "确定", "source": "输入", "source_ref": "csv:line2:item"},
+        "unit": {"value": "天", "status": "确定", "source": "用户确认", "source_ref": "C3"},
+        "qty": {"value": 2, "status": "确定", "source": "输入", "source_ref": "csv:line2:qty"},
+        "unit_price": {"value": "950.00", "status": "确定", "source": "输入", "source_ref": "csv:line2:unit_price"},
+        "currency": {"value": "USD", "status": "确定", "source": "输入", "source_ref": "csv:line2:currency"},
+        "subtotal": {"value": "1900.00", "status": "确定", "source": "确定性计算", "formula": "qty × unit_price", "operands": ["csv:line2:qty", "csv:line2:unit_price"]}
+      },
+      {
+        "row": 2,
+        "csv_line": 3,
+        "name": {"value": "物料运输（每车次）", "status": "确定", "source": "输入", "source_ref": "csv:line3:item"},
+        "unit": {"value": "trip", "status": "确定", "source": "输入", "source_ref": "csv:line3:unit"},
+        "qty": {"value": 1, "status": "确定", "source": "输入", "source_ref": "csv:line3:qty"},
+        "unit_price": {"value": "320.00", "status": "确定", "source": "用户确认", "source_ref": "C1"},
+        "currency": {"value": "EUR", "status": "确定", "source": "输入", "source_ref": "csv:line3:currency"},
+        "subtotal": {"value": "320.00", "status": "确定", "source": "确定性计算", "formula": "qty × unit_price", "operands": ["csv:line3:qty", "C1"]}
+      },
+      {
+        "row": 3,
+        "csv_line": 4,
+        "name": {"value": "加急排期费", "status": "确定", "source": "输入", "source_ref": "csv:line4:item"},
+        "unit": {"value": "order", "status": "确定", "source": "输入", "source_ref": "csv:line4:unit"},
+        "qty": {"value": 1, "status": "确定", "source": "输入", "source_ref": "csv:line4:qty"},
+        "unit_price": {"value": "150.00", "status": "确定", "source": "用户确认", "source_ref": "C2", "note": "用户从冲突候选中选定；选择本身不写成规则。"},
+        "currency": {"value": "USD", "status": "确定", "source": "输入", "source_ref": "csv:line4:currency"},
+        "subtotal": {"value": "150.00", "status": "确定", "source": "确定性计算", "formula": "qty × unit_price", "operands": ["csv:line4:qty", "C2"]}
+      },
+      {
+        "row": 4,
+        "csv_line": 5,
+        "name": {"value": "展会手册（附赠）", "status": "确定", "source": "输入", "source_ref": "csv:line5:item"},
+        "unit": {"value": "piece", "status": "确定", "source": "输入", "source_ref": "csv:line5:unit"},
+        "qty": {"value": 20, "status": "确定", "source": "输入", "source_ref": "csv:line5:qty"},
+        "unit_price": {"value": "0.00", "status": "确定", "source": "输入", "source_ref": "csv:line5:unit_price", "note": "显式 0.00 是已知的零。"},
+        "currency": {"value": "USD", "status": "确定", "source": "输入", "source_ref": "csv:line5:currency"},
+        "subtotal": {"value": "0.00", "status": "确定", "source": "确定性计算", "formula": "qty × unit_price", "operands": ["csv:line5:qty", "csv:line5:unit_price"]}
+      }
+    ],
+    "currency_totals": [
+      {"currency": "USD", "value": "2050.00", "status": "确定", "source": "确定性计算", "formula": "sum(同币种行小计)", "operands": ["line_items[1].subtotal", "line_items[3].subtotal", "line_items[4].subtotal"]},
+      {"currency": "EUR", "value": "320.00", "status": "确定", "source": "确定性计算", "formula": "sum(同币种行小计)", "operands": ["line_items[2].subtotal"]}
+    ],
+    "partial_subtotal": {"value": null, "status": "不适用", "source": "确定性计算", "reason": "纠正后全部 4 行都可计算，不再出现部分小计。"},
+    "complete_total": {"value": null, "status": "不适用", "source": "确定性计算", "reason": "结果含 USD 与 EUR 两种币种，按 first-flow 第 4.1 与第 6 节不做换汇、不相加成单一总额；改以 currency_totals 按币种分别列出，并提示无法给出单币种完整合计。"},
+    "changed_fields": [
+      {"path": "line_items[1].unit", "before": "day", "after": "天", "correction": "C3", "source": "用户确认"},
+      {"path": "line_items[2].unit_price", "before": null, "after": "320.00", "correction": "C1", "source": "用户确认"},
+      {"path": "line_items[2].subtotal", "before": null, "after": "320.00", "correction": "C1", "source": "确定性计算"},
+      {"path": "line_items[3].unit_price", "before": null, "after": "150.00", "correction": "C2", "source": "用户确认"},
+      {"path": "line_items[3].subtotal", "before": null, "after": "150.00", "correction": "C2", "source": "确定性计算"},
+      {"path": "currency_and_tax.tax_basis", "before": null, "after": "含税", "correction": "C4", "source": "用户确认"}
+    ],
+    "open_questions": [],
+    "missing_fields": [],
+    "execution_info": {
+      "value": null,
+      "status": "不在样本期望内",
+      "reason": "依赖运行时；本批无运行时，不预设执行器与费用数字（与基线快照相同）。它是运行时身份占位，不是用户业务缺失，也不产生待确认问题。"
+    },
+    "proposal_after_correction": {
+      "expected": "S3 提议把本次做法保存为可重复功能；提议里的固化规则 = RULE-CUR + RULE-TAX，不含客户资料与具体金额（first-flow 第 4.2 节）。接受只授权制作候选包，候选包经 draft → testing → ready、独立验证通过、包哈希一致、授权覆盖后才切换 active。"
+    }
+  },
+  "reuse_case": {
+    "case_id": "ff-reuse-01",
+    "case_kind": "reuse",
+    "task_identity": {
+      "task_id": "新的业务任务（样本标记 TASK-REUSE-01）",
+      "idempotency_key": "新的业务幂等键（样本标记 IDEM-REUSE-01）",
+      "attempt": "初始 attempt 1",
+      "capability_binding": "固定使用已发布的技能 v1（first-flow 第 4.2 节/FLOW-A07）",
+      "package_hash": {"value": null, "status": "运行时绑定", "reason": "包哈希由 C08 打包时产生，运行时以实际包哈希绑定；本批无运行时，样本不伪造哈希。这是运行时身份占位，不是用户业务缺失，也不产生待确认问题。"},
+      "session_note": "会话只用于界面归组；本案例是新任务，不是上一次任务的延续。"
+    },
+    "requirement_text": "你好，我们是云汀路演团队。11 月 3 日到 4 日在合肥市文化馆做两场活动，需要现场支持 2 天、物料运输 1 车次。这次要给欧洲客户看，按不含税口径报给我。",
+    "csv": {
+      "filename": "yunting-price-list.csv",
+      "encoding": "UTF-8",
+      "delimiter": ",",
+      "header_line": 1,
+      "text": "item,unit,qty,unit_price,currency\n现场支持（每天）,day,2,1050.00,GBP\n物料运输（每车次）,trip,1,165.00,EUR\n"
+    },
+    "rules_applied": ["RULE-CUR", "RULE-TAX"],
+    "structure_check": {
+      "requirement": "复用案例的结果与首次使用的两个公开案例使用同一字段集：不新增公共 Schema 字段名，也不再只用一句“结构不变”代替。",
+      "required_fields": ["case_id", "input_ref", "snapshot", "input_validation", "requirement_summary", "requirement_elements", "currency_and_tax", "line_items", "partial_subtotal", "complete_total", "open_questions", "missing_fields", "execution_info"],
+      "checked_by": "reports/evidence/M00.1.03/check_correction.py（断言本案例与 expected.json 两个公开案例的字段名集合一致）"
+    },
+    "expected": {
+      "case_id": "ff-reuse-01",
+      "input_ref": "tests/fixtures/first-flow/correction.json#/reuse_case",
+      "snapshot": "S1（新业务任务的首次结构化结果；应用已发布的技能 v1，尚无用户纠正）",
+      "input_validation": {
+        "value": "accepted",
+        "status": "确定",
+        "source": "输入",
+        "source_ref": "requirement_text 与 csv 同时齐备",
+        "contract_note": "C01 的 INVALID_INPUT 未触发；新任务满足 S0 前置条件，链路启动。"
+      },
+      "requirement_summary": {
+        "value": "云汀路演团队需要 11 月 3 日到 4 日合肥市文化馆两场活动的 2 天现场支持和 1 车次物料运输，按条目价格表给出明细，本次要求按不含税口径报价。",
+        "status": "确定",
+        "source": "输入",
+        "source_ref": "requirement_text"
+      },
+      "requirement_elements": [
+        {"element": "交付物", "value": "现场支持 2 天、物料运输 1 车次", "status": "确定", "source": "输入", "source_ref": "requirement_text"},
+        {"element": "时间", "value": "11 月 3 日到 4 日", "status": "确定", "source": "输入", "source_ref": "requirement_text"},
+        {"element": "地点", "value": "合肥市文化馆", "status": "确定", "source": "输入", "source_ref": "requirement_text"},
+        {"element": "特殊要求", "value": "本次按不含税口径报价", "status": "确定", "source": "输入", "source_ref": "requirement_text", "note": "该要求与已保存规则 RULE-TAX（含税）冲突，冲突按 first-flow 第 6 节第 7 条记为待确认问题 Q1，不在要素里自行裁决。"}
+      ],
+      "currency_and_tax": {
+        "currency": {"value": "混合（GBP 1 行 / EUR 1 行）", "status": "确定", "source": "输入", "source_ref": "csv:column:currency（line2 为 GBP，line3 为 EUR）"},
+        "tax_basis": {
+          "value": null,
+          "status": "待确认",
+          "source": "待确认",
+          "source_ref": "requirement_text 与已保存规则 RULE-TAX 冲突",
+          "conflict": "explicit_input_vs_saved_rule",
+          "candidates": [
+            {"value": "不含税", "origin": "requirement_text（本次显式要求）"},
+            {"value": "含税", "origin": "已保存规则 RULE-TAX"}
+          ],
+          "question_id": "Q1",
+          "note": "显式新输入与已保存规则冲突时列问题，不静默覆盖输入（first-flow 第 6 节第 7 条）。"
+        }
+      },
+      "line_items": [
+        {
+          "row": 1,
+          "csv_line": 2,
+          "name": {"value": "现场支持（每天）", "status": "确定", "source": "输入", "source_ref": "csv:line2:item"},
+          "unit": {"value": "day", "status": "确定", "source": "输入", "source_ref": "csv:line2:unit"},
+          "qty": {"value": 2, "status": "确定", "source": "输入", "source_ref": "csv:line2:qty"},
+          "unit_price": {"value": "1050.00", "status": "确定", "source": "输入", "source_ref": "csv:line2:unit_price"},
+          "currency": {"value": "GBP", "status": "确定", "source": "输入", "source_ref": "csv:line2:currency", "rule": "RULE-CUR", "note": "币种取清单列。文本提到“欧洲客户”是刻意设置的推断陷阱：不能据此改成 EUR，也不能按客户所在地改成 CNY。"},
+          "subtotal": {"value": "2100.00", "status": "确定", "source": "确定性计算", "formula": "qty × unit_price", "operands": ["csv:line2:qty", "csv:line2:unit_price"]}
+        },
+        {
+          "row": 2,
+          "csv_line": 3,
+          "name": {"value": "物料运输（每车次）", "status": "确定", "source": "输入", "source_ref": "csv:line3:item"},
+          "unit": {"value": "trip", "status": "确定", "source": "输入", "source_ref": "csv:line3:unit"},
+          "qty": {"value": 1, "status": "确定", "source": "输入", "source_ref": "csv:line3:qty"},
+          "unit_price": {"value": "165.00", "status": "确定", "source": "输入", "source_ref": "csv:line3:unit_price"},
+          "currency": {"value": "EUR", "status": "确定", "source": "输入", "source_ref": "csv:line3:currency", "rule": "RULE-CUR"},
+          "subtotal": {"value": "165.00", "status": "确定", "source": "确定性计算", "formula": "qty × unit_price", "operands": ["csv:line3:qty", "csv:line3:unit_price"]}
+        }
+      ],
+      "currency_totals": [
+        {"currency": "GBP", "value": "2100.00", "status": "确定", "source": "确定性计算", "formula": "sum(同币种行小计)", "operands": ["line_items[1].subtotal"]},
+        {"currency": "EUR", "value": "165.00", "status": "确定", "source": "确定性计算", "formula": "sum(同币种行小计)", "operands": ["line_items[2].subtotal"]}
+      ],
+      "partial_subtotal": {"value": null, "status": "不适用", "source": "确定性计算", "reason": "两条明细的数量与单价都已知，合计按币种分别给出；按 first-flow 第 6 节第 5 条不出现部分小计。"},
+      "complete_total": {"value": null, "status": "不适用", "source": "确定性计算", "reason": "结果含 GBP 与 EUR 两种币种，按 first-flow 第 4.1 与第 6 节不做换汇、不相加成单一总额；改以 currency_totals 按币种分别列出。"},
+      "open_questions": [
+        {
+          "id": "Q1",
+          "question": "这次报价按含税口径还是不含税口径？",
+          "target_field": "currency_and_tax.tax_basis",
+          "why": "本次需求文本明确要求“按不含税口径报给我”，而已保存的规则 RULE-TAX 说清单单价按含税处理；两者冲突时不静默覆盖输入，先问用户。",
+          "current_state": "null（候选：不含税（本次输入）/ 含税（已保存规则））"
+        }
+      ],
+      "missing_fields": [
+        {"path": "currency_and_tax.tax_basis", "state": "null（冲突：本次显式要求 vs 已保存规则）", "status": "待确认", "question_id": "Q1"}
+      ],
+      "execution_info": {
+        "value": null,
+        "status": "不在样本期望内",
+        "reason": "依赖运行时；本批无运行时，不预设执行器与费用数字。它是运行时身份占位，不是用户业务缺失，也不产生待确认问题。"
+      }
+    },
+    "no_leak_check": {
+      "expectation": "本案例的输入、结果与所用规则中不含上一次的客户资料与金额；结果结构与首次使用的一致（同一字段集）在本样本内已由完整快照说明，不依赖继承。",
+      "forbidden_strings": ["北海文旅", "小林", "北海滨海剧场", "滨海剧场", "青湾会展服务", "老周", "1900.00", "2050.00", "320.00", "150.00", "5761.00", "950.00", "1800.00"],
+      "checked_by": "reports/evidence/M00.1.03/check_correction.py"
+    }
+  }
+}

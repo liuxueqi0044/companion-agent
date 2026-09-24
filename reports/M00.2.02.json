@@ -1,0 +1,201 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.2.02",
+  "task_spec_sha256": "68ea0223a7ef5f39f00ca7dcdecc148a272111b66d7545c40820016fed6d22d7",
+  "batch_id": "BATCH-002",
+  "dispatch_ref": "docs/handoff/CURRENT-TASK.md",
+  "status": "submitted",
+  "base_ref": "sha256:02359edd95aa09ae294f78bca6d950527d9b63d95ff885c6f1b4c5828adb620e",
+  "result_ref": "manifest-sha256:e5dc42b985c3cc7cf06ed3e3e5bbde097f039e97abc4e7579f1722a1dea3c3bd",
+  "summary": "交付 docs/dependencies/license-register.json（29 条登记）与 docs/dependencies/asset-register.json（7 条素材登记）。许可结论全部来自本轮对官方仓库逐字抓取的许可正文（40 个文件，raw.githubusercontent.com），registry 声明值只作对照；抓不到的一律写未核实，不推测、不杜撰。逐项覆盖 CURRENT-TASK §5 的最小必查范围（Hermes、Codex、Claude Code、Electron、Vue、FastAPI、Pydantic、类型生成器、pytest/Vitest、UI 候选 AIRI/shadcn-vue/VueUse/JSON Forms、计划项 Supabase/PGMQ/E2B/MCP SDK/Langfuse），并与 runtime-matrix.json 的 26 个条目一一对应。关键结论：(1) Claude Code 按官方程序集成登记——npm license 字段为 \"SEE LICENSE IN README.md\"，仓库 LICENSE.md 正文为 © Anthropic PBC / All rights reserved、指向 Commercial Terms of Service，官方法律页本轮 HTTP 200 原文留存；不列为可 fork 的开源底座，不复制其代码、不再分发其二进制（A03）。(2) 分类区分到位：仓库代码（多数 MIT / Codex·E2B·TypeScript·Supabase 平台 Apache-2.0 / uvicorn BSD-3-Clause / npm Artistic-2.0 / CPython PSF-2.0 / PGMQ 扩展本体 PostgreSQL License）、组件企业目录（Langfuse ee/ 受 Enterprise License 约束，首版不启用）、托管服务（Supabase/E2B/Langfuse/Anthropic 四个条款页原文留存）、模型权重（本轮不涉及）、素材（另册）。同一依赖的多形态分开登记（supabase 客户端库 MIT vs 平台仓库 Apache-2.0；pgmq-py Apache-2.0 vs 扩展本体 PostgreSQL License；e2b SDK MIT vs 平台仓库 Apache-2.0）。(3) 素材侧（A02）：首版只有系统内置字体（不再分发）与项目自绘占位图形；角色音频/模型权重、AIRI 角色形象素材（代码 MIT 已核实但素材许可未核实）、第三方图标图片、第三方品牌标识全部 excluded，未获许可的素材不进入首版。自检 16/0（含 7 条负例证明校验器会失败），写集检查 PASS。",
+  "changed_files": [
+    "docs/dependencies/license-register.json",
+    "docs/dependencies/asset-register.json",
+    "reports/M00.2.02.json",
+    "reports/M00.2.02.checkpoint.md",
+    "reports/evidence/M00.2.02/artifact-manifest.json",
+    "reports/evidence/M00.2.02/build-registers.txt",
+    "reports/evidence/M00.2.02/build_registers.py",
+    "reports/evidence/M00.2.02/check-run-1.txt",
+    "reports/evidence/M00.2.02/check_registers.py",
+    "reports/evidence/M00.2.02/fetch_license_evidence.py",
+    "reports/evidence/M00.2.02/fetch_license_evidence_pass2.py",
+    "reports/evidence/M00.2.02/fetch_license_evidence_pass3.py",
+    "reports/evidence/M00.2.02/fetch_license_evidence_pass4.py",
+    "reports/evidence/M00.2.02/fetch_license_evidence_pass5.py",
+    "reports/evidence/M00.2.02/license-fetch-manifest.json",
+    "reports/evidence/M00.2.02/license-fetch-pass2.txt",
+    "reports/evidence/M00.2.02/license-fetch-pass3.txt",
+    "reports/evidence/M00.2.02/license-fetch-pass4.txt",
+    "reports/evidence/M00.2.02/license-fetch-pass5.txt",
+    "reports/evidence/M00.2.02/license-fetch.txt",
+    "reports/evidence/M00.2.02/licenses/airi-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/claude-code-LICENSE.md",
+    "reports/evidence/M00.2.02/licenses/claude-code-README.md",
+    "reports/evidence/M00.2.02/licenses/claude-code-anthropic-commercial-terms.html",
+    "reports/evidence/M00.2.02/licenses/codex-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/codex-NOTICE.txt",
+    "reports/evidence/M00.2.02/licenses/e2b-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/e2b-python-sdk-packages_python-sdk_LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/e2b-terms.html",
+    "reports/evidence/M00.2.02/licenses/electron-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/fastapi-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/hermes-agent-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/json-schema-to-typescript-LICENCE.md",
+    "reports/evidence/M00.2.02/licenses/jsonforms-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/langfuse-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/langfuse-ee_LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/langfuse-terms.html",
+    "reports/evidence/M00.2.02/licenses/mcp-python-sdk-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/nodejs-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/npm-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/pgmq-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/pgmq-py-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/pip-LICENSE.txt.txt",
+    "reports/evidence/M00.2.02/licenses/pnpm-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/pydantic-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/pytest-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/python-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/shadcn-vue-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/supabase-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/supabase-platform-notice-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/supabase-py-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/supabase-terms.html",
+    "reports/evidence/M00.2.02/licenses/types-node-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/typescript-LICENSE.txt.txt",
+    "reports/evidence/M00.2.02/licenses/uv-LICENSE-MIT.txt",
+    "reports/evidence/M00.2.02/licenses/uvicorn-LICENSE.md.txt",
+    "reports/evidence/M00.2.02/licenses/vite-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/vitest-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/vue-LICENSE.txt",
+    "reports/evidence/M00.2.02/licenses/vueuse-LICENSE.txt",
+    "reports/evidence/M00.2.02/verification.txt"
+  ],
+  "commands": [
+    {
+      "argv": ["python", "reports/evidence/M00.2.02/fetch_license_evidence.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.02/license-fetch.txt",
+      "evidence_kind": "actual",
+      "note": "第一轮：18 个来源逐项尝试把 tag 解析为 commit 后取许可正文；GitHub 匿名 API 403（限流）如实记录，13 个来源取到正文，5 个 404（tag 形态或路径猜错）"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.2.02/fetch_license_evidence_pass2.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.02/license-fetch-pass2.txt",
+      "evidence_kind": "actual",
+      "note": "第二轮：改用 tags.atom 与仓库页 HTML（非 API）确认 tag 名与默认分支，补到 fastapi / pytest / jsonforms / supabase 四个来源"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.2.02/fetch_license_evidence_pass3.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.02/license-fetch-pass3.txt",
+      "evidence_kind": "actual",
+      "note": "第三轮：jsonforms 从预发行 tag 换到最新稳定 tag v3.8.0；取 Claude Code 的 README/LICENSE.md 与 Anthropic 法律页（HTTP 200）"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.2.02/fetch_license_evidence_pass4.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.02/license-fetch-pass4.txt",
+      "evidence_kind": "actual",
+      "note": "第四轮：补齐 python/nodejs/npm/pnpm/uv/pip/uvicorn/vite/typescript/@types/node 与 supabase-py；修正 manifest 里 pass2 取错的 raw_ref；记录 json-schema-to-typescript 无 16.0.0 tag 的事实（master package.json version=16.0.0、license=MIT）"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.2.02/fetch_license_evidence_pass5.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.02/license-fetch-pass5.txt",
+      "evidence_kind": "actual",
+      "note": "第五轮：pgmq-py 客户端许可、e2b SDK 目录许可（packages/python-sdk/LICENSE，与 PyPI 的 MIT 声明一致），以及 Supabase / E2B / Langfuse 三个托管服务条款页原文"
+    },
+    {
+      "argv": ["REGISTER_GENERATED_AT=2026-09-23T00:00:00+00:00", "python", "reports/evidence/M00.2.02/build_registers.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.02/build-registers.txt",
+      "evidence_kind": "actual",
+      "note": "生成两个登记文件；时间戳可固定，连续两次运行输出同一 SHA-256（复现性见 verification.txt 第 1、2 节）"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.2.02/check_registers.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.02/verification.txt",
+      "evidence_kind": "actual",
+      "note": "total=16 failed=0：结构（来源/版本/许可文件位置/证据/核实范围/未核实限制）、A01、A02、A03、证据哈希逐文件实算、与 runtime-matrix 交叉核对、licenses/ 闭环，另加 7 条负例证明校验器会失败"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.1.03/check_write_scope_batch002.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.02/verification.txt",
+      "evidence_kind": "actual",
+      "note": "写集检查 PASS：MODIFIED 6 / ADDED 108 / MISSING 0，全部落在 BATCH-002 允许路径内（含本卡两个业务产物与全部证据文件）"
+    },
+    {
+      "argv": ["python", "docs/execution/taskctl.py", "validate"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.02/verification.txt",
+      "evidence_kind": "actual",
+      "note": "任务包结构正常：{\"valid\": true, \"tasks\": 156, \"first\": \"M00.1.01\"}"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.1.03/check_correction.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.02/verification.txt",
+      "evidence_kind": "actual",
+      "note": "回归：total=110 failed=0（未改 M00.1.03 产物）"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.2.01/check_runtime_matrix.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.02/verification.txt",
+      "evidence_kind": "actual",
+      "note": "回归：total=15 failed=0（未改 runtime-matrix.json）"
+    },
+    {
+      "argv": ["python", "reports/evidence/M00.1.02/check_fixtures.py"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.02/verification.txt",
+      "evidence_kind": "actual",
+      "note": "回归：total=60 failed=0"
+    },
+    {
+      "argv": ["sha256sum", "docs/dependencies/license-register.json", "docs/dependencies/asset-register.json", "reports/evidence/M00.2.02/artifact-manifest.json"],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.02/verification.txt",
+      "evidence_kind": "actual",
+      "note": "license-register.json = 1d918a1c…；asset-register.json = 12f5cbc0…；artifact-manifest.json = e5dc42b9…（即 result_ref 的 manifest-sha256）"
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.2.02-A01",
+      "status": "passed",
+      "evidence": "29 条登记逐项齐备：来源（registry + 仓库 URL）、版本或 commit（与 runtime-matrix.json 完全一致的钉定值）、许可文件在仓库中的路径、证据文件（路径 + SHA-256 + 来源 URL + ref + ref_kind）、使用方式（调用官方程序 / SDK 依赖 / 复制组件 / 自托管 / 托管服务 / 工具链）、已核实范围、未核实限制。许可结论只取自 licenses/ 下 40 个逐字保存的正文文件：hermes-agent（commit d337b736 下 MIT）、codex（commit fe74a774 下 Apache-2.0 + NOTICE）、python（v3.13.15 PSF-2.0）、nodejs（v24.21.0 复合 MIT）、npm（Artistic-2.0）、pnpm / pip / fastapi / pydantic / pytest / vitest / vue / vite / electron / mcp-python-sdk / supabase-py / shadcn-vue / vueuse / jsonforms / airi（MIT）、uv（MIT 分支）、uvicorn（BSD-3-Clause）、typescript（Apache-2.0）、@types/node（DefinitelyTyped 根 MIT）、pgmq（扩展本体 PostgreSQL License + 客户端 Apache-2.0）、e2b（平台仓库 Apache-2.0 + SDK MIT）、langfuse（核心 MIT 式 + ee/ Enterprise License）；Claude Code 为非开源官方程序（见 A03）。registry 声明与正文一致；不一致或缺失处如实记录（@types/node 的 types/node/LICENSE 404、e2b PyPI 声明 MIT 而仓库根为 Apache-2.0——核实为 SDK 目录自带 MIT）。检查脚本对每个证据文件逐字节重算 SHA-256，负例 4/5/6 证明篡改哈希、删许可文件位置、删未核实限制都会被拦下。"
+    },
+    {
+      "id": "M00.2.02-A02",
+      "status": "passed",
+      "evidence": "asset-register.json 明确首版素材面：allowed 仅两项——系统内置字体（不打包、不再分发任何字体文件）与项目自绘/程序生成的占位图形（自有版权）；excluded_from_v1 一项——角色语音/音频与任何模型权重；excluded 三项——AIRI 角色形象素材（AIRI 代码 MIT 已核实，但素材是否在覆盖范围内未核实，故不使用）、第三方图标/图片（本轮未登记任何一项，无证据不得进入首版）、第三方品牌标识（商标不属于开源许可范围，产品内只做事实性文字提及）。策略三条写入登记顶部：不杜撰授权、无证据一律 excluded、引入新素材必须补登记。检查脚本断言：状态为 allowed 的条目不得带 no_evidence_available、许可 unknown 不得标 allowed、必须存在“首版不含角色音频与权重”的排除条目；负例 1/2 证明无证据的 allowed 素材与把角色音频改成 allowed 都会被拦下。"
+    },
+    {
+      "id": "M00.2.02-A03",
+      "status": "passed",
+      "evidence": "Claude Code 的登记：component_class = “官方程序（非开源底座，不得 fork 或再分发）”，usage_mode = “调用官方程序（官方集成；不使用其源码构建自己的产品）”，obligations 明写“不 fork、不再分发、不把其代码并入本项目”。取证链完整：npm license 字段为 \"SEE LICENSE IN README.md\"（M00.2.01 的 npm-anthropic-ai-claude-code.json）；仓库 LICENSE.md 正文逐字取得（150B：© Anthropic PBC. All rights reserved. 使用受 Commercial Terms of Service 约束）；README.md 指向 Commercial Terms of Service 与 Privacy Policy；Anthropic 官方法律页本轮 HTTP 200（206684B，标题 Commercial Terms of Service \\ Anthropic）原文留存于 licenses/。检查脚本把该条目单独校验：component_class 不得含“仓库代码”、必须含“官方程序”、正文必须出现“不 fork / 不再分发”、必须记录 SEE LICENSE IN README.md 声明且三份证据齐全；负例 3 证明把它改标成仓库代码会被拦下。"
+    }
+  ],
+  "integration_evidence_kind": "not_run",
+  "unresolved": [],
+  "evaluator_followups": [
+    "本卡是工程取证：许可结论来自许可正文，但未做法律审查，不构成法律意见；对 Langfuse ee/ 与核心的功能边界，部署卡需要逐功能核对（哪些能力属于 ee/）。",
+    "GitHub 匿名 API 配额耗尽（403）：除 hermes-agent / codex / airi 三项（URL 中直接使用 40 位 commit）外，其余许可正文未与不可变 commit 绑定，ref_kind 已逐项标注（tag/branch）。M00.2.03 冻结后若需更强绑定，可用解引用后的 commit 复核。",
+    "json-schema-to-typescript 仓库没有 16.0.0 tag（只有 v1.2.2/v0.1.1/v0.1.0），许可正文取 master（其 package.json 声明 version=16.0.0、license=MIT）；这是本轮能拿到的最强证据，限制已写进条目。",
+    "shadcn-vue / VueUse 的 ref 是分支（main），复制组件或引入依赖时必须记录当时的 commit 并把许可一并带进项目 NOTICE；M00.2.03 冻结候选时需要给出具体版本/commit。",
+    "托管服务条款（Supabase / E2B / Langfuse）原文已留存，但条款可变，且义务解读留给后续合规讨论；接入前应重新取一次当页条款。",
+    "打包卡（desktop 初始化）需要核实 Electron 发行物内 Chromium/Node 许可文件的完整性。"
+  ],
+  "architect_notes": [
+    "同一依赖的多形态分开登记（parts 字段）：supabase 客户端库（MIT）vs 自托管平台仓库（Apache-2.0，且实测无 NOTICE）vs 托管服务（服务条款）；pgmq 的扩展本体（PostgreSQL License）vs Python 客户端（Apache-2.0）；e2b 的 SDK（MIT）vs 平台仓库（Apache-2.0）；langfuse 的核心（MIT 式）vs ee/ 企业目录（Enterprise License）。混成一条会产生错误的许可结论。",
+    "生成器可复现：build_registers.py 接受 REGISTER_GENERATED_AT 固定时间戳，连续两次运行产出同一 SHA-256；同时关掉 Windows 的 LF→CRLF 文本模式转换，保证磁盘字节与打印哈希一致（首版曾因 CRLF 翻译导致清单哈希与实盘不符，已修正）。",
+    "抓取失败一律留痕：五轮抓取日志、manifest 的 refs_tried/tried 记录与 limitation 字段完整保留失败路径（403/404 与猜错的 tag 形态），不做事后美化；预发行 tag（jsonforms v3.9.0-alpha.1）被主动替换为稳定 tag v3.8.0 并写明原因。",
+    "素材与代码严格分开：AIRI 的 MIT 只覆盖代码这一结论已核实，但其中携带的美术素材不因此获得授权；本卡把它列为 excluded 而不是“MIT 所以可用”，避免把代码许可当素材许可。"
+  ],
+  "next_step": "本卡已自检并提交，按 BATCH-002 授权直接进入 M00.2.03（docs/decisions/ADR-001-dependencies.md、docs/dependencies/selected-versions.json）；四张卡完成后统一交接，等待独立复核，不自行标记 accepted。"
+}

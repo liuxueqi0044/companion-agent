@@ -1,0 +1,331 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.2.03",
+  "task_spec_sha256": "bb69b5af0ab602c6a62331a09130e21990f56a33c709ce183bd78a9bce227f59",
+  "batch_id": "BATCH-002-R1",
+  "dispatch_ref": "docs/handoff/CURRENT-TASK.md",
+  "status": "submitted",
+  "base_ref": "sha256:950d5733baf3c6ef47f41e17a9d111c1addd3a620c61a0c5d0b32124989f960d",
+  "result_ref": "manifest-sha256:30c49601e56821f7a1514820b8aa8ecf5d1610ff84fe6622224af91fd81d7e34",
+  "result_manifest": "reports/evidence/M00.2.03/artifact-manifest.json",
+  "summary": "BATCH-002-R1 修订（M00.2.03 本卡第 4 项，任务规范哈希不变、前三卡 accepted 产物只读未动）。按架构裁决 E2/B2-R1 统一 Hermes 冻结身份：唯一安装来源=既有不可变源码 commit d337b736aa1e8ebecfab043842d13e4a2d2f48a3（其 pyproject 声明 version=0.21.4，tag v2026.9.21），version_kind=source_commit_with_declared_version，install_source / version_kind / source_binding 三者一致；PyPI 0.19.0 降为未采用参考（deferred 记 not_adopted，检查器断言其存在与类别），不再是第二安装路线。C1/C5 约束证据整体换用该 commit 的 pyproject 原文（tomllib 解析）：requires-python '>=3.11,<3.14' → 交集 [3.11,3.14) 含 3.13.15；pydantic==2.13.4 精确钉死按 D5/E1 分进程/venv（我方 API 环境不 import Hermes，2.13.5 不进 Hermes 环境）；fastapi>=0.104.0,<1、uvicorn>=0.31.0,<1 为 core 元数据（无 [standard]），对 0.141.1/0.53.0 相容；extras/profile 相容性明确留 M00.3.01（web extra 自钉 fastapi==0.133.1、uvicorn==0.41.0），不把 core 元数据冒充全 extras 相容。与矩阵偏离由 3 处增至 4 处（新增 hermes-agent 0.19.0→源码 0.21.4，首位），经 deviations_from_matrix 记录，runtime-matrix.json 未改。R1-03：TypeScript 6.0.3 与 npm 11.19.0 在本卡补精确许可证绑定（license_binding），正文自评审只读证据复制（cmp 与已 accepted 的 M00.2.02 登记正文逐字节相同），accepted 许可表未改。检查器升级至 35 项：新增 §G 源码身份规则、C-4（复制证据与 upstream-evidence.json 的哈希/字节/状态/URL-commit 一致）、C-5（许可正文逐字节相同与清单版本/许可一致）、D-6 改读源码 pyproject 原文、E-3 四处偏离；负例 9 条（新增 F-tamper-5=B2-R1 原形：0.19.0 版本仍绑 0.21.4 commit 必被拒）。E1/E2 按裁决关闭并记录裁决文本；E3、真实安装、vue-tsc 保留在 evaluator_followups/unknowns。自检 total=35 failed=0；本轮写集检查 PASS（新基线 480 条目）。未安装任何组件、未生成锁文件、未调用模型或订阅、未读 holdout。",
+  "changed_files": [
+    "docs/decisions/ADR-001-dependencies.md",
+    "docs/dependencies/selected-versions.json",
+    "reports/M00.2.03.json",
+    "reports/M00.2.03.checkpoint.md",
+    "reports/evidence/M00.2.03/artifact-manifest.json",
+    "reports/evidence/M00.2.03/check_baseline-batch001-scope-fail.txt",
+    "reports/evidence/M00.2.03/check_selected_versions.py",
+    "reports/evidence/M00.2.03/fetch-selected.txt",
+    "reports/evidence/M00.2.03/fetch_selected_evidence.py",
+    "reports/evidence/M00.2.03/fetch_selected_evidence_pass2.py",
+    "reports/evidence/M00.2.03/fetch_selected_evidence_pass3.py",
+    "reports/evidence/M00.2.03/npm-electron-44.4.4.json",
+    "reports/evidence/M00.2.03/npm-json-schema-to-typescript-16.0.0.json",
+    "reports/evidence/M00.2.03/npm-jsonforms-core.json",
+    "reports/evidence/M00.2.03/npm-shadcn-vue.json",
+    "reports/evidence/M00.2.03/npm-types-node-24.13.6.json",
+    "reports/evidence/M00.2.03/npm-typescript-5x-latest.json",
+    "reports/evidence/M00.2.03/npm-typescript-5x-probe-404.json",
+    "reports/evidence/M00.2.03/npm-typescript-5x-scan.json",
+    "reports/evidence/M00.2.03/npm-typescript-6x-scan.json",
+    "reports/evidence/M00.2.03/npm-typescript-publish-dates.json",
+    "reports/evidence/M00.2.03/npm-vite-8.3.0.json",
+    "reports/evidence/M00.2.03/npm-vitest-5.0.1.json",
+    "reports/evidence/M00.2.03/npm-vue-3.5.43.json",
+    "reports/evidence/M00.2.03/npm-vueuse-core.json",
+    "reports/evidence/M00.2.03/verification.txt",
+    "reports/evidence/M00.2.03/final-scope-check-batch002.txt",
+    "reports/evidence/M00.2.03/hermes-pinned-pyproject.toml",
+    "reports/evidence/M00.2.03/hermes-pypi-0.19.0.json",
+    "reports/evidence/M00.2.03/typescript-6.0.3-license.txt",
+    "reports/evidence/M00.2.03/typescript-6.0.3-manifest.json",
+    "reports/evidence/M00.2.03/npm-11.19.0-license.txt",
+    "reports/evidence/M00.2.03/npm-11.19.0-manifest.json",
+    "reports/evidence/M00.2.03/upstream-evidence.json",
+    "reports/evidence/M00.2.03/verification-r1.txt",
+    "reports/evidence/M00.2.03/check_write_scope_batch002_r1.py",
+    "reports/evidence/M00.2.03/final-scope-check-batch002-r1.txt"
+  ],
+  "changed_files_this_round": [
+    "docs/decisions/ADR-001-dependencies.md",
+    "docs/dependencies/selected-versions.json",
+    "reports/evidence/M00.2.03/artifact-manifest.json",
+    "reports/evidence/M00.2.03/check_selected_versions.py",
+    "reports/evidence/M00.2.03/verification-r1.txt",
+    "reports/evidence/M00.2.03/check_write_scope_batch002_r1.py",
+    "reports/evidence/M00.2.03/final-scope-check-batch002-r1.txt",
+    "reports/evidence/M00.2.03/hermes-pinned-pyproject.toml",
+    "reports/evidence/M00.2.03/hermes-pypi-0.19.0.json",
+    "reports/evidence/M00.2.03/typescript-6.0.3-license.txt",
+    "reports/evidence/M00.2.03/typescript-6.0.3-manifest.json",
+    "reports/evidence/M00.2.03/npm-11.19.0-license.txt",
+    "reports/evidence/M00.2.03/npm-11.19.0-manifest.json",
+    "reports/evidence/M00.2.03/upstream-evidence.json",
+    "reports/M00.2.03.json",
+    "reports/M00.2.03.checkpoint.md",
+    "reports/BATCH-002-R1.md"
+  ],
+  "changed_files_note": "changed_files 为累计记录：前 26 项为 BATCH-002 轮已列文件，其后为本轮补记与新增。reports/evidence/M00.2.03/final-scope-check-batch002.txt 为上一轮已有文件（BATCH-002 收尾写集检查原始输出，sha256=310a02eb5309039b9a05f86beffe8f03c2eaa2b35663ae2fb1ff51393caec200），上一轮报告漏列、本轮补记；该文件本轮未修改（相对 R1 基线无变化，不属本轮写集）。本轮（BATCH-002-R1）实际变化的 17 个文件另列于 changed_files_this_round，便于按新基线核对范围；其中 final-scope-check-batch002-r1.txt 为本轮收尾检查原始输出，落盘于最终比对之后，故不在其自身列表内。reports/BATCH-002.md（上一轮批次汇总）保持不变、未在本列表中。 架构师独立复核整理：changed_files 仅保留单卡写集；批次汇总移至 batch_level_changed_files（原始全量提交与 changed_files_this_round 原样保留）。这是派工允许的批次产物，不属于越权；未改 taskctl 或任务规范来放宽门槛。",
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.2.03/fetch_selected_evidence.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/fetch-selected.txt",
+      "evidence_kind": "actual",
+      "note": "第一轮抓取（公开只读 HTTP，未登录、无令牌）：冻结组合各 npm 包的精确版本 manifest（含 peerDependenciesMeta 与精确版本 devDependencies，M00.2.01 的顶层提取没有这两个窗口）、TypeScript 5.x 线扫描（含下一个补丁/次版本的 404 探测）、三个 UI 候选的 dist-tags 提取；8.7 MB 的原始 packument 不落盘，记录字节数与 sha256"
+    },
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.2.03/fetch_selected_evidence_pass2.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/fetch-selected.txt",
+      "evidence_kind": "actual",
+      "note": "第二轮：TypeScript 6.x 线探测（因发现 jstt 16.0.0 的 devDependencies 写 ^6.0.3 而触发）；直取 6.0.3 manifest 并对 6.0.4/6.1.0 做 404 探测，确认 6.x 稳定线最高为 6.0.3"
+    },
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.2.03/fetch_selected_evidence_pass3.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/fetch-selected.txt",
+      "evidence_kind": "actual",
+      "note": "第三轮：TypeScript full packument 的 time 映射（发布于何时），用于 D3 的时间线论证；15.7 MB 原始响应不落盘，raw sha256 与字节数记录在文件 _source 中"
+    },
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.2.03/check_selected_versions.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/verification.txt",
+      "evidence_kind": "actual",
+      "note": "BATCH-002 轮结果：total=28 failed=0（当时版本，含 8 条负例 + 4 条篡改探针）。本轮该脚本已升级为 35 项，最新运行见下一条"
+    },
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.2.01/check_runtime_matrix.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/verification.txt",
+      "evidence_kind": "actual",
+      "note": "回归：total=15 failed=0（未改 runtime-matrix.json）"
+    },
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.2.02/check_registers.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/verification.txt",
+      "evidence_kind": "actual",
+      "note": "回归：total=16 failed=0（未改两个登记文件）"
+    },
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.1.03/check_correction.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/verification.txt",
+      "evidence_kind": "actual",
+      "note": "回归：M00.1.03 修订产物未动，exit=0"
+    },
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.1.02/check_fixtures.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/verification.txt",
+      "evidence_kind": "actual",
+      "note": "回归：exit=0"
+    },
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.1.01/check_first_flow.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/verification.txt",
+      "evidence_kind": "actual",
+      "note": "回归：exit=0，M00.1.01 产品检查仍全过"
+    },
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.1.01/check_baseline.py"
+      ],
+      "exit_code": 1,
+      "log_path": "reports/evidence/M00.2.03/check_baseline-batch001-scope-fail.txt",
+      "evidence_kind": "actual",
+      "note": "BATCH-002 轮如实记录：RESULT: FAIL（182 项 OUT-OF-SCOPE），构造性结果非产品回归。该脚本按 BATCH-001 写集比对，本卡未修改该 accepted 脚本；原始输出留存（sha256=01afe94d118e117138f712d602f3712555cd8d9f1b0da59f3f0f85135cefd510）。本轮未重跑（构造性结果不变，留存文件未改）"
+    },
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.1.03/check_write_scope_batch002.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/verification.txt",
+      "evidence_kind": "actual",
+      "note": "BATCH-002 轮诊断运行：PASS（MODIFIED 6 / ADDED 133 / MISSING 0）。本轮起该脚本的旧基线会把评审/派工新增视为变化，按 CURRENT-TASK.md 不再作为本轮门槛、不改动该脚本；本轮另写只读检查器见下"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/execution/taskctl.py",
+        "validate"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/verification-r1.txt",
+      "evidence_kind": "actual",
+      "note": "任务包结构正常：{\"valid\": true, \"tasks\": 156, \"first\": \"M00.1.01\"}（未改 helper）"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/execution/taskctl.py",
+        "next",
+        "--reports-dir",
+        "reports",
+        "--reviews-dir",
+        "reviews"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/verification-r1.txt",
+      "evidence_kind": "actual",
+      "note": "next 实测仍停在本卡：{\"task_id\": \"M00.2.03\", \"state\": \"changes_requested\", \"accepted\": 5, \"action\": \"review_or_resume_existing_work\"}（accepted=5 即 M00.1.01/M00.1.02/M00.1.03/M00.2.01/M00.2.02；未改 helper）"
+    },
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.2.03/check_selected_versions.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/verification-r1.txt",
+      "evidence_kind": "actual",
+      "note": "BATCH-002-R1 轮（升级后 35 项）：total=35 failed=0。新增/改动：§G 源码身份规则（declared version 与 selected 版本一致、commit 在 source_binding/install_source 一致、install_source 不得为 PyPI 主体）、C-4（6 个评审复制证据 vs upstream-evidence.json：哈希/字节数/状态 200、pyproject URL 含冻结 commit）、C-5（TS/npm 许可正文与 accepted 登记逐字节相同、清单版本/许可一致）、D-6 改读源码 pyproject 原文（tomllib）、E-3 四处偏离、E-4 含 D6；负例 9 条，新增 F-tamper-5（B2-R1 原形：版本改回 0.19.0 仍绑 0.21.4 commit 必被拒）、F-tamper-6（install_source 退回 PyPI 主体必被拒）、F-tamper-7（许可正文哈希篡改必被拒）、F-tamper-8（清空裁决文本的 closed_by_ruling 必被拒）、F-tamper-9（移除旧 PyPI 未采用参考必被拒）"
+    },
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.2.03/check_write_scope_batch002_r1.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/final-scope-check-batch002-r1.txt",
+      "evidence_kind": "actual",
+      "note": "本轮新基线（docs/handoff/BATCH-002-R1-BASELINE.json，480 条目，snapshot_id=sha256:950d5733…）的只读写集检查；诊断运行（报告落盘前）PASS：MODIFIED 4 / ADDED 9 / MISSING 0；收尾运行（本报告与 BATCH-002-R1.md 落盘后）PASS：MODIFIED 6 / ADDED 11 / MISSING 0（exit=0），原始输出见该 log_path 文件（sha256=79e72c45bed017d96645355c82de26f6d25c03fa21bade1997fce766b5877d89）；该文件本身在比对之后落盘，故不在其自身列表内"
+    },
+    {
+      "argv": [
+        "cmp",
+        "reviews/evidence/BATCH-002/<file>",
+        "reports/evidence/M00.2.03/<file>"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/verification-r1.txt",
+      "evidence_kind": "actual",
+      "note": "R1-03 复制核对：7 个上游证据文件（hermes-pinned-pyproject.toml、hermes-pypi-0.19.0.json、typescript-6.0.3-license.txt、typescript-6.0.3-manifest.json、npm-11.19.0-license.txt、npm-11.19.0-manifest.json、upstream-evidence.json）与评审原件逐字节相同；两份许可正文另与已 accepted 的 M00.2.02 登记文件（reports/evidence/M00.2.02/licenses/）逐字节相同"
+    },
+    {
+      "argv": [
+        "python",
+        "-c",
+        "tomllib 解析 reports/evidence/M00.2.03/hermes-pinned-pyproject.toml"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/verification-r1.txt",
+      "evidence_kind": "actual",
+      "note": "源码 pyproject 原文核对：project.version=0.21.4；requires-python='>=3.11,<3.14'；pydantic==2.13.4；fastapi>=0.104.0,<1；uvicorn>=0.31.0,<1（core、无 [standard]）；web extra= fastapi==0.133.1 / uvicorn==0.41.0"
+    },
+    {
+      "argv": [
+        "sha256sum",
+        "docs/decisions/ADR-001-dependencies.md",
+        "docs/dependencies/selected-versions.json",
+        "reports/evidence/M00.2.03/artifact-manifest.json"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.2.03/verification-r1.txt",
+      "evidence_kind": "actual",
+      "note": "R1 修订后：ADR-001-dependencies.md = a2e00db2…；selected-versions.json = 58f5a2bf…；artifact-manifest.json = 30c49601…（即 result_ref 的 manifest-sha256；其内部两个条目哈希经脚本复算 OK）"
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.2.03-A01",
+      "status": "passed",
+      "evidence": "R1 修订后：相容性结论全部为约束层面且逐条可复算；Hermes 侧证据自本轮起整体换为冻结源码 commit d337b736aa1e8ebecfab043842d13e4a2d2f48a3 的 pyproject 原文（reports/evidence/M00.2.03/hermes-pinned-pyproject.toml，sha256=d660dc79…，评审只读复制、cmp 逐字节相同），检查器 D-6 直接以 tomllib 解析该文件求值：requires-python 原文 '>=3.11,<3.14'（与 3.13.15 的交集成立；D-2 交集上下界 [3.11,3.14) 仍只读该文件）；pydantic==2.13.4 为 Hermes 精确钉死，与我方 env-server 2.13.5 的冲突按 D5/E1 裁决分进程/venv 处理（我方 API 环境不 import Hermes，2.13.5 不进 Hermes 环境），不再作为同环境冲突悬置；fastapi>=0.104.0,<1 与 uvicorn>=0.31.0,<1（core 元数据、无 [standard]）分别对所选 0.141.1/0.53.0 相容；extras/profile 相容性明确未验证（web extra 自身钉 fastapi==0.133.1、uvicorn==0.41.0），不把 core 元数据冒充全 extras 相容。Node 侧（vite/vitest/electron/typescript/jstt/claude-code/codex 的 engines 均被 Node 24.21.0 满足；vue 未声明 engines 记 unknown）与唯一必需 peer（vitest→vite 被 8.3.0 满足）沿用并仍由检查器复算。许可绑定：TypeScript 6.0.3 与 npm 11.19.0 正文自评审证据只读复制（a7d00bfd… / 7610d223…），cmp 与 accepted 登记正文逐字节相同（C-5 断言）。负例：B2-R1 原形（版本改回 0.19.0、仍绑 0.21.4 commit）被 F-tamper-5 拒绝；install_source 退回 PyPI 主体被 F-tamper-6 拒绝；许可绑定正文哈希置零被 F-tamper-7 拒绝。自检 total=35 failed=0；相容与已安装的措辞继续严格分开（installation_status=not_installed、integration_evidence_kind=not_run，锁文件仍要求由 M00.0.01/M00.0.02 真实安装生成）。"
+    },
+    {
+      "id": "M00.2.03-A02",
+      "status": "passed",
+      "evidence": "独立复核直接检查 selected-versions.json 的 18 个 selected 条目、3 个环境及其 selected_ids，并对照 ADR 第 4 节 C6：Hermes 是唯一主控/记忆，Codex 与 Claude Code 为可替换执行器；没有新增第二主控或记忆框架。check_selected_versions.py 校验 selected 条目的环境 ID 合法性，但并未断言 environments 恰有三个元素，也没有语义判断第二主控的能力；本项成立依赖架构师对交付文档的实质复核。唯一替代路线仍为 TypeScript 7.0.2。"
+    }
+  ],
+  "integration_evidence_kind": "not_run",
+  "unresolved": [],
+  "evaluator_followups": [
+    "Hermes extras/profile 相容性未验证：本卡 C5 只核对 core 元数据（fastapi>=0.104.0,<1 / uvicorn>=0.31.0,<1）；该源码的 web extra 自钉 fastapi==0.133.1、uvicorn==0.41.0（与 core 不同）。若 M00.3.01 采用 [web] 或其他 extras，须按同一流程补证后再改冻结值。",
+    "Hermes 两版本差异清单（PyPI 0.19.0 与源码 0.21.4 的依赖与功能差异，如 uvicorn[standard]>=0.24.0,<1 对 uvicorn>=0.31.0,<1、cryptography 46.0.7 对 50.0.0）未逐项核对；冻结身份已按裁决定为源码 commit，此清单供 M00.3.01 接入时对照，不影响本卡结论（已列入 selected-versions.json unknowns）。",
+    "替代路线只有一条（TypeScript 7.0.2）且带两条触发条件，请复核 D3 的证据强度是否足以支撑'冻结 6.0.3 而非 registry latest 7.0.2'：核心证据是 json-schema-to-typescript 16.0.0（2026-08-28 发布，晚于 TS 7.0.2 的 2026-07-08）devDependencies 写 'typescript': '^6.0.3'；6.x 稳定线最高 6.0.3（6.0.4/6.1.0 直探 404）；vue 的 peer 'typescript: *' 无信息量。若复核认为该证据不足，请指出，按变更流程补证。",
+    "约束相容结论全部基于 registry 元数据与源码元数据（requires_python / engines / peerDependencies / 依赖区间），未做真实安装。M00.0.01/M00.0.02 初始化时应把本 ADR 的版本号与真实安装结果对照；若 npm/uv 解析出与本清单不同的强制版本，那是安装卡的新证据，按第 9 节变更流程处理而不是就地改冻结值。",
+    "四处与 runtime-matrix 的偏离（hermes-agent 0.19.0→源码 commit 0.21.4、typescript 7.0.2→6.0.3、npm 12.1.0→自带 11.19.0、pnpm 不采用）均为本卡决策职责内或按架构裁决的收敛，已双向记录在 selected-versions.json 的 deviations_from_matrix 与 ADR 第 3 节；runtime-matrix.json 本身未改（保持 M00.2.01 提交态），如需矩阵与冻结结果完全一致，请在复核时说明由哪张卡执行该同步。",
+    "deferred 现为 13 项（本轮新增 hermes-agent PyPI 发行物 0.19.0，not_adopted），均未给触发条件（它们是'未采用'，不是替代路线）；其中 shadcn-vue / @vueuse/core / @jsonforms/core 三项在 BATCH-002 轮补记为具体版本以关闭 M00.2.02 的 main 占位符，但引入时仍须按当时的真实版本重新登记许可与 commit。",
+    "本卡未安装、未生成锁文件、未端到端运行（integration_evidence_kind=not_run）；'可安装'一词在本卡仅指版本具体、约束交集已被核对，不指真实安装成功。E3（Langfuse 边界）、真实安装、vue-tsc 等 SFC 工具登记为后续卡工作。",
+    "Electron 44.4.4 内置的 Node/Chromium 版本不等于系统 Node 24（桌面运行时的真实版本需 M00.0.03 实测）；@types/node 24.13.6 对 TS 编译器的最低版本要求无声明（类型包不写 engines/peer）；vue 3.5.43 未声明 engines 只能由工具链间接支持；uv 0.12.18 在 Windows 的可用性未实测；vue-tsc 等 SFC 类型检查工具尚未登记，引入前须按 M00.2.02 流程补登记与冻结。全部已显式写入 ADR 第 7 节与 selected-versions.json 的 unknowns。"
+  ],
+  "architect_notes": [
+    "E1 已按裁决关闭：Hermes 与我方 server 分进程/venv，我方 API 环境不 import Hermes——env-server 的 pydantic 2.13.5 不会进入 Hermes 环境（其自带 2.13.4 保持），适配走进程边界。裁决文本与依据（E1→D5）记录在 selected-versions.json 的 escalations 与 ADR 第 8 节；若未来要求同环境导入 hermes 包，须重新决策（降版或共用环境）。",
+    "E2 已按裁决关闭：Hermes 唯一安装目标=不可变源码 commit d337b736aa1e8ebecfab043842d13e4a2d2f48a3（pyproject 声明 0.21.4，tag v2026.9.21）；PyPI 0.19.0 仅作未采用参考（deferred not_adopted）。B2-R1 指出的'两套非同一版本证据不能构成一份冻结安装来源'由此消除：install_source / version_kind / source_binding 三者现由检查器 §G 断言一致，且'0.19.0 版本 + 0.21.4 commit'的原形负例被 F-tamper-5 实际拒绝。安装 profile/extras 留 M00.3.01。",
+    "npm 的冻结值采用'随 Node v24.21.0 分发'这一形态（version_kind=bundled_with_node，并记录 supersedes_matrix_pinned=12.1.0）。这与 runtime-matrix 的独立钉定不同：好处是 M00.0.02 无额外全局安装、无版本漂移；代价是 npm 版本随 Node 发行物绑定。若架构希望 npm 独立钉定，需要显式变更。",
+    "冻结值不含锁文件解析结果：uv.lock 与 package-lock.json 必须由 M00.0.01/M00.0.02 的真实安装在各自目录生成（本卡不预造，避免把伪造的解析结果当成证据）。",
+    "A02 的边界在本卡的具体含义：三个 runtime 环境是安装/运行位置划分；执行器（Codex/Claude Code）不携带产品记忆；冻结组合里没有任何第二主控、第二记忆、第二包管理器（pip/pnpm/npm-12 全部 not_adopted）、第二测试框架的痕迹。E1 的分进程/venv 裁决与该边界一致。",
+    "JSON 交付物中的每个约束声明都保存证据原文（例如 hermes 的 fastapi>=0.104.0,<1、uvicorn>=0.31.0,<1 按源码 pyproject 原文字符串记录而非改写；requires-python 亦为原文），以便复核者逐字对照证据文件。",
+    "范围检查代际问题：旧两批范围脚本（M00.1.01 的 check_baseline.py、M00.1.03 的 check_write_scope_batch002.py）按各自旧基线会把评审/派工新增视为变化（构造性），本轮按 CURRENT-TASK.md 不再以其为门槛；本轮只按新基线另写只读检查器 check_write_scope_batch002_r1.py，未修改任何既有检查器与 helper。"
+  ],
+  "next_step": "BATCH-002-R1 已完成独立复核，状态以 reviews/M00.2.03.json 为准。下一候选 M00.0.01；须由架构负责人另行派工，不自动执行。",
+  "architect_dispositions": [
+    {
+      "id": "R1-RECORD-01",
+      "original": "M00.1.01 的 check_baseline.py（BATCH-001 写集比对）在 BATCH-002 工作区必然 FAIL（182 项 OUT-OF-SCOPE，原始输出已留存在 reports/evidence/M00.2.03/check_baseline-batch001-scope-fail.txt，sha256=01afe94d…，本轮未改、未重跑）。这正是 docs/handoff/CURRENT-TASK.md 预告的构造性代际差异：该脚本按 BATCH-001 的 229 文件写集比对，不能拿它当本批越权判断，也不能篡改它以求绿色。本卡未修改、未重定向该 accepted 脚本；本轮已按新基线另写只读检查器 check_write_scope_batch002_r1.py（不替换它）。是否需要在批次归档时补一代同类检查器，留给复核/架构判断。",
+      "disposition": "closed",
+      "reason": "旧基线范围 FAIL 已由 BATCH-002 裁定为代际差异；本次独立按 R1 基线核对，6 modified / 11 added / 0 missing / 0 outside。无需重写旧脚本。"
+    },
+    {
+      "id": "R1-RECORD-02",
+      "original": "Langfuse 核心（MIT）与 ee/ 企业目录的功能边界（E3）：自托管只用核心部分，ee/ 逐项边界留部署卡核对。",
+      "disposition": "deferred",
+      "owner": "首次 Langfuse 部署/引入卡",
+      "reason": "未采用的组件；此前 E3 已裁定后置。不阻塞本卡版本元数据验收，不意味着 ee 目录已获准使用。"
+    },
+    {
+      "id": "R1-RECORD-03",
+      "original": "Electron 44.4.4 内置的 Node/Chromium 版本不等于系统 Node 24（桌面运行时的真实版本需 M00.0.03 实测）；@types/node 24.13.6 对 TS 编译器的最低版本要求无声明（类型包不写 engines/peer）；vue 3.5.43 未声明 engines 只能由工具链间接支持；uv 0.12.18 在 Windows 的可用性未实测；vue-tsc 等 SFC 类型检查工具尚未登记，引入前须按 M00.2.02 流程补登记与冻结。全部已显式写入 ADR 第 7 节与 selected-versions.json 的 unknowns。",
+      "disposition": "deferred",
+      "owner": "M00.0.01 / M00.0.02 / M00.0.03",
+      "reason": "真实安装、编译与运行时验证属于工程初始化；本卡只完成候选约束核对。这些未知项完整保留在 evaluator_followups 与 ADR。"
+    }
+  ],
+  "batch_level_changed_files": [
+    "reports/BATCH-002-R1.md"
+  ],
+  "architect_record_reconciliation": {
+    "at": "2026-09-23T01:45:41.254998+00:00",
+    "actor": "codex-current-thread-architect",
+    "original_report_ref": "reviews/history/BATCH-002-R1/submitted/reports/M00.2.03.json",
+    "original_report_sha256": "97e5a85a371eecedea53556b8b6150c4e961e980959bd83a4fe4ef6232692902",
+    "reason": "关闭已裁定非阻塞项、分离批次写集、纠正 A02 自动检查能力表述；未改交付产物、测试结果或开发者 submitted 状态。",
+    "original_A02_evidence": "本卡只做版本收敛与身份统一，未增加任何第二套主控或记忆框架，且把这一点作为被检查项：check_selected_versions.py 的 A/B-1 结构规则断言 selected 顶层的 environments 恰为三个安装/运行位置（env-server / env-desktop / env-executors）而不含任何第二个控制平面或记忆组件；A02 相关陈述写入 selected-versions.json 的 compatibility C6 与 ADR 第 4 节 C6——Hermes 仍是唯一主控与唯一记忆，Codex 与 Claude Code 登记为可替换执行器（内容为'官方程序集成'，不含产品记忆），三个环境是安装与运行位置划分而非三套主控。本轮统一 Hermes 身份（源码 commit）与补许可绑定，未引入任何新组件；E1 裁决（Hermes 与我方 server 分进程/venv）正是不新增第二主控/记忆的具体边界。替代路线只有一条（TypeScript 7.0.2，只改一个包的版本，不触主控/记忆/环境划分/包管理器/测试框架），13 个 deferred 项不带触发条件、不构成并行方案；包管理器亦无第二套：Python 侧只 uv（pip 仅作引导）、Node 侧只 Node 自带 npm（npm 12.1.0 与 pnpm 12.5.1 记 not_adopted）。未引入任何浏览器驱动或第二记忆组件。",
+    "disposition_ref": "reviews/evidence/BATCH-002-R1/record-reconciliation.json"
+  }
+}

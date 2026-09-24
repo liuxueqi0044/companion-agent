@@ -1,0 +1,35 @@
+{
+  "fixture_format": "first-flow-input/1",
+  "case_id": "ff-missing-01",
+  "case_kind": "missing",
+  "fictional": true,
+  "fictional_notice": "本样本的公司名、人名、地点、条目与价格全部虚构，不含任何真实个人或客户信息（对应 M00.1.02-A01）。",
+  "input_source": {
+    "kind": "user_provided",
+    "requirement_text_origin": "用户粘贴的需求文字；本样本原样内嵌在 requirement_text",
+    "csv_origin": "用户自备的条目价格表；本样本以 UTF-8 换行字符串内嵌在 csv.text，不新增外部 .csv 文件",
+    "workspace_scope": "用户选定的单一授权工作区（样本不绑定具体目录）",
+    "corrections": "无（本案例为首次结构化，S1 快照，尚无用户纠正）"
+  },
+  "requirement_text": "你好，我是北海文旅的小林。10 月 8 日到 9 日我们在北海滨海剧场做两场路演，需要现场技术支持 2 天。物料要从市里运到剧场，一共 1 车次。加急排期费按 180.00 算。另外送 20 本展会手册。麻烦整理一份明细。",
+  "csv": {
+    "filename": "beihai-roadshow-price-list.csv",
+    "encoding": "UTF-8",
+    "delimiter": ",",
+    "header_line": 1,
+    "line_convention": "第 1 行为表头；第 2 行起为数据行。明细行号按数据行顺序从 1 开始，csv_line 为文件中的物理行号。",
+    "text": "item,unit,qty,unit_price,currency\n现场技术支持（每天）,day,2,950.00,USD\n物料运输（每车次）,trip,1,,EUR\n加急排期费,order,1,150.00,USD\n展会手册（附赠）,piece,20,0.00,USD\n"
+  },
+  "injected_gaps": [
+    "缺失价格：csv 第 3 行（物料运输）的 unit_price 单元格为空，行小计无法确定。",
+    "取值冲突：加急排期费的单价在需求文本中为 180.00、在 csv 第 4 行为 150.00，同一字段两个不同取值。",
+    "缺失口径：需求文本与 csv 都没有说明单价是否含税，含税口径无法确定。",
+    "已知零：csv 第 5 行（展会手册）单价为显式 0.00，属于已知的零，不属于未知。"
+  ],
+  "notes": [
+    "币种一律取 csv 的 currency 列：第 3 行写的是 EUR（虚构资料中刻意的反例），不得按客户所在地改推 USD，也不与 USD 行相加。",
+    "本案例不补齐任何缺失值：缺失与冲突只进入待确认问题，不由其他行、其他文档或历史结果推算。",
+    "空缺单元格不得用 0 占位；已知的 0.00（展会手册）与未知的空价格必须区分。",
+    "物料运输的 1 车次是 csv 给出的数量；缺的是单价，不是数量。"
+  ]
+}

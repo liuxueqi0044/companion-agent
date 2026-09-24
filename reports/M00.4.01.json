@@ -1,0 +1,136 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.4.01",
+  "task_spec_sha256": "3f249f2af7ceff3bdfc03c74b0a535b9e2e26bac713e28b0b88f92b631aebe53",
+  "batch_id": "BATCH-006",
+  "dispatch_ref": "docs/handoff/BATCH-006.md",
+  "status": "submitted",
+  "base_ref": "sha256:4a6be0d556bfe57be4dde9e347f535f4afcb20a6234b9be0f7e6c3ef50da4d2c",
+  "result_ref": "manifest-sha256:1281a49e75992295426f3c1cbc625048400e3ceca49b90e08fdd9f8bcef343c1",
+  "result_manifest": "reports/evidence/M00.4.01/artifact-manifest.json",
+  "summary": "Analyzed pinned AIRI callout.vue as a first-version partner status container. Its file-level and package-level recursive workspace code dependencies are empty, but faithful styling requires AIRI UnoCSS presets/generated CSS. Chose existing Vue and original CSS instead of copying AIRI code or assets. No UI sample or AIRI run.",
+  "changed_files": [
+    "docs/evidence/airi-extraction.md",
+    "reports/M00.4.01.checkpoint.md",
+    "reports/M00.4.01.json",
+    "reports/evidence/M00.4.01/artifact-manifest.json",
+    "reports/evidence/M00.4.01/index_sources.py",
+    "reports/evidence/M00.4.01/source-verify.txt",
+    "reports/evidence/M00.4.01/upstream/packages/stage-layouts/package.json",
+    "reports/evidence/M00.4.01/upstream/packages/stage-layouts/src/components/Layouts/HeaderAvatar.vue",
+    "reports/evidence/M00.4.01/upstream/packages/stage-layouts/src/components/Widgets/ChatContainer.vue",
+    "reports/evidence/M00.4.01/upstream/packages/stage-ui/uno.config.ts",
+    "reports/evidence/M00.4.01/upstream/packages/ui/package.json",
+    "reports/evidence/M00.4.01/upstream/packages/ui/src/components/layouts/screen.vue",
+    "reports/evidence/M00.4.01/upstream/packages/ui/src/components/misc/callout.vue",
+    "reports/evidence/M00.4.01/upstream/packages/ui/src/components/misc/index.ts",
+    "reports/evidence/M00.4.01/upstream/packages/ui/src/main.css",
+    "reports/evidence/M00.4.01/upstream/packages/ui/src/style.css",
+    "reports/evidence/M00.4.01/upstream/source-index.json",
+    "reports/evidence/M00.4.01/upstream/tree-packages.html",
+    "reports/evidence/M00.4.01/upstream/tree-stage-Widgets.html",
+    "reports/evidence/M00.4.01/upstream/tree-stage-layouts-components.html",
+    "reports/evidence/M00.4.01/upstream/tree-stage-layouts-src.html",
+    "reports/evidence/M00.4.01/upstream/tree-stage-layouts.html",
+    "reports/evidence/M00.4.01/upstream/tree-stage-ui.html",
+    "reports/evidence/M00.4.01/upstream/tree-ui-components.html",
+    "reports/evidence/M00.4.01/upstream/tree-ui-layouts.html",
+    "reports/evidence/M00.4.01/upstream/tree-ui-misc.html",
+    "reports/evidence/M00.4.01/upstream/tree-ui-src.html",
+    "reports/evidence/M00.4.01/upstream/uno.config.ts",
+    "reports/evidence/M00.4.01/verify_sources.py"
+  ],
+  "changed_files_this_round": [
+    "docs/evidence/airi-extraction.md",
+    "reports/M00.4.01.checkpoint.md",
+    "reports/M00.4.01.json",
+    "reports/evidence/M00.4.01/artifact-manifest.json",
+    "reports/evidence/M00.4.01/index_sources.py",
+    "reports/evidence/M00.4.01/source-verify.txt",
+    "reports/evidence/M00.4.01/upstream/packages/stage-layouts/package.json",
+    "reports/evidence/M00.4.01/upstream/packages/stage-layouts/src/components/Layouts/HeaderAvatar.vue",
+    "reports/evidence/M00.4.01/upstream/packages/stage-layouts/src/components/Widgets/ChatContainer.vue",
+    "reports/evidence/M00.4.01/upstream/packages/stage-ui/uno.config.ts",
+    "reports/evidence/M00.4.01/upstream/packages/ui/package.json",
+    "reports/evidence/M00.4.01/upstream/packages/ui/src/components/layouts/screen.vue",
+    "reports/evidence/M00.4.01/upstream/packages/ui/src/components/misc/callout.vue",
+    "reports/evidence/M00.4.01/upstream/packages/ui/src/components/misc/index.ts",
+    "reports/evidence/M00.4.01/upstream/packages/ui/src/main.css",
+    "reports/evidence/M00.4.01/upstream/packages/ui/src/style.css",
+    "reports/evidence/M00.4.01/upstream/source-index.json",
+    "reports/evidence/M00.4.01/upstream/tree-packages.html",
+    "reports/evidence/M00.4.01/upstream/tree-stage-Widgets.html",
+    "reports/evidence/M00.4.01/upstream/tree-stage-layouts-components.html",
+    "reports/evidence/M00.4.01/upstream/tree-stage-layouts-src.html",
+    "reports/evidence/M00.4.01/upstream/tree-stage-layouts.html",
+    "reports/evidence/M00.4.01/upstream/tree-stage-ui.html",
+    "reports/evidence/M00.4.01/upstream/tree-ui-components.html",
+    "reports/evidence/M00.4.01/upstream/tree-ui-layouts.html",
+    "reports/evidence/M00.4.01/upstream/tree-ui-misc.html",
+    "reports/evidence/M00.4.01/upstream/tree-ui-src.html",
+    "reports/evidence/M00.4.01/upstream/uno.config.ts",
+    "reports/evidence/M00.4.01/verify_sources.py"
+  ],
+  "batch_level_changed_files": [
+    "reports/BATCH-006.md"
+  ],
+  "commands": [
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.4.01/verify_sources.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.01/source-verify.txt",
+      "evidence_kind": "actual",
+      "note": "21 source records and existing 1075B MIT license binding verified."
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.4.01-A01",
+      "status": "passed",
+      "evidence": "docs/evidence/airi-extraction.md lists exact callout.vue, package/export/CSS/Uno files and pinned source-index hashes; no whole-repository copy."
+    },
+    {
+      "id": "M00.4.01-A02",
+      "status": "passed",
+      "evidence": "Analysis explicitly rejects copying candidate due thin behavior and UnoCSS generated-style adaptation; existing Vue/original CSS chosen."
+    }
+  ],
+  "integration_evidence_kind": "not_run",
+  "unresolved": [],
+  "next_step": "Submitted source/dependency analysis for independent review. M00.4.02 UI sample waits for this card's accepted review and separate authorization.",
+  "nonblocking_limitations": [
+    "Component was not installed or rendered; upstream UnoCSS generated appearance and external package compatibility remain unverified.",
+    "AIRI role art, audio and model asset licenses remain unknown and excluded; only pinned root code MIT was verified.",
+    "Optional upstream Uno custom preset alias/build closure was not adopted or fully traced; no claim of package runtime compatibility."
+  ],
+  "source_acquisition_records": [
+    {
+      "original_entry": {
+        "argv": [
+          "Invoke-WebRequest",
+          "fixed AIRI commit official HTML/raw source"
+        ],
+        "exit_code": 0,
+        "log_path": "reports/evidence/M00.4.01/upstream/source-index.json",
+        "evidence_kind": "pinned_public_source",
+        "note": "21 records have exact official URL, commit, SHA-256 and bytes. GitHub API 403 rate limit led to official fixed-commit HTML/raw paths; no upstream code run."
+      },
+      "classification": "source provenance description; not a replayable argv or raw execution log",
+      "exact_source_urls_ref": "reports/evidence/M00.4.01/upstream/source-index.json"
+    }
+  ],
+  "architect_metadata_normalization": {
+    "at": "2026-09-23T11:02:20.058925+00:00",
+    "actor": "codex-current-thread-architect",
+    "original_report_sha256": "c69dd16e4d58e5e68ab288dbea7047cf3b4518bbc7a667b1b5dc0b2d5156efe6",
+    "original_report_ref": "reviews/history/BATCH-006/submitted/reports/M00.4.01.json",
+    "changes": [
+      "Moved three non-adopted-path limitations from unresolved to nonblocking_limitations; retained all text.",
+      "Moved descriptive source-acquisition placeholder out of executable commands; preserved entry and exact URL index."
+    ],
+    "reason": "M00.4.01 requires a source/dependency decision, not component rendering or approval of excluded assets. No artifact or acceptance claim changed."
+  }
+}

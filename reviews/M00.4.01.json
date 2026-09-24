@@ -1,0 +1,35 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.4.01",
+  "task_spec_sha256": "3f249f2af7ceff3bdfc03c74b0a535b9e2e26bac713e28b0b88f92b631aebe53",
+  "report_sha256": "a80622a9de415efeb3d39f6a4692195d0800553bfb60de2b94b4bd7d13eccef3",
+  "decision": "accepted",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_result_ref": "manifest-sha256:1281a49e75992295426f3c1cbc625048400e3ceca49b90e08fdd9f8bcef343c1",
+  "checked_acceptance_ids": [
+    "M00.4.01-A01",
+    "M00.4.01-A02"
+  ],
+  "acceptance_decisions": [
+    {
+      "id": "M00.4.01-A01",
+      "decision": "passed",
+      "basis": "明确列出固定 commit 的候选文件、包导出、样式/构建边界；单文件代码闭包无 import，源码与21份来源哈希一致，未采用构建链的未知项明确排除。"
+    },
+    {
+      "id": "M00.4.01-A02",
+      "decision": "passed",
+      "basis": "候选只有主题/标题/slots，需迁移 UnoCSS 生成样式；放弃复制、沿用既有 Vue/原创 CSS 的决定有源码依据，不引入会话/记忆或素材。"
+    }
+  ],
+  "reviewed_at": "2026-09-23T11:02:20.058925+00:00",
+  "evidence_ref": "reviews/evidence/BATCH-006/review-summary.json",
+  "findings": [],
+  "normalization_ref": "reviews/evidence/BATCH-006/report-normalization.json",
+  "nonblocking_limitations": [
+    "Component was not installed or rendered; upstream UnoCSS generated appearance and external package compatibility remain unverified.",
+    "AIRI role art, audio and model asset licenses remain unknown and excluded; only pinned root code MIT was verified.",
+    "Optional upstream Uno custom preset alias/build closure was not adopted or fully traced; no claim of package runtime compatibility."
+  ]
+}

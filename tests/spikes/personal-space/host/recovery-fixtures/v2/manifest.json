@@ -1,0 +1,30 @@
+{
+  "format": "personal-space-spike/1",
+  "package_id": "handwritten-demo",
+  "revision_id": "fixture-v2",
+  "base_revision": "fixture-v1",
+  "host_api_version": "demo/1",
+  "entry": "view.html",
+  "files": {
+    "view.html": {
+      "sha256": "966e6c1c386350cd8ebf71a4985bca455861bd040c5b892ce487a2f40b29ea60",
+      "bytes": 281
+    },
+    "view.css": {
+      "sha256": "ddb30fa509f06e1bec76c166429a146ae5b5658bdce273c116fb1b8597b8a140",
+      "bytes": 151
+    },
+    "view.js": {
+      "sha256": "9eaa3f6d5434f3eb8f83a45074cac23fe97d66f41d4d1a219a668dcf87bd47c8",
+      "bytes": 1708
+    }
+  },
+  "build_input_hash": "592396e8575b2d0080c9d983fdfc0ef02f4dda951ca372a13e5ce9dc2c2a9f07",
+  "artifact_hash": "e12f1f133581fea2cb4869b29dee2742da46a1c1217bd41251ac8a1d653c70f7",
+  "source_type": "handwritten_fixture",
+  "requested_scopes": [
+    "read_demo_state",
+    "write_demo_draft"
+  ],
+  "execution_validation": "not_run"
+}

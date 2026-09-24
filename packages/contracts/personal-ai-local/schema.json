@@ -1,0 +1,505 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Generated from services.personal_ai.models; local single-user data only.",
+  "models": {
+    "ChangeRequest": {
+      "$defs": {
+        "PreferenceChanges": {
+          "additionalProperties": false,
+          "properties": {
+            "address_user_as": {
+              "title": "Address User As",
+              "type": "string"
+            },
+            "ai_name": {
+              "title": "Ai Name",
+              "type": "string"
+            },
+            "communication_instructions": {
+              "title": "Communication Instructions",
+              "type": "string"
+            }
+          },
+          "title": "PreferenceChanges",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "changes": {
+          "$ref": "#/$defs/PreferenceChanges"
+        },
+        "command_id": {
+          "title": "Command Id",
+          "type": "string"
+        },
+        "expected_revision": {
+          "exclusiveMinimum": 0,
+          "title": "Expected Revision",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "expected_revision",
+        "command_id",
+        "changes"
+      ],
+      "title": "ChangeRequest",
+      "type": "object"
+    },
+    "CommandReceipt": {
+      "$defs": {
+        "Preferences": {
+          "additionalProperties": false,
+          "properties": {
+            "address_user_as": {
+              "default": "",
+              "description": "At most 128 UTF-8 bytes; may be empty.",
+              "title": "Address User As",
+              "type": "string"
+            },
+            "ai_name": {
+              "default": "我的AI",
+              "description": "Nonblank; at most 128 UTF-8 bytes; original text preserved.",
+              "title": "Ai Name",
+              "type": "string"
+            },
+            "communication_instructions": {
+              "default": "",
+              "description": "At most 8192 UTF-8 bytes; newlines permitted; preference data only.",
+              "title": "Communication Instructions",
+              "type": "string"
+            }
+          },
+          "title": "Preferences",
+          "type": "object"
+        },
+        "ProfileSnapshot": {
+          "additionalProperties": false,
+          "properties": {
+            "preferences": {
+              "$ref": "#/$defs/Preferences"
+            },
+            "profile_id": {
+              "title": "Profile Id",
+              "type": "string"
+            },
+            "revision": {
+              "exclusiveMinimum": 0,
+              "title": "Revision",
+              "type": "integer"
+            },
+            "schema_version": {
+              "const": "personal-ai-local/1",
+              "default": "personal-ai-local/1",
+              "title": "Schema Version",
+              "type": "string"
+            },
+            "updated_at": {
+              "format": "date-time",
+              "title": "Updated At",
+              "type": "string"
+            }
+          },
+          "required": [
+            "profile_id",
+            "revision",
+            "preferences",
+            "updated_at"
+          ],
+          "title": "ProfileSnapshot",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "command_id": {
+          "title": "Command Id",
+          "type": "string"
+        },
+        "current_snapshot": {
+          "$ref": "#/$defs/ProfileSnapshot"
+        },
+        "operation": {
+          "enum": [
+            "change",
+            "undo"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "replayed": {
+          "title": "Replayed",
+          "type": "boolean"
+        },
+        "result_revision": {
+          "exclusiveMinimum": 0,
+          "title": "Result Revision",
+          "type": "integer"
+        },
+        "result_snapshot": {
+          "$ref": "#/$defs/ProfileSnapshot"
+        }
+      },
+      "required": [
+        "command_id",
+        "operation",
+        "result_revision",
+        "result_snapshot",
+        "current_snapshot",
+        "replayed"
+      ],
+      "title": "CommandReceipt",
+      "type": "object"
+    },
+    "HistoryPage": {
+      "$defs": {
+        "PreferenceRevision": {
+          "additionalProperties": false,
+          "properties": {
+            "command_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Command Id"
+            },
+            "created_at": {
+              "format": "date-time",
+              "title": "Created At",
+              "type": "string"
+            },
+            "operation": {
+              "enum": [
+                "bootstrap",
+                "change",
+                "undo"
+              ],
+              "title": "Operation",
+              "type": "string"
+            },
+            "preferences": {
+              "$ref": "#/$defs/Preferences"
+            },
+            "revision": {
+              "exclusiveMinimum": 0,
+              "title": "Revision",
+              "type": "integer"
+            },
+            "target_revision": {
+              "anyOf": [
+                {
+                  "exclusiveMinimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Target Revision"
+            }
+          },
+          "required": [
+            "revision",
+            "operation",
+            "preferences",
+            "created_at"
+          ],
+          "title": "PreferenceRevision",
+          "type": "object"
+        },
+        "Preferences": {
+          "additionalProperties": false,
+          "properties": {
+            "address_user_as": {
+              "default": "",
+              "description": "At most 128 UTF-8 bytes; may be empty.",
+              "title": "Address User As",
+              "type": "string"
+            },
+            "ai_name": {
+              "default": "我的AI",
+              "description": "Nonblank; at most 128 UTF-8 bytes; original text preserved.",
+              "title": "Ai Name",
+              "type": "string"
+            },
+            "communication_instructions": {
+              "default": "",
+              "description": "At most 8192 UTF-8 bytes; newlines permitted; preference data only.",
+              "title": "Communication Instructions",
+              "type": "string"
+            }
+          },
+          "title": "Preferences",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "current_revision": {
+          "exclusiveMinimum": 0,
+          "title": "Current Revision",
+          "type": "integer"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/$defs/PreferenceRevision"
+          },
+          "title": "Items",
+          "type": "array"
+        },
+        "next_before_revision": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Next Before Revision"
+        },
+        "profile_id": {
+          "title": "Profile Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_id",
+        "current_revision",
+        "items"
+      ],
+      "title": "HistoryPage",
+      "type": "object"
+    },
+    "HistoryRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "before_revision": {
+          "exclusiveMinimum": 0,
+          "title": "Before Revision",
+          "type": "integer"
+        },
+        "limit": {
+          "default": 20,
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        }
+      },
+      "title": "HistoryRequest",
+      "type": "object"
+    },
+    "PreferenceRevision": {
+      "$defs": {
+        "Preferences": {
+          "additionalProperties": false,
+          "properties": {
+            "address_user_as": {
+              "default": "",
+              "description": "At most 128 UTF-8 bytes; may be empty.",
+              "title": "Address User As",
+              "type": "string"
+            },
+            "ai_name": {
+              "default": "我的AI",
+              "description": "Nonblank; at most 128 UTF-8 bytes; original text preserved.",
+              "title": "Ai Name",
+              "type": "string"
+            },
+            "communication_instructions": {
+              "default": "",
+              "description": "At most 8192 UTF-8 bytes; newlines permitted; preference data only.",
+              "title": "Communication Instructions",
+              "type": "string"
+            }
+          },
+          "title": "Preferences",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "command_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Command Id"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "bootstrap",
+            "change",
+            "undo"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "preferences": {
+          "$ref": "#/$defs/Preferences"
+        },
+        "revision": {
+          "exclusiveMinimum": 0,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "target_revision": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Revision"
+        }
+      },
+      "required": [
+        "revision",
+        "operation",
+        "preferences",
+        "created_at"
+      ],
+      "title": "PreferenceRevision",
+      "type": "object"
+    },
+    "Preferences": {
+      "additionalProperties": false,
+      "properties": {
+        "address_user_as": {
+          "default": "",
+          "description": "At most 128 UTF-8 bytes; may be empty.",
+          "title": "Address User As",
+          "type": "string"
+        },
+        "ai_name": {
+          "default": "我的AI",
+          "description": "Nonblank; at most 128 UTF-8 bytes; original text preserved.",
+          "title": "Ai Name",
+          "type": "string"
+        },
+        "communication_instructions": {
+          "default": "",
+          "description": "At most 8192 UTF-8 bytes; newlines permitted; preference data only.",
+          "title": "Communication Instructions",
+          "type": "string"
+        }
+      },
+      "title": "Preferences",
+      "type": "object"
+    },
+    "ProfileSnapshot": {
+      "$defs": {
+        "Preferences": {
+          "additionalProperties": false,
+          "properties": {
+            "address_user_as": {
+              "default": "",
+              "description": "At most 128 UTF-8 bytes; may be empty.",
+              "title": "Address User As",
+              "type": "string"
+            },
+            "ai_name": {
+              "default": "我的AI",
+              "description": "Nonblank; at most 128 UTF-8 bytes; original text preserved.",
+              "title": "Ai Name",
+              "type": "string"
+            },
+            "communication_instructions": {
+              "default": "",
+              "description": "At most 8192 UTF-8 bytes; newlines permitted; preference data only.",
+              "title": "Communication Instructions",
+              "type": "string"
+            }
+          },
+          "title": "Preferences",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "preferences": {
+          "$ref": "#/$defs/Preferences"
+        },
+        "profile_id": {
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "revision": {
+          "exclusiveMinimum": 0,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "personal-ai-local/1",
+          "default": "personal-ai-local/1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "updated_at": {
+          "format": "date-time",
+          "title": "Updated At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_id",
+        "revision",
+        "preferences",
+        "updated_at"
+      ],
+      "title": "ProfileSnapshot",
+      "type": "object"
+    },
+    "UndoRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "command_id": {
+          "title": "Command Id",
+          "type": "string"
+        },
+        "expected_revision": {
+          "exclusiveMinimum": 0,
+          "title": "Expected Revision",
+          "type": "integer"
+        },
+        "target_revision": {
+          "exclusiveMinimum": 0,
+          "title": "Target Revision",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "expected_revision",
+        "target_revision",
+        "command_id"
+      ],
+      "title": "UndoRequest",
+      "type": "object"
+    }
+  },
+  "title": "personal-ai-local/1 private local contract"
+}

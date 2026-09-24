@@ -1,0 +1,856 @@
+{
+  "matrix_format": "runtime-matrix/1",
+  "task_id": "M00.2.01",
+  "batch_id": "BATCH-002",
+  "title": "核心运行项目与初始化依赖的版本核查矩阵",
+  "generated_at": "2026-09-23",
+  "query_window_utc": "2026-09-22T23:45:41Z ~ 2026-09-22T23:48:43Z",
+  "query_window_local": "2026-09-23 07:45 ~ 07:48 (+08:00)",
+  "method": "只读公共 HTTP 元数据：PyPI JSON API、npm registry、GitHub API 与发行页 HTML、nodejs.org/dist/index.json、python.org 发行 API 与 FTP 目录清单、各项目官方文档页。抓取脚本与原始输出在 reports/evidence/M00.2.01/（fetch-run.txt、retry-tag-refs.txt、extra-evidence.txt 为真实运行日志）。未登录、未使用令牌、未调用模型推理 API、未下载安装包本体。",
+  "evidence_policy": "本条目的每个版本都给出证据文件及其 SHA-256；哈希由 reports/evidence/M00.2.01/check_runtime_matrix.py 在验收时对磁盘实算比对。元数据会随上游变化，本文件记录的是 query_window 内的快照。",
+  "frozen_version_policy": "pinned 字段只写精确版本号或 40 位 commit；latest / main / 区间（^、*、>=、~）只出现在 reference_not_frozen 或语言约束的引用原文里，不作为冻结结果（A01）。写入 pinned 的历史 commit 均已核实仍可获取（见 git_commit_check）。",
+  "verification_levels": {
+    "metadata_confirmed": "版本、许可字段、语言约束直接读自官方 registry 元数据（PyPI/npm）。",
+    "page_confirmed": "官方文档页或发行页可达，页面标题/目录清单支持该条目，但未从页面读到机器可读的版本声明。",
+    "registry_and_page": "registry 元数据与官方页面证据同时具备。",
+    "constraint_intersection_checked": "在 registry/页面证据之外，另与其它条目做了引擎或 requires-python 的交集核对（见 constraint_intersections）。",
+    "note": "本批全部条目止于“约束相容/元数据已核实”，都没有做真实安装或端到端运行；integration_evidence_kind 为 not_run。"
+  },
+  "adapter_roles": [
+    {
+      "role": "主运行时（唯一主控）",
+      "item": "hermes-agent",
+      "detail": "会话、编排、记忆与任务状态的唯一主进程；Codex 与 Claude Code 都不承担记忆控制。"
+    },
+    {
+      "role": "工程执行器（可替换）",
+      "item": "codex",
+      "detail": "通过官方 App Server/CLI 接口被主运行时调度，仅执行工程任务；不持有产品记忆。"
+    },
+    {
+      "role": "工程执行器（可替换）",
+      "item": "claude-code",
+      "detail": "通过官方程序化接口（headless/SDK）被调度；按官方程序集成，不作为可 fork 的开源底座。"
+    },
+    {
+      "role": "说明",
+      "item": "-",
+      "detail": "Hermes/Codex/Claude Code 是三种不同的适配角色，不是三套同时掌管记忆的主控；同一时刻只有 Hermes 一份记忆状态。"
+    }
+  ],
+  "runtime_environments": [
+    {
+      "id": "env-server",
+      "name": "服务端运行时（我方源码构建）",
+      "kind": "我们的源码构建工具链",
+      "components": ["CPython 3.13.15", "uv 0.12.18", "fastapi 0.141.1", "uvicorn 0.53.0", "pydantic 2.13.5"],
+      "detail": "服务端 API 与服务端测试在同一 Python 环境中构建运行。"
+    },
+    {
+      "id": "env-desktop",
+      "name": "桌面客户端（构建与运行分离）",
+      "kind": "我们的源码构建工具链 + Electron 自带运行时",
+      "components": ["Node.js v24.21.0 LTS（构建）", "npm 12.1.0 / pnpm 12.5.1", "Electron 44.4.4（自带 Node 与 Chromium）", "Vue 3.5.43", "Vite 8.3.0", "TypeScript 7.0.2"],
+      "detail": "构建用系统 Node 24；运行时用 Electron 自带的 Node/Chromium（版本未在本轮核实，见 unknown_and_gaps）。两者互不替代。"
+    },
+    {
+      "id": "env-executors",
+      "name": "独立执行器自带环境",
+      "kind": "上游程序自带的运行环境",
+      "components": ["Hermes（自带其 Python 依赖，PyPI 元数据钉死 pydantic==2.13.4 等）", "Codex（Rust 二进制/npm 包，node>=16）", "Claude Code（Node 程序，node>=22.0.0）"],
+      "detail": "这三个上游程序自带运行环境，与我们源码构建工具链分开记录，不因同叫 Python/Node 就共用进程环境。具体分歧见 constraint_intersections 的 pydantic 条目。"
+    }
+  ],
+  "items": [
+    {
+      "id": "hermes-agent",
+      "role": "主运行时（唯一主控）",
+      "usage": "会话、编排、记忆与任务的唯一主进程；对外提供 API Server 供客户端与执行器接入。",
+      "deployment_surface": ["服务端", "独立执行器"],
+      "runtime_kind": "独立程序（自带 Python 运行环境）",
+      "artifact": "PyPI 发行物 hermes-agent；上游源码仓库 NousResearch/hermes-agent",
+      "stage": "candidate",
+      "pinned": {
+        "pypi_version": "0.19.0",
+        "git_tag": "v2026.9.21",
+        "git_commit": "d337b736aa1e8ebecfab043842d13e4a2d2f48a3"
+      },
+      "reference_not_frozen": {
+        "latest_release_tag": "v2026.9.21",
+        "latest_release_name": "Hermes Agent v0.21.4 (v2026.9.21)",
+        "why_reference_only": "release 页显示的最新 tag 与 PyPI 上的 0.19.0 版本号体系不同，两者是否同一功能集未核实；冻结前不能把“最新 tag”当成安装版本。"
+      },
+      "published_at": {
+        "pypi_0_19_0_upload_time": "2026-07-20",
+        "github_release_v2026_9_21": "2026-09-21T18:10:55Z",
+        "repo_last_pushed": "2026-09-22T23:41:46Z"
+      },
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:46Z / 23:46:00Z）",
+      "supported_systems": "unknown（PyPI 元数据本轮未取到操作系统分类器的完整列表；requires_dist 含 sys_platform == \"win32\" 的条件依赖 tzdata，说明存在 Windows 分支，但不能据此断言官方支持矩阵）",
+      "language_constraints": "requires_python: >=3.11,<3.14（PyPI 0.19.0）；requires_dist 中钉死 openai==2.24.0、pydantic==2.13.4、cryptography==46.0.7、fastapi>=0.104.0,<1、uvicorn[standard]>=0.24.0,<1 等（前 25 条，见证据文件）",
+      "interface_evidence": "官方 API Server 文档页可达：https://hermes-agent.nousresearch.com/docs/user-guide/features/api-server（HTTP 200，171,999 字节，标题 \"API Server | Hermes Agent\"）；页面存在不等于接口版本号已核实。",
+      "source_urls": [
+        "https://pypi.org/pypi/hermes-agent/json",
+        "https://api.github.com/repos/NousResearch/hermes-agent",
+        "https://api.github.com/repos/NousResearch/hermes-agent/releases/latest",
+        "https://github.com/NousResearch/hermes-agent/releases/tag/v2026.9.21",
+        "https://github.com/NousResearch/hermes-agent/commit/d337b736aa1e8ebecfab043842d13e4a2d2f48a3",
+        "https://hermes-agent.nousresearch.com/docs/user-guide/features/api-server"
+      ],
+      "git_commit_check": {
+        "commit": "d337b736aa1e8ebecfab043842d13e4a2d2f48a3",
+        "still_fetchable": true,
+        "evidence": "HTML 发行页只链接到这一个 commit（data-hovercard-type=\"commit\"），且该 commit 页面 HTTP 200、标题为 \"chore(release): v0.21.4 (v2026.9.21)\"；GitHub 匿名 API 在本轮为 tag 解引用时被限流（403，如实记录在 github-tag-refs.json 与 retry-tag-refs.txt），故此处用页面证据而非 API 解引用。",
+        "caveat": "若上游把 v2026.9.21 换成 annotated tag，tag 对象的解引用结果可能与本页所示 commit 不同；冻结前应以 API 解引用复核（本批受限流阻塞）。"
+      },
+      "verification_level": "registry_and_page",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-hermes-agent.json", "sha256": "8c6c5458bbda5e0c48e5e1eb3ecbadc2afe9932d4c4a2c2908ea5c8beebf6c39"},
+        {"path": "reports/evidence/M00.2.01/github-NousResearch-hermes-agent.json", "sha256": "121158a2495a610e83888e18949d29cc075d6981e5b371ef50629827a5be0dc8"},
+        {"path": "reports/evidence/M00.2.01/github-latest-releases.json", "sha256": "268778ea0b122a1741a08f88d45f7b561ea9cca72415e7e4bc8ca78a8203e56e"},
+        {"path": "reports/evidence/M00.2.01/github-release-tag-pages.json", "sha256": "98c9ebc6f0e8d085cd36e6836210289f87ff4f67b87fa085b4fb6bf1cc342898"},
+        {"path": "reports/evidence/M00.2.01/github-tag-refs.json", "sha256": "5c214432fc192598413c27fc2279c3a03242d3fcd3d25cf2edcfa5d6964ba82a"},
+        {"path": "reports/evidence/M00.2.01/official-docs.json", "sha256": "d8793735512f298f3ddcfa1d799045255c63807c9f3dbb498240ce661fdea34b"},
+        {"path": "reports/evidence/M00.2.01/github-commit-hermes-agent-7ce19044.json", "sha256": "384b5e3b8862f245def0d2450d41f49228dab2aeab9c40b0b2fc2a79fabe5bc4"}
+      ],
+      "unknowns": [
+        "PyPI 0.19.0 与 git tag v2026.9.21（v0.21.4）的功能对应关系；两个版本号体系不同，不能假设等价。",
+        "官方支持的操作系统矩阵（Windows 首发客户端支持与否）。",
+        "API Server 的接口版本号与其与给定 commit 的兼容范围；会话、取消、隔离、恢复四项能力需在后续卡实测。",
+        "作为源码安装时是否能在 Python 3.14 上运行（requires_python 明确排除 3.14）。",
+        "先前查看过并仍可获取的 commit 7ce190446e548e2e1c0ae6ba0225be0490d12fc2（2026-09-22T20:07:45Z，仍可获取）与 PyPI 0.19.0 的差异未核实。"
+      ]
+    },
+    {
+      "id": "codex",
+      "role": "工程执行器（可替换）",
+      "usage": "被主运行时调度执行工程任务；优先走官方接口（App Server/CLI），不作为记忆或编排主控。",
+      "deployment_surface": ["独立执行器", "Windows 客户端（未来打包为内置执行器时的宿主）"],
+      "runtime_kind": "独立程序（Rust 二进制；npm 包分发）",
+      "artifact": "npm 包 @openai/codex；上游源码 openai/codex（Rust）",
+      "stage": "candidate",
+      "pinned": {
+        "npm_version": "0.156.0",
+        "git_tag": "rust-v0.156.0",
+        "git_commit": "fe74a774532af67b5a4a3dec03ce9469e17f89af"
+      },
+      "reference_not_frozen": {
+        "latest_release_tag": "rust-v0.156.0",
+        "latest_npm_version": "0.156.0"
+      },
+      "published_at": {
+        "npm_0_156_0": "2026-09-22",
+        "github_release_rust_v0_156_0": "2026-09-22T19:51:01Z",
+        "repo_last_pushed": "2026-09-22T23:37:54Z"
+      },
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:59Z / 23:46:00Z）",
+      "supported_systems": "unknown（npm 元数据只声明 Node 引擎与许可；官方支持的操作系统清单未在本轮核实。Rust 发行的资产名含 x86_64-pc-windows-msvc 压缩包，提示 Windows 有官方构建物）",
+      "language_constraints": "engines.node: >=16（npm 包 @openai/codex 0.156.0）；源码为 Rust，工具链要求未在本轮核实",
+      "interface_evidence": "官方 App Server 文档页可达：https://learn.chatgpt.com/docs/app-server（HTTP 200，944,503 字节，标题 \"Codex App Server | ChatGPT Learn\"）；接口协议版本未从页面读到。",
+      "source_urls": [
+        "https://registry.npmjs.org/@openai%2Fcodex",
+        "https://api.github.com/repos/openai/codex",
+        "https://api.github.com/repos/openai/codex/releases/latest",
+        "https://github.com/openai/codex/releases/tag/rust-v0.156.0",
+        "https://github.com/openai/codex/commit/fe74a774532af67b5a4a3dec03ce9469e17f89af",
+        "https://learn.chatgpt.com/docs/app-server"
+      ],
+      "git_commit_check": {
+        "commit": "fe74a774532af67b5a4a3dec03ce9469e17f89af",
+        "still_fetchable": true,
+        "evidence": "HTML 发行页只链接到这一个 commit，且该 commit 页面 HTTP 200（标题含 openai/codex@fe74a77）。同 hermes 的限流说明：GitHub 匿名 API 解引用本轮 403，故用页面证据。",
+        "caveat": "同 hermes：annotated tag 的解引用需后续用 API 复核。"
+      },
+      "verification_level": "registry_and_page",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/npm-openai-codex.json", "sha256": "ce3ab0bb8b28a59146e488861fe636e933e3557f1c81e18b2383d74b5c6c4069"},
+        {"path": "reports/evidence/M00.2.01/github-openai-codex.json", "sha256": "250299e7677ba7d6c66eb04f50b7cde76b800521be08254cd27b38596ffb23ad"},
+        {"path": "reports/evidence/M00.2.01/github-latest-releases.json", "sha256": "268778ea0b122a1741a08f88d45f7b561ea9cca72415e7e4bc8ca78a8203e56e"},
+        {"path": "reports/evidence/M00.2.01/github-release-tag-pages.json", "sha256": "98c9ebc6f0e8d085cd36e6836210289f87ff4f67b87fa085b4fb6bf1cc342898"},
+        {"path": "reports/evidence/M00.2.01/official-docs.json", "sha256": "d8793735512f298f3ddcfa1d799045255c63807c9f3dbb498240ce661fdea34b"}
+      ],
+      "unknowns": [
+        "npm 包 0.156.0 与 rust-v0.156.0 发行物是否同源同步（版本号一致但未核实映射规则）。",
+        "App Server 协议版本及其与 CLI/包版本的兼容矩阵。",
+        "认证与订阅形态在无头/无人值守场景的可用性（属后续卡的条款与流程核实，本卡只记接口入口）。"
+      ]
+    },
+    {
+      "id": "claude-code",
+      "role": "工程执行器（可替换，按官方程序集成）",
+      "usage": "通过官方程序化接口被调度执行工程任务；不修改官方程序、不视为可随意 fork 的开源底座。",
+      "deployment_surface": ["独立执行器"],
+      "runtime_kind": "独立程序（Node 程序，npm 分发）",
+      "artifact": "npm 包 @anthropic-ai/claude-code",
+      "stage": "candidate",
+      "pinned": {
+        "npm_version": "2.1.280"
+      },
+      "reference_not_frozen": {
+        "latest_npm_version": "2.1.280"
+      },
+      "published_at": {
+        "npm_2_1_280": "2026-09-22"
+      },
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:47Z）",
+      "supported_systems": "unknown（npm 元数据未声明操作系统；官方文档页面可达，但支持矩阵未逐条核实）",
+      "language_constraints": "engines.node: >=22.0.0；与 Node v24.21.0 LTS 相容（>=22 包含 24）",
+      "interface_evidence": "官方文档页可达：headless（程序化调用）https://code.claude.com/docs/en/headless（HTTP 200，647,136 字节，标题 \"Run Claude Code programmatically - Claude Code Docs\"）、legal-and-compliance（200，350,074 字节）、setup（200，962,415 字节）。",
+      "source_urls": [
+        "https://registry.npmjs.org/@anthropic-ai%2Fclaude-code",
+        "https://code.claude.com/docs/en/headless",
+        "https://code.claude.com/docs/en/legal-and-compliance",
+        "https://code.claude.com/docs/en/setup"
+      ],
+      "license_note": "npm 元数据的 license 字段为 \"SEE LICENSE IN README.md\"（非 SPDX 标识符）。这是事实记录，不是许可结论；使用方式与当前条款必须在 M00.2.02 按官方页面实测核查，且不得列为可 fork 的开源底座。",
+      "verification_level": "registry_and_page",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/npm-anthropic-ai-claude-code.json", "sha256": "0a706816dc87275082cda9ae0292be82d4a537f86b37f26d6e2adadacc7b1163"},
+        {"path": "reports/evidence/M00.2.01/official-docs.json", "sha256": "d8793735512f298f3ddcfa1d799045255c63807c9f3dbb498240ce661fdea34b"}
+      ],
+      "unknowns": [
+        "程序化接口（headless/SDK）与其 CLI 版本的兼容承诺。",
+        "订阅/计划计费条款细节（须按官方页面核查后登记到 M00.2.02）。",
+        "官方程序在未修改形态下的再分发边界。"
+      ]
+    },
+    {
+      "id": "python",
+      "role": "服务端与工具链的 Python 解释器",
+      "usage": "服务端 API 与测试的运行解释器（我方源码构建），也是各类 Python 依赖的宿主。",
+      "deployment_surface": ["服务端", "源码构建工具链"],
+      "runtime_kind": "我们的源码构建工具链",
+      "artifact": "CPython（python.org 发行物）",
+      "stage": "candidate",
+      "pinned": {
+        "version": "3.13.15"
+      },
+      "reference_not_frozen": {
+        "newest_stable": "3.14.7",
+        "why_not_3_14": "hermes-agent 0.19.0 的 requires_python 为 >=3.11,<3.14；若与服务端同环境安装，3.14 直接冲突。",
+        "alternates": ["3.12.14"]
+      },
+      "published_at": {
+        "3_13_15": "2026-08-05T13:19:06Z",
+        "3_14_7": "2026-08-05T12:40:32Z",
+        "3_12_14": "2026-08-12T15:23:33Z"
+      },
+      "queried_at": "2026-09-23T07:46+08:00（UTC 2026-09-22T23:46:06Z）",
+      "supported_systems": "Windows 官方安装器已核实存在：python-3.13.15-amd64.exe 与 python-3.13.15-arm64.exe（FTP 目录清单 200）；3.12.14 目录内没有 Windows 安装器条目（该发布只出源码，若选 3.12 线需另选带安装器的补丁版本）。macOS/Linux 发行物本轮未逐项核实，支持面 unknown。",
+      "language_constraints": "本项即语言本体；与服务端依赖的交集见 constraint_intersections。",
+      "interface_evidence": "python.org 发行 API（is_published=true，200）与 FTP 目录清单（200，标题 \"Index of /ftp/python/3.13.15/\"）。",
+      "source_urls": [
+        "https://www.python.org/api/v2/downloads/release/?is_published=true",
+        "https://www.python.org/ftp/python/3.13.15/",
+        "https://www.python.org/ftp/python/3.12.14/",
+        "https://www.python.org/downloads/"
+      ],
+      "verification_level": "constraint_intersection_checked",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/python-releases.json", "sha256": "8b84b047c8611c23aa86eb2baa539605fed51f4fed59208d4c496c4bd62c6551"},
+        {"path": "reports/evidence/M00.2.01/official-docs-extra.json", "sha256": "4abcd54ac857ded68c91c3e2626ea476d9bb4eae63a37e42ee978876531e2f98"}
+      ],
+      "unknowns": [
+        "3.13 线的官方安全支持截止日期（未从官方页核实）。",
+        "各平台安装包与签名/校验细节（部署时再核）。",
+        "3.12 线当前带 Windows 安装器的最新补丁版本号（3.12.14 目录无安装器）。"
+      ]
+    },
+    {
+      "id": "nodejs",
+      "role": "桌面客户端与前端工具链的 Node 运行时",
+      "usage": "构建桌面客户端（Vue/Vite/TypeScript/Vitest），并作为 Electron 构建期工具链。",
+      "deployment_surface": ["Windows 客户端（构建）", "源码构建工具链"],
+      "runtime_kind": "我们的源码构建工具链",
+      "artifact": "Node.js（nodejs.org 发行物）",
+      "stage": "candidate",
+      "pinned": {
+        "version": "v24.21.0"
+      },
+      "reference_not_frozen": {
+        "latest_lts": "v24.21.0（Krypton）",
+        "latest_current": "v26.10.0（非 LTS）",
+        "why_not_26": "26 线尚未进入 LTS，不作为冻结目标。"
+      },
+      "published_at": {
+        "v24_21_0": "2026-09-07",
+        "v26_10_0": "2026-09-21"
+      },
+      "queried_at": "2026-09-23T07:46+08:00（UTC 2026-09-22T23:46:02Z）",
+      "supported_systems": "Windows 构建物已核实存在：win-x64-msi、win-x64-zip、win-x64-7z、win-x64-exe、win-arm64-zip、win-arm64-7z（nodejs.org/dist index 的 files 列表）；同表亦列出 linux/osx 构建物。",
+      "language_constraints": "该发行带 npm 11.19.0（bundled）、V8 13.6.233.17、模块 ABI 137、OpenSSL 3.5.8；与各 JS 依赖的 engines 交集见 constraint_intersections。",
+      "interface_evidence": "nodejs.org/dist/index.json（200）与官方下载页（200，标题 \"Node.js — Download Node.js®\"）。",
+      "source_urls": [
+        "https://nodejs.org/dist/index.json",
+        "https://nodejs.org/en/download"
+      ],
+      "verification_level": "constraint_intersection_checked",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/nodejs-dist-index.json", "sha256": "2635760e972f8cce7269062690a4a75f12907345e444602fa53fba8fea6fafc9"},
+        {"path": "reports/evidence/M00.2.01/official-docs.json", "sha256": "d8793735512f298f3ddcfa1d799045255c63807c9f3dbb498240ce661fdea34b"}
+      ],
+      "unknowns": [
+        "Electron 44.4.4 内置的 Node/Chromium 版本（桌面运行时用它，不是系统 Node 24）。",
+        "何时迁移到下一 LTS 线（本批不涉及）。"
+      ]
+    },
+    {
+      "id": "npm",
+      "role": "Node 包管理器（前端/客户端依赖安装）",
+      "usage": "安装桌面客户端与前端依赖；发布/打包流程用。",
+      "deployment_surface": ["源码构建工具链"],
+      "runtime_kind": "包管理器（随 Node 分发或独立安装）",
+      "artifact": "npm（registry 上的 npm 包）",
+      "stage": "candidate",
+      "pinned": {
+        "version": "12.1.0"
+      },
+      "reference_not_frozen": {
+        "bundled_with_node_24_21_0": "11.19.0"
+      },
+      "published_at": {"12_1_0": "2026-09-22"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:57Z）",
+      "supported_systems": "unknown（元数据未声明操作系统）",
+      "language_constraints": "engines.node: ^22.22.2 || ^24.15.0 || >=26.0.0；Node v24.21.0 满足 ^24.15.0 分支",
+      "interface_evidence": "npm registry 元数据（200）：dist-tags.latest 与 engines。",
+      "source_urls": ["https://registry.npmjs.org/npm"],
+      "verification_level": "constraint_intersection_checked",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/npm-npm.json", "sha256": "f8a4285a572ae240bd7bc00a06ec4c7603f8ef13e002cb44d3969e931d63b2c8"}
+      ],
+      "unknowns": [
+        "是否把全局 npm 升到 12.1.0，还是沿用 Node 自带的 11.19.0（属 M00.2.03 的冻结决策）。",
+        "npm 12 与 Electron/Vite/Vitest 的工具链兼容性只核对了引擎声明，未实际安装验证。"
+      ]
+    },
+    {
+      "id": "pnpm",
+      "role": "Node 包管理器（备选）",
+      "usage": "若采用 pnpm 工作区管理桌面客户端与前端包。",
+      "deployment_surface": ["源码构建工具链"],
+      "runtime_kind": "包管理器（独立安装）",
+      "artifact": "pnpm（registry 上的 pnpm 包）",
+      "stage": "candidate",
+      "pinned": {"version": "12.5.1"},
+      "reference_not_frozen": {"latest_npm_version": "12.5.1"},
+      "published_at": {"12_5_1": "2026-09-18"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:58Z）",
+      "supported_systems": "unknown（元数据未声明操作系统）",
+      "language_constraints": "engines.node: >=18.*（原文如此）；Node v24.21.0 满足",
+      "interface_evidence": "npm registry 元数据（200）。",
+      "source_urls": ["https://registry.npmjs.org/pnpm"],
+      "verification_level": "metadata_confirmed",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/npm-pnpm.json", "sha256": "c5c82efcf954ac46d89e617824c83a25fd333d15e7676969a0bba8ef0a05149f"}
+      ],
+      "unknowns": ["npm 与 pnpm 二者取一由 M00.2.03 决策；本批两者都只记元数据。"]
+    },
+    {
+      "id": "uv",
+      "role": "Python 包/环境管理器（服务端）",
+      "usage": "服务端依赖安装与虚拟环境管理（含按需下载 Python 解释器的能力，具体用法待 M00.2.03 决策）。",
+      "deployment_surface": ["源码构建工具链", "服务端（部署期）"],
+      "runtime_kind": "包管理器（独立程序；PyPI 分发）",
+      "artifact": "uv（PyPI 发行物）",
+      "stage": "candidate",
+      "pinned": {"pypi_version": "0.12.18"},
+      "reference_not_frozen": {"latest_pypi_version": "0.12.18"},
+      "published_at": {"0_12_18": "2026-09-22"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:44Z）",
+      "supported_systems": "unknown（PyPI 元数据本轮未取到平台分类器列表）",
+      "language_constraints": "requires_python: >=3.8",
+      "interface_evidence": "PyPI JSON（200）：版本、requires_python、许可表达式 MIT OR Apache-2.0。",
+      "source_urls": ["https://pypi.org/pypi/uv/json"],
+      "verification_level": "metadata_confirmed",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-uv.json", "sha256": "e3ed9cf6ffbad76681a8e10dc03fb7ddbf99fda022d221e4d1cb11229ed72f1b"}
+      ],
+      "unknowns": [
+        "是否用 uv 管理 CPython 3.13.15 的解释器分发（本批只核实 uv 元数据）。",
+        "uv 与其在 Windows 上的平台支持矩阵（未核实）。"
+      ]
+    },
+    {
+      "id": "pip",
+      "role": "Python 包管理器（回退路径）",
+      "usage": "若不用 uv，则用 pip 安装服务端依赖。",
+      "deployment_surface": ["源码构建工具链"],
+      "runtime_kind": "包管理器（随 CPython 分发）",
+      "artifact": "pip（PyPI 发行物）",
+      "stage": "candidate",
+      "pinned": {"pypi_version": "26.2.1"},
+      "reference_not_frozen": {"latest_pypi_version": "26.2.1"},
+      "published_at": {"26_2_1": "2026-08-04"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:44Z）",
+      "supported_systems": "unknown（元数据未取到平台分类器列表）",
+      "language_constraints": "requires_python: >=3.10",
+      "interface_evidence": "PyPI JSON（200）。",
+      "source_urls": ["https://pypi.org/pypi/pip/json"],
+      "verification_level": "metadata_confirmed",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-pip.json", "sha256": "3956f71e70ae557097a00d6827c4e0bdeb5a5420e6c87201eeff7028cf863422"}
+      ],
+      "unknowns": ["uv 与 pip 的取舍由 M00.2.03 决策。"]
+    },
+    {
+      "id": "fastapi",
+      "role": "服务端 API 框架",
+      "usage": "实现产品 API（任务、产品数据、事件入口）。",
+      "deployment_surface": ["服务端"],
+      "runtime_kind": "库依赖",
+      "artifact": "fastapi（PyPI）",
+      "stage": "candidate",
+      "pinned": {"pypi_version": "0.141.1"},
+      "reference_not_frozen": {"latest_pypi_version": "0.141.1"},
+      "published_at": {"0_141_1": "2026-07-29"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:41Z）",
+      "supported_systems": "平台无关（纯 Python 包）；官方 OS 分类器本轮未取到，精确支持面 unknown",
+      "language_constraints": "requires_python: >=3.10；与 CPython 3.13.15 相容；与 hermes-agent 的 fastapi<1,>=0.104.0 约束相交（0.141.1 落在区间内）",
+      "interface_evidence": "PyPI JSON（200）：版本、requires_python、许可 MIT。",
+      "source_urls": ["https://pypi.org/pypi/fastapi/json"],
+      "verification_level": "constraint_intersection_checked",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-fastapi.json", "sha256": "722c4db59c97651664d9a31c1dc5a729d22066ef2850a82a867ce21bdd898ecb"}
+      ],
+      "unknowns": ["与 Hermes API Server 的接口衔接方式（同环境导入还是 HTTP 调用）由架构决定，未在本轮核实。"]
+    },
+    {
+      "id": "uvicorn",
+      "role": "服务端 ASGI 服务器",
+      "usage": "运行 FastAPI 应用。",
+      "deployment_surface": ["服务端"],
+      "runtime_kind": "库依赖",
+      "artifact": "uvicorn（PyPI）",
+      "stage": "candidate",
+      "pinned": {"pypi_version": "0.53.0"},
+      "reference_not_frozen": {"latest_pypi_version": "0.53.0"},
+      "published_at": {"0_53_0": "2026-09-14"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:41Z）",
+      "supported_systems": "平台无关（纯 Python 包）；官方 OS 分类器本轮未取到，精确支持面 unknown",
+      "language_constraints": "requires_python: >=3.10；与 hermes-agent 的 uvicorn[standard]<1,>=0.24.0 相交（0.53.0 落在区间内）",
+      "interface_evidence": "PyPI JSON（200）：许可 BSD-3-Clause。",
+      "source_urls": ["https://pypi.org/pypi/uvicorn/json"],
+      "verification_level": "constraint_intersection_checked",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-uvicorn.json", "sha256": "bcfb8ec692f876031fe93615428f1df1eab2579b836f93b02fcf4185ab667162"}
+      ],
+      "unknowns": ["同一服务端是否既跑我方 API 又跑 Hermes 的 ASGI 入口（部署形态待定）。"]
+    },
+    {
+      "id": "pydantic",
+      "role": "契约与数据校验（单一契约源）",
+      "usage": "packages/contracts 的 Pydantic 模型，作为 JSON Schema 与 TS 类型的单一来源。",
+      "deployment_surface": ["服务端", "源码构建工具链"],
+      "runtime_kind": "库依赖",
+      "artifact": "pydantic（PyPI）",
+      "stage": "candidate",
+      "pinned": {"pypi_version": "2.13.5"},
+      "reference_not_frozen": {"latest_pypi_version": "2.13.5"},
+      "published_at": {"2_13_5": "2026-08-28"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:42Z）",
+      "supported_systems": "平台无关（纯 Python 包）；官方 OS 分类器本轮未取到，精确支持面 unknown",
+      "language_constraints": "requires_python: >=3.9；与 CPython 3.13.15 相容。与 hermes-agent 的 pydantic==2.13.4（精确钉死）不同版本：若同进程环境安装会冲突，故两者环境分开记录。",
+      "interface_evidence": "PyPI JSON（200）：许可 MIT。",
+      "source_urls": ["https://pypi.org/pypi/pydantic/json"],
+      "verification_level": "constraint_intersection_checked",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-pydantic.json", "sha256": "d98d18888b8f5b378ff87e416c71f61f13284313bdc4428f42af9a9e90d64519"},
+        {"path": "reports/evidence/M00.2.01/pypi-hermes-agent.json", "sha256": "8c6c5458bbda5e0c48e5e1eb3ecbadc2afe9932d4c4a2c2908ea5c8beebf6c39"}
+      ],
+      "unknowns": [
+        "我方服务端是否需要在同一环境导入 hermes 包（若是，则必须降到 2.13.4 或与 Hermes 分环境）。",
+        "pydantic 2.13.5 与 Hermes 钉死的 2.13.4 之间的行为差异（未核实，按最小差异原则风险低但不能断言无差异）。"
+      ]
+    },
+    {
+      "id": "json-schema-to-typescript",
+      "role": "契约类型生成器（Python → JSON Schema → TS）",
+      "usage": "把 Pydantic 导出的 JSON Schema 生成 TS 类型，供桌面客户端使用。",
+      "deployment_surface": ["源码构建工具链"],
+      "runtime_kind": "构建工具（Node 程序）",
+      "artifact": "json-schema-to-typescript（npm）",
+      "stage": "candidate",
+      "pinned": {"npm_version": "16.0.0"},
+      "reference_not_frozen": {"latest_npm_version": "16.0.0"},
+      "published_at": {"16_0_0": "2026-08-28"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:54Z）",
+      "supported_systems": "unknown（元数据未声明操作系统）",
+      "language_constraints": "engines.node: >=16.0.0；Node v24.21.0 满足",
+      "interface_evidence": "npm registry 元数据（200）：许可 MIT。",
+      "source_urls": ["https://registry.npmjs.org/json-schema-to-typescript"],
+      "verification_level": "metadata_confirmed",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/npm-json-schema-to-typescript.json", "sha256": "aa0db078749b8341ae48f9fe4791c76c3f7170613f9bb4604dd899d1b26f7853"}
+      ],
+      "unknowns": ["与 TypeScript 7.0.2 的实际兼容性（该包未声明 TS 版本约束，只核对了 Node 引擎）。"]
+    },
+    {
+      "id": "pytest",
+      "role": "Python 测试框架",
+      "usage": "服务端与契约的局部行为测试。",
+      "deployment_surface": ["源码构建工具链"],
+      "runtime_kind": "测试工具（PyPI）",
+      "artifact": "pytest（PyPI）",
+      "stage": "candidate",
+      "pinned": {"pypi_version": "9.1.1"},
+      "reference_not_frozen": {"latest_pypi_version": "9.1.1"},
+      "published_at": {"9_1_1": "2026-06-19"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:42Z）",
+      "supported_systems": "平台无关（纯 Python 包）；官方 OS 分类器本轮未取到，精确支持面 unknown",
+      "language_constraints": "requires_python: >=3.10；与 CPython 3.13.15 相容",
+      "interface_evidence": "PyPI JSON（200）：许可 MIT。",
+      "source_urls": ["https://pypi.org/pypi/pytest/json"],
+      "verification_level": "metadata_confirmed",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-pytest.json", "sha256": "678f485faaaad285c31dba0abd813903014f7048a08532c7a51ef5f0caed78f0"}
+      ],
+      "unknowns": ["在本机 Windows 上的实际运行情况（本批未安装）。"]
+    },
+    {
+      "id": "vitest",
+      "role": "前端/客户端测试框架",
+      "usage": "桌面客户端与前端包的局部测试。",
+      "deployment_surface": ["源码构建工具链"],
+      "runtime_kind": "测试工具（npm）",
+      "artifact": "vitest（npm）",
+      "stage": "candidate",
+      "pinned": {"npm_version": "5.0.1"},
+      "reference_not_frozen": {"latest_npm_version": "5.0.1"},
+      "published_at": {"5_0_1": "2026-09-15"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:48Z）",
+      "supported_systems": "unknown（元数据未声明操作系统）",
+      "language_constraints": "engines.node: ^22.12.0 || ^24.0.0 || >=26.0.0；Node v24.21.0 满足 ^24.0.0 分支",
+      "interface_evidence": "npm registry 元数据（200）：许可 MIT。",
+      "source_urls": ["https://registry.npmjs.org/vitest"],
+      "verification_level": "constraint_intersection_checked",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/npm-vitest.json", "sha256": "8c149fb56464455d1d5121688b2f737ca9750deac5eedfda5e0a3107fa4dc96a"}
+      ],
+      "unknowns": ["与 Electron 内置运行时的关系（测试跑在 Node 而非 Electron 里）未在本轮验证。"]
+    },
+    {
+      "id": "electron",
+      "role": "桌面客户端外壳",
+      "usage": "Windows 客户端窗口与本地能力宿主。",
+      "deployment_surface": ["Windows 客户端"],
+      "runtime_kind": "应用框架（npm 包；运行时自带 Node/Chromium）",
+      "artifact": "electron（npm）",
+      "stage": "candidate",
+      "pinned": {"npm_version": "44.4.4"},
+      "reference_not_frozen": {"latest_npm_version": "44.4.4"},
+      "published_at": {"44_4_4": "2026-09-22"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:47Z）",
+      "supported_systems": "官方支持平台含 Windows（未逐条核实其支持矩阵）；元数据未声明 OS 字段，精确支持面 unknown",
+      "language_constraints": "engines.node: >=22.12.0（构建期 Node 要求）；Node v24.21.0 满足",
+      "interface_evidence": "npm registry 元数据（200）：许可 MIT。",
+      "source_urls": ["https://registry.npmjs.org/electron"],
+      "verification_level": "constraint_intersection_checked",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/npm-electron.json", "sha256": "3b3c7b8a071f05ccfee0329eb7be6aa3254b72a04b0d8d003b61d3202d071883"}
+      ],
+      "unknowns": [
+        "Electron 44 内置的 Node/Chromium 版本（未核实；与本文件 nodejs 条目的 Node 24 是两套运行时）。",
+        "Windows 打包/签名流程（后续卡）。"
+      ]
+    },
+    {
+      "id": "vue",
+      "role": "桌面客户端 UI 框架",
+      "usage": "渲染客户端界面。",
+      "deployment_surface": ["Windows 客户端"],
+      "runtime_kind": "库依赖（前端）",
+      "artifact": "vue（npm）",
+      "stage": "candidate",
+      "pinned": {"npm_version": "3.5.43"},
+      "reference_not_frozen": {"latest_npm_version": "3.5.43"},
+      "published_at": {"3_5_43": "2026-09-17"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:47Z）",
+      "supported_systems": "平台无关（浏览器/Electron 内运行）",
+      "language_constraints": "unknown：该版本未声明 engines 字段，故对 Node 版本没有包级约束；实际运行在 Electron 内置运行时中。",
+      "interface_evidence": "npm registry 元数据（200）：许可 MIT。",
+      "source_urls": ["https://registry.npmjs.org/vue"],
+      "verification_level": "metadata_confirmed",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/npm-vue.json", "sha256": "71c1959cea47f810d29c1884ec53a5a4681dc5f5ac890bbea9a8f7dc202578d9"}
+      ],
+      "unknowns": ["未声明 engines，故“与 Node 24 相容”只能由 Vite/测试工具链的约束间接支持，不能从包元数据直接断言。"]
+    },
+    {
+      "id": "vite",
+      "role": "前端构建工具",
+      "usage": "构建桌面客户端前端资源。",
+      "deployment_surface": ["源码构建工具链"],
+      "runtime_kind": "构建工具（npm）",
+      "artifact": "vite（npm）",
+      "stage": "candidate",
+      "pinned": {"npm_version": "8.3.0"},
+      "reference_not_frozen": {"latest_npm_version": "8.3.0"},
+      "published_at": {"8_3_0": "2026-09-10"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:51Z）",
+      "supported_systems": "unknown（元数据未声明操作系统）",
+      "language_constraints": "engines.node: ^20.19.0 || >=22.12.0；Node v24.21.0 满足",
+      "interface_evidence": "npm registry 元数据（200）：许可 MIT。",
+      "source_urls": ["https://registry.npmjs.org/vite"],
+      "verification_level": "constraint_intersection_checked",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/npm-vite.json", "sha256": "265b560672fde1b8fb3bbb805c95a27551097021b032542e5f5541d14da3b7ed"}
+      ],
+      "unknowns": ["与 Electron 打包链（electron-builder 之类）的搭配未选定，属后续卡。"]
+    },
+    {
+      "id": "typescript",
+      "role": "类型系统与编译器",
+      "usage": "客户端与契约 TS 类型检查/编译。",
+      "deployment_surface": ["源码构建工具链"],
+      "runtime_kind": "构建工具（npm）",
+      "artifact": "typescript（npm）",
+      "stage": "candidate",
+      "pinned": {"npm_version": "7.0.2"},
+      "reference_not_frozen": {"latest_npm_version": "7.0.2"},
+      "published_at": {"7_0_2": "2026-07-08"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:54Z）",
+      "supported_systems": "unknown（元数据未声明操作系统）",
+      "language_constraints": "engines.node: >=16.20.0；Node v24.21.0 满足",
+      "interface_evidence": "npm registry 元数据（200）：许可 Apache-2.0。",
+      "source_urls": ["https://registry.npmjs.org/typescript"],
+      "verification_level": "constraint_intersection_checked",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/npm-typescript.json", "sha256": "cc1096155b241e9714b7ab8879bfcc8db39c1d3dd0d8e91c76bf4bdb3d1c78cb"}
+      ],
+      "unknowns": [
+        "TS 7 与 json-schema-to-typescript 16.0.0、Vue 3.5.43 类型定义的实际兼容性（本轮只核对引擎声明）；若出现工具链不兼容，候选回退按 M00.2.03 的替代路线处理。"
+      ]
+    },
+    {
+      "id": "types-node",
+      "role": "Node 类型定义（@types/node）",
+      "usage": "为客户端/工具链的 Node API 提供 TS 类型。",
+      "deployment_surface": ["源码构建工具链"],
+      "runtime_kind": "类型定义（npm）",
+      "artifact": "@types/node（npm）",
+      "stage": "candidate",
+      "pinned": {"npm_version": "24.13.6"},
+      "reference_not_frozen": {
+        "latest_npm_version": "26.6.2",
+        "why_not_26": "类型定义应与目标运行时的 Node 大版本一致；运行时选 Node 24 LTS，故取 24.x 线最新（24.13.6，2026-09-19 发布，时间表中 24.x 最新），而不是对应 Node 26 的 26.6.2。"
+      },
+      "published_at": {"24_13_6": "2026-09-19T00:12:26.120Z"},
+      "queried_at": "2026-09-23T07:45+08:00 / 07:48+08:00（UTC 2026-09-22T23:46:22Z / 23:48:43Z）",
+      "supported_systems": "平台无关（仅类型文件）",
+      "language_constraints": "无包级 Node 约束（该版本没有 engines 字段）；与 Node v24.21.0 大版本一致（24 线）",
+      "interface_evidence": "npm registry 精确版本元数据（200）与 24.x 时间表查询（200）。",
+      "source_urls": [
+        "https://registry.npmjs.org/@types%2Fnode/24.13.6",
+        "https://registry.npmjs.org/@types%2Fnode"
+      ],
+      "verification_level": "registry_and_page",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/npm-types-node-24.json", "sha256": "84b4d1aaafc76eeba5d014cf7db2ced0c98f17d07360e1ab8a56c9d2d12b2a4e"},
+        {"path": "reports/evidence/M00.2.01/npm-types-node.json", "sha256": "32831d3d709e02a9b3aaac99ef8c11d405e14973de45d8a8856d111e7ecaba66"}
+      ],
+      "unknowns": ["24.13.6 的许可为 MIT（元数据确认），但其包含的 lib.dom 等定义来源的许可汇总未逐一核实。"]
+    },
+    {
+      "id": "supabase",
+      "role": "产品数据与对象存储（计划）",
+      "usage": "产品数据、对象存储与状态持久化（本地开发用其客户端库；服务形态待 M00.2.02/M00.2.03 登记）。",
+      "deployment_surface": ["服务端"],
+      "runtime_kind": "库依赖（客户端 SDK）+ 托管服务",
+      "artifact": "supabase（PyPI 客户端库）",
+      "stage": "planned",
+      "pinned": {"pypi_version": "2.31.0"},
+      "reference_not_frozen": {"latest_pypi_version": "2.31.0"},
+      "published_at": {"2_31_0": "2026-06-04"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:44Z）",
+      "supported_systems": "unknown（元数据未声明操作系统）",
+      "language_constraints": "requires_python: >=3.9；与 CPython 3.13.15 相容",
+      "interface_evidence": "PyPI JSON（200）：许可 MIT（客户端库）；托管服务的条款不在本文件范围。",
+      "source_urls": ["https://pypi.org/pypi/supabase/json"],
+      "verification_level": "metadata_confirmed",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-supabase.json", "sha256": "e566f8e01033f63e13bd8a72246df4a9025be6edcd4ee65fa379b98043ef5d30"}
+      ],
+      "unknowns": [
+        "托管服务的许可/条款（属 M00.2.02 的托管服务条目，不在本文件下结论）。",
+        "本地开发用自托管还是云托管（架构决策）。"
+      ]
+    },
+    {
+      "id": "pgmq",
+      "role": "任务队列（计划）",
+      "usage": "任务传输（PostgreSQL 上的队列）。",
+      "deployment_surface": ["服务端"],
+      "runtime_kind": "库依赖 / 数据库扩展",
+      "artifact": "pgmq（PyPI 客户端库）",
+      "stage": "planned",
+      "pinned": {"pypi_version": "1.1.4"},
+      "reference_not_frozen": {"latest_pypi_version": "1.1.4"},
+      "published_at": {"1_1_4": "2026-09-20"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:46Z）",
+      "supported_systems": "unknown（元数据未声明操作系统）",
+      "language_constraints": "requires_python: >=3.10；与 CPython 3.13.15 相容",
+      "interface_evidence": "PyPI JSON（200）：许可 Apache-2.0。",
+      "source_urls": ["https://pypi.org/pypi/pgmq/json"],
+      "verification_level": "metadata_confirmed",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-pgmq.json", "sha256": "f6b2ad75217c7bdf963061040a63b753362291eae61fb16637a7ddd9ed48f057"}
+      ],
+      "unknowns": ["PostgreSQL 侧扩展的版本要求（本卡只记客户端库）。"]
+    },
+    {
+      "id": "e2b",
+      "role": "隔离执行沙箱（计划）",
+      "usage": "在不碰用户机器的沙箱内执行代码。",
+      "deployment_surface": ["服务端", "独立执行器（远程沙箱）"],
+      "runtime_kind": "库依赖（客户端 SDK）+ 托管服务",
+      "artifact": "e2b（PyPI SDK）",
+      "stage": "planned",
+      "pinned": {"pypi_version": "2.51.0"},
+      "reference_not_frozen": {"latest_pypi_version": "2.51.0"},
+      "published_at": {"2_51_0": "2026-09-18"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:45Z）",
+      "supported_systems": "unknown（元数据未声明操作系统）",
+      "language_constraints": "requires_python: >=3.10；与 CPython 3.13.15 相容",
+      "interface_evidence": "PyPI JSON（200）：许可 MIT（SDK）。",
+      "source_urls": ["https://pypi.org/pypi/e2b/json"],
+      "verification_level": "metadata_confirmed",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-e2b.json", "sha256": "39ba89a9f22ac8f67bfc3fb6aa5514b119f1dc22b27af02edb6ddca2e9ba2864"}
+      ],
+      "unknowns": ["沙箱服务的计费与条款（M00.2.02 登记）。"]
+    },
+    {
+      "id": "mcp-sdk",
+      "role": "标准工具入口（计划）",
+      "usage": "以 MCP 作为外部工具/资源的标准接入面。",
+      "deployment_surface": ["服务端"],
+      "runtime_kind": "库依赖（SDK）",
+      "artifact": "mcp（PyPI）",
+      "stage": "planned",
+      "pinned": {"pypi_version": "2.2.0"},
+      "reference_not_frozen": {"latest_pypi_version": "2.2.0"},
+      "published_at": {"2_2_0": "2026-09-07"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:43Z）",
+      "supported_systems": "unknown（元数据未声明操作系统）",
+      "language_constraints": "requires_python: >=3.10；与 CPython 3.13.15 相容",
+      "interface_evidence": "PyPI JSON（200）：许可 MIT。",
+      "source_urls": ["https://pypi.org/pypi/mcp/json"],
+      "verification_level": "metadata_confirmed",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-mcp.json", "sha256": "b97631285e97e0db3417e33440208b419dc4e5fdfd2916658faeedaea89fa6d0"}
+      ],
+      "unknowns": ["协议版本与 Hermes/客户端的对接方式（后续卡）。"]
+    },
+    {
+      "id": "langfuse",
+      "role": "观测（计划）",
+      "usage": "调用与流程观测（仅采用已核实的社区许可范围）。",
+      "deployment_surface": ["服务端"],
+      "runtime_kind": "库依赖（SDK）+ 可选托管服务",
+      "artifact": "langfuse（PyPI SDK）",
+      "stage": "planned",
+      "pinned": {"pypi_version": "4.15.4"},
+      "reference_not_frozen": {"latest_pypi_version": "4.15.4"},
+      "published_at": {"4_15_4": "2026-09-16"},
+      "queried_at": "2026-09-23T07:45+08:00（UTC 2026-09-22T23:45:46Z）",
+      "supported_systems": "unknown（元数据未声明操作系统）",
+      "language_constraints": "requires_python: >=3.10,<4.0；与 CPython 3.13.15 相容",
+      "interface_evidence": "PyPI JSON（200）：元数据许可 MIT；注意上游仓库存在多许可目录结构，仓库级许可须在 M00.2.02 按 LICENSE 路径逐项核实。",
+      "source_urls": ["https://pypi.org/pypi/langfuse/json"],
+      "verification_level": "metadata_confirmed",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/pypi-langfuse.json", "sha256": "0c0b529b450d8ea149515956c262ed871eb59404feecadc144b82dac4d6ce63b"}
+      ],
+      "unknowns": ["仓库级多许可结构与托管服务条款（M00.2.02 逐项核实）。"]
+    },
+    {
+      "id": "airi",
+      "role": "UI 复用候选（计划，选择性复用）",
+      "usage": "界面组件的选择性复用来源（经抽取试验决定），不是框架底座。",
+      "deployment_surface": ["Windows 客户端"],
+      "runtime_kind": "源码依赖（source_only 候选）",
+      "artifact": "GitHub moeru-ai/airi",
+      "stage": "planned",
+      "pinned": {
+        "git_commit": "308ee2b3aa8587262aa7a458d5d68407cb5f2342"
+      },
+      "reference_not_frozen": {
+        "note": "本批只核实该历史 commit 仍可获取；不复刻其依赖树，也不在本批选定它的版本线。"
+      },
+      "published_at": {"commit_committer_date": "2026-09-22T11:44:51Z"},
+      "queried_at": "2026-09-23T07:46+08:00（UTC 2026-09-22T23:46:01Z）",
+      "supported_systems": "unknown（未核实）",
+      "language_constraints": "unknown（未核实其 Node/工具链要求）",
+      "interface_evidence": "GitHub commits API（200）：该 commit 存在，改动 5 个文件。",
+      "source_urls": ["https://api.github.com/repos/moeru-ai/airi/commits/308ee2b3aa8587262aa7a458d5d68407cb5f2342"],
+      "verification_level": "metadata_confirmed",
+      "evidence": [
+        {"path": "reports/evidence/M00.2.01/github-commit-airi-308ee2b3.json", "sha256": "732baccad3f6aa987ebc2018ab20b48e67bcb743cb4f7434c66d16820c7d4372"}
+      ],
+      "unknowns": [
+        "仓库许可与其素材（角色/音频）许可（M00.2.02 逐项核实；不存在授权证据的素材一律排除在首版之外）。",
+        "其依赖树与我们 Node 24 的相容性（本批未克隆、未安装）。"
+      ]
+    }
+  ],
+  "constraint_intersections": [
+    {
+      "topic": "Python：CPython 版本 × Python 依赖的 requires_python",
+      "checked": [
+        "hermes-agent 0.19.0: >=3.11,<3.14",
+        "fastapi 0.141.1: >=3.10",
+        "uvicorn 0.53.0: >=3.10",
+        "pydantic 2.13.5: >=3.9",
+        "pytest 9.1.1: >=3.10",
+        "uv 0.12.18: >=3.8",
+        "pip 26.2.1: >=3.10",
+        "supabase 2.31.0: >=3.9",
+        "pgmq 1.1.4 / mcp 2.2.0 / e2b 2.51.0: >=3.10",
+        "langfuse 4.15.4: >=3.10,<4.0"
+      ],
+      "result": "交集落在 [3.11, 3.14)。选定 3.13.15 同时满足全部条目；3.14.7（最新稳定）被 hermes-agent 的 <3.14 排除。",
+      "level": "约束相容（未做真实安装）"
+    },
+    {
+      "topic": "Node：Node 版本 × JS 依赖的 engines",
+      "checked": [
+        "claude-code 2.1.280: >=22.0.0",
+        "electron 44.4.4: >=22.12.0（构建期）",
+        "vite 8.3.0: ^20.19.0 || >=22.12.0",
+        "vitest 5.0.1: ^22.12.0 || ^24.0.0 || >=26.0.0",
+        "typescript 7.0.2: >=16.20.0",
+        "json-schema-to-typescript 16.0.0: >=16.0.0",
+        "npm 12.1.0: ^22.22.2 || ^24.15.0 || >=26.0.0",
+        "pnpm 12.5.1: >=18.*",
+        "codex 0.156.0: >=16",
+        "vue 3.5.43: 未声明 engines"
+      ],
+      "result": "Node v24.21.0 LTS 同时满足上面所有声明了 engines 的条目（vitest 的 ^24.0.0、npm 的 ^24.15.0 均覆盖 24.21.0）。vue 未声明 engines，只能记为 unknown，不能断言相容。",
+      "level": "约束相容（未做真实安装）"
+    },
+    {
+      "topic": "pydantic：Hermes 钉死版本 × 我方候选版本",
+      "checked": [
+        "hermes-agent 0.19.0 requires_dist: pydantic==2.13.4（精确钉死）",
+        "我方候选 pydantic 2.13.5"
+      ],
+      "result": "两版本不能在同一进程环境中共存（== 钉死与 2.13.5 冲突）。结论：上游程序自带环境与我们源码构建工具链分开记录/分开安装；若未来必须同环境导入 hermes 包，则需降到 2.13.4——该取舍留给架构决策，本文件不擅自合并环境。",
+      "level": "约束冲突已识别（分环境处理）"
+    },
+    {
+      "topic": "fastapi/uvicorn：Hermes 的区间约束 × 我方候选",
+      "checked": ["hermes-agent: fastapi>=0.104.0,<1", "hermes-agent: uvicorn[standard]>=0.24.0,<1", "我方候选: fastapi 0.141.1 / uvicorn 0.53.0"],
+      "result": "均在区间内，相容。",
+      "level": "约束相容（未做真实安装）"
+    }
+  ],
+  "unknown_and_gaps": [
+    "GitHub 匿名 API 在本轮为 tag 解引用时被限流（403）；两个 release tag 的 commit 用发行页 HTML + commit 页面 200 核实，属页面证据。冻结前（M00.2.03）应以 API 解引用复核 annotated tag 情形。",
+    "全部条目只到“约束相容/元数据已核实”，没有任何真实安装或端到端运行；本批 integration_evidence_kind = not_run。",
+    "Hermes 的官方支持系统矩阵、API Server 接口版本、会话/取消/隔离/恢复四项能力待后续卡实测。",
+    "Electron 内置 Node/Chromium 版本未核实（桌面运行时不等于系统 Node 24）。",
+    "PyPI 元数据的平台分类器列表本轮未逐条采集，多个条目的 supported_systems 因此记为 unknown；需要时在部署卡按官方安装包补充。",
+    "Python 3.13 线的官方安全支持截止日期未核实。",
+    "运行时未在本机安装（本批禁止安装/升级），因此 A01/A02 的“相容”结论均为约束层面的核对。"
+  ]
+}

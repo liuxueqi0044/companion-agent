@@ -1,0 +1,30 @@
+{
+  "batch_id": "BATCH-014",
+  "decision": "changes_requested",
+  "original_accepted_count": 12,
+  "result_ref": "sha256:1b0cd01c4e95448ef8093deb3d925fc83161550bd0965bdd71085fab01a08708",
+  "independent_tests": {
+    "passed": 26,
+    "skipped": 1,
+    "skip": "Windows symlink creation unavailable; junction regression passed"
+  },
+  "manifest_items": 16,
+  "submitted_files_unchanged": 83,
+  "findings": [
+    {
+      "id": "B14-R01",
+      "priority": "P2",
+      "file": "services/personal_ai/repository.py",
+      "issue": "Replay trusts result_snapshot_json without comparing its preferences/timestamp with the immutable result revision; internally inconsistent stored receipt is returned as success."
+    },
+    {
+      "id": "B14-R02",
+      "priority": "P2",
+      "file": "services/personal_ai/service.py",
+      "issue": "history(request or {}) converts false/0/empty list/empty string to a valid default request; violates strict in-process boundary."
+    }
+  ],
+  "review_model_http_requests": 0,
+  "review_credential_reads": 0,
+  "next_batch": "BATCH-015; package A closes findings, packages B-F form a larger local task feature"
+}

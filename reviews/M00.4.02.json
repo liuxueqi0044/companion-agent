@@ -1,0 +1,63 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.4.02",
+  "task_spec_sha256": "d079cd676a55858e6f3ddd7648ec12f2bfc18761be1ada46640705c4fc4d5bcf",
+  "report_sha256": "558da60a34a8cdbf5f9cd1a12928f884f54ccfca1ee7d8a0db8a67e5d227564b",
+  "reviewed_result_ref": "manifest-sha256:addb8a7cdc46d735fd80915953e8b1048c6589dd23a404fee9011fbf07781537",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_at": "2026-09-23T14:41:34.496338+00:00",
+  "decision": "not_run",
+  "preparation_decision": "accepted",
+  "evidence_ref": "reviews/evidence/BATCH-010/review-summary.json",
+  "checked_acceptance_ids": [
+    "M00.4.02-A01",
+    "M00.4.02-A02",
+    "M00.4.02-A03"
+  ],
+  "acceptance_decisions": [
+    {
+      "id": "M00.4.02-A01",
+      "decision": "passed",
+      "basis": "隔离production构建、完整Vue类型检查和测试类型检查通过；根源码与依赖无本批变化。"
+    },
+    {
+      "id": "M00.4.02-A02",
+      "decision": "not_run",
+      "basis": "DOM验证通过仍不代替可独立审阅的持久视觉图像。"
+    },
+    {
+      "id": "M00.4.02-A03",
+      "decision": "passed",
+      "basis": "新增模块是局部输入/候选投影，无主会话/记忆/真实模型调用。"
+    }
+  ],
+  "checked_preparation_ids": [
+    "B10-A01",
+    "B10-A02",
+    "B10-A03",
+    "B10-A04",
+    "B10-A05"
+  ],
+  "findings": [],
+  "followups": [
+    {
+      "id": "B10-T1",
+      "kind": "test_reliability",
+      "blocking": false,
+      "file": "reports/evidence/M00.4.02/BATCH-009-R1/test_multiline.mjs",
+      "line": 60,
+      "description": "原回归在异步草稿导入后只等待固定3个setImmediate轮次；独立串行执行也在第61行提前断言失败。不能限定成仅并行问题。",
+      "evidence": "check-10.txt保留原失败；独立副本等待Vue渲染及导入/导出busy结束后，原4组断言全过，未改产品与旧测试。",
+      "required": "下次授权测试修订时使用有超时的完成条件等待；保留旧失败与断言，不靠重复运行碰绿。"
+    }
+  ],
+  "preparation_basis": "新功能16组DOM、16项Vitest、原12组DOM+9组竞态通过；旧多行脚本有等待缺陷，经独立完成条件探针验证4组通过。45项manifest一致，范围5修改43新增0缺失0越界；holdout只核hash未变。",
+  "unresolved": [
+    "原A02持久视觉截图仍缺。",
+    "B10-T1旧测试等待不稳定，尚未改源脚本。"
+  ],
+  "limitations": [
+    "未执行真实模型、Hermes、Codex/Claude认证、原生Electron或完整业务工作流。"
+  ]
+}

@@ -1,0 +1,1575 @@
+{
+  "register_format": "license-register/1",
+  "task_id": "M00.2.02",
+  "batch_id": "BATCH-002",
+  "title": "首版依赖许可登记：来源、版本或 commit、许可文件位置与证据、使用方式、已核实范围、未核实限制",
+  "generated_at": "2026-09-23T00:00:00+00:00",
+  "query_window_utc": "2026-09-22T23:45:41Z ~ 2026-09-23（M00.2.02 五轮抓取，见 license-fetch*.txt）",
+  "method": "对每个依赖的官方仓库逐字抓取 LICENSE/NOTICE 正文（raw.githubusercontent.com），registry 声明值仅作对照；抓取失败或缺失的文件如实记录，不推测、不杜撰。",
+  "component_classes": {
+    "仓库代码": "以仓库许可发布的源代码（依赖库/工具/运行时）",
+    "组件企业目录": "同一仓库中受商业许可约束的目录（如 langfuse ee/）",
+    "托管服务": "按服务条款使用的托管产品，不适用仓库许可",
+    "模型权重": "本轮登记不涉及；首版不引入任何模型权重",
+    "素材": "美术/音频/字体等非代码素材，另见 asset-register.json"
+  },
+  "usage_modes": [
+    "调用官方程序",
+    "作为依赖库引入（SDK 依赖）",
+    "源码级复制组件",
+    "自托管部署",
+    "托管服务",
+    "构建/测试工具链"
+  ],
+  "entry_fields": [
+    "id",
+    "name",
+    "matrix_item_id",
+    "component_class",
+    "usage_mode",
+    "role_in_product",
+    "source",
+    "version_or_commit",
+    "license",
+    "parts",
+    "obligations",
+    "verified_scope",
+    "unverified",
+    "notes"
+  ],
+  "evidence_policy": [
+    "许可结论只来自 licenses/ 下逐字保存的正文；每个证据带 sha256 与来源 URL/ref/ref_kind",
+    "registry 声明（PyPI license_expression / npm license）只作对照，声明与正文不一致时以正文为准并写明",
+    "抓取不到的正文（如 LICENSE-APACHE、PATENTS）写进 unverified，不留空、不猜",
+    "GitHub 匿名 API 配额耗尽（403）导致多数 ref 未解析为 commit：ref_kind 如实标注 commit/tag/branch",
+    "证据目录里的每个文件都必须被本登记或 manifest 引用（自检脚本核对）"
+  ],
+  "metrics": {
+    "entries": 29,
+    "license_texts_verbatim": 40,
+    "entries_with_text_evidence": 29
+  },
+  "entries": [
+    {
+      "id": "hermes-agent",
+      "matrix_item_id": "hermes-agent",
+      "name": "Hermes Agent",
+      "component_class": "仓库代码",
+      "usage_mode": "依赖官方仓库源码作为主运行时（自建/自托管，未修改上游源码）",
+      "role_in_product": "唯一记忆主控与主运行时",
+      "source": {
+        "registry": "PyPI",
+        "registry_url": "https://pypi.org/pypi/hermes-agent/json",
+        "repo": "NousResearch/hermes-agent",
+        "repo_url": "https://github.com/NousResearch/hermes-agent"
+      },
+      "version_or_commit": {
+        "pypi_version": "0.19.0",
+        "git_tag": "v2026.9.21",
+        "git_commit": "d337b736aa1e8ebecfab043842d13e4a2d2f48a3"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT（PyPI license_expression）",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/hermes-agent-LICENSE.txt",
+            "sha256": "821556e6336796450ab852d375117b48a4887e71d255794fd6318d99982a5ab6",
+            "bytes": 1070,
+            "url": "https://raw.githubusercontent.com/NousResearch/hermes-agent/d337b736aa1e8ebecfab043842d13e4a2d2f48a3/LICENSE",
+            "ref": "d337b736aa1e8ebecfab043842d13e4a2d2f48a3",
+            "ref_kind": "commit",
+            "first_line": "MIT License",
+            "note": "URL 中的 ref 即矩阵钉定的 commit，许可正文与不可变 commit 绑定"
+          }
+        ]
+      },
+      "obligations": [
+        "再分发（含修改版）时保留版权声明与 MIT 许可全文",
+        "如后续修改上游源码，需在分发物中保留原许可并注明修改"
+      ],
+      "verified_scope": [
+        "逐字取得该 commit 下 LICENSE（1070B），正文为 MIT 许可",
+        "该 commit 的存在性在 M00.2.01 已由发行页与 commit 页面（HTTP 200）核实"
+      ],
+      "unverified": [
+        "未审计其完整依赖树的许可（只登记本项目直接钉定的运行时本体）",
+        "未核实官方支持系统矩阵与接口版本（见 runtime-matrix.json 的 unknown）"
+      ],
+      "notes": [
+        "PyPI 版本号 0.19.0 与 git tag v2026.9.21 是两套版本体系，两者都记（矩阵同）"
+      ]
+    },
+    {
+      "id": "codex",
+      "matrix_item_id": "codex",
+      "name": "Codex CLI（@openai/codex）",
+      "component_class": "仓库代码",
+      "usage_mode": "调用官方程序作为可替换执行器（不自建分支、不修改源码）",
+      "role_in_product": "可替换工程执行器之一（适配角色，非记忆主控）",
+      "source": {
+        "registry": "npm",
+        "registry_url": "https://registry.npmjs.org/@openai/codex",
+        "repo": "openai/codex",
+        "repo_url": "https://github.com/openai/codex"
+      },
+      "version_or_commit": {
+        "npm_version": "0.156.0",
+        "git_tag": "rust-v0.156.0",
+        "git_commit": "fe74a774532af67b5a4a3dec03ce9469e17f89af"
+      },
+      "license": {
+        "spdx_registry_declared": "Apache-2.0（npm license 字段）",
+        "spdx_from_text": "Apache-2.0",
+        "license_file_path": "LICENSE（另有仓库根 NOTICE）",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/codex-LICENSE.txt",
+            "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+            "bytes": 10926,
+            "url": "https://raw.githubusercontent.com/openai/codex/fe74a774532af67b5a4a3dec03ce9469e17f89af/LICENSE",
+            "ref": "fe74a774532af67b5a4a3dec03ce9469e17f89af",
+            "ref_kind": "commit",
+            "first_line": "Apache License",
+            "note": "与矩阵钉定的 commit 绑定"
+          },
+          {
+            "path": "reports/evidence/M00.2.02/licenses/codex-NOTICE.txt",
+            "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+            "bytes": 242,
+            "url": "https://raw.githubusercontent.com/openai/codex/fe74a774532af67b5a4a3dec03ce9469e17f89af/NOTICE",
+            "ref": "fe74a774532af67b5a4a3dec03ce9469e17f89af",
+            "ref_kind": "commit",
+            "first_line": "OpenAI Codex",
+            "note": "NOTICE 逐字保存；再分发时 Apache-2.0 要求保留"
+          }
+        ]
+      },
+      "obligations": [
+        "保留版权/许可/NOTICE（Apache-2.0 第 4 条）",
+        "若有修改需显著声明",
+        "不得使用上游商标暗示背书"
+      ],
+      "verified_scope": [
+        "逐字取得该 commit 下 LICENSE（10926B，Apache-2.0）与 NOTICE（242B）"
+      ],
+      "unverified": [
+        "未核实 npm 发行包内附带文件清单与仓库根文件是否一致"
+      ],
+      "notes": [
+        "以调用官方程序的方式集成，因此许可义务主要体现在再分发场景"
+      ]
+    },
+    {
+      "id": "claude-code",
+      "matrix_item_id": "claude-code",
+      "name": "Claude Code（@anthropic-ai/claude-code）",
+      "component_class": "官方程序（非开源底座，不得 fork 或再分发）",
+      "usage_mode": "调用官方程序（官方集成；不使用其源码构建自己的产品）",
+      "role_in_product": "可替换工程执行器之一（适配角色，非记忆主控）",
+      "source": {
+        "registry": "npm",
+        "registry_url": "https://registry.npmjs.org/@anthropic-ai/claude-code",
+        "repo": "anthropics/claude-code（公开仓库，仅含文档/问题跟踪，不是开源许可）",
+        "repo_url": "https://github.com/anthropics/claude-code"
+      },
+      "version_or_commit": {
+        "npm_version": "2.1.280"
+      },
+      "license": {
+        "spdx_registry_declared": "\"SEE LICENSE IN README.md\"（npm license 字段不是 SPDX 标识）",
+        "spdx_from_text": "非开源：专有许可（© Anthropic PBC，All rights reserved）",
+        "license_file_path": "LICENSE.md + README.md（指向 Commercial Terms of Service）",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/claude-code-LICENSE.md",
+            "sha256": "728158fd1037143fad6907e8fa34804177e598b7326519503fe83cafdef849e6",
+            "bytes": 150,
+            "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/LICENSE.md",
+            "ref": "main",
+            "ref_kind": "branch",
+            "first_line": "© Anthropic PBC. All rights reserved. Use is subject to Anthropic's [Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms).",
+            "note": "150B，逐字：© Anthropic PBC. All rights reserved. 使用受 Commercial Terms of Service 约束"
+          },
+          {
+            "path": "reports/evidence/M00.2.02/licenses/claude-code-README.md",
+            "sha256": "aa0d8b80ac083e1591be0789273f447058cc9187b4331634a5614155da27778d",
+            "bytes": 2873,
+            "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/README.md",
+            "ref": "main",
+            "ref_kind": "branch",
+            "first_line": "# Claude Code",
+            "note": "README 指向 Commercial Terms of Service 与 Privacy Policy"
+          },
+          {
+            "path": "reports/evidence/M00.2.02/licenses/claude-code-anthropic-commercial-terms.html",
+            "sha256": "96ea3fe7f43be06e1fb675ef624da988a27d51516dbad3776cf35b3ff5cdd2cb",
+            "bytes": 206684,
+            "url": "https://www.anthropic.com/legal/commercial-terms",
+            "ref": "n/a",
+            "ref_kind": "official_page",
+            "first_line": "<!DOCTYPE html><html lang=\"en\" class=\"anthropicsans_dce02d96-module__tEBbKW__variable anthropicserif_e7e46c4-module__uImRTq__variable anthropicmono_fae19af3-mod",
+            "note": "官方法律页原文（206684B），页面标题 Commercial Terms of Service \\ Anthropic"
+          }
+        ]
+      },
+      "obligations": [
+        "按官方程序集成：安装/调用官方发行物，不 fork、不再分发、不把其代码并入本项目",
+        "使用受 Anthropic Commercial Terms of Service 约束（条款文本随官方页面更新，引用时需复核）"
+      ],
+      "verified_scope": [
+        "npm 元数据 license 字段为 \"SEE LICENSE IN README.md\"（M00.2.01 证据）",
+        "仓库 LICENSE.md 与 README.md 正文已逐字取得（均指向 Commercial Terms）",
+        "Anthropic Commercial Terms of Service 官方页面本轮 HTTP 200，标题与生效条款页留存"
+      ],
+      "unverified": [
+        "未逐条解读条款文本（不做法律判断）",
+        "未核实个人/商业订阅与 API 计费等不同授权形态的差异",
+        "条款页面是可变的：未来引用须重新核对当时文本"
+      ],
+      "notes": [
+        "A03：Claude Code 登记为官方程序集成，不列为可随意 fork 的开源底座；本项目不复制其代码、不再分发其二进制"
+      ]
+    },
+    {
+      "id": "python",
+      "matrix_item_id": "python",
+      "name": "CPython",
+      "component_class": "仓库代码",
+      "usage_mode": "使用官方发行物作为源码构建/服务端运行时（不改解释器源码）",
+      "role_in_product": "env-server 的 Python 运行时（3.13.15）",
+      "source": {
+        "registry": "python.org",
+        "registry_url": "https://www.python.org/ftp/python/3.13.15/",
+        "repo": "python/cpython",
+        "repo_url": "https://github.com/python/cpython"
+      },
+      "version_or_commit": {
+        "version": "3.13.15",
+        "git_tag": "v3.13.15"
+      },
+      "license": {
+        "spdx_registry_declared": "unknown（下载页未声明 SPDX；正文为准）",
+        "spdx_from_text": "PSF-2.0（Python Software Foundation License Version 2）",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/python-LICENSE.txt",
+            "sha256": "78b12c3a81360b357002334f0e70ea0e92eebf7a9b358805c03c48484945f3bb",
+            "bytes": 13809,
+            "url": "https://raw.githubusercontent.com/python/cpython/v3.13.15/LICENSE",
+            "ref": "v3.13.15",
+            "ref_kind": "tag",
+            "first_line": "A. HISTORY OF THE SOFTWARE",
+            "note": "13809B，含历史沿革与 PSF 许可全文"
+          }
+        ]
+      },
+      "obligations": [
+        "保留 PSF 许可声明与版权信息",
+        "不得暗示 PSF 背书；使用 Python 标识受商标政策约束"
+      ],
+      "verified_scope": [
+        "逐字取得 v3.13.15 tag 下 LICENSE（13809B）",
+        "Windows 安装器存在性由 python.org FTP 目录清单核实（M00.2.01）"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "nodejs",
+      "matrix_item_id": "nodejs",
+      "name": "Node.js",
+      "component_class": "仓库代码",
+      "usage_mode": "使用官方发行物作为前端构建与桌面端运行时",
+      "role_in_product": "env-desktop / 前端工具链的 Node 运行时（v24.21.0 LTS）",
+      "source": {
+        "registry": "nodejs.org",
+        "registry_url": "https://nodejs.org/dist/index.json",
+        "repo": "nodejs/node",
+        "repo_url": "https://github.com/nodejs/node"
+      },
+      "version_or_commit": {
+        "version": "v24.21.0",
+        "git_tag": "v24.21.0"
+      },
+      "license": {
+        "spdx_registry_declared": "unknown（dist 索引未声明 SPDX）",
+        "spdx_from_text": "MIT（Node.js 本体；LICENSE 为复合文件，含随附第三方依赖的许可段落）",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/nodejs-LICENSE.txt",
+            "sha256": "5888dbb9a1d2b18f2c3e6c5f6af1b39de658372b402a0577b002777f14c62ace",
+            "bytes": 157609,
+            "url": "https://raw.githubusercontent.com/nodejs/node/v24.21.0/LICENSE",
+            "ref": "v24.21.0",
+            "ref_kind": "tag",
+            "first_line": "Node.js is licensed for use as follows:",
+            "note": "157609B；首行 Node.js is licensed for use as follows（MIT），其后为随附依赖许可清单"
+          }
+        ]
+      },
+      "obligations": [
+        "保留 Node.js 的 MIT 声明",
+        "再分发 Node 运行时时须一并保留 LICENSE 中随附依赖的许可段落"
+      ],
+      "verified_scope": [
+        "逐字取得 v24.21.0 tag 下 LICENSE（157609B）",
+        "LTS 状态由 nodejs.org dist 索引核实（M00.2.01）"
+      ],
+      "unverified": [
+        "未逐项核对 LICENSE 内嵌依赖清单与官方发行包 licenses 目录的一致性"
+      ]
+    },
+    {
+      "id": "npm",
+      "matrix_item_id": "npm",
+      "name": "npm CLI",
+      "component_class": "仓库代码",
+      "usage_mode": "使用官方发行物作为包管理器（工具链，不并入产品分发物）",
+      "role_in_product": "依赖安装工具链",
+      "source": {
+        "registry": "npm",
+        "registry_url": "https://registry.npmjs.org/npm",
+        "repo": "npm/cli",
+        "repo_url": "https://github.com/npm/cli"
+      },
+      "version_or_commit": {
+        "npm_version": "12.1.0",
+        "git_tag": "v12.1.0"
+      },
+      "license": {
+        "spdx_registry_declared": "Artistic-2.0",
+        "spdx_from_text": "Artistic-2.0",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/npm-LICENSE.txt",
+            "sha256": "7610d223851f421d315df5e77974f1c68a04b97e02060e5bbbcf13d95e3ca257",
+            "bytes": 9742,
+            "url": "https://raw.githubusercontent.com/npm/cli/v12.1.0/LICENSE",
+            "ref": "v12.1.0",
+            "ref_kind": "tag",
+            "first_line": "The npm application",
+            "note": "9742B，Artistic-2.0 全文"
+          }
+        ]
+      },
+      "obligations": [
+        "再分发时保留 Artistic-2.0 许可全文"
+      ],
+      "verified_scope": [
+        "逐字取得 LICENSE（9742B），与 registry 声明一致"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "pnpm",
+      "matrix_item_id": "pnpm",
+      "name": "pnpm",
+      "component_class": "仓库代码",
+      "usage_mode": "使用官方发行物作为包管理器（工具链，不并入产品分发物）",
+      "role_in_product": "依赖安装工具链",
+      "source": {
+        "registry": "npm",
+        "registry_url": "https://registry.npmjs.org/pnpm",
+        "repo": "pnpm/pnpm",
+        "repo_url": "https://github.com/pnpm/pnpm"
+      },
+      "version_or_commit": {
+        "npm_version": "12.5.1",
+        "git_tag": "v12.5.1"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/pnpm-LICENSE.txt",
+            "sha256": "4b8e2a57502758b2d034ece9cabf19dd098c5609003ed8dbdafd085274f25bd9",
+            "bytes": 1170,
+            "url": "https://raw.githubusercontent.com/pnpm/pnpm/v12.5.1/LICENSE",
+            "ref": "v12.5.1",
+            "ref_kind": "tag",
+            "first_line": "The MIT License (MIT)",
+            "note": "1170B，MIT"
+          }
+        ]
+      },
+      "obligations": [
+        "再分发时保留 MIT 声明"
+      ],
+      "verified_scope": [
+        "逐字取得 LICENSE（1170B），与 registry 声明一致"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "uv",
+      "matrix_item_id": "uv",
+      "name": "uv",
+      "component_class": "仓库代码",
+      "usage_mode": "使用官方发行物作为 Python 环境/依赖管理工具（工具链）",
+      "role_in_product": "Python 依赖与虚拟环境工具链",
+      "source": {
+        "registry": "PyPI",
+        "registry_url": "https://pypi.org/pypi/uv/json",
+        "repo": "astral-sh/uv",
+        "repo_url": "https://github.com/astral-sh/uv"
+      },
+      "version_or_commit": {
+        "pypi_version": "0.12.18",
+        "git_tag": "0.12.18"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT OR Apache-2.0（PyPI license_expression）",
+        "spdx_from_text": "MIT（本轮取的是 LICENSE-MIT）",
+        "license_file_path": "LICENSE-MIT（仓库另有 LICENSE-APACHE）",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/uv-LICENSE-MIT.txt",
+            "sha256": "860e3d7a86b84e6a7012c7a635fc64df475cebc6cce34dfeb73a5982ec58176c",
+            "bytes": 1077,
+            "url": "https://raw.githubusercontent.com/astral-sh/uv/0.12.18/LICENSE-MIT",
+            "ref": "0.12.18",
+            "ref_kind": "tag",
+            "first_line": "MIT License",
+            "note": "1077B，MIT"
+          }
+        ]
+      },
+      "obligations": [
+        "按 MIT 分支使用：保留版权与许可声明；若按 Apache-2.0 分支使用则须再满足其条款"
+      ],
+      "verified_scope": [
+        "逐字取得 LICENSE-MIT（1077B）",
+        "registry 声明为双许可 MIT OR Apache-2.0"
+      ],
+      "unverified": [
+        "LICENSE-APACHE 正文未取（双许可下按 MIT 使用亦成立）",
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "pip",
+      "matrix_item_id": "pip",
+      "name": "pip",
+      "component_class": "仓库代码",
+      "usage_mode": "使用官方发行物作为 Python 包安装工具（工具链）",
+      "role_in_product": "Python 依赖安装工具",
+      "source": {
+        "registry": "PyPI",
+        "registry_url": "https://pypi.org/pypi/pip/json",
+        "repo": "pypa/pip",
+        "repo_url": "https://github.com/pypa/pip"
+      },
+      "version_or_commit": {
+        "pypi_version": "26.2.1",
+        "git_tag": "26.2.1"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT（PyPI license_expression）",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENSE.txt",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/pip-LICENSE.txt.txt",
+            "sha256": "634300a669d49aeae65b12c6c48c924c51a4cdf3d1ff086dc3456dc8bcaa2104",
+            "bytes": 1093,
+            "url": "https://raw.githubusercontent.com/pypa/pip/26.2.1/LICENSE.txt",
+            "ref": "26.2.1",
+            "ref_kind": "tag",
+            "first_line": "Copyright (c) 2008-present The pip developers (see AUTHORS.txt file)",
+            "note": "1093B，MIT"
+          }
+        ]
+      },
+      "obligations": [
+        "再分发时保留 MIT 声明"
+      ],
+      "verified_scope": [
+        "逐字取得 LICENSE.txt（1093B），与 registry 声明一致"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "fastapi",
+      "matrix_item_id": "fastapi",
+      "name": "FastAPI",
+      "component_class": "仓库代码",
+      "usage_mode": "作为依赖库引入（SDK 依赖，不改源码）",
+      "role_in_product": "API 服务框架",
+      "source": {
+        "registry": "PyPI",
+        "registry_url": "https://pypi.org/pypi/fastapi/json",
+        "repo": "fastapi/fastapi",
+        "repo_url": "https://github.com/fastapi/fastapi"
+      },
+      "version_or_commit": {
+        "pypi_version": "0.141.1",
+        "git_tag": "0.141.1"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT（PyPI license_expression）",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/fastapi-LICENSE.txt",
+            "sha256": "4ec89ffc81485b97fec584b2d4a961032eeffe834453894fd9c1274906cc744e",
+            "bytes": 1086,
+            "url": "https://raw.githubusercontent.com/fastapi/fastapi/0.141.1/LICENSE",
+            "ref": "0.141.1",
+            "ref_kind": "tag",
+            "first_line": "The MIT License (MIT)",
+            "note": "1086B，MIT"
+          }
+        ]
+      },
+      "obligations": [
+        "分发依赖时保留 MIT 声明"
+      ],
+      "verified_scope": [
+        "逐字取得 0.141.1 tag 下 LICENSE（1086B），与 registry 声明一致"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "uvicorn",
+      "matrix_item_id": "uvicorn",
+      "name": "Uvicorn",
+      "component_class": "仓库代码",
+      "usage_mode": "作为依赖库引入（SDK 依赖，不改源码）",
+      "role_in_product": "ASGI 服务器",
+      "source": {
+        "registry": "PyPI",
+        "registry_url": "https://pypi.org/pypi/uvicorn/json",
+        "repo": "encode/uvicorn",
+        "repo_url": "https://github.com/encode/uvicorn"
+      },
+      "version_or_commit": {
+        "pypi_version": "0.53.0",
+        "git_tag": "0.53.0"
+      },
+      "license": {
+        "spdx_registry_declared": "BSD-3-Clause（PyPI license_expression）",
+        "spdx_from_text": "BSD-3-Clause",
+        "license_file_path": "LICENSE.md",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/uvicorn-LICENSE.md.txt",
+            "sha256": "efe1acf3e62fb99c288b0ec73e5a773b7268ef4320fe757ea994214e4b63c371",
+            "bytes": 1526,
+            "url": "https://raw.githubusercontent.com/encode/uvicorn/0.53.0/LICENSE.md",
+            "ref": "0.53.0",
+            "ref_kind": "tag",
+            "first_line": "Copyright © 2017-present, [Encode OSS Ltd](https://www.encode.io/).",
+            "note": "1526B；三条条款含 Neither the name 条，即 3-Clause"
+          }
+        ]
+      },
+      "obligations": [
+        "保留版权与许可声明",
+        "不得用 Encode OSS 名称背书"
+      ],
+      "verified_scope": [
+        "逐字取得 LICENSE.md（1526B），条款数与 registry 声明一致"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "pydantic",
+      "matrix_item_id": "pydantic",
+      "name": "Pydantic",
+      "component_class": "仓库代码",
+      "usage_mode": "作为依赖库引入（SDK 依赖，不改源码）",
+      "role_in_product": "数据校验与契约模型运行时",
+      "source": {
+        "registry": "PyPI",
+        "registry_url": "https://pypi.org/pypi/pydantic/json",
+        "repo": "pydantic/pydantic",
+        "repo_url": "https://github.com/pydantic/pydantic"
+      },
+      "version_or_commit": {
+        "pypi_version": "2.13.5",
+        "git_tag": "v2.13.5"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT（PyPI license_expression）",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/pydantic-LICENSE.txt",
+            "sha256": "a9e186f3ca16b5eef84318e7a701721351a00cb7b8ae3a4394b67b49e3529ef3",
+            "bytes": 1129,
+            "url": "https://raw.githubusercontent.com/pydantic/pydantic/v2.13.5/LICENSE",
+            "ref": "v2.13.5",
+            "ref_kind": "tag",
+            "first_line": "The MIT License (MIT)",
+            "note": "1129B，MIT"
+          }
+        ]
+      },
+      "obligations": [
+        "分发依赖时保留 MIT 声明"
+      ],
+      "verified_scope": [
+        "逐字取得 v2.13.5 tag 下 LICENSE（1129B），与 registry 声明一致",
+        "Hermes 钉死 pydantic==2.13.4 的环境分歧属版本策略，见 runtime-matrix.json"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "json-schema-to-typescript",
+      "matrix_item_id": "json-schema-to-typescript",
+      "name": "json-schema-to-typescript",
+      "component_class": "仓库代码",
+      "usage_mode": "作为构建期代码生成工具（由 JSON Schema 生成 TS 类型）",
+      "role_in_product": "契约类型生成（单源：Pydantic → JSON Schema → TS）",
+      "source": {
+        "registry": "npm",
+        "registry_url": "https://registry.npmjs.org/json-schema-to-typescript",
+        "repo": "bcherny/json-schema-to-typescript",
+        "repo_url": "https://github.com/bcherny/json-schema-to-typescript"
+      },
+      "version_or_commit": {
+        "npm_version": "16.0.0",
+        "note": "仓库没有 16.0.0/v16.0.0 tag（tags 页只有 v1.2.2/v0.1.1/v0.1.0）"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT（npm license 字段）",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENCE.md（英式拼写；仓库根无 LICENSE）",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/json-schema-to-typescript-LICENCE.md",
+            "sha256": "d6677b4a6e79309ad1d1dd68eea9270cfa01e6056ada634da2fe65f87f692e7a",
+            "bytes": 1052,
+            "url": "https://raw.githubusercontent.com/bcherny/json-schema-to-typescript/master/LICENCE.md",
+            "ref": "master",
+            "ref_kind": "branch",
+            "first_line": "Copyright 2022 Boris Cherny",
+            "note": "1052B；master 的 package.json 同时声明 version=16.0.0、license=MIT（本轮实测）"
+          }
+        ]
+      },
+      "obligations": [
+        "分发工具/生成物时保留 MIT 声明（生成的 TS 类型文件本身不受许可传染，但保留声明是稳妥做法）"
+      ],
+      "verified_scope": [
+        "逐字取得 master 下 LICENCE.md（1052B）",
+        "master package.json 的 version=16.0.0 与 npm 16.0.0 对应"
+      ],
+      "unverified": [
+        "仓库无与 16.0.0 对应的 tag，许可正文取自 master，未与不可变 commit 绑定",
+        "未核实 npm 发行包与 master 快照是否逐字节一致"
+      ]
+    },
+    {
+      "id": "pytest",
+      "matrix_item_id": "pytest",
+      "name": "pytest",
+      "component_class": "仓库代码",
+      "usage_mode": "作为开发期测试工具（工具链）",
+      "role_in_product": "后端测试框架",
+      "source": {
+        "registry": "PyPI",
+        "registry_url": "https://pypi.org/pypi/pytest/json",
+        "repo": "pytest-dev/pytest",
+        "repo_url": "https://github.com/pytest-dev/pytest"
+      },
+      "version_or_commit": {
+        "pypi_version": "9.1.1",
+        "git_tag": "9.1.1"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT（PyPI license_expression）",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/pytest-LICENSE.txt",
+            "sha256": "ca836a5f9ecca3b2f350230faa20a48fb8b145653b5568d784862df864706b9b",
+            "bytes": 1091,
+            "url": "https://raw.githubusercontent.com/pytest-dev/pytest/9.1.1/LICENSE",
+            "ref": "9.1.1",
+            "ref_kind": "tag",
+            "first_line": "The MIT License (MIT)",
+            "note": "1091B，MIT"
+          }
+        ]
+      },
+      "obligations": [
+        "工具链不随产品分发；如分发测试产物需保留 MIT 声明"
+      ],
+      "verified_scope": [
+        "逐字取得 9.1.1 tag 下 LICENSE（1091B），与 registry 声明一致"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "vitest",
+      "matrix_item_id": "vitest",
+      "name": "Vitest",
+      "component_class": "仓库代码",
+      "usage_mode": "作为开发期测试工具（工具链）",
+      "role_in_product": "前端测试框架",
+      "source": {
+        "registry": "npm",
+        "registry_url": "https://registry.npmjs.org/vitest",
+        "repo": "vitest-dev/vitest",
+        "repo_url": "https://github.com/vitest-dev/vitest"
+      },
+      "version_or_commit": {
+        "npm_version": "5.0.1",
+        "git_tag": "v5.0.1"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/vitest-LICENSE.txt",
+            "sha256": "04575fc5bfae19a9b63100f8691f901a2e15a399011ac02db435a9ef27295551",
+            "bytes": 1102,
+            "url": "https://raw.githubusercontent.com/vitest-dev/vitest/v5.0.1/LICENSE",
+            "ref": "v5.0.1",
+            "ref_kind": "tag",
+            "first_line": "MIT License",
+            "note": "1102B，MIT"
+          }
+        ]
+      },
+      "obligations": [
+        "工具链不随产品分发；如分发测试产物需保留 MIT 声明"
+      ],
+      "verified_scope": [
+        "逐字取得 v5.0.1 tag 下 LICENSE（1102B），与 registry 声明一致"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "electron",
+      "matrix_item_id": "electron",
+      "name": "Electron",
+      "component_class": "仓库代码",
+      "usage_mode": "作为依赖库引入并由官方发行物打包桌面应用",
+      "role_in_product": "桌面外壳运行时（随产品分发）",
+      "source": {
+        "registry": "npm",
+        "registry_url": "https://registry.npmjs.org/electron",
+        "repo": "electron/electron",
+        "repo_url": "https://github.com/electron/electron"
+      },
+      "version_or_commit": {
+        "npm_version": "44.4.4",
+        "git_tag": "v44.4.4"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT",
+        "spdx_from_text": "MIT（Copyright (c) Electron contributors）",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/electron-LICENSE.txt",
+            "sha256": "5154e165bd6c2cc0cfbcd8916498c7abab0497923bafcd5cb07673fe8480087d",
+            "bytes": 1096,
+            "url": "https://raw.githubusercontent.com/electron/electron/v44.4.4/LICENSE",
+            "ref": "v44.4.4",
+            "ref_kind": "tag",
+            "first_line": "Copyright (c) Electron contributors",
+            "note": "1096B，MIT；Electron 打包产物还涉及 Chromium/Node 的第三方许可，本轮未取该文件"
+          }
+        ]
+      },
+      "obligations": [
+        "随分发物保留 Electron 的 MIT 声明；打包产物还需保留 Chromium/Node 的许可文件（由官方发行物自带）"
+      ],
+      "verified_scope": [
+        "逐字取得 v44.4.4 tag 下 LICENSE（1096B），与 registry 声明一致"
+      ],
+      "unverified": [
+        "打包后发行物内 Chromium/Node 许可文件的完整性未核实（打包卡实测项）"
+      ]
+    },
+    {
+      "id": "vue",
+      "matrix_item_id": "vue",
+      "name": "Vue",
+      "component_class": "仓库代码",
+      "usage_mode": "作为依赖库引入（前端框架）",
+      "role_in_product": "桌面/前端 UI 框架",
+      "source": {
+        "registry": "npm",
+        "registry_url": "https://registry.npmjs.org/vue",
+        "repo": "vuejs/core",
+        "repo_url": "https://github.com/vuejs/core"
+      },
+      "version_or_commit": {
+        "npm_version": "3.5.43",
+        "git_tag": "v3.5.43"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/vue-LICENSE.txt",
+            "sha256": "49190d1f742dd61e47fe816df4963e5186a2a62100d9122f9883a60ea32973ac",
+            "bytes": 1112,
+            "url": "https://raw.githubusercontent.com/vuejs/core/v3.5.43/LICENSE",
+            "ref": "v3.5.43",
+            "ref_kind": "tag",
+            "first_line": "The MIT License (MIT)",
+            "note": "1112B，MIT"
+          }
+        ]
+      },
+      "obligations": [
+        "随产物保留 MIT 声明"
+      ],
+      "verified_scope": [
+        "逐字取得 v3.5.43 tag 下 LICENSE（1112B），与 registry 声明一致"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "vite",
+      "matrix_item_id": "vite",
+      "name": "Vite",
+      "component_class": "仓库代码",
+      "usage_mode": "作为构建工具（构建期，不随运行时分发）",
+      "role_in_product": "前端构建工具",
+      "source": {
+        "registry": "npm",
+        "registry_url": "https://registry.npmjs.org/vite",
+        "repo": "vitejs/vite",
+        "repo_url": "https://github.com/vitejs/vite"
+      },
+      "version_or_commit": {
+        "npm_version": "8.3.0",
+        "git_tag": "v8.3.0"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/vite-LICENSE.txt",
+            "sha256": "692057af3d664cbb79ac38293eb50aa3c4987f8182e2a440136e59e08f1b4a54",
+            "bytes": 1101,
+            "url": "https://raw.githubusercontent.com/vitejs/vite/v8.3.0/LICENSE",
+            "ref": "v8.3.0",
+            "ref_kind": "tag",
+            "first_line": "MIT License",
+            "note": "1101B，MIT"
+          }
+        ]
+      },
+      "obligations": [
+        "构建产物不含 Vite 运行时代码；如分发 Vite 本体需保留 MIT 声明"
+      ],
+      "verified_scope": [
+        "逐字取得 v8.3.0 tag 下 LICENSE（1101B），与 registry 声明一致"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "typescript",
+      "matrix_item_id": "typescript",
+      "name": "TypeScript",
+      "component_class": "仓库代码",
+      "usage_mode": "作为编译工具（构建期）与类型定义来源",
+      "role_in_product": "前端/契约类型编译工具",
+      "source": {
+        "registry": "npm",
+        "registry_url": "https://registry.npmjs.org/typescript",
+        "repo": "microsoft/TypeScript",
+        "repo_url": "https://github.com/microsoft/TypeScript"
+      },
+      "version_or_commit": {
+        "npm_version": "7.0.2",
+        "git_tag": "v7.0.2"
+      },
+      "license": {
+        "spdx_registry_declared": "Apache-2.0",
+        "spdx_from_text": "Apache-2.0",
+        "license_file_path": "LICENSE.txt",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/typescript-LICENSE.txt.txt",
+            "sha256": "a7d00bfd54525bc694b6e32f64c7ebcf5e6b7ae3657be5cc12767bce74654a47",
+            "bytes": 9197,
+            "url": "https://raw.githubusercontent.com/microsoft/TypeScript/v7.0.2/LICENSE.txt",
+            "ref": "v7.0.2",
+            "ref_kind": "tag",
+            "first_line": "Apache License",
+            "note": "9197B，Apache-2.0"
+          }
+        ]
+      },
+      "obligations": [
+        "再分发时保留 Apache-2.0 声明",
+        "不得使用 Microsoft 商标暗示背书"
+      ],
+      "verified_scope": [
+        "逐字取得 v7.0.2 tag 下 LICENSE.txt（9197B），与 registry 声明一致"
+      ],
+      "unverified": [
+        "仓库另有 PATENTS 文件，本轮未取（未核实其内容与影响）",
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "types-node",
+      "matrix_item_id": "types-node",
+      "name": "@types/node",
+      "component_class": "仓库代码",
+      "usage_mode": "作为开发期类型定义依赖（devDependency）",
+      "role_in_product": "Node 类型定义（构建期）",
+      "source": {
+        "registry": "npm",
+        "registry_url": "https://registry.npmjs.org/@types/node",
+        "repo": "DefinitelyTyped/DefinitelyTyped",
+        "repo_url": "https://github.com/DefinitelyTyped/DefinitelyTyped"
+      },
+      "version_or_commit": {
+        "npm_version": "24.13.6"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT（npm license 字段）",
+        "spdx_from_text": "MIT（根 LICENSE：This project is licensed under the MIT license.）",
+        "license_file_path": "LICENSE（DefinitelyTyped 仓库根；types/node/ 目录下无独立许可文件，本轮实测 404）",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/types-node-LICENSE.txt",
+            "sha256": "0a48f63d7d32a49d196dce4b2e0cbc236c2cc8fef42cb20e005e4d5f813cc8f6",
+            "bytes": 1167,
+            "url": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/master/LICENSE",
+            "ref": "master",
+            "ref_kind": "branch",
+            "first_line": "This project is licensed under the MIT license.",
+            "note": "1167B，MIT 声明"
+          }
+        ]
+      },
+      "obligations": [
+        "构建期依赖；如随产物分发类型定义需保留 MIT 声明"
+      ],
+      "verified_scope": [
+        "逐字取得 DefinitelyTyped 根 LICENSE（1167B）",
+        "types/node/LICENSE 路径实测 404（packages 目录无独立许可文件）"
+      ],
+      "unverified": [
+        "未与不可变 commit 绑定（根仓库 master 分支）",
+        "未核实单个 @types 包内是否另有许可文件（npm 包内 LICENSE 未取）"
+      ]
+    },
+    {
+      "id": "airi",
+      "matrix_item_id": "airi",
+      "name": "AIRI（moeru-ai/airi）",
+      "component_class": "仓库代码",
+      "usage_mode": "作为 UI/交互参考与候选组件来源（首版只参考，不复制其美术素材）",
+      "role_in_product": "UI 候选（桌面形象交互形态参考）",
+      "source": {
+        "registry": "GitHub",
+        "registry_url": "https://github.com/moeru-ai/airi",
+        "repo": "moeru-ai/airi",
+        "repo_url": "https://github.com/moeru-ai/airi"
+      },
+      "version_or_commit": {
+        "git_commit": "308ee2b3aa8587262aa7a458d5d68407cb5f2342"
+      },
+      "license": {
+        "spdx_registry_declared": "unknown（无包注册表声明；以仓库许可正文为准）",
+        "spdx_from_text": "MIT（仓库根 LICENSE）",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/airi-LICENSE.txt",
+            "sha256": "f334260edf0508041280b534ca9d0abd5a02a9626c1d2e20a556ac4eb72b07f9",
+            "bytes": 1075,
+            "url": "https://raw.githubusercontent.com/moeru-ai/airi/308ee2b3aa8587262aa7a458d5d68407cb5f2342/LICENSE",
+            "ref": "308ee2b3aa8587262aa7a458d5d68407cb5f2342",
+            "ref_kind": "commit",
+            "first_line": "MIT License",
+            "note": "1075B，MIT；与矩阵钉定 commit 绑定"
+          }
+        ]
+      },
+      "obligations": [
+        "如复制其代码组件，保留 MIT 声明",
+        "角色形象/立绘/模型等美术素材是否在 MIT 覆盖范围内需单独核实（见 asset-register：首版不使用）"
+      ],
+      "verified_scope": [
+        "逐字取得该 commit 下 LICENSE（1075B）",
+        "该 commit 仍可获取（M00.2.01 已核实）"
+      ],
+      "unverified": [
+        "仓库内美术素材/模型权重的许可未逐个核实",
+        "未把 AIRI 列为可复制素材来源：仅代码许可已核实"
+      ]
+    },
+    {
+      "id": "shadcn-vue",
+      "matrix_item_id": null,
+      "name": "shadcn-vue",
+      "component_class": "仓库代码",
+      "usage_mode": "复制组件源码进项目（复制组件模式，属源码级复制）",
+      "role_in_product": "UI 候选（组件源码）",
+      "source": {
+        "registry": "GitHub",
+        "registry_url": "https://github.com/unovue/shadcn-vue",
+        "repo": "unovue/shadcn-vue",
+        "repo_url": "https://github.com/unovue/shadcn-vue"
+      },
+      "version_or_commit": {
+        "git_ref": "main（未钉定版本；M00.2.03 冻结时需补）"
+      },
+      "license": {
+        "spdx_registry_declared": "unknown（未在 registry 发布同名包）",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/shadcn-vue-LICENSE.txt",
+            "sha256": "e31a2ad64793f7470e84791ff5c9ac6d109f212d96bc867694940793e97e45c6",
+            "bytes": 1066,
+            "url": "https://raw.githubusercontent.com/unovue/shadcn-vue/main/LICENSE",
+            "ref": "main",
+            "ref_kind": "branch",
+            "first_line": "MIT License",
+            "note": "1066B，MIT"
+          }
+        ]
+      },
+      "obligations": [
+        "复制进项目的组件源码保留 MIT 声明（建议在项目 NOTICE/第三方许可清单中列出）"
+      ],
+      "verified_scope": [
+        "逐字取得 main 分支 LICENSE（1066B）"
+      ],
+      "unverified": [
+        "未钉定版本/commit：复制组件时必须记录所复制的 commit（M00.2.03 需给出）",
+        "其依赖的 Radix Vue 等次级依赖许可未逐个取证"
+      ]
+    },
+    {
+      "id": "vueuse",
+      "matrix_item_id": null,
+      "name": "VueUse",
+      "component_class": "仓库代码",
+      "usage_mode": "作为依赖库引入（工具函数库）",
+      "role_in_product": "UI 候选（组合式工具函数）",
+      "source": {
+        "registry": "GitHub",
+        "registry_url": "https://github.com/vueuse/vueuse",
+        "repo": "vueuse/vueuse",
+        "repo_url": "https://github.com/vueuse/vueuse"
+      },
+      "version_or_commit": {
+        "git_ref": "main（未钉定版本；M00.2.03 冻结时需补）"
+      },
+      "license": {
+        "spdx_registry_declared": "unknown（本轮未取 npm packument）",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/vueuse-LICENSE.txt",
+            "sha256": "0f844b1160603552a01662ac2999c14e5fb4df487e65619b9ed4406e43eb3c0b",
+            "bytes": 1101,
+            "url": "https://raw.githubusercontent.com/vueuse/vueuse/main/LICENSE",
+            "ref": "main",
+            "ref_kind": "branch",
+            "first_line": "MIT License",
+            "note": "1101B，MIT"
+          }
+        ]
+      },
+      "obligations": [
+        "随产物保留 MIT 声明"
+      ],
+      "verified_scope": [
+        "逐字取得 main 分支 LICENSE（1101B）"
+      ],
+      "unverified": [
+        "未钉定版本/commit",
+        "未取 npm registry 声明值（安装时以包内 LICENSE 为准）"
+      ]
+    },
+    {
+      "id": "jsonforms",
+      "matrix_item_id": null,
+      "name": "JSON Forms（EclipseSource）",
+      "component_class": "仓库代码",
+      "usage_mode": "作为候选方案引入（表单渲染，基于 JSON Schema）",
+      "role_in_product": "UI 候选（Schema 驱动表单）",
+      "source": {
+        "registry": "GitHub",
+        "registry_url": "https://github.com/eclipsesource/jsonforms",
+        "repo": "eclipsesource/jsonforms",
+        "repo_url": "https://github.com/eclipsesource/jsonforms"
+      },
+      "version_or_commit": {
+        "git_tag": "v3.8.0（最新稳定 tag；预发行 v3.9.0-alpha.1 不作为依据）"
+      },
+      "license": {
+        "spdx_registry_declared": "unknown（本轮未取 npm packument）",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/jsonforms-LICENSE.txt",
+            "sha256": "78f32d1422681b26b70f5b5a4094ceeb8bbd04c6eea98bb2f7f7f7f8e063539e",
+            "bytes": 1079,
+            "url": "https://raw.githubusercontent.com/eclipsesource/jsonforms/v3.8.0/LICENSE",
+            "ref": "v3.8.0",
+            "ref_kind": "tag",
+            "first_line": "The MIT License",
+            "note": "1079B，MIT（The MIT License）"
+          }
+        ]
+      },
+      "obligations": [
+        "随产物保留 MIT 声明",
+        "EclipseSource 名称/标识不得用于背书"
+      ],
+      "verified_scope": [
+        "逐字取得 v3.8.0 tag 下 LICENSE（1079B）；tag 名由 tags.atom 核实"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "supabase",
+      "matrix_item_id": "supabase",
+      "name": "Supabase",
+      "component_class": "仓库代码 + 托管服务",
+      "usage_mode": "客户端库作为 SDK 依赖引入；如需自托管则部署平台仓库；托管形态按服务条款",
+      "role_in_product": "计划项：数据库/Auth/Storage（PostgreSQL 之上的托管或自托管平台）",
+      "source": {
+        "registry": "PyPI（客户端库 supabase 2.31.0）",
+        "registry_url": "https://pypi.org/pypi/supabase/json",
+        "repo": "supabase/supabase-py（客户端库）；supabase/supabase（自托管平台）",
+        "repo_url": "https://github.com/supabase/supabase"
+      },
+      "version_or_commit": {
+        "pypi_version": "2.31.0",
+        "platform_repo_tag": "self-hosted/v0.8.1（自托管平台仓库本轮所取 tag）"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT（PyPI license_expression，客户端库）",
+        "spdx_from_text": "客户端库 MIT；自托管平台仓库 Apache-2.0",
+        "license_file_path": "客户端库 LICENSE；平台仓库 LICENSE（无 NOTICE）",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/supabase-py-LICENSE.txt",
+            "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+            "bytes": 1065,
+            "url": "https://raw.githubusercontent.com/supabase/supabase-py/main/LICENSE",
+            "ref": "main",
+            "ref_kind": "branch",
+            "first_line": "MIT License",
+            "note": "1065B，MIT（客户端库）"
+          },
+          {
+            "path": "reports/evidence/M00.2.02/licenses/supabase-LICENSE.txt",
+            "sha256": "c29468abcd629e248c2f76848155c386b733872bcabcc4cf65ef1e7c61431042",
+            "bytes": 11338,
+            "url": "https://raw.githubusercontent.com/supabase/supabase/self-hosted/v0.8.1/LICENSE",
+            "ref": "self-hosted/v0.8.1",
+            "ref_kind": "tag",
+            "first_line": "Apache License",
+            "note": "11338B，Apache-2.0（自托管平台仓库）"
+          }
+        ]
+      },
+      "parts": [
+        {
+          "part": "客户端库（PyPI supabase 2.31.0）",
+          "component_class": "仓库代码",
+          "license": "MIT",
+          "evidence_path": "reports/evidence/M00.2.02/licenses/supabase-py-LICENSE.txt"
+        },
+        {
+          "part": "自托管平台仓库（supabase/supabase）",
+          "component_class": "仓库代码",
+          "license": "Apache-2.0",
+          "evidence_path": "reports/evidence/M00.2.02/licenses/supabase-LICENSE.txt",
+          "notice": "该仓库 master 与所取 tag 下均无 NOTICE 文件（两次请求均 404，见 manifest.notice_absent_check）"
+        },
+        {
+          "part": "托管服务（supabase.com）",
+          "component_class": "托管服务",
+          "license": "不适用仓库许可；按 Supabase 服务条款",
+          "evidence_path": "reports/evidence/M00.2.02/licenses/supabase-terms.html",
+          "note": "服务条款原文已留存（126465B）；条款可变，引用时需复核"
+        }
+      ],
+      "obligations": [
+        "客户端库：保留 MIT 声明",
+        "自托管平台：保留 Apache-2.0 声明与（不存在的）NOTICE 说明",
+        "托管服务：按服务条款使用，数据与合规义务另计"
+      ],
+      "verified_scope": [
+        "客户端库 main 分支 LICENSE 逐字取得（MIT）",
+        "自托管平台仓库所取 tag 下 LICENSE 逐字取得（Apache-2.0）",
+        "NOTICE 不存在经两次 404 实测",
+        "服务条款页 HTTP 200 原文留存"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。",
+        "未对自托管部署的组件子目录（如各服务镜像）逐个取证",
+        "未核实托管服务的具体条款义务（不做法务解读）"
+      ]
+    },
+    {
+      "id": "pgmq",
+      "matrix_item_id": "pgmq",
+      "name": "PGMQ",
+      "component_class": "仓库代码",
+      "usage_mode": "客户端库作为 SDK 依赖引入；扩展本体部署在自有 PostgreSQL（自托管）",
+      "role_in_product": "计划项：PostgreSQL 消息队列",
+      "source": {
+        "registry": "PyPI（客户端库 pgmq 1.1.4）",
+        "registry_url": "https://pypi.org/pypi/pgmq/json",
+        "repo": "pgmq/pgmq（扩展本体）；pgmq/pgmq-py（Python 客户端）",
+        "repo_url": "https://github.com/pgmq/pgmq"
+      },
+      "version_or_commit": {
+        "pypi_version": "1.1.4"
+      },
+      "license": {
+        "spdx_registry_declared": "Apache-2.0（PyPI license_expression，客户端库）",
+        "spdx_from_text": "扩展本体：The PostgreSQL License；Python 客户端：Apache-2.0",
+        "license_file_path": "扩展本体 LICENSE；客户端 pgmq-py LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/pgmq-LICENSE.txt",
+            "sha256": "a3ce61e0031bdcad1024b1bf50ded2359602160f00e0cac8e509752273df6179",
+            "bytes": 917,
+            "url": "https://raw.githubusercontent.com/pgmq/pgmq/master/LICENSE",
+            "ref": "master",
+            "ref_kind": "branch",
+            "first_line": "The PostgreSQL License",
+            "note": "917B，The PostgreSQL License（扩展本体）"
+          },
+          {
+            "path": "reports/evidence/M00.2.02/licenses/pgmq-py-LICENSE.txt",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+            "bytes": 11357,
+            "url": "https://raw.githubusercontent.com/pgmq/pgmq-py/main/LICENSE",
+            "ref": "main",
+            "ref_kind": "branch",
+            "first_line": "Apache License",
+            "note": "11357B，Apache-2.0（Python 客户端，与 PyPI 声明一致）"
+          }
+        ]
+      },
+      "parts": [
+        {
+          "part": "扩展本体（pgmq/pgmq，装入自有 PostgreSQL）",
+          "component_class": "仓库代码",
+          "license": "The PostgreSQL License",
+          "evidence_path": "reports/evidence/M00.2.02/licenses/pgmq-LICENSE.txt"
+        },
+        {
+          "part": "Python 客户端（PyPI pgmq 1.1.4）",
+          "component_class": "仓库代码",
+          "license": "Apache-2.0",
+          "evidence_path": "reports/evidence/M00.2.02/licenses/pgmq-py-LICENSE.txt"
+        }
+      ],
+      "obligations": [
+        "两类许可均为宽松许可，均需保留版权与许可声明",
+        "客户端与本体许可不同源，引用时不要混为一项"
+      ],
+      "verified_scope": [
+        "两个仓库的许可正文分别逐字取得（917B / 11357B）",
+        "客户端库的 PyPI 声明（Apache-2.0）与正文一致"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。",
+        "未核实扩展本体的 PostgreSQL 版本兼容矩阵（属功能验证，非许可）"
+      ]
+    },
+    {
+      "id": "e2b",
+      "matrix_item_id": "e2b",
+      "name": "E2B",
+      "component_class": "仓库代码 + 托管服务",
+      "usage_mode": "Python SDK 作为依赖引入；沙箱默认按托管服务使用",
+      "role_in_product": "计划项：执行隔离沙箱",
+      "source": {
+        "registry": "PyPI（SDK e2b 2.51.0）",
+        "registry_url": "https://pypi.org/pypi/e2b/json",
+        "repo": "e2b-dev/E2B（平台仓库与 SDK 同仓）",
+        "repo_url": "https://github.com/e2b-dev/E2B"
+      },
+      "version_or_commit": {
+        "pypi_version": "2.51.0"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT（PyPI license_expression，SDK）",
+        "spdx_from_text": "SDK（packages/python-sdk）：MIT；平台仓库根：Apache-2.0",
+        "license_file_path": "packages/python-sdk/LICENSE（SDK）；LICENSE（平台仓库根）",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/e2b-python-sdk-packages_python-sdk_LICENSE.txt",
+            "sha256": "38db71fd15b98fa0b498f8c5ee705a49570e3111085c277fb89b5ea107ec4dcb",
+            "bytes": 1074,
+            "url": "https://raw.githubusercontent.com/e2b-dev/E2B/main/packages/python-sdk/LICENSE",
+            "ref": "main",
+            "ref_kind": "branch",
+            "first_line": "MIT License",
+            "note": "1074B，MIT；与 PyPI 声明一致"
+          },
+          {
+            "path": "reports/evidence/M00.2.02/licenses/e2b-LICENSE.txt",
+            "sha256": "b4ef1bf811cb4095229fb86b574199e467c78f0ac4078cf8be62189e1fbd0818",
+            "bytes": 11347,
+            "url": "https://raw.githubusercontent.com/e2b-dev/E2B/main/LICENSE",
+            "ref": "main",
+            "ref_kind": "branch",
+            "first_line": "Apache License",
+            "note": "11347B，Apache-2.0（平台仓库根）"
+          }
+        ]
+      },
+      "parts": [
+        {
+          "part": "Python SDK（PyPI e2b 2.51.0）",
+          "component_class": "仓库代码",
+          "license": "MIT",
+          "evidence_path": "reports/evidence/M00.2.02/licenses/e2b-python-sdk-packages_python-sdk_LICENSE.txt"
+        },
+        {
+          "part": "平台仓库（e2b-dev/E2B）",
+          "component_class": "仓库代码",
+          "license": "Apache-2.0",
+          "evidence_path": "reports/evidence/M00.2.02/licenses/e2b-LICENSE.txt"
+        },
+        {
+          "part": "托管沙箱服务（e2b.dev）",
+          "component_class": "托管服务",
+          "license": "不适用仓库许可；按 E2B 服务条款",
+          "evidence_path": "reports/evidence/M00.2.02/licenses/e2b-terms.html",
+          "note": "服务条款页原文留存（179478B，标题 Terms of Service | E2B）"
+        }
+      ],
+      "obligations": [
+        "SDK：保留 MIT 声明",
+        "平台仓库：保留 Apache-2.0 声明",
+        "托管服务：按服务条款；沙箱内代码与数据的处理义务另计"
+      ],
+      "verified_scope": [
+        "SDK 目录许可与 PyPI 声明一致（均 MIT）",
+        "平台仓库根许可为 Apache-2.0（两者不同，已分开登记）",
+        "服务条款页原文留存"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。",
+        "未核实仓库内其他子包的许可（本轮只取 SDK 与仓库根）",
+        "托管服务的区域/数据驻留等条款细节未核实"
+      ]
+    },
+    {
+      "id": "mcp-sdk",
+      "matrix_item_id": "mcp-sdk",
+      "name": "MCP Python SDK（mcp）",
+      "component_class": "仓库代码",
+      "usage_mode": "作为依赖库引入（SDK 依赖，不改源码）",
+      "role_in_product": "计划项：MCP 工具协议接入",
+      "source": {
+        "registry": "PyPI",
+        "registry_url": "https://pypi.org/pypi/mcp/json",
+        "repo": "modelcontextprotocol/python-sdk",
+        "repo_url": "https://github.com/modelcontextprotocol/python-sdk"
+      },
+      "version_or_commit": {
+        "pypi_version": "2.2.0"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT（PyPI license 字段）",
+        "spdx_from_text": "MIT",
+        "license_file_path": "LICENSE",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/mcp-python-sdk-LICENSE.txt",
+            "sha256": "5e13dbbc1d120fc2a03cecde7c91424ae2d7de11b63d58ded2f4431e261ee50d",
+            "bytes": 1071,
+            "url": "https://raw.githubusercontent.com/modelcontextprotocol/python-sdk/main/LICENSE",
+            "ref": "main",
+            "ref_kind": "branch",
+            "first_line": "MIT License",
+            "note": "1071B，MIT"
+          }
+        ]
+      },
+      "obligations": [
+        "随产物保留 MIT 声明"
+      ],
+      "verified_scope": [
+        "逐字取得 main 分支 LICENSE（1071B），与 PyPI 声明一致"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。"
+      ]
+    },
+    {
+      "id": "langfuse",
+      "matrix_item_id": "langfuse",
+      "name": "Langfuse（含 ee/ 企业目录）",
+      "component_class": "仓库代码 + 组件企业目录 + 托管服务",
+      "usage_mode": "SDK 作为依赖引入；自托管时只使用核心（MIT）部分，不使用 ee/ 企业目录组件",
+      "role_in_product": "计划项：可观测与追踪",
+      "source": {
+        "registry": "PyPI（SDK langfuse 4.15.4）",
+        "registry_url": "https://pypi.org/pypi/langfuse/json",
+        "repo": "langfuse/langfuse",
+        "repo_url": "https://github.com/langfuse/langfuse"
+      },
+      "version_or_commit": {
+        "pypi_version": "4.15.4"
+      },
+      "license": {
+        "spdx_registry_declared": "MIT（PyPI license_expression，SDK）",
+        "spdx_from_text": "核心（LICENSE）：MIT 式；企业目录（ee/LICENSE）：Langfuse Enterprise License（商业许可）",
+        "license_file_path": "LICENSE（核心）；ee/LICENSE（企业目录）",
+        "evidence": [
+          {
+            "path": "reports/evidence/M00.2.02/licenses/langfuse-LICENSE.txt",
+            "sha256": "fd09d42b5b16606ad2042cc1edf3a82da1c47743709f170c959c74758af229d6",
+            "bytes": 1612,
+            "url": "https://raw.githubusercontent.com/langfuse/langfuse/main/LICENSE",
+            "ref": "main",
+            "ref_kind": "branch",
+            "first_line": "Copyright (c) 2023-2026 ClickHouse, Inc.",
+            "note": "1612B，核心许可（Copyright (c) 2023-2026 ClickHouse, Inc.）"
+          },
+          {
+            "path": "reports/evidence/M00.2.02/licenses/langfuse-ee_LICENSE.txt",
+            "sha256": "760f5202be4f31f9f8ca43a3c558bebaa5187fa7d7eccad6a32de8392cdccee6",
+            "bytes": 2633,
+            "url": "https://raw.githubusercontent.com/langfuse/langfuse/main/ee/LICENSE",
+            "ref": "main",
+            "ref_kind": "branch",
+            "first_line": "START NOTE",
+            "note": "2633B，企业许可：正文注明核心为 MIT、ee/ 目录受 Enterprise License 约束，需已同意适用协议方可使用"
+          }
+        ]
+      },
+      "parts": [
+        {
+          "part": "核心（仓库 LICENSE 覆盖部分）",
+          "component_class": "仓库代码",
+          "license": "MIT 式",
+          "evidence_path": "reports/evidence/M00.2.02/licenses/langfuse-LICENSE.txt"
+        },
+        {
+          "part": "ee/ 企业目录（Enterprise 组件）",
+          "component_class": "组件企业目录",
+          "license": "Langfuse Enterprise License（商业许可）",
+          "evidence_path": "reports/evidence/M00.2.02/licenses/langfuse-ee_LICENSE.txt",
+          "constraint": "未获企业许可不得使用 ee/ 目录；首版自托管只启用核心"
+        },
+        {
+          "part": "托管服务（langfuse.com / ClickHouse）",
+          "component_class": "托管服务",
+          "license": "不适用仓库许可；按服务条款",
+          "evidence_path": "reports/evidence/M00.2.02/licenses/langfuse-terms.html",
+          "note": "条款页标题：General Terms and Conditions | ClickHouse（原文留存 264122B）"
+        }
+      ],
+      "obligations": [
+        "核心：保留 MIT 声明",
+        "ee/：未获企业许可不得使用（首版明确不启用）",
+        "托管服务：按 ClickHouse/Langfuse 服务条款"
+      ],
+      "verified_scope": [
+        "核心与 ee/ 两处许可正文分别逐字取得（1612B / 2633B）",
+        "ee/ LICENSE 正文自述其与核心许可的边界",
+        "服务条款页原文留存"
+      ],
+      "unverified": [
+        "GitHub 匿名 API 本轮配额耗尽（HTTP 403），未能把 tag/分支解析成不可变 commit；许可正文按 URL 中的 ref 直接抓取成功。",
+        "未核实哪个具体功能位于 ee/ 与核心的边界（部署卡需逐功能核对）"
+      ]
+    }
+  ],
+  "hosted_service_terms": [
+    {
+      "service": "Anthropic Claude Code（官方程序集成）",
+      "url": "https://www.anthropic.com/legal/commercial-terms",
+      "evidence_path": "reports/evidence/M00.2.02/licenses/claude-code-anthropic-commercial-terms.html",
+      "sha256": "96ea3fe7f43be06e1fb675ef624da988a27d51516dbad3776cf35b3ff5cdd2cb",
+      "bytes": 206684,
+      "note": "页面标题 Commercial Terms of Service \\ Anthropic；条款可变"
+    },
+    {
+      "service": "Supabase 托管",
+      "url": "https://supabase.com/terms",
+      "evidence_path": "reports/evidence/M00.2.02/licenses/supabase-terms.html",
+      "sha256": "0242d0b3edcb71a1acb416b931d61e0f8d79c719bdd756c4d6f5b52e67dfb32e",
+      "bytes": 126465,
+      "note": "原文留存"
+    },
+    {
+      "service": "E2B 托管",
+      "url": "https://e2b.dev/terms",
+      "evidence_path": "reports/evidence/M00.2.02/licenses/e2b-terms.html",
+      "sha256": "001c97b18d5aea82a4dd6cd40843640c8f5cf5c44d350a1e1574d6c704a5e622",
+      "bytes": 179478,
+      "note": "页面标题 Terms of Service | E2B"
+    },
+    {
+      "service": "Langfuse / ClickHouse 托管",
+      "url": "https://langfuse.com/terms",
+      "evidence_path": "reports/evidence/M00.2.02/licenses/langfuse-terms.html",
+      "sha256": "2bd724ebcf30d6d936749136857af008b85f3e49db5463737a702fec0507e994",
+      "bytes": 264122,
+      "note": "页面标题 General Terms and Conditions | ClickHouse"
+    }
+  ],
+  "unknown_and_gaps": [
+    "所有许可正文均未做法律审查：本登记是工程取证，不构成法律意见",
+    "GitHub 匿名 API 配额耗尽 → 除 hermes-agent/codex/airi 三项（URL 中直接使用 commit）外，其余许可正文未与不可变 commit 绑定，ref_kind 已逐项标注",
+    "第三方依赖树未展开：只登记直接依赖与运行时的许可，未审计其传递依赖",
+    "打包产物内附带的许可文件（Electron/Chromium/Node）完整性未核实",
+    "托管服务条款文本已留存但未做义务解读",
+    "shadcn-vue / VueUse 未钉定版本，复制或引入时必须记录 commit（M00.2.03 冻结时补）",
+    "AIRI 的美术素材许可未核实：首版不使用其任何素材（见 asset-register）"
+  ],
+  "legal_disclaimer": "本登记是工程取证记录，不是法律意见；许可结论以许可正文为准，未做法律审查。"
+}

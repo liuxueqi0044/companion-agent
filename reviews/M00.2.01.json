@@ -1,0 +1,30 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.2.01",
+  "task_spec_sha256": "a4d73d7e29ab513d3dfdd1812b79bdc8fa9f3a2dfb83b9e3d5f6751fbecad55d",
+  "report_sha256": "a5de4637ecd8e1c885076d66ce517d731f4859768ebb421106cd2c71f43432d9",
+  "decision": "accepted",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_result_ref": "file-sha256:ea2f7b18a6d80f951f4225fbce8e45ca5ba606622883c689d2b7346cf7497572",
+  "checked_acceptance_ids": [
+    "M00.2.01-A01",
+    "M00.2.01-A02"
+  ],
+  "acceptance_decisions": [
+    {
+      "id": "M00.2.01-A01",
+      "decision": "passed",
+      "basis": "26 条候选均为具体发行版本或 commit，保留元数据与可复核来源；矩阵是候选核查而非最后安装承诺。"
+    },
+    {
+      "id": "M00.2.01-A02",
+      "decision": "passed",
+      "basis": "未核实接口、OS、PyPI 与源码版本对应等如实标 unknown；未把查询成功当作安装成功。"
+    }
+  ],
+  "reviewed_at": "2026-09-23T00:40:18.726411+00:00",
+  "notes": "核对实际字节、范围与证据哈希，复跑检查器，并抽查官方固定版本源文件。当前只验收文档/样本与候选约束，未安装产品、未调用模型、未证明真实集成。受查文件保存在 reviews/history/BATCH-002/submitted；本轮复核之后的派工变更不归责于开发者。",
+  "evidence_ref": "reviews/evidence/BATCH-002/audit.json",
+  "findings": []
+}

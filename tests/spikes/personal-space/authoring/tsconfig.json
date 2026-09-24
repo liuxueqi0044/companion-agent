@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", "lib": ["ES2022", "DOM"], "module": "ESNext",
+    "moduleResolution": "Bundler", "strict": true, "noEmit": true,
+    "types": ["node", "vite/client", "vitest/globals"], "skipLibCheck": true
+  },
+  "include": ["./client/*.ts", "./client/*.d.ts", "../host/bridge.ts", "../host/state.ts"]
+}

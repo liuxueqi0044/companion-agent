@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>开发验证页，非产品界面</title></head><body>
+<h1>开发验证页，非产品界面</h1>
+<p>仅加载仓库手写 fixture；没有真实任务执行、模型代码预览或原生隔离。</p>
+<label>宿主未提交输入 <textarea id="host-draft" rows="3"></textarea></label>
+<div><button id="activate" type="button">加载手写包</button>
+<button id="cancel" type="button">取消候选</button>
+<button id="undo" type="button">撤销版本</button>
+<button id="stop" type="button">停用展示</button>
+<button id="recover" type="button">恢复当前已知版本</button></div>
+<pre id="host-status" aria-live="polite"></pre>
+<div id="slot"></div>
+<script type="module" src="/main.ts"></script>
+</body></html>

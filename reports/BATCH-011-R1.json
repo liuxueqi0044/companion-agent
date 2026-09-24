@@ -1,0 +1,64 @@
+{
+  "batch_id": "BATCH-011-R1",
+  "track": "personal-ai-supplement",
+  "status": "submitted",
+  "dispatch_ref": "docs/handoff/BATCH-011-R1.md",
+  "dispatch_sha256": "a810c0ead7df5b69cf1aa62fc41c0146b07a566b3cffd33859f563d0802a3dce",
+  "base_ref": "sha256:75371f14fc56440f264613b2593813daaf71073d50957bb0c0cbbcfaa5413489",
+  "supersedes_ref": "reports/BATCH-011.json#sha256:e3e244b5740baec632e4d57e5532ef442c0ca1f92c41d6790e083c86d52721fc",
+  "result_ref": "sha256:572c23bcc46ce476b4fc650e76a1fd0e3e29227827ba80c3563b155bccc0f586",
+  "original_accepted_count": 12,
+  "acceptance_results": [
+    {
+      "id": "R1-A01",
+      "status": "passed",
+      "evidence": ["reports/evidence/BATCH-011-R1/core-test.txt", "reports/evidence/BATCH-011-R1/manifest-verify.json"],
+      "note": "Full canonical manifest determines idempotence; package, base, source and scope changes with identical code collide while original sealed bytes remain unchanged. Original UTF-8, hash and junction assertions retained. Candidate execution not_run."
+    },
+    {
+      "id": "R1-B01",
+      "status": "passed",
+      "evidence": ["reports/evidence/BATCH-011-R1/host-test.txt", "reports/evidence/BATCH-011-R1/tsc-test.txt", "reports/evidence/BATCH-011-R1/vite-test.txt"],
+      "note": "Actual jsdom iframe coordinator exercises two revisions and undo, no-history undo, superseded operation, repeated recovery, stop/cancel during pending work and persistence failure; ready plus base/hash checks precede pointer and frame swap. Browser isolation not_run."
+    },
+    {
+      "id": "R1-B02",
+      "status": "passed",
+      "evidence": ["reports/evidence/BATCH-011-R1/host-test.txt"],
+      "note": "Outbound and inbound demo reads require ready, active revision, exact current connection, live read grant and open port. Tests assert actual messages for positive and denied cases including same-revision old connection."
+    },
+    {
+      "id": "R1-C01",
+      "status": "passed",
+      "evidence": ["reports/evidence/BATCH-011-R1/launcher-test.txt", "reports/evidence/BATCH-011-R1/deepseek-test.txt", "reports/evidence/BATCH-011-R1/credential-check-synthetic.txt"],
+      "note": "PowerShell DPAPI text reader and fixed frozen-Node launcher tested through synthetic credentials and fake worker; bad/empty/tampered/missing credential, retained lock, concurrent launchers, pre-send marking and two-attempt cap. No real worker, key or HTTP used."
+    },
+    {
+      "id": "R1-C02",
+      "status": "passed",
+      "evidence": ["reports/evidence/BATCH-011-R1/credential-check-configured.json"],
+      "note": "One permitted read-only local check returned decoded_nonempty=true and no error. It invoked no worker or HTTP and does not establish API validity, balance or model generation."
+    }
+  ],
+  "commands": [
+    {"argv":"node --test tests/spikes/personal-space/core/core.test.mjs", "exit_code":0, "log_path":"reports/evidence/BATCH-011-R1/core-test.txt", "assertions":"5 passed including original 4 and full-manifest collision"},
+    {"argv":"node --test tests/spikes/personal-space/deepseek/deepseek.test.mjs", "exit_code":0, "log_path":"reports/evidence/BATCH-011-R1/deepseek-test.txt", "assertions":"original 5 passed with additional reserved, failed_pre_send and unknown policy states"},
+    {"argv":"node_modules/.bin/vitest.cmd run --config tests/spikes/personal-space/vitest.config.ts", "exit_code":0, "log_path":"reports/evidence/BATCH-011-R1/host-test.txt", "assertions":"16 passed including original 8 and coordinator/bridge regressions"},
+    {"argv":"node_modules/.bin/tsc.cmd -p tests/spikes/personal-space/host/tsconfig.json", "exit_code":0, "log_path":"reports/evidence/BATCH-011-R1/tsc-test.txt", "assertions":"complete local host typecheck"},
+    {"argv":"tests/spikes/node_modules/.bin/vite.cmd build --config tests/spikes/personal-space/host/vite.config.ts", "exit_code":0, "log_path":"reports/evidence/BATCH-011-R1/vite-test.txt", "assertions":"local host build"},
+    {"argv":"tests/spikes/personal-space/deepseek/launcher.test.ps1", "exit_code":0, "log_path":"reports/evidence/BATCH-011-R1/launcher-test.txt", "assertions":"7 synthetic launcher groups; zero network and real credential reads"},
+    {"argv":"tests/spikes/personal-space/deepseek/credential-check.ps1", "exit_code":0, "log_path":"reports/evidence/BATCH-011-R1/credential-check-synthetic.txt", "assertions":"PowerShell serialized synthetic credential decodes through shared reader"},
+    {"argv":"tests/spikes/personal-space/deepseek/credential-check.ps1 -CheckConfigured", "exit_code":0, "log_path":"reports/evidence/BATCH-011-R1/credential-check-configured.json", "assertions":"single real local read-only decode: decoded_nonempty=true, error_category=null"},
+    {"argv":"python docs/handoff/check_batch011_r1_scope.py", "exit_code":0, "log_path":"reports/evidence/BATCH-011-R1/scope-rerun.json", "assertions":"R1 baseline scope PASS; includes prior scope log"},
+    {"argv":"python docs/execution/taskctl.py validate --repo .", "exit_code":0, "log_path":"reports/evidence/BATCH-011-R1/taskctl-validate.txt", "assertions":"156 task plan valid"},
+    {"argv":"python docs/execution/taskctl.py next --repo .", "exit_code":0, "log_path":"reports/evidence/BATCH-011-R1/taskctl-next.txt", "assertions":"accepted 12; M00.3.01 not_run"}
+  ],
+  "integrity": {"manifest_items":23,"manifest_verification":"passed","old_ledger_and_lock_bytes":"unchanged","scope":"passed","evidence":["reports/evidence/BATCH-011-R1/manifest-verify.json","reports/evidence/BATCH-011-R1/final-integrity.json","reports/evidence/BATCH-011-R1/scope-rerun.json"]},
+  "model_requests_this_round": {"reserved":0,"http_sent":0,"successful_responses":0,"candidate_hashes":[],"usage_tokens":null,"cost_usd":null},
+  "prior_batch_live": {"reserved":1,"http_sent":0,"ledger_and_lock":"frozen_unchanged"},
+  "verification_channels": {"offline_functions":"passed","configured_local_decode":"passed","real_model":"not_run","real_browser":"not_run","native_isolation":"not_run","product_visual":"not_run"},
+  "unresolved": [
+    "No model-generated candidate or live API validation exists; the old failed_pre_send reservation and lock remain frozen. API validity, balance and usage are unknown.",
+    "Real browser observation, hostile-code native isolation and architect-owned product visual remain not_run. The jsdom fixture establishes local behavior only."
+  ]
+}

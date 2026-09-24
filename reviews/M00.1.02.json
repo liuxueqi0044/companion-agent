@@ -1,0 +1,37 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.1.02",
+  "task_spec_sha256": "98a7300bf80b2a61d45cd83cee1cadd292904c81364d89583fd520c6e9407275",
+  "report_sha256": "0e296c6475deb85cbcf7730b5b966b276cfedf29e06a6629ef360de99c0d17e0",
+  "decision": "accepted",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_result_ref": "manifest-sha256:da096df3ab2c97c3b1a29cd289b25dfefdb034d6169bd7a63d71b72b5507b4c0",
+  "checked_acceptance_ids": [
+    "M00.1.02-A01",
+    "M00.1.02-A02",
+    "M00.1.02-A03"
+  ],
+  "acceptance_decisions": [
+    {
+      "id": "M00.1.02-A01",
+      "decision": "passed",
+      "basis": "样本明确虚构，输入内嵌，不引用真实客户记录；模式扫描只是辅助证据。"
+    },
+    {
+      "id": "M00.1.02-A02",
+      "decision": "passed",
+      "basis": "缺失/冲突价格保留 null，已知零保留，部分小计不冒充完整合计。"
+    },
+    {
+      "id": "M00.1.02-A03",
+      "decision": "passed",
+      "basis": "公开两个样本的字段来源与 Decimal 运算可独立核对；运行时字段不伪造。"
+    }
+  ],
+  "reviewed_at": "2026-09-22T23:36:02.368834+00:00",
+  "notes": "独立核对实际产物、哈希、全部批次文件边界，复跑作者自检并检查语义。仅为文档/样本验收，未运行产品集成。本卡可作为后续任务已验收依赖。",
+  "evidence_ref": "reviews/evidence/BATCH-001/review-evidence.json",
+  "findings": [],
+  "evaluator_followups_closed": {}
+}

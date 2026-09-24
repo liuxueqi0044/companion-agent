@@ -1,0 +1,1313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "models": {
+    "ActionReceipt": {
+      "$defs": {
+        "TaskSnapshot": {
+          "additionalProperties": false,
+          "properties": {
+            "attempt_count": {
+              "minimum": 1,
+              "title": "Attempt Count",
+              "type": "integer"
+            },
+            "created_at": {
+              "format": "date-time",
+              "title": "Created At",
+              "type": "string"
+            },
+            "current_attempt_id": {
+              "title": "Current Attempt Id",
+              "type": "string"
+            },
+            "error_code": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Error Code"
+            },
+            "executor": {
+              "const": "local_csv_audit",
+              "default": "local_csv_audit",
+              "title": "Executor",
+              "type": "string"
+            },
+            "input_hash": {
+              "title": "Input Hash",
+              "type": "string"
+            },
+            "last_seq": {
+              "minimum": 1,
+              "title": "Last Seq",
+              "type": "integer"
+            },
+            "profile_id": {
+              "title": "Profile Id",
+              "type": "string"
+            },
+            "profile_revision": {
+              "exclusiveMinimum": 0,
+              "title": "Profile Revision",
+              "type": "integer"
+            },
+            "requirements_interpretation": {
+              "const": "not_run",
+              "default": "not_run",
+              "title": "Requirements Interpretation",
+              "type": "string"
+            },
+            "schema_version": {
+              "const": "local-task/1",
+              "default": "local-task/1",
+              "title": "Schema Version",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "queued",
+                "running",
+                "cancelling",
+                "completed",
+                "failed",
+                "cancelled",
+                "interrupted"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "task_id": {
+              "title": "Task Id",
+              "type": "string"
+            },
+            "tool_version": {
+              "const": "csv_audit/1",
+              "default": "csv_audit/1",
+              "title": "Tool Version",
+              "type": "string"
+            },
+            "updated_at": {
+              "format": "date-time",
+              "title": "Updated At",
+              "type": "string"
+            }
+          },
+          "required": [
+            "task_id",
+            "profile_id",
+            "profile_revision",
+            "input_hash",
+            "status",
+            "created_at",
+            "updated_at",
+            "last_seq",
+            "current_attempt_id",
+            "attempt_count"
+          ],
+          "title": "TaskSnapshot",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "disposition": {
+          "default": "applied",
+          "enum": [
+            "applied",
+            "too_late",
+            "already_requested",
+            "replayed"
+          ],
+          "title": "Disposition",
+          "type": "string"
+        },
+        "replayed": {
+          "default": false,
+          "title": "Replayed",
+          "type": "boolean"
+        },
+        "task": {
+          "$ref": "#/$defs/TaskSnapshot"
+        }
+      },
+      "required": [
+        "task"
+      ],
+      "title": "ActionReceipt",
+      "type": "object"
+    },
+    "Attempt": {
+      "additionalProperties": false,
+      "properties": {
+        "attempt_id": {
+          "title": "Attempt Id",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "ended_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ended At"
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Code"
+        },
+        "ordinal": {
+          "exclusiveMinimum": 0,
+          "title": "Ordinal",
+          "type": "integer"
+        },
+        "started_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Started At"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "running",
+            "completed",
+            "failed",
+            "cancelled",
+            "interrupted"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "attempt_id",
+        "task_id",
+        "ordinal",
+        "status",
+        "created_at"
+      ],
+      "title": "Attempt",
+      "type": "object"
+    },
+    "AuditResult": {
+      "$defs": {
+        "AuditRow": {
+          "additionalProperties": false,
+          "properties": {
+            "cells": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "title": "Cells",
+              "type": "object"
+            },
+            "currency": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Currency"
+            },
+            "formula": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Formula"
+            },
+            "record_index": {
+              "minimum": 1,
+              "title": "Record Index",
+              "type": "integer"
+            },
+            "source_refs": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "title": "Source Refs",
+              "type": "object"
+            },
+            "subtotal": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subtotal"
+            }
+          },
+          "required": [
+            "record_index",
+            "cells",
+            "source_refs",
+            "subtotal",
+            "currency",
+            "formula"
+          ],
+          "title": "AuditRow",
+          "type": "object"
+        },
+        "Issue": {
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "enum": [
+                "missing_column",
+                "empty_value",
+                "format"
+              ],
+              "title": "Code",
+              "type": "string"
+            },
+            "column": {
+              "title": "Column",
+              "type": "string"
+            },
+            "record_index": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Record Index"
+            },
+            "source": {
+              "title": "Source",
+              "type": "string"
+            }
+          },
+          "required": [
+            "code",
+            "column",
+            "source"
+          ],
+          "title": "Issue",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "completeness": {
+          "enum": [
+            "complete",
+            "partial",
+            "mixed_currency",
+            "unknown"
+          ],
+          "title": "Completeness",
+          "type": "string"
+        },
+        "currency_subtotals": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Currency Subtotals",
+          "type": "object"
+        },
+        "headers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Headers",
+          "type": "array"
+        },
+        "input_hash": {
+          "title": "Input Hash",
+          "type": "string"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/Issue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "paid_model_calls": {
+          "const": 0,
+          "default": 0,
+          "title": "Paid Model Calls",
+          "type": "integer"
+        },
+        "requirements_interpretation": {
+          "const": "not_run",
+          "default": "not_run",
+          "title": "Requirements Interpretation",
+          "type": "string"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/AuditRow"
+          },
+          "title": "Rows",
+          "type": "array"
+        },
+        "schema_version": {
+          "const": "local-task/1",
+          "default": "local-task/1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_rule": {
+          "const": "logical_record_index_1_based",
+          "default": "logical_record_index_1_based",
+          "title": "Source Rule",
+          "type": "string"
+        },
+        "tool_version": {
+          "const": "csv_audit/1",
+          "default": "csv_audit/1",
+          "title": "Tool Version",
+          "type": "string"
+        },
+        "total": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Total"
+        },
+        "total_currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Total Currency"
+        }
+      },
+      "required": [
+        "input_hash",
+        "headers",
+        "rows",
+        "issues",
+        "currency_subtotals",
+        "total",
+        "total_currency",
+        "completeness"
+      ],
+      "title": "AuditResult",
+      "type": "object"
+    },
+    "AuditRow": {
+      "additionalProperties": false,
+      "properties": {
+        "cells": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Cells",
+          "type": "object"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Currency"
+        },
+        "formula": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Formula"
+        },
+        "record_index": {
+          "minimum": 1,
+          "title": "Record Index",
+          "type": "integer"
+        },
+        "source_refs": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "object"
+        },
+        "subtotal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Subtotal"
+        }
+      },
+      "required": [
+        "record_index",
+        "cells",
+        "source_refs",
+        "subtotal",
+        "currency",
+        "formula"
+      ],
+      "title": "AuditRow",
+      "type": "object"
+    },
+    "CommandTaskRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "command_id": {
+          "title": "Command Id",
+          "type": "string"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "command_id"
+      ],
+      "title": "CommandTaskRequest",
+      "type": "object"
+    },
+    "EventPage": {
+      "$defs": {
+        "TaskEvent": {
+          "additionalProperties": false,
+          "properties": {
+            "attempt_id": {
+              "title": "Attempt Id",
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "submitted",
+                "started",
+                "cancel_requested",
+                "cancelled",
+                "completed",
+                "failed",
+                "interrupted",
+                "retried"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "occurred_at": {
+              "format": "date-time",
+              "title": "Occurred At",
+              "type": "string"
+            },
+            "seq": {
+              "exclusiveMinimum": 0,
+              "title": "Seq",
+              "type": "integer"
+            },
+            "status": {
+              "enum": [
+                "queued",
+                "running",
+                "cancelling",
+                "completed",
+                "failed",
+                "cancelled",
+                "interrupted"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "task_id": {
+              "title": "Task Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "task_id",
+            "seq",
+            "kind",
+            "status",
+            "attempt_id",
+            "occurred_at"
+          ],
+          "title": "TaskEvent",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/$defs/TaskEvent"
+          },
+          "title": "Items",
+          "type": "array"
+        },
+        "last_seq": {
+          "title": "Last Seq",
+          "type": "integer"
+        },
+        "next_after_seq": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Next After Seq"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "items",
+        "next_after_seq",
+        "last_seq"
+      ],
+      "title": "EventPage",
+      "type": "object"
+    },
+    "EventsRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "after_seq": {
+          "default": 0,
+          "minimum": 0,
+          "title": "After Seq",
+          "type": "integer"
+        },
+        "limit": {
+          "default": 50,
+          "maximum": 200,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id"
+      ],
+      "title": "EventsRequest",
+      "type": "object"
+    },
+    "Issue": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "missing_column",
+            "empty_value",
+            "format"
+          ],
+          "title": "Code",
+          "type": "string"
+        },
+        "column": {
+          "title": "Column",
+          "type": "string"
+        },
+        "record_index": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Record Index"
+        },
+        "source": {
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "column",
+        "source"
+      ],
+      "title": "Issue",
+      "type": "object"
+    },
+    "ListRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "before_task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Before Task Id"
+        },
+        "limit": {
+          "default": 20,
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        }
+      },
+      "title": "ListRequest",
+      "type": "object"
+    },
+    "ResultPage": {
+      "$defs": {
+        "AuditRow": {
+          "additionalProperties": false,
+          "properties": {
+            "cells": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "title": "Cells",
+              "type": "object"
+            },
+            "currency": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Currency"
+            },
+            "formula": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Formula"
+            },
+            "record_index": {
+              "minimum": 1,
+              "title": "Record Index",
+              "type": "integer"
+            },
+            "source_refs": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "title": "Source Refs",
+              "type": "object"
+            },
+            "subtotal": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subtotal"
+            }
+          },
+          "required": [
+            "record_index",
+            "cells",
+            "source_refs",
+            "subtotal",
+            "currency",
+            "formula"
+          ],
+          "title": "AuditRow",
+          "type": "object"
+        },
+        "Issue": {
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "enum": [
+                "missing_column",
+                "empty_value",
+                "format"
+              ],
+              "title": "Code",
+              "type": "string"
+            },
+            "column": {
+              "title": "Column",
+              "type": "string"
+            },
+            "record_index": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Record Index"
+            },
+            "source": {
+              "title": "Source",
+              "type": "string"
+            }
+          },
+          "required": [
+            "code",
+            "column",
+            "source"
+          ],
+          "title": "Issue",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "attempt_id": {
+          "title": "Attempt Id",
+          "type": "string"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/Issue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "next_issue_offset": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Next Issue Offset"
+        },
+        "next_offset": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Next Offset"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/AuditRow"
+          },
+          "title": "Rows",
+          "type": "array"
+        },
+        "status": {
+          "const": "completed",
+          "default": "completed",
+          "title": "Status",
+          "type": "string"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "attempt_id",
+        "metadata",
+        "rows",
+        "next_offset",
+        "issues",
+        "next_issue_offset"
+      ],
+      "title": "ResultPage",
+      "type": "object"
+    },
+    "ResultRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "issue_limit": {
+          "default": 50,
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Issue Limit",
+          "type": "integer"
+        },
+        "issue_offset": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Issue Offset",
+          "type": "integer"
+        },
+        "limit": {
+          "default": 50,
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        },
+        "offset": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Offset",
+          "type": "integer"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id"
+      ],
+      "title": "ResultRequest",
+      "type": "object"
+    },
+    "SubmitRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "command_id": {
+          "title": "Command Id",
+          "type": "string"
+        },
+        "csv_text": {
+          "title": "Csv Text",
+          "type": "string"
+        },
+        "executor": {
+          "const": "local_csv_audit",
+          "default": "local_csv_audit",
+          "title": "Executor",
+          "type": "string"
+        },
+        "requirement_text": {
+          "title": "Requirement Text",
+          "type": "string"
+        },
+        "tool_version": {
+          "const": "csv_audit/1",
+          "default": "csv_audit/1",
+          "title": "Tool Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "command_id",
+        "requirement_text",
+        "csv_text"
+      ],
+      "title": "SubmitRequest",
+      "type": "object"
+    },
+    "TaskEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "attempt_id": {
+          "title": "Attempt Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "submitted",
+            "started",
+            "cancel_requested",
+            "cancelled",
+            "completed",
+            "failed",
+            "interrupted",
+            "retried"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "occurred_at": {
+          "format": "date-time",
+          "title": "Occurred At",
+          "type": "string"
+        },
+        "seq": {
+          "exclusiveMinimum": 0,
+          "title": "Seq",
+          "type": "integer"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "running",
+            "cancelling",
+            "completed",
+            "failed",
+            "cancelled",
+            "interrupted"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "seq",
+        "kind",
+        "status",
+        "attempt_id",
+        "occurred_at"
+      ],
+      "title": "TaskEvent",
+      "type": "object"
+    },
+    "TaskIdRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id"
+      ],
+      "title": "TaskIdRequest",
+      "type": "object"
+    },
+    "TaskPage": {
+      "$defs": {
+        "TaskSnapshot": {
+          "additionalProperties": false,
+          "properties": {
+            "attempt_count": {
+              "minimum": 1,
+              "title": "Attempt Count",
+              "type": "integer"
+            },
+            "created_at": {
+              "format": "date-time",
+              "title": "Created At",
+              "type": "string"
+            },
+            "current_attempt_id": {
+              "title": "Current Attempt Id",
+              "type": "string"
+            },
+            "error_code": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Error Code"
+            },
+            "executor": {
+              "const": "local_csv_audit",
+              "default": "local_csv_audit",
+              "title": "Executor",
+              "type": "string"
+            },
+            "input_hash": {
+              "title": "Input Hash",
+              "type": "string"
+            },
+            "last_seq": {
+              "minimum": 1,
+              "title": "Last Seq",
+              "type": "integer"
+            },
+            "profile_id": {
+              "title": "Profile Id",
+              "type": "string"
+            },
+            "profile_revision": {
+              "exclusiveMinimum": 0,
+              "title": "Profile Revision",
+              "type": "integer"
+            },
+            "requirements_interpretation": {
+              "const": "not_run",
+              "default": "not_run",
+              "title": "Requirements Interpretation",
+              "type": "string"
+            },
+            "schema_version": {
+              "const": "local-task/1",
+              "default": "local-task/1",
+              "title": "Schema Version",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "queued",
+                "running",
+                "cancelling",
+                "completed",
+                "failed",
+                "cancelled",
+                "interrupted"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "task_id": {
+              "title": "Task Id",
+              "type": "string"
+            },
+            "tool_version": {
+              "const": "csv_audit/1",
+              "default": "csv_audit/1",
+              "title": "Tool Version",
+              "type": "string"
+            },
+            "updated_at": {
+              "format": "date-time",
+              "title": "Updated At",
+              "type": "string"
+            }
+          },
+          "required": [
+            "task_id",
+            "profile_id",
+            "profile_revision",
+            "input_hash",
+            "status",
+            "created_at",
+            "updated_at",
+            "last_seq",
+            "current_attempt_id",
+            "attempt_count"
+          ],
+          "title": "TaskSnapshot",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/$defs/TaskSnapshot"
+          },
+          "title": "Items",
+          "type": "array"
+        },
+        "next_before_task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Next Before Task Id"
+        }
+      },
+      "required": [
+        "items",
+        "next_before_task_id"
+      ],
+      "title": "TaskPage",
+      "type": "object"
+    },
+    "TaskSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "attempt_count": {
+          "minimum": 1,
+          "title": "Attempt Count",
+          "type": "integer"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "current_attempt_id": {
+          "title": "Current Attempt Id",
+          "type": "string"
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Code"
+        },
+        "executor": {
+          "const": "local_csv_audit",
+          "default": "local_csv_audit",
+          "title": "Executor",
+          "type": "string"
+        },
+        "input_hash": {
+          "title": "Input Hash",
+          "type": "string"
+        },
+        "last_seq": {
+          "minimum": 1,
+          "title": "Last Seq",
+          "type": "integer"
+        },
+        "profile_id": {
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_revision": {
+          "exclusiveMinimum": 0,
+          "title": "Profile Revision",
+          "type": "integer"
+        },
+        "requirements_interpretation": {
+          "const": "not_run",
+          "default": "not_run",
+          "title": "Requirements Interpretation",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "local-task/1",
+          "default": "local-task/1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "running",
+            "cancelling",
+            "completed",
+            "failed",
+            "cancelled",
+            "interrupted"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "tool_version": {
+          "const": "csv_audit/1",
+          "default": "csv_audit/1",
+          "title": "Tool Version",
+          "type": "string"
+        },
+        "updated_at": {
+          "format": "date-time",
+          "title": "Updated At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "profile_id",
+        "profile_revision",
+        "input_hash",
+        "status",
+        "created_at",
+        "updated_at",
+        "last_seq",
+        "current_attempt_id",
+        "attempt_count"
+      ],
+      "title": "TaskSnapshot",
+      "type": "object"
+    }
+  },
+  "title": "local-task/1 private contract"
+}

@@ -1,0 +1,327 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.0.01",
+  "task_spec_sha256": "316be6f33226061e772ad7189f7566b5dea58a4147fd686b81e1fccc0aa9cb9a",
+  "batch_id": "BATCH-003",
+  "dispatch_ref": "docs/handoff/BATCH-003.md",
+  "status": "submitted",
+  "base_ref": "sha256:fc8d6ecd7273e78ff16d6a93639f2b58b6ab55202a524a70138e82cdbb0fe632",
+  "result_ref": "manifest-sha256:c7a57666e56de6499dc2bc941eb58d261805910b237968a8059b684cfe34dac4",
+  "result_manifest": "reports/evidence/M00.0.01/artifact-manifest.json",
+  "summary": "BATCH-003 第一卡：建立 Python 最小开发环境（真实安装 + 真实运行，不写配置充数）。冻结工具链按 selected-versions.json 装到项目局部目录 .local-tools/（gitignore 生成物）：python.org 官方安装器 python-3.13.15-amd64.exe（sha256=edec09c4…，静默安装 InstallAllUsers=0/TargetDir=项目内/PrependPath=0，退出 0）、PyPI 官方 uv 0.12.18 wheel 解出 uv.exe（sha256=0a3c4e41…）、nodejs.org 官方 node-v24.21.0-win-x64.zip 解出 node/npm（自带 npm 11.19.0，供本批后两卡用）；未做任何系统/用户级安装，未改 PATH 与 profile。本卡产物：pyproject.toml（唯一版本声明源，pydantic==2.13.5、dev 组 pytest==9.1.1、build backend hatchling==1.32.4，requires-python '>=3.13,<3.14'，wheel packages 覆盖 services/tools 整目录以预留 adapters/integrations）、services/__init__.py、services/control/__init__.py、tools/__init__.py（只有一行中文 docstring，无业务实现）、requirements-dev.txt（uv export --locked 真实导出，含哈希）、.python-version。真实执行：uv lock（12 包，uv.lock sha256=d252b1d2…）→ uv sync（.venv，12 包 + 本项目 editable）→ 项目外、去 PYTHONPATH、-I 隔离模式 import services.control（__file__ 指回项目源码，排除伪安装）→ pytest 2 passed（目标运行与默认收集各一次，exit 0；不存在的测试路径 exit=4 负例）→ UV_PROJECT_ENVIRONMENT=.venv-repro uv sync --frozen 第二干净环境重建（两环境完整包集合逐项一致、解释器均为 3.13.15、锁文件哈希不变，派工 §3 第 3 项）。只读自检器 check_m00_0_01.py 20 项全过（含 4 条负例：错误钉版/错误 .python-version/缺 dev 组/篡改锁文件均被拒）。权威范围检查 python docs/handoff/check_batch003_scope.py = PASS（MISSING 0 / outside 0）。holdout.json 未读内容、字节哈希保持 cfde4a5d…。网络仅用于上述三个官方来源的下载，无密钥、无付费调用、无模型 API、无账户登录。本卡不改 accepted 产物、不改 reviews/、不改 helper/检查器。",
+  "changed_files": [
+    "pyproject.toml",
+    "requirements-dev.txt",
+    "services/__init__.py",
+    "services/control/__init__.py",
+    "tools/__init__.py",
+    "reports/M00.0.01.json",
+    "reports/M00.0.01.checkpoint.md",
+    "reports/evidence/M00.0.01/artifact-manifest.json",
+    "reports/evidence/M00.0.01/check_m00_0_01.py",
+    "reports/evidence/M00.0.01/test_initial_env.py",
+    "reports/evidence/M00.0.01/tool-sources.json",
+    "reports/evidence/M00.0.01/uv-0.12.18-pypi.json",
+    "reports/evidence/M00.0.01/hatchling-pypi.json",
+    "reports/evidence/M00.0.01/verification.txt",
+    "reports/evidence/M00.0.01/logs/01-uv-lock.txt",
+    "reports/evidence/M00.0.01/logs/02-uv-sync.txt",
+    "reports/evidence/M00.0.01/logs/03-uv-pip-list-primary.txt",
+    "reports/evidence/M00.0.01/logs/04-external-import.txt",
+    "reports/evidence/M00.0.01/logs/05-pytest.txt",
+    "reports/evidence/M00.0.01/logs/06-uv-export.txt",
+    "reports/evidence/M00.0.01/logs/07-uv-sync-frozen-repro.txt",
+    "reports/evidence/M00.0.01/logs/08-check-m00_0_01.txt"
+  ],
+  "dispatch_changed_files": {
+    "ref": "docs/handoff/BATCH-003.md",
+    "files": [
+      "uv.lock",
+      ".python-version",
+      ".gitignore"
+    ],
+    "note": "派工 §3 显式新增授权：uv.lock（uv lock 真实生成，锁文件不是手写产物）、.python-version（3.13.15）、.gitignore（只追加本批生成/缓存目录：.venv-repro/ .uv-cache/ .local-tools/ 等；未改既有条目、未把任意目录一概忽略、未把 work/ 列入）。三者均纳入 artifact-manifest.json 与实际范围检查。"
+  },
+  "commands": [
+    {
+      "argv": [
+        "curl",
+        "-L",
+        "--fail",
+        "-o",
+        ".local-tools/downloads/python-3.13.15-amd64.exe",
+        "https://www.python.org/ftp/python/3.13.15/python-3.13.15-amd64.exe"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/tool-sources.json",
+      "evidence_kind": "actual",
+      "note": "python.org 官方发行物；sha256=edec09c4853aeae9ac36efb8c9f95b6b8e2fee65eee56d9767a8b7c69c574403，29452944 字节，与 selected-versions.json 的 install_source 一致"
+    },
+    {
+      "argv": [
+        "python-3.13.15-amd64.exe",
+        "/quiet",
+        "InstallAllUsers=0",
+        "TargetDir=C:\\Users\\xiayu\\Documents\\Codex\\companion-agent\\.local-tools\\python-3.13.15",
+        "PrependPath=0",
+        "AssociateFiles=0",
+        "Shortcuts=0",
+        "Include_launcher=0",
+        "Include_test=0",
+        "Include_doc=0",
+        "Include_tcltk=0"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent\\.local-tools\\downloads",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/tool-sources.json",
+      "evidence_kind": "actual",
+      "note": "项目内局部安装（InstallAllUsers=0、PrependPath=0，不改 PATH/profile）。首次尝试 exit=67(0x643=1603)：日志显示 TargetDir 反斜杠被 Git Bash 吞掉，属本机 shell 引号问题而非版本/来源问题；改用 MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL='*' 并对整个参数加引号后 exit=0，已如实记录在 tool-sources.json 的 install_attempts"
+    },
+    {
+      "argv": [
+        "curl",
+        "-L",
+        "--fail",
+        "-o",
+        ".local-tools/downloads/uv-0.12.18-py3-none-win_amd64.whl",
+        "https://files.pythonhosted.org/packages/…/uv-0.12.18-py3-none-win_amd64.whl"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/tool-sources.json",
+      "evidence_kind": "actual",
+      "note": "PyPI 官方文件（元数据留档 reports/evidence/M00.0.01/uv-0.12.18-pypi.json）；wheel sha256=0a3c4e415515bd4c24c7516523d9042a2957ce716423e193f8b2be9fb8773340，17986064 字节，许可 MIT OR Apache-2.0；wheel 即 zip，解出 uv.exe 直接用，未 pip install、未全局安装"
+    },
+    {
+      "argv": [
+        "curl",
+        "-L",
+        "--fail",
+        "-o",
+        ".local-tools/downloads/node-v24.21.0-win-x64.zip",
+        "https://nodejs.org/dist/v24.21.0/node-v24.21.0-win-x64.zip"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/tool-sources.json",
+      "evidence_kind": "actual",
+      "note": "nodejs.org 官方发行物，解到 .local-tools/node-v24.21.0-win-x64/（node.exe + 自带 npm 11.19.0）。本卡不依赖 Node，仅作为后两卡（M00.0.02/M00.0.03）的冻结工具就位，版本与 selected-versions.json 一致；本机原有 node v22.23.2 未被修改或替换"
+    },
+    {
+      "argv": [
+        ".local-tools/uv-0.12.18/uv.exe",
+        "lock"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/logs/01-uv-lock.txt",
+      "evidence_kind": "actual",
+      "note": "uv 0.12.18；Resolved 12 packages；使用 .local-tools 的 CPython 3.13.15（UV_PYTHON 绝对路径、UV_PYTHON_DOWNLOADS=never）；uv.lock = d252b1d25276d6c714172b1a731302db76bdf68e76681abd5203efb3f5782185"
+    },
+    {
+      "argv": [
+        ".local-tools/uv-0.12.18/uv.exe",
+        "sync"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/logs/02-uv-sync.txt",
+      "evidence_kind": "actual",
+      "note": "创建 .venv（生成目录，不入 manifest）；12 包 + 本项目 editable；UV_CACHE_DIR 指向项目内 .uv-cache（gitignored）"
+    },
+    {
+      "argv": [
+        ".local-tools/uv-0.12.18/uv.exe",
+        "pip",
+        "list",
+        "--python",
+        ".venv/Scripts/python.exe"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/logs/03-uv-pip-list-primary.txt",
+      "evidence_kind": "actual",
+      "note": "primary 环境实际安装集合（pydantic 2.13.5 / pytest 9.1.1 与冻结钉版一致）"
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "-I",
+        "-c",
+        "import services.control, pathlib; print(pathlib.Path(services.control.__file__).resolve())"
+      ],
+      "cwd": "%TEMP%\\m00.0.01-import-*（临时目录，项目根之外）",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/logs/04-external-import.txt",
+      "evidence_kind": "actual",
+      "note": "A01 核心证据：项目外 + 已移除 PYTHONPATH + -I 隔离模式下可导入，__file__ 指回 C:\\…\\companion-agent\\services\\control\\__init__.py，排除仅靠当前目录的伪安装。同日志含 pip show 尝试：.venv 内无 pip（uv 环境的预期形态，requirements-dev.txt 通过 uv pip install -r / uv sync 消费）"
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "reports/evidence/M00.0.01/test_initial_env.py",
+        "-q"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/logs/05-pytest.txt",
+      "evidence_kind": "actual",
+      "note": "A02：真实发现并运行 2 项 smoke（导入来源在项目内 + 冻结直接依赖版本在位），2 passed；同日志含默认收集运行 2 passed 与不存在路径负例 exit=4"
+    },
+    {
+      "argv": [
+        ".local-tools/uv-0.12.18/uv.exe",
+        "export",
+        "--format",
+        "requirements-txt",
+        "--locked",
+        "-o",
+        "requirements-dev.txt"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/logs/06-uv-export.txt",
+      "evidence_kind": "actual",
+      "note": "requirements-dev.txt 由锁文件真实导出（非手工维护的第二套真相）：首行 autogenerated 标记、第三行 -e .、每项带 --hash；sha256=2e7ba7e4…"
+    },
+    {
+      "argv": [
+        ".local-tools/uv-0.12.18/uv.exe",
+        "sync",
+        "--frozen"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/logs/07-uv-sync-frozen-repro.txt",
+      "evidence_kind": "actual",
+      "note": "派工 §3 第 3 项：UV_PROJECT_ENVIRONMENT=.venv-repro 第二个干净环境按锁文件 frozen 重建，直接依赖一致、锁文件哈希前后不变（d252b1d2…）；两环境完整包集合由自检器 D-2 逐项比对"
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "reports/evidence/M00.0.01/check_m00_0_01.py"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/logs/08-check-m00_0_01.txt",
+      "evidence_kind": "actual",
+      "note": "只读自检器 20 项全过（A 配置 6 / B 锁与导出 3 / C 项目外隔离导入 1 / D 双环境一致性 4 / E pytest 目标运行 2 / F 负例 4）；total=20 failed=0；末尾打印 8 个制品的 sha256"
+    },
+    {
+      "argv": [
+        ".local-tools/uv-0.12.18/uv.exe",
+        "lock",
+        "--check"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/verification.txt",
+      "evidence_kind": "actual",
+      "note": "锁文件与 pyproject 一致性复核通过；同日志含解释器版本、下载物哈希、manifest 内部条目复算、holdout 哈希"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/execution/taskctl.py",
+        "validate"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/verification.txt",
+      "evidence_kind": "actual",
+      "note": "{\"valid\": true, \"tasks\": 156, \"first\": \"M00.1.01\"}（未改 helper）"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/execution/taskctl.py",
+        "next",
+        "--reports-dir",
+        "reports",
+        "--reviews-dir",
+        "reviews"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/verification.txt",
+      "evidence_kind": "actual",
+      "note": "{\"task_id\": \"M00.0.01\", \"state\": \"ready\", \"accepted\": 6, \"action\": \"prepare_one_task\"}；submitted ≠ accepted，验收由独立复核决定"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/handoff/check_batch003_scope.py"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/verification.txt",
+      "evidence_kind": "actual",
+      "note": "权威只读范围检查（按本批基线 docs/handoff/BATCH-003-BASELINE.json，snapshot_id=sha256:fc8d6ecd…）阶段运行：result=PASS，missing=[]，outside=[]；本卡改动全部落在原卡写集 + 派工授权文件 + reports/evidence/M00.0.01/ 内"
+    },
+    {
+      "argv": [
+        "sha256sum",
+        "tests/fixtures/first-flow/holdout.json"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.01/verification.txt",
+      "evidence_kind": "actual",
+      "note": "仅核对字节哈希（不读取内容）：cfde4a5ddcaeb6b6c814ee6e9bc61a5ea9358528e9aa632e307ca81e272a93d6，与基线一致"
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.0.01-A01",
+      "status": "passed",
+      "evidence": "干净环境 = .venv 由 uv sync 从空目录真实创建，解释器为冻结补丁版 Python 3.13.15（绝对路径 C:\\Users\\xiayu\\Documents\\Codex\\companion-agent\\.local-tools\\python-3.13.15\\python.exe，版本由自检器 D-3 断言 [3,13,15]），项目以 editable 装入该环境。项目外子进程（临时目录为 cwd、env 中移除 PYTHONPATH、-I 隔离模式）执行 import services.control 成功（exit=0），__file__ 解析为 C:\\Users\\xiayu\\Documents\\Codex\\companion-agent\\services\\control\\__init__.py，来源在项目内，排除仅靠当前目录的伪安装；原始输出见 logs/04-external-import.txt，规则由自检器 C-1 断言。安装集合 pydantic==2.13.5 / pytest==9.1.1 与 selected-versions.json 冻结值一致（logs/03-uv-pip-list-primary.txt、自检器 B-1/B-2）。"
+    },
+    {
+      "id": "M00.0.01-A02",
+      "status": "passed",
+      "evidence": "pytest 真实发现并运行 reports/evidence/M00.0.01/test_initial_env.py 的 2 项 smoke（test_services_control_imports_from_project_source 断言导入来源在项目内；test_frozen_direct_dependency_versions 断言 importlib.metadata 读到的 pydantic/pytest 精确版本），目标运行与项目根默认收集各一次均 2 passed、exit=0，日志含收集数与结果（logs/05-pytest.txt）；0 tests/exit 5 未被当作通过：自检器 E-1 要求 exit=0 且输出含 '2 passed'。负例 E-2：不存在的测试路径 exit=4（非零），证明'没有测试'不能被静默当通过。"
+    },
+    {
+      "id": "M00.0.01-A03",
+      "status": "passed",
+      "evidence": "无付费调用、无真实凭据：全程未登录任何账户、未使用令牌、未调用模型/推理 API、未访问付费服务；网络仅用于三个官方来源的下载（python.org 安装器、PyPI uv wheel、nodejs.org Node 包），来源 URL、字节数与 sha256 记入 tool-sources.json，PyPI 元数据原文留档（uv-0.12.18-pypi.json、hatchling-pypi.json）。派工 §3 第 3 项的第二环境验证一并成立：UV_PROJECT_ENVIRONMENT=.venv-repro 下 uv sync --frozen 从锁文件重建成功，两环境完整包集合（名称+版本）逐项一致、解释器均为 3.13.15、uv.lock 哈希前后不变（自检器 D-1/D-2/D-3，logs/07-uv-sync-frozen-repro.txt）。无任何密钥文件产生；.gitignore 追加了本批生成/缓存目录（.venv-repro/、.uv-cache/、.local-tools/ 等）。"
+    }
+  ],
+  "dispatch_acceptance_map": [
+    {
+      "dispatch_item": "BATCH-003 §3-1 干净环境按冻结 Python 安装 + 项目外去 PYTHONPATH 导入并核对 __file__",
+      "covered_by": "M00.0.01-A01",
+      "note": "另记录解释器绝对路径与版本（.local-tools\\python-3.13.15\\python.exe，3.13.15）"
+    },
+    {
+      "dispatch_item": "BATCH-003 §3-2 pytest 真实发现并运行至少一个 smoke，日志含收集数与结果，0 tests/exit 5 不算通过",
+      "covered_by": "M00.0.01-A02",
+      "note": "收集 2 项；负例覆盖 exit=5/4 形态"
+    },
+    {
+      "dispatch_item": "BATCH-003 §3-3 用 uv.lock 在第二干净环境 frozen sync 重建，核对直接依赖一致与锁文件哈希不变",
+      "covered_by": "M00.0.01-A03",
+      "note": "环境和缓存为生成物，不计入手写产物、不入 manifest"
+    },
+    {
+      "dispatch_item": "BATCH-003 §3-4 无密钥、无付费调用；网络仅用于包/工具下载；保存 argv、退出码与真实输出",
+      "covered_by": "M00.0.01-A03",
+      "note": "commands[] 逐条带 argv/cwd/exit_code/log_path，原始输出留存于 logs/ 与 verification.txt"
+    }
+  ],
+  "integration_evidence_kind": "actual",
+  "unresolved": [],
+  "evaluator_followups": [
+    "requirements-dev.txt 是 uv export 生成的兼容入口（uv pip install -r 消费），而 .venv 内没有 pip（uv 环境的预期形态）。复核若期望'pip install -r'路径也可用，需要另行决策；当前按派工 §3'requirements-dev.txt 作为 uv 导出的兼容入口'执行，没有手工维护第二套依赖真相。",
+    "hatchling==1.32.4 是 build backend（PEP 517 构建期隔离安装），不进入 .venv 运行集合，因此不出现在 uv.lock 的安装集合断言与 requirements-dev.txt 里；其官方来源、许可（MIT）与采用理由登记在 reports/evidence/M00.0.01/tool-sources.json 与 hatchling-pypi.json。",
+    "本机 Git Bash 下调用 .exe 的 /flag 参数需要 MSYS_NO_PATHCONV=1（并给含反斜杠的参数整体加引号），否则 TargetDir 会被吞掉导致安装器失败（首次 1603 即此因）。这是本机 shell 交互问题，已记录在 tool-sources.json；若后续卡用同一方式调用 Node/npm 的 .cmd 需注意同样问题。",
+    "node v24.21.0 + 自带 npm 11.19.0 已就位于 .local-tools/（本机原有 node v22.23.2/npm 10.9.8 未使用也未修改）。这两个版本的真实可用性属于 M00.0.02/M00.0.03 的验收范围，由后两卡实测。",
+    "uv.lock 的 requires-python 被 uv 正规化为 '==3.13.*'（对应我们的 >=3.13,<3.14 与已装补丁版 3.13.15）；这是 uv 的锁文件表达，不是把项目收窄为单一补丁版。若复核要求锁文件字面保留区间，请指出。",
+    ".local-tools/、.venv/、.venv-repro/、.uv-cache/ 均为生成目录（scope 检查按 PRUNE 排除，不计为手写产物）；其内容可由 tool-sources.json 记录的来源 + 锁文件重建，不随交付哈希。"
+  ],
+  "next_step": "本卡 submitted，等待独立复核；按本批派工串行继续 M00.0.02（TypeScript 工作区与测试入口），不自动进入批外任务、不自行标 accepted。",
+  "batch_level_changed_files": []
+}

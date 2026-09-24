@@ -1,0 +1,29 @@
+{
+  "batch_id": "BATCH-015",
+  "decision": "accepted",
+  "scope": "single-user offline identity and fixed deterministic CSV task flow; excludes Agent semantics, native isolation and visual acceptance",
+  "original_accepted_count": 12,
+  "result_ref": "sha256:6c03efbcabe6b3630d85e2faff2fb4496d8e97e59bf8a74f6ede2843de7fa5d3",
+  "result_ref_definition": "sha256(canonical JSON artifacts array), not whole manifest byte hash",
+  "acceptance_results": {
+    "B15-A01": "accepted",
+    "B15-B01": "accepted",
+    "B15-C01": "accepted",
+    "B15-D01": "accepted",
+    "B15-E01": "accepted",
+    "B15-F01": "accepted"
+  },
+  "closed_findings": [
+    "B14-R01",
+    "B14-R02"
+  ],
+  "independent_tests": {
+    "passed": 54,
+    "skipped": 1
+  },
+  "manifest_items": 22,
+  "submission_unchanged": 244,
+  "model_http_requests": 0,
+  "credential_reads": 0,
+  "next_batch": "BATCH-016"
+}

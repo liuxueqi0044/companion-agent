@@ -1,0 +1,186 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.0.03",
+  "task_spec_sha256": "f1da4479e0dd1797f37e69faf136a09986e70dfc06cc411a12c1d792e7c2876c",
+  "batch_id": "BATCH-003",
+  "dispatch_ref": "docs/handoff/BATCH-003.md",
+  "status": "submitted",
+  "base_ref": "sha256:fc8d6ecd7273e78ff16d6a93639f2b58b6ab55202a524a70138e82cdbb0fe632",
+  "result_ref": "manifest-sha256:0a02aa6aca6ee3f58e201c11df7a3234d4c983a244352c08ed84c41e28cee80a",
+  "result_manifest": "reports/evidence/M00.0.03/artifact-manifest.json",
+  "summary": "BATCH-003 第三卡：建立桌面空壳的构建入口。只写卡内五文件：apps/desktop/package.json（name @companion/desktop、private、type module、dependencies 精确钉 vue 3.5.43、scripts build=vite build、dev=vite --host 127.0.0.1）、apps/desktop/tsconfig.json（extends ../../tsconfig.base.json，include renderer/**/*.ts 与 vite.config.ts）、apps/desktop/index.html（挂载点 #app、入口脚本 /renderer/main.ts、内联 <style>，无远程脚本/字体）、apps/desktop/vite.config.ts（root 指向配置目录、base \"./\"、outDir dist、server.host 127.0.0.1，无 plugins）、apps/desktop/renderer/main.ts（只用 .ts + createApp/h/render 渲染：产品名、无数据占位、本地开发说明；无 SFC、无 vue-tsc、无 @vitejs/plugin-vue）。真实执行：npm install（冻结 Node 24.21.0 + 自带 npm 11.19.0，进程内 npm_config_registry=https://registry.npmjs.org/ 覆盖用户级 ~/.npmrc 的 npmmirror 镜像，未改用户配置）→ 根 package-lock.json 由 3aab7919… 变为 bfa5d6a6…（按派工 §4.4 归 M00.0.02 所有，不在本卡 changed_files/manifest）→ 根 npm run typecheck（tsc -p apps/desktop/tsconfig.json --noEmit）exit 0，并以 --listFiles 证明项目实际纳入 renderer/main.ts 与 vite.config.ts（217 个文件，非空集合通过）→ 真实 npm run build（workspace → vite build）exit 0，10 模块，产物 dist/index.html 481B + dist/assets/index-C0avCZ8n.js 63832B，入口只引用该本地 JS（存在且非空），无独立 CSS 资源（样式在内联 <style> 与运行时 style 对象中）→ 本机预览 vite preview --host 127.0.0.1：netstat 确认只监听 127.0.0.1（未绑 0.0.0.0），curl / 与 /assets/index-*.js 均 200，应用内浏览器真实渲染出标题与占位文案，console 无日志、网络仅两条本地请求、无第三方请求；预览服务已停止。只读自检器 check_m00_0_03.py 37 项全过（含 4 条内存负例与 tsc 负例），权威范围检查 PASS（missing 0 / outside 0），taskctl validate valid=true/156 任务，next 仍停在 M00.0.01 submitted/accepted=6（submitted ≠ accepted）。bundle 内 URL 字符串仅 w3.org 命名空间常量与 vuejs.org 警告文本（惰性，不发起请求）；未安装 Electron、未运行任何 Electron 进程，不把 Vite 构建成功表述为 Electron 窗口已运行。无密钥、无付费调用、无模型 API、无账户登录。",
+  "changed_files": [
+    "apps/desktop/package.json",
+    "apps/desktop/tsconfig.json",
+    "apps/desktop/index.html",
+    "apps/desktop/vite.config.ts",
+    "apps/desktop/renderer/main.ts",
+    "reports/M00.0.03.json",
+    "reports/M00.0.03.checkpoint.md",
+    "reports/evidence/M00.0.03/artifact-manifest.json",
+    "reports/evidence/M00.0.03/check_m00_0_03.py",
+    "reports/evidence/M00.0.03/verification.txt",
+    "reports/evidence/M00.0.03/logs/01-npm-install.txt",
+    "reports/evidence/M00.0.03/logs/02-npm-ls.txt",
+    "reports/evidence/M00.0.03/logs/03-typecheck.txt",
+    "reports/evidence/M00.0.03/logs/04-vite-build.txt",
+    "reports/evidence/M00.0.03/logs/05-dist-inspect.txt",
+    "reports/evidence/M00.0.03/logs/06-vite-preview.txt",
+    "reports/evidence/M00.0.03/logs/07-check-m00_0_03.txt",
+    "reports/evidence/M00.0.03/logs/07a-check-m00_0_03-first-run-failures.txt"
+  ],
+  "dispatch_changed_files": {
+    "ref": "docs/handoff/BATCH-003.md",
+    "files": [],
+    "note": "本卡无派工额外授权文件（uv.lock/.python-version/.gitignore 属 .01）。apps/desktop 五文件即卡内写集。本次安装改动的根 package-lock.json 按派工 §4.4『所有跨卡根 package/lock 改动仍归 M00.0.02 所有』不计入本卡，批末重跑 .02 验证并重建其 manifest/result_ref。"
+  },
+  "commands": [
+    {
+      "argv": [".local-tools/node-v24.21.0-win-x64/npm.cmd", "install"],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.03/logs/01-npm-install.txt",
+      "evidence_kind": "actual",
+      "note": "真实安装加入 vue@3.5.43（含传递依赖，共 added 20 packages / audited 62 / 0 vulnerabilities）；环境 npm_config_registry=https://registry.npmjs.org/（进程内覆盖，未改用户级 ~/.npmrc）、npm_config_cache=项目内 .local-tools/npm-cache、进程内 PATH 前置冻结 Node；锁文件 3aab7919… → bfa5d6a6…"
+    },
+    {
+      "argv": [".local-tools/node-v24.21.0-win-x64/npm.cmd", "ls", "--depth=0"],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.03/logs/02-npm-ls.txt",
+      "evidence_kind": "actual",
+      "note": "工作区 @companion/desktop 链接生效且仅含 vue@3.5.43；四条根冻结依赖版本未变；锁内 85 条 resolved 中 84 条官方注册表、1 条工作区软链（link=true）"
+    },
+    {
+      "argv": [".local-tools/node-v24.21.0-win-x64/npm.cmd", "run", "typecheck"],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.03/logs/03-typecheck.txt",
+      "evidence_kind": "actual",
+      "note": "根 typecheck 入口（tsc -p apps/desktop/tsconfig.json --noEmit）对最终桌面源码通过"
+    },
+    {
+      "argv": ["node", "node_modules/typescript/bin/tsc", "-p", "apps/desktop/tsconfig.json", "--noEmit", "--listFiles"],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.03/logs/03-typecheck.txt",
+      "evidence_kind": "actual",
+      "note": "覆盖证明：项目实际纳入 217 个文件，含 apps/desktop/renderer/main.ts 与 apps/desktop/vite.config.ts（排除空集合假通过）"
+    },
+    {
+      "argv": [".local-tools/node-v24.21.0-win-x64/npm.cmd", "run", "build"],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.03/logs/04-vite-build.txt",
+      "evidence_kind": "actual",
+      "note": "真实 Vite 构建（vite v8.3.0，✓ 10 modules transformed，240ms）；dist/index.html 481B、dist/assets/index-C0avCZ8n.js 63832B"
+    },
+    {
+      "argv": ["node", "node_modules/vite/bin/vite.js", "preview", "--config", "apps/desktop/vite.config.ts", "--host", "127.0.0.1", "--port", "4173"],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.03/logs/06-vite-preview.txt",
+      "evidence_kind": "actual",
+      "note": "本机预览（后台启动，验证后停止）：netstat 仅 127.0.0.1:4173 LISTENING；curl / 与 /assets/index-C0avCZ8n.js 均 200；未部署、未绑 0.0.0.0"
+    },
+    {
+      "argv": ["curl", "http://127.0.0.1:4173/"],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.03/logs/06-vite-preview.txt",
+      "evidence_kind": "actual",
+      "note": "200 / 481B；配套浏览器面板证据：标题 Companion Agent、main 文本为无数据占位、console 无日志、网络仅本地两条请求"
+    },
+    {
+      "argv": [".local-tools/python-3.13.15/python.exe", "reports/evidence/M00.0.03/check_m00_0_03.py"],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.03/logs/07-check-m00_0_03.txt",
+      "evidence_kind": "actual",
+      "note": "只读自检器 37 项全过（A 工作区 7 / B index.html 2 / C main.ts 5 / D vite.config 3 / E 产物 6 / F typecheck 3 / G 锁与哈希 7 / H 负例 4）；首次运行两处失败（A-4 误报 description 文案、F-3 负例落到模块解析）的摘录与修正见 logs/07a"
+    },
+    {
+      "argv": [".local-tools/python-3.13.15/python.exe", "docs/execution/taskctl.py", "validate"],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.03/verification.txt",
+      "evidence_kind": "actual",
+      "note": "{\"valid\": true, \"tasks\": 156}（未改 helper）"
+    },
+    {
+      "argv": [".local-tools/python-3.13.15/python.exe", "docs/execution/taskctl.py", "next", "--reports-dir", "reports", "--reviews-dir", "reviews"],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.03/verification.txt",
+      "evidence_kind": "actual",
+      "note": "{\"task_id\": \"M00.0.01\", \"state\": \"submitted\", \"accepted\": 6, \"action\": \"review_or_resume_existing_work\"}——next 仍停在 .01（本卡提交前记录），submitted ≠ accepted"
+    },
+    {
+      "argv": [".local-tools/python-3.13.15/python.exe", "docs/handoff/check_batch003_scope.py"],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.03/verification.txt",
+      "evidence_kind": "actual",
+      "note": "权威只读范围检查：result=PASS，missing=[]，outside=[]（批末最终态核对另存 reports/evidence/M00.0.03/final-scope.txt）"
+    },
+    {
+      "argv": ["sha256sum", "tests/fixtures/first-flow/holdout.json"],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.03/verification.txt",
+      "evidence_kind": "actual",
+      "note": "仅核对字节哈希（不读内容）：cfde4a5d…，与基线一致"
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.0.03-A01",
+      "status": "passed",
+      "evidence": "真实构建：npm run build（根脚本委托 workspace @companion/desktop，最终执行真实 vite build，vite v8.3.0）exit 0，✓ 10 modules transformed，240ms；产物非空——dist/index.html 481 bytes、dist/assets/index-C0avCZ8n.js 63832 bytes（logs/04；哈希见 verification.txt [4]）。入口引用完整性：dist/index.html 只引用 ./assets/index-C0avCZ8n.js，该文件存在且非空（自检器 E-1/E-2）；无 <link rel=stylesheet> 远程引用（E-3）。本卡未生成独立 CSS 资源，样式位于 index.html 内联 <style>（被 Vite 保序内联到产物）与运行时 style 对象，故不存在『入口引用但缺失的 CSS』——如实记录而非声称产出 CSS。验证方式为真实构建产物 + 本机预览服务实际渲染（curl 200 / 浏览器面板渲染出标题与占位文案），不是只看退出码。"
+    },
+    {
+      "id": "M00.0.03-A02",
+      "status": "passed",
+      "evidence": "页面不加载真实用户数据：renderer/main.ts 全文无 fetch/XMLHttpRequest/WebSocket/localStorage/sessionStorage（自检器 C-4），无任何远程地址（C-5），页面只有产品名、写死的『暂无数据』占位与本地开发说明；index.html 无远程脚本/样式/字体（B-2），vite.config.ts 无插件（D-2）。产物扫描：bundle 内出现过的全部 URL 字符串只有 w3.org 的 SVG/XLink/MathML 命名空间常量与 Vue 运行时警告文本 https://vuejs.org/error-reference/#runtime-${r}，均为惰性字符串、不发起请求（E-4，逐条列出）；无字体引用、无协议相对外链（E-5/E-6）；fetch( 仅出现 1 次，是 Vite 的 modulepreload polyfill 读取本地 link[rel=modulepreload] 的 href。运行时证据：本机预览中浏览器网络记录只有 GET / 与 GET /assets/index-C0avCZ8n.js 两条本地请求，无第三方请求，console 无日志（logs/06）。"
+    },
+    {
+      "id": "M00.0.03-A03",
+      "status": "passed",
+      "evidence": "不在此阶段实现托盘、认证或任务：apps/desktop 源码文件集恰为卡内五文件（自检器 A-5），全仓无任何 .vue 单文件组件（A-6），package.json 的依赖只为 {\"vue\":\"3.5.43\"}、脚本只有 vite build / vite --host 127.0.0.1，依赖键与脚本值中不出现 electron/vue-tsc/@vitejs/plugin-vue/0.0.0.0（A-4）；main.ts 不出现 windows/托盘/认证/任务实现代码，只有说明性文案（C-4）。本卡未安装 Electron、未创建 main/preload/installer、未启动任何 Electron 进程；本机预览是 Vite 预览服务对构建产物的渲染，报告与证据均不把它表述为 Electron 窗口已运行（verification.txt [5] 明确说明）。页面文案本身也写明『未实现托盘、认证与任务流程』并给出无数据占位，避免被误读为已有功能。"
+    }
+  ],
+  "dispatch_acceptance_map": [
+    {
+      "dispatch_item": "BATCH-003 §5 前段：renderer 用真实 Vite 命令构建成功，产物非空、生成入口引用的本地 JS/CSS 都存在",
+      "covered_by": "M00.0.03-A01",
+      "note": "本地 JS 存在且非空；本卡无独立 CSS 产物（无 .css 文件写入），样式为内联，故无『被引用但缺失』的 CSS"
+    },
+    {
+      "dispatch_item": "BATCH-003 §5 中段：根 typecheck 覆盖 main.ts",
+      "covered_by": "M00.0.03-A01",
+      "note": "npm run typecheck exit 0，并以 tsc --listFiles 列出 renderer/main.ts 与 vite.config.ts，排除空集合假通过；同时使 .02 自检器 D-5 具备转 PASS 的条件"
+    },
+    {
+      "dispatch_item": "BATCH-003 §5 后段：源码与产物中无真实数据/远程脚本、字体、用户账户、认证/托盘/任务流程；不把 Vite 构建成功说成 Electron 窗口已运行",
+      "covered_by": "M00.0.03-A02 / M00.0.03-A03",
+      "note": "bundle 内 URL 字符串逐条列出并说明为惰性常量；预览只绑回环地址、未部署"
+    },
+    {
+      "dispatch_item": "BATCH-003 §4.4：跨卡根 package/lock 改动归 M00.0.02，三卡最终态形成后重跑并重建该卡 manifest",
+      "covered_by": "M00.0.03-A01",
+      "note": "本卡安装使根 package-lock.json 变化（3aab7919… → bfa5d6a6…），已记入本卡 verification.txt [2] 与下述 unresolved 之外的说明；.02 的 manifest/result_ref 在批末重建"
+    }
+  ],
+  "integration_evidence_kind": "actual",
+  "unresolved": [],
+  "evaluator_followups": [
+    "本卡安装使根 package-lock.json 由 3aab7919… 变为 bfa5d6a6…（新增 vue@3.5.43 及其传递依赖，resolved 84 条官方注册表 + 1 条工作区软链）。按派工 §4.4 该跨卡改动归 M00.0.02，.02 的 manifest 与 result_ref 将在批末重建；.02 自检器原有的『resolved 全部指向 registry.npmjs.org』断言（B-3）在出现工作区软链条目后需要按事实调整（软链条目 resolved=apps/desktop、link=true，不是下载来源），我会在批末修正该断言而不是放宽为不检查。",
+    "本机 PATH 上的 python 实际解析到已安装 Hermes agent 的 venv（C:\\Users\\xiayu\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python，3.12.10），它不是本批冻结的 Python 3.13.15。本卡自检与台账命令一律改用冻结解释器 ./.local-tools/python-3.13.15/python.exe；既有 .01/.02 的自检日志里记的是裸 python（即该 venv），复核复跑时若用冻结解释器，行为应一致（这些脚本只用标准库）。未对该 venv 做任何安装或修改。",
+    "npm 脚本仍从 PATH 解析 node：本卡所有 npm/vite/tsc 命令都在进程内前置 .local-tools/node-v24.21.0-win-x64（未改系统 PATH/profile）。复核复跑需同样前置，否则 vite/vitest 会落到系统 node 22.23.2。",
+    "未生成独立 CSS 资源是写集约束下的正常结果（本卡文件边界只有五文件，不含 .css）。若后续卡需要独立样式表，应由该卡在自己的文件边界内加 renderer/*.css 并从 main.ts 引入，届时 Vite 会产出并自动被入口引用。",
+    "Electron 仍未安装、未运行（selected-versions 中的 electron 44.4.4 仍属 deferred）。本卡只交付 renderer 空壳的构建入口；安装/运行 Electron main 与 preload、托盘、认证、任务流程均属后续卡。",
+    "README 一类文档未新增（不在文件边界内）；本地开发说明写在页面页脚与 vite.config/package.json 脚本里，命令为仓库根 npm run build 与 npm run dev --workspace @companion/desktop（后者绑 127.0.0.1）。"
+  ],
+  "next_step": "本卡 submitted，等待独立复核；批内三卡（M00.0.01/.02/.03）均已 submitted，不自动进入批外任务、不自行标 accepted。批末按派工 §4.4/§6 收敛：三卡最终态重跑（含 .02 的 npm ci/锁校验与 D-5 转 PASS、.02 manifest 与 result_ref 重建）、写 reports/BATCH-003.md、把权威范围检查输出落到 reports/evidence/M00.0.03/final-scope.txt 后再跑一次、最后记 taskctl validate 与 next（next 应仍停在 M00.0.01 submitted、accepted=6）。",
+  "batch_level_changed_files": []
+}

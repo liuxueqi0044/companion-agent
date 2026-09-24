@@ -1,0 +1,44 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.3.01",
+  "task_spec_sha256": "ef1059622f442ad61ef855c23efb305af1506805401fb09a16efbf190256bbca",
+  "report_sha256": "17ac32e5032f9b315eb75a354bd341466b2f27be1098e32e0c29e8a6ff222bce",
+  "decision": "not_run",
+  "reviewer_id": "codex-current-thread-architect",
+  "reviewer_role": "architect",
+  "reviewed_result_ref": "manifest-sha256:c5882f1474dfda83ce2787bee0d8a0ac9288cd1c7be13ffa678d93736838eef0",
+  "checked_acceptance_ids": [
+    "M00.3.01-A01",
+    "M00.3.01-A02",
+    "M00.3.01-A03"
+  ],
+  "acceptance_decisions": [
+    {
+      "id": "M00.3.01-A01",
+      "decision": "not_run",
+      "basis": "本批实际执行的是 offline_fixture，真实 Hermes 未安装/运行，不按离线证据验收 live 项。"
+    },
+    {
+      "id": "M00.3.01-A02",
+      "decision": "not_run",
+      "basis": "本批实际执行的是 offline_fixture，真实 Hermes 未安装/运行，不按离线证据验收 live 项。"
+    },
+    {
+      "id": "M00.3.01-A03",
+      "decision": "not_run",
+      "basis": "本批实际执行的是 offline_fixture，真实 Hermes 未安装/运行，不按离线证据验收 live 项。"
+    }
+  ],
+  "reviewed_at": "2026-09-23T11:02:20.058925+00:00",
+  "evidence_ref": "reviews/evidence/BATCH-006/review-summary.json",
+  "findings": [],
+  "preparation_decision": "accepted",
+  "preparation_checks": [
+    "13+23 原回归通过",
+    "四项独立场景通过；同 observation 不重跑",
+    "固定 fixture 哈希与显式 Python/环境边界、取消所有权及有界日志代码复核通过"
+  ],
+  "resolved_findings": [
+    "B5-R1"
+  ]
+}

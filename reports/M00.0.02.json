@@ -1,0 +1,276 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.0.02",
+  "task_spec_sha256": "b6b3f9bc4620b02c67f09ea947e570756ec1308c15624ec1c420fb6186d1f317",
+  "batch_id": "BATCH-003",
+  "dispatch_ref": "docs/handoff/BATCH-003.md",
+  "status": "submitted",
+  "base_ref": "sha256:fc8d6ecd7273e78ff16d6a93639f2b58b6ab55202a524a70138e82cdbb0fe632",
+  "result_ref": "manifest-sha256:a4dbd5ecc74c9b41b721c4a978d12b9b847f060fb4688330649d58d51d05d9cb",
+  "result_manifest": "reports/evidence/M00.0.02/artifact-manifest.json",
+  "summary": "BATCH-003 第二卡：建立 TypeScript 工作区与测试入口（真实安装、真实锁文件、真实测试运行）。根 package.json 声明 workspaces [apps/desktop, packages/*]，devDependencies 精确钉 @types/node 24.13.6 / typescript 6.0.3 / vite 8.3.0 / vitest 5.0.1（无 ^ ~ latest），脚本 test:unit=vitest run、typecheck=tsc -p apps/desktop/tsconfig.json --noEmit、build 委托 workspace @companion/desktop（由 .03 提供）；tsconfig.base.json 只含 compilerOptions（strict/noEmit/moduleResolution bundler/types:[node]，不带 include/files，供各 workspace 最小扩展）；vitest.config.ts 的 include 覆盖 apps/、packages/ 与 reports/evidence/ 且显式 passWithNoTests:false。工具链为本机项目内 .local-tools/node-v24.21.0-win-x64（Node 24.21.0 + 自带 npm 11.19.0，M00.0.01 已落位），未做全局安装、未改 PATH/profile。真实执行：npm install（进程内 npm_config_registry=https://registry.npmjs.org/ 覆盖用户级 ~/.npmrc 的 npmmirror 镜像——该镜像为既有用户配置，未修改、未删除；覆盖原因与两次安装事实记于 logs/01a-registry-note.txt）→ 生成 package-lock.json（lockfileVersion 3，65 条 resolved 全部 registry.npmjs.org，sha256=3aab7919…）→ 隔离重建夹具 npm ci（锁文件哈希前后一致 3aab7919…、四条冻结直接依赖实际版本一致、夹具内 tsc 6.0.3 / vitest 5.0.1 自述一致）→ 测试入口三态实测：npm run test:unit -- <文件> 只跑目标文件（1 文件 5 用例）、不存在路径 exit=1（No test files found，不掩盖）、全量 2 文件 6 用例通过 → typecheck 真实性用独立临时 fixture 证明：正确 TS 通过（exit 0）、类型错误被拒（exit 2，error TS）、空输入集合被拒（exit 2，No inputs were found），且脚本本体是真实 tsc 命令行。只读自检器 check_m00_0_02.py 26 项全过（含 4 条内存负例），1 项 PEND（D-5 根 typecheck 对 apps/desktop 生效，apps/desktop 由 M00.0.03 建立，按派工 §4.4 在批末最终态复跑并重建本卡 manifest/result_ref）。权威范围检查 PASS（missing 0 / outside 0）。holdout 未读、字节哈希不变。发现并如实记录两个真实问题：npm 脚本默认从 PATH 解析 node，首次使 vitest 跑在系统 node 22.23.2 上（被 evidence 测试拒绝，日志 logs/03-first-attempt-wrong-node.txt）；把测试文件复制进重建夹具会被根 include 重复收集（已改为夹具只含 package/workspace 配置，自检器 B-5 断言）。无密钥、无付费调用、无模型 API、无账户登录。 批末（三卡最终态）按派工 §4.4 复跑本卡自检：total=27 failed=0 pending=0——D-5（根 typecheck 对 apps/desktop 最终源码生效）由 PEND 转 PASS；重建夹具的 package.json/package-lock.json 同步为最终字节并重跑 npm ci（exit 0，重建前后夹具锁哈希一致且等于根锁 bfa5d6a6…，日志 logs/11）；B-3 按事实修正为『除工作区软链外 resolved 全部指向 registry.npmjs.org』并断言软链为本地相对路径（node_modules/@companion/desktop -> apps/desktop，link=true）；manifest 按最终锁文件重建，result_ref 更新为 a4dbd5ec…。",
+  "changed_files": [
+    "package-lock.json",
+    "package.json",
+    "reports/M00.0.02.checkpoint.md",
+    "reports/M00.0.02.json",
+    "reports/evidence/M00.0.02/artifact-manifest.json",
+    "reports/evidence/M00.0.02/check_m00_0_02.py",
+    "reports/evidence/M00.0.02/decoy/targeting_decoy.test.ts",
+    "reports/evidence/M00.0.02/logs/01-npm-install.txt",
+    "reports/evidence/M00.0.02/logs/01a-registry-note.txt",
+    "reports/evidence/M00.0.02/logs/02-npm-ls.txt",
+    "reports/evidence/M00.0.02/logs/03-first-attempt-wrong-node.txt",
+    "reports/evidence/M00.0.02/logs/04-test-unit-targeted.txt",
+    "reports/evidence/M00.0.02/logs/05-test-unit-missing.txt",
+    "reports/evidence/M00.0.02/logs/06-test-unit-full.txt",
+    "reports/evidence/M00.0.02/logs/07-npm-ci-rebuild.txt",
+    "reports/evidence/M00.0.02/logs/08-check-m00_0_02.txt",
+    "reports/evidence/M00.0.02/logs/08a-check-m00_0_02-first-run-failures.txt",
+    "reports/evidence/M00.0.02/logs/09-registry-fetch.txt",
+    "reports/evidence/M00.0.02/logs/10-final-state-check.txt",
+    "reports/evidence/M00.0.02/logs/11-final-npm-ci-rebuild.txt",
+    "reports/evidence/M00.0.02/rebuild-workspace/README.md",
+    "reports/evidence/M00.0.02/rebuild-workspace/package-lock.json",
+    "reports/evidence/M00.0.02/rebuild-workspace/package.json",
+    "reports/evidence/M00.0.02/rebuild-workspace/tsconfig.base.json",
+    "reports/evidence/M00.0.02/rebuild-workspace/vitest.config.ts",
+    "reports/evidence/M00.0.02/registry/@types-node-24.13.6.json",
+    "reports/evidence/M00.0.02/registry/typescript-6.0.3.json",
+    "reports/evidence/M00.0.02/registry/vite-8.3.0.json",
+    "reports/evidence/M00.0.02/registry/vitest-5.0.1.json",
+    "reports/evidence/M00.0.02/test_workspace.test.ts",
+    "reports/evidence/M00.0.02/tool-sources.json",
+    "reports/evidence/M00.0.02/verification.txt",
+    "tsconfig.base.json",
+    "vitest.config.ts"
+  ],
+  "dispatch_changed_files": {
+    "ref": "docs/handoff/BATCH-003.md",
+    "files": [],
+    "note": "本卡无派工额外授权文件（uv.lock/.python-version/.gitignore 属 .01）。根 package/lock/TS/Vitest 按派工 §4/§6 归本卡所有，即为本卡原卡写集。"
+  },
+  "commands": [
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/npm.cmd",
+        "ci"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent\\reports\\evidence\\M00.0.02\\rebuild-workspace",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.02/logs/07-npm-ci-rebuild.txt",
+      "evidence_kind": "actual",
+      "note": "派工 §4-1：隔离重建夹具（只含本批最终 package/workspace 配置，非第二产品源码，见该目录 README）从锁文件干净重建；锁文件哈希重建前后一致 3aab7919…，夹具内直接依赖版本一致，夹具内 tsc/vitest 自述版本一致"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/npm.cmd",
+        "ci"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent\\reports\\evidence\\M00.0.02\\rebuild-workspace",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.02/logs/11-final-npm-ci-rebuild.txt",
+      "evidence_kind": "actual",
+      "note": "批末刷新：夹具同步三卡最终态的 package.json/package-lock.json（bfa5d6a6…，含 vue 3.5.43 及其传递依赖）后 npm ci，exit 0，夹具锁哈希重建前后一致且等于根锁哈希；夹具内无 apps/desktop 目录故不建 workspace 软链（夹具已知简化，锁字节与根一致）"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/npm.cmd",
+        "install"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.02/logs/01-npm-install.txt",
+      "evidence_kind": "actual",
+      "note": "真实安装（40 包）生成 package-lock.json；环境 npm_config_registry=https://registry.npmjs.org/（进程内覆盖用户级 ~/.npmrc 的 npmmirror，未改动用户配置）、npm_config_cache=项目内 .local-tools/npm-cache"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/npm.cmd",
+        "ls",
+        "--depth=0"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.02/logs/02-npm-ls.txt",
+      "evidence_kind": "actual",
+      "note": "实际安装版本与冻结值一致（@types/node 24.13.6 / typescript 6.0.3 / vite 8.3.0 / vitest 5.0.1），无 extraneous/missing；tsc 自述 6.0.3、vitest 自述 5.0.1（node v24.21.0）"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/npm.cmd",
+        "run",
+        "test:unit",
+        "--",
+        "reports/evidence/M00.0.02/test_workspace.test.ts"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.02/logs/04-test-unit-targeted.txt",
+      "evidence_kind": "actual",
+      "note": "派工 §4-2 前半：只运行目标文件（Test Files 1 passed (1) / Tests 5 passed (5)），未混入 decoy 文件"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/npm.cmd",
+        "run",
+        "test:unit",
+        "--",
+        "reports/evidence/M00.0.02/nonexistent.test.ts"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 1,
+      "log_path": "reports/evidence/M00.0.02/logs/05-test-unit-missing.txt",
+      "evidence_kind": "actual",
+      "note": "派工 §4-2 后半（负例）：不存在的测试路径必须非零——exit=1，'No test files found'；未用 passWithNoTests 掩盖"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/npm.cmd",
+        "run",
+        "test:unit"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.02/logs/06-test-unit-full.txt",
+      "evidence_kind": "actual",
+      "note": "全量：include 三个模式从仓库发现 2 文件 6 用例（evidence 测试 + decoy），全部通过"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.0.02/check_m00_0_02.py"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.02/logs/10-final-state-check.txt",
+      "evidence_kind": "actual",
+      "note": "批末三卡最终态复跑（派工 §4.4）：total=27 failed=0 pending=0，D-5 转 PASS；B-3 按工作区软链事实修正，B-4/E-3 在夹具与 manifest 刷新后通过。该日志按最终一次运行覆盖保存，最终态首次复跑的 3 项失败（B-3/B-4/E-3）已在本报告 note 与该日志头部说明中如实记录"
+    },
+    {
+      "argv": [
+        "curl",
+        "https://registry.npmjs.org/<pkg>/<version>"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.02/logs/09-registry-fetch.txt",
+      "evidence_kind": "actual",
+      "note": "四个冻结包的官方注册表只读元数据（HTTP 200），落盘 registry/*.json，许可与 engines 记入 tool-sources.json（派工 §6 最小登记）"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/execution/taskctl.py",
+        "validate"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.02/verification.txt",
+      "evidence_kind": "actual",
+      "note": "{\"valid\": true, \"tasks\": 156}（未改 helper）"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/execution/taskctl.py",
+        "next",
+        "--reports-dir",
+        "reports",
+        "--reviews-dir",
+        "reviews"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.02/verification.txt",
+      "evidence_kind": "actual",
+      "note": "{\"task_id\": \"M00.0.01\", \"state\": \"submitted\", \"accepted\": 6, \"action\": \"review_or_resume_existing_work\"}——本卡提交前 next 停在已提交的 .01，符合 submitted ≠ accepted"
+    },
+    {
+      "argv": [
+        "python",
+        "docs/handoff/check_batch003_scope.py"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.02/verification.txt",
+      "evidence_kind": "actual",
+      "note": "权威只读范围检查：result=PASS，missing=[]，outside=[]"
+    },
+    {
+      "argv": [
+        "python",
+        "reports/evidence/M00.0.02/check_m00_0_02.py"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.02/logs/08-check-m00_0_02.txt",
+      "evidence_kind": "actual",
+      "note": "只读自检器 26 项全过（A 配置 5 / B 锁与重建 5 / C 测试入口 5 / D typecheck 真实性 4 过 + 1 PEND / E 环境范围 3 / F 负例 4）；含临时 fixture 的 tsc 正例/类型错误/空输入三态与 verbose 级定向过滤断言。首次运行 5 项失败（镜像来源、夹具复制测试污染 include、夹具 extends 路径）的原始输出留档 logs/08a-…"
+    },
+    {
+      "argv": [
+        "sha256sum",
+        "tests/fixtures/first-flow/holdout.json"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.02/verification.txt",
+      "evidence_kind": "actual",
+      "note": "仅核对字节哈希（不读内容）：cfde4a5d…，与基线一致"
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.0.02-A01",
+      "status": "passed",
+      "evidence": "package-lock.json 由 npm 11.19.0（Node v24.21.0 自带）真实安装生成：lockfileVersion 3，根 devDependencies 与 package.json 逐项一致，四条冻结直接依赖在锁中版本 = 冻结值，65 条 resolved 全部指向 registry.npmjs.org（自检器 B-1/B-3）。隔离干净安装目录（reports/evidence/M00.0.02/rebuild-workspace/，只含本批最终 package/workspace 配置文件 + README，明确记为重建夹具而非第二产品源码）执行 npm ci：exit 0，锁文件哈希重建前后一致（3aab7919…），夹具内 npm ls 四条直接依赖版本一致、tsc/vitest 自述版本一致（自检器 B-4；原始日志 logs/07）。npm ci 未改动锁文件字节。 批末三卡最终态复跑：夹具配置刷新至最终字节（锁 bfa5d6a6…，含 M00.0.03 引入的 vue 3.5.43 及其传递依赖）后重跑 npm ci exit 0，夹具锁哈希重建前后一致且等于根锁哈希（logs/11）；B-3 按事实改为『除工作区软链外 resolved 全部为 registry.npmjs.org』并断言软链条目 link=true、resolved 为本地相对路径 apps/desktop，其余 84 条全部官方注册表。"
+    },
+    {
+      "id": "M00.0.02-A02",
+      "status": "passed",
+      "evidence": "npm run test:unit -- reports/evidence/M00.0.02/test_workspace.test.ts 只运行目标文件：exit 0，Test Files 1 passed (1)、Tests 5 passed (5)，verbose 输出仅含目标文件用例名；对照组 decoy 用例 DECOY-ONLY-IF-TARGETED 在同一命令输出中不出现（自检器 C-1）。不存在的测试路径必须非零：exit=1，输出 'No test files found'（自检器 C-2，logs/05）。全量 npm run test:unit 从 include 发现 2 文件 6 用例通过（自检器 C-3），decoy 仅在全量运行时出现（C-4），证明定向过滤真实生效而非空集合假通过；配置显式 passWithNoTests:false（自检器 A-4）。测试与自检运行在冻结 Node 24 线（C-5）。"
+    },
+    {
+      "id": "M00.0.02-A03",
+      "status": "passed",
+      "evidence": "typecheck 脚本为真实 tsc 命令行（tsc -p apps/desktop/tsconfig.json --noEmit，自检器 D-4），并以独立临时 fixture 证明其真实生效：正确 TS 代码 tsc exit 0（D-1）；类型错误代码 tsc exit 2 且输出含 error TS（D-2）；空输入集合 tsc exit 2 且输出 'No inputs were found'（D-3）——三者一起排除『空 include 集合通过』与『仅打印消息的脚本通过』。tsconfig.base.json 只含 compilerOptions（无 include/files），strict/noEmit/bundler/moduleDetection/types:[node]/verbatimModuleSyntax 等由自检器 A-3 断言；vitest 与测试仅使用 registry.npmjs.org 公开只读下载，无密钥、无付费调用、无账户登录（tool-sources.json 的 network 记录）。本卡不批量引入 selected/deferred 全表（自检器 A-5：Vue/Electron 等未出现在 package.json，留给 .03 与后续卡）。"
+    }
+  ],
+  "dispatch_acceptance_map": [
+    {
+      "dispatch_item": "BATCH-003 §4-1 锁文件真实生成 + 隔离干净目录 npm ci，锁哈希一致并核对冻结直接依赖实际版本；允许复制到 evidence/rebuild-workspace/ 且记录其为重建夹具",
+      "covered_by": "M00.0.02-A01",
+      "note": "夹具只复制 package/workspace 配置（B-5 断言不含 *.test.ts，避免根 include 重复收集）"
+    },
+    {
+      "dispatch_item": "BATCH-003 §4-2 npm run test:unit -- <指定文件> 只运行目标测试；不存在路径非零；不用 passWithNoTests 掩盖",
+      "covered_by": "M00.0.02-A02",
+      "note": "含 decoy 对照组证明过滤真实生效；配置显式 passWithNoTests:false"
+    },
+    {
+      "dispatch_item": "BATCH-003 §4-3 typecheck 对最终 workspace 源码真实生效；独立临时 fixture 验证类型错误被拒；空 include/仅打印脚本不得通过",
+      "covered_by": "M00.0.02-A03",
+      "note": "fixture 三态（正确/类型错误/空输入）已在本卡完成；对 apps/desktop 最终源码的根 typecheck 属最终态验证，按 §4.4 在批末复跑（本卡自检器 D-5 记为 PEND 并在批末转 PASS）"
+    },
+    {
+      "dispatch_item": "BATCH-003 §4-4 不批量引入 selected/deferred 全表；跨卡根 package/lock 改动归 .02，三卡最终态形成后重跑并重建本卡 manifest",
+      "covered_by": "M00.0.02-A03",
+      "note": "本卡 manifest/result_ref 已在批末（M00.0.03 加入 vue 后）重跑并重建：锁文件 3aab7919… → bfa5d6a6…，manifest 哈希 9e5d2b77… → a4dbd5ec…，D-5 转 PASS；重建夹具同步为最终字节。"
+    }
+  ],
+  "integration_evidence_kind": "actual",
+  "unresolved": [],
+  "evaluator_followups": [
+    "本机用户级 ~/.npmrc 配置 registry=https://registry.npmmirror.com（既有配置，非本批创建）。本卡未修改它，而是在 npm 子进程内用 npm_config_registry 覆盖为官方 registry.npmjs.org 并据此重建锁文件（首次安装的镜像版锁已作废，事实与哈希记于 logs/01a-registry-note.txt）。若复核要求接受镜像来源或要求把 registry 写进仓库 .npmrc，请明确，本卡未擅自新增仓库级 npm 配置。",
+    "npm 脚本（npm run / node_modules/.bin 垫片）默认从 PATH 解析 node：首次运行时 vitest 实际跑在本机系统 node 22.23.2 上并被本卡 evidence 测试拒绝（fail 日志 logs/03-first-attempt-wrong-node.txt）。此后所有 npm/vitest/tsc 命令都以『进程内 PATH 前置 .local-tools/node-v24.21.0-win-x64』运行（不改系统 PATH、不改 profile）。复核在自己环境复跑时需同样前置冻结 Node，否则同一个测试会以 node 版本不符失败。",
+    "根 typecheck 对 apps/desktop 最终源码的运行在 .02 提交时尚未存在（apps/desktop 由 M00.0.03 建立）；本卡以独立临时 fixture 证明 tsc 管道真实（三态），最终态根 typecheck 按派工 §4.4 在批末复跑并写入批次汇总与本卡后续记录（自检器 D-5 由 PEND 转 PASS）。",
+    "重建夹具目录 reports/evidence/M00.0.02/rebuild-workspace/node_modules/ 与项目根 node_modules/ 均为 npm 生成物（范围检查按 PRUNE 排除，不计为手写产物、不入 manifest）；可由 package-lock.json + npm ci 完整重建。",
+    "本次 npm install 期间 npm 自身提示存在 12.1.0 新大版本；按 selected-versions.json 的 D2 冻结形态（npm 随 Node v24.21.0 分发、npm 12.1.0 记 not_adopted）未升级，未做任何全局安装。",
+    "本卡 test:unit 的 include 覆盖 reports/evidence/**/*.test.ts，因此 evidence 目录下任何 *.test.ts 都会进入根测试集合；重建夹具或其他快照目录内不得再复制测试文件（自检器 B-5 已断言当前状态）。",
+    "批末复跑时的三处事实修正（均已落到最终态证据）：(1) 工作区软链条目 node_modules/@companion/desktop（resolved=apps/desktop, link=true）此前被 B-3 记为『非官方来源』，已改为按事实区分下载来源与本地软链，未放宽对下载来源的检查；(2) 重建夹具的锁文件已同步为三卡最终字节并重跑 npm ci（logs/11）；(3) 本卡 manifest 与 result_ref 已按最终锁文件重建（a4dbd5ec…）。",
+    "本机 PATH 上的 python 实际解析到已安装 Hermes agent 的 venv（3.12.10），非本批冻结的 Python 3.13.15；批末复跑改用冻结解释器 ./.local-tools/python-3.13.15/python.exe（脚本只用标准库，行为一致）。本卡提交时（logs/08 等）记录的是裸 python。"
+  ],
+  "next_step": "本卡 submitted，等待独立复核。批内三卡（.01/.02/.03）均已提交且不自动标 accepted；批末收敛已完成：本卡最终态复跑 27/27 通过、manifest/result_ref 重建、reports/BATCH-003.md 与最终范围检查（reports/evidence/M00.0.03/final-scope.txt）已产出；taskctl next 仍停在 M00.0.01 submitted / accepted=6。",
+  "batch_level_changed_files": []
+}

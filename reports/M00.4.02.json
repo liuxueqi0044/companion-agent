@@ -1,0 +1,471 @@
+{
+  "schema_version": "1",
+  "batch_id": "BATCH-010",
+  "dispatch_ref": "docs/handoff/BATCH-010.md",
+  "status": "submitted",
+  "base_ref": "sha256:983e39e9464e7f4537c7ad215284157a4f93be5828fac0e9a9602a635772f020",
+  "interfaces_changed": [],
+  "batch_level_changed_files": [
+    "reports/BATCH-010.md"
+  ],
+  "task_id": "M00.4.02",
+  "task_spec_sha256": "d079cd676a55858e6f3ddd7648ec12f2bfc18761be1ada46640705c4fc4d5bcf",
+  "phase": "local_input_snapshot_and_candidate_review",
+  "task_completion": "partial",
+  "result_manifest": "reports/evidence/M00.4.02/artifact-manifest.json",
+  "result_ref": "manifest-sha256:addb8a7cdc46d735fd80915953e8b1048c6589dd23a404fee9011fbf07781537",
+  "summary": "Added local fixed input snapshot, strict untrusted candidate gate and source review panel/record export. No AI/model/task completion. Visual acceptance remains not_run.",
+  "changed_files": [
+    "docs/evidence/ui-preview.md",
+    "reports/M00.4.02.json",
+    "reports/M00.4.02.checkpoint.md",
+    "reports/evidence/M00.4.02/artifact-manifest.json",
+    "reports/evidence/M00.4.02/BATCH-010/A-build.txt",
+    "reports/evidence/M00.4.02/BATCH-010/A-snapshot-vitest.txt",
+    "reports/evidence/M00.4.02/BATCH-010/A-typecheck.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B-candidate-vitest.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B-typecheck.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-audit.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-intents-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-isolation.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-manifest-verify.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-manifest-write.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-multiline-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-old-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-report-write.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-scope-final.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-scope-initial.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-taskctl-next.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-taskctl-validate.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-test-typecheck.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-vitest-all.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-vue-typecheck.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-workbench-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-build.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-export-race-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-flow-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-paging-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-races-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-record-vitest.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-typecheck.txt",
+    "reports/evidence/M00.4.02/BATCH-010/candidate.test.ts",
+    "reports/evidence/M00.4.02/BATCH-010/finalize_b10.py",
+    "reports/evidence/M00.4.02/BATCH-010/review-record.test.ts",
+    "reports/evidence/M00.4.02/BATCH-010/snapshot.test.ts",
+    "reports/evidence/M00.4.02/BATCH-010/test_review_export_race.mjs",
+    "reports/evidence/M00.4.02/BATCH-010/test_review_flow.mjs",
+    "reports/evidence/M00.4.02/BATCH-010/test_review_paging.mjs",
+    "reports/evidence/M00.4.02/BATCH-010/test_review_races.mjs"
+  ],
+  "dispatch_changed_files": [
+    "tests/spikes/input-workbench/InputWorkbench.vue",
+    "tests/spikes/input-workbench/candidate-review/types.ts",
+    "tests/spikes/input-workbench/candidate-review/snapshot.ts",
+    "tests/spikes/input-workbench/candidate-review/candidate.ts",
+    "tests/spikes/input-workbench/candidate-review/review-record.ts",
+    "tests/spikes/input-workbench/candidate-review/ReviewPanel.vue",
+    "tests/spikes/input-workbench/candidate-review/review.css"
+  ],
+  "changed_files_this_round": [
+    "docs/evidence/ui-preview.md",
+    "reports/BATCH-010.md",
+    "reports/M00.4.02.checkpoint.md",
+    "reports/M00.4.02.json",
+    "reports/evidence/M00.4.02/BATCH-010/A-build.txt",
+    "reports/evidence/M00.4.02/BATCH-010/A-snapshot-vitest.txt",
+    "reports/evidence/M00.4.02/BATCH-010/A-typecheck.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B-candidate-vitest.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B-typecheck.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-audit.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-intents-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-isolation.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-manifest-verify.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-manifest-write.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-multiline-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-old-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-report-write.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-scope-final.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-scope-initial.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-taskctl-next.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-taskctl-validate.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-test-typecheck.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-vitest-all.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-vue-typecheck.txt",
+    "reports/evidence/M00.4.02/BATCH-010/B10-workbench-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-build.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-export-race-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-flow-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-paging-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-races-dom.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-record-vitest.txt",
+    "reports/evidence/M00.4.02/BATCH-010/C-typecheck.txt",
+    "reports/evidence/M00.4.02/BATCH-010/candidate.test.ts",
+    "reports/evidence/M00.4.02/BATCH-010/finalize_b10.py",
+    "reports/evidence/M00.4.02/BATCH-010/review-record.test.ts",
+    "reports/evidence/M00.4.02/BATCH-010/snapshot.test.ts",
+    "reports/evidence/M00.4.02/BATCH-010/test_review_export_race.mjs",
+    "reports/evidence/M00.4.02/BATCH-010/test_review_flow.mjs",
+    "reports/evidence/M00.4.02/BATCH-010/test_review_paging.mjs",
+    "reports/evidence/M00.4.02/BATCH-010/test_review_races.mjs",
+    "reports/evidence/M00.4.02/artifact-manifest.json",
+    "tests/spikes/input-workbench/InputWorkbench.vue",
+    "tests/spikes/input-workbench/candidate-review/ReviewPanel.vue",
+    "tests/spikes/input-workbench/candidate-review/candidate.ts",
+    "tests/spikes/input-workbench/candidate-review/review-record.ts",
+    "tests/spikes/input-workbench/candidate-review/review.css",
+    "tests/spikes/input-workbench/candidate-review/snapshot.ts",
+    "tests/spikes/input-workbench/candidate-review/types.ts"
+  ],
+  "commands": [
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "reports/evidence/M00.4.02/BATCH-010/snapshot.test.ts"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/A-snapshot-vitest.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        ".local-tools/node-v24.21.0-win-x64/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "typecheck",
+        "--prefix",
+        "tests/spikes",
+        "--workspaces=false"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/A-typecheck.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        ".local-tools/node-v24.21.0-win-x64/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "build",
+        "--prefix",
+        "tests/spikes",
+        "--workspaces=false"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/A-build.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "reports/evidence/M00.4.02/BATCH-010/candidate.test.ts"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B-candidate-vitest.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        ".local-tools/node-v24.21.0-win-x64/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "typecheck",
+        "--prefix",
+        "tests/spikes",
+        "--workspaces=false"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B-typecheck.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "reports/evidence/M00.4.02/BATCH-010/review-record.test.ts"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/C-record-vitest.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        ".local-tools/node-v24.21.0-win-x64/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "typecheck",
+        "--prefix",
+        "tests/spikes",
+        "--workspaces=false"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/C-typecheck.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        ".local-tools/node-v24.21.0-win-x64/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "build",
+        "--prefix",
+        "tests/spikes",
+        "--workspaces=false"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/C-build.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "reports/evidence/M00.4.02/BATCH-010/test_review_flow.mjs"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/C-flow-dom.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "reports/evidence/M00.4.02/BATCH-010/test_review_races.mjs"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/C-races-dom.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "reports/evidence/M00.4.02/BATCH-010/test_review_paging.mjs"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/C-paging-dom.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "reports/evidence/M00.4.02/BATCH-010/test_review_export_race.mjs"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/C-export-race-dom.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "reports/evidence/M00.4.02/BATCH-009/workbench.test.ts",
+        "reports/evidence/M00.4.02/BATCH-010/snapshot.test.ts",
+        "reports/evidence/M00.4.02/BATCH-010/candidate.test.ts",
+        "reports/evidence/M00.4.02/BATCH-010/review-record.test.ts"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-vitest-all.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "reports/evidence/M00.4.02/test_ui_preview.mjs"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-old-dom.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "reports/evidence/M00.4.02/BATCH-009/test_input_workbench.mjs"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-workbench-dom.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "reports/evidence/M00.4.02/BATCH-009-R1/test_multiline.mjs"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-multiline-dom.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "reports/evidence/M00.4.02/BATCH-009-R1/test_input_intents.mjs"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-intents-dom.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        ".local-tools/node-v24.21.0-win-x64/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "typecheck",
+        "--prefix",
+        "tests/spikes",
+        "--workspaces=false"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-vue-typecheck.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        "tests/spikes/node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "--strict",
+        "--target",
+        "es2022",
+        "--module",
+        "esnext",
+        "--moduleResolution",
+        "bundler",
+        "--allowImportingTsExtensions",
+        "--types",
+        "node",
+        "--skipLibCheck",
+        "reports/evidence/M00.4.02/BATCH-010/snapshot.test.ts",
+        "reports/evidence/M00.4.02/BATCH-010/candidate.test.ts",
+        "reports/evidence/M00.4.02/BATCH-010/review-record.test.ts"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-test-typecheck.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.4.02/BATCH-010/finalize_b10.py",
+        "--write-manifest"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-manifest-write.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.4.02/BATCH-010/finalize_b10.py",
+        "--write-report"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-report-write.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/handoff/check_batch010_scope.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-scope-initial.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/handoff/check_batch010_scope.py"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-scope-final.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "reports/evidence/M00.4.02/BATCH-010/finalize_b10.py",
+        "--verify-manifest"
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-manifest-verify.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/execution/taskctl.py",
+        "validate",
+        "--repo",
+        "."
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-taskctl-validate.txt",
+      "evidence_kind": "actual"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/execution/taskctl.py",
+        "next",
+        "--repo",
+        "."
+      ],
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.4.02/BATCH-010/B10-taskctl-next.txt",
+      "evidence_kind": "actual"
+    }
+  ],
+  "preparation_results": [
+    {
+      "id": "B10-A01",
+      "status": "passed",
+      "evidence": "A-snapshot-vitest and C DOM snapshot/export/race logs: full-byte hash, isolated copy, CRLF/edits and stale hash guard."
+    },
+    {
+      "id": "B10-A02",
+      "status": "passed",
+      "evidence": "B-candidate-vitest and C DOM: strict byte/schema/row/evidence/source checks and rejection cases."
+    },
+    {
+      "id": "B10-A03",
+      "status": "passed",
+      "evidence": "C-record-vitest, flow/paging/export-race DOM: manual confirmations, source dialog, local issues and record."
+    },
+    {
+      "id": "B10-A04",
+      "status": "passed",
+      "evidence": "C-races/export-race DOM plus prior 16 Vitest/25 DOM groups: stale operations and legacy interaction regression."
+    },
+    {
+      "id": "B10-A05",
+      "status": "passed",
+      "evidence": "B10 scope, 45-entry manifest recomputation and taskctl logs; frozen code and dependencies unchanged."
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.4.02-A01",
+      "status": "passed",
+      "evidence": "Prior isolated preview and B10 local production build; no desktop base change."
+    },
+    {
+      "id": "M00.4.02-A02",
+      "status": "not_run",
+      "evidence": "No independently reviewable visual screenshot; DOM behavior is not visual acceptance."
+    },
+    {
+      "id": "M00.4.02-A03",
+      "status": "passed",
+      "evidence": "No second session or memory; local Vue state only."
+    }
+  ],
+  "integration_evidence_kind": "local_renderer_behavior_and_pure_validation_only",
+  "unresolved": [
+    "Durable desktop/narrow visual image unavailable; denied capture path not retried or bypassed.",
+    "No real AI structuring, semantic conflict adjudication, official Agent, task completion, amount calculation or skill publishing.",
+    "Private candidate format requires a future explicit mapping to official product schemas before integration."
+  ],
+  "next_step": "Independent review of B10 local source-validation behavior; keep M00.4.02 unaccepted until visual requirement is resolved."
+}

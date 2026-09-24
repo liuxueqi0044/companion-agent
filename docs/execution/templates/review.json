@@ -1,0 +1,12 @@
+{
+  "schema_version": "1",
+  "task_id": "<task-id>",
+  "task_spec_sha256": "<from-card>",
+  "report_sha256": "<sha256-of-exact-report-file>",
+  "decision": "changes_requested",
+  "reviewer_id": "<independent-reviewer>",
+  "reviewer_role": "independent_reviewer",
+  "reviewed_result_ref": "<same-as-report-result_ref>",
+  "checked_acceptance_ids": [],
+  "notes": "<evidence and any limits>"
+}

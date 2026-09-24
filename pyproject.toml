@@ -1,0 +1,23 @@
+[project]
+name = "companion-agent"
+version = "0.0.0"
+description = "Companion Agent 工程骨架：M00.0.01 只建立可安装的最小包结构，不实现业务。"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+  "fastapi==0.141.1",
+  "pydantic==2.13.5",
+  "uvicorn==0.53.0",
+]
+
+[dependency-groups]
+dev = [
+  "pytest==9.1.1",
+]
+
+[build-system]
+requires = ["hatchling==1.32.4"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+# 整目录打包：后续 services/adapters、services/integrations 子包无需再改配置即随 wheel 分发。
+packages = ["services", "tools"]

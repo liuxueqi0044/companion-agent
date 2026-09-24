@@ -1,0 +1,223 @@
+{
+  "schema_version": "1",
+  "task_id": "M00.0.04",
+  "task_spec_sha256": "b7f42e512a782b1619baf058c2a2e9b5aa9ee5d8c763e9ef5236bc4e36c361a3",
+  "batch_id": "BATCH-004-R2",
+  "dispatch_ref": "docs/handoff/BATCH-004-R2.md",
+  "status": "submitted",
+  "base_ref": "sha256:cb8cd8e8342551f54176618f2564013063f257bc799ac938da825c88eb681b8d",
+  "result_ref": "manifest-sha256:5764c10b2ed021cfb69f2ab006b8b5be1e2ebe78c8a7d262caeb0afeed14942a",
+  "result_manifest": "reports/evidence/M00.0.04/artifact-manifest.json",
+  "summary": "只修 Vitest 5.0.1 合法同名/空 suite 的机器报告误判。扁平 assertionResults 的 ancestorTitles 不是 suite 身份；各文件根和不同的可见标题路径只构成 suite 数的可证明下界。保留 suite 汇总守恒、非负整数、用例状态/总数、success/失败标志及实际文件白名单一致性。真实同名、嵌套、普通和空组分别与锁定 Vitest 原生结果一致；原精确 include、混合类型 fail-closed、损坏报告拒绝等回归保留。",
+  "changed_files": [
+    "tools/verify_task.py",
+    "tests/unit/test_verify_task.py",
+    "reports/M00.0.04.json",
+    "reports/M00.0.04.checkpoint.md",
+    "reports/evidence/M00.0.04/verification.txt",
+    "reports/evidence/M00.0.04/artifact-manifest.json",
+    "reports/evidence/M00.0.04/logs/01-pytest-unit.txt",
+    "reports/evidence/M00.0.04/logs/02-vitest-full.txt",
+    "reports/evidence/M00.0.04/logs/03-vitest-include-probe.txt",
+    "reports/evidence/M00.0.04/logs/04-cli-real-manifest.txt",
+    "reports/evidence/M00.0.04/logs/R1-pytest-verifier.txt",
+    "reports/evidence/M00.0.04/logs/R1-counterexamples.txt",
+    "reports/evidence/M00.0.04/logs/R1-vitest-smoke.txt",
+    "reports/evidence/M00.0.04/logs/R1-mixed-cli.txt",
+    "reports/evidence/M00.0.04/logs/R2-pre-fix-reproduction.txt",
+    "reports/evidence/M00.0.04/logs/R2-targeted-regressions.txt",
+    "reports/evidence/M00.0.04/logs/R2-native-suite-shapes.txt",
+    "reports/evidence/M00.0.04/logs/R2-pytest-verifier.txt",
+    "reports/evidence/M00.0.04/logs/R2-vitest-smoke.txt",
+    "reports/evidence/M00.0.04/logs/R2-final-scope.txt",
+    "reports/evidence/M00.0.04/logs/R2-taskctl.txt"
+  ],
+  "dispatch_changed_files": {
+    "ref": "docs/handoff/BATCH-004.md",
+    "files": [
+      {
+        "path": "vitest.config.ts",
+        "sha256": "39fd2633e3b8f44d446a6d7e15e293b242f46079a51a83a67a3cb879c6abae92",
+        "previous_sha256": "55dd980c569bbb8d947c848e9a0cf44608faa3741fcb1a943698e258d07bf5b8",
+        "note": "按派工 §3 额外授权：include 增加 \"tests/unit/**/*.test.ts\"，原三条规则保留；未改 npm scripts、依赖版本或锁文件。previous_sha256 为派工基线（BATCH-004-BASELINE.json）中该文件的哈希，可按基线复核。"
+      }
+    ],
+    "note": "本卡唯一派工额外授权文件是 vitest.config.ts；它同时列在 reports/evidence/M00.0.04/artifact-manifest.json 中并参与 result_ref。卡内写集两文件之外的任何文件都未改动。"
+  },
+  "commands": [
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "tests/unit/test_verify_task.py",
+        "-p",
+        "no:cacheprovider",
+        "-vv",
+        "-k",
+        "test_vitest_real_suite_shapes"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 1,
+      "log_path": "reports/evidence/M00.0.04/logs/R2-pre-fix-reproduction.txt",
+      "evidence_kind": "actual",
+      "note": "改实现之前的真实锁定 Vitest 复现：3 failed / 2 passed；同名组 exit 0 原生报告被旧 parser 错判，空组报告也因错误的 suite 精确计数失去有效 counts。"
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "tests/unit/test_verify_task.py",
+        "-p",
+        "no:cacheprovider",
+        "-vv",
+        "-k",
+        "test_vitest_real_suite_shapes or test_vitest_parser_rejects_inconsistent_cases_and_suites or test_ts_exact_include or test_ts_report_file_set_mismatch or test_mixed_test_types_close_entire_task_before_runner or test_formal_mixed_tasks_are_detected_without_execution or test_damaged_machine_report_is_never_passed"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.04/logs/R2-targeted-regressions.txt",
+      "evidence_kind": "actual",
+      "note": "19 passed：真实 suite 形态、损坏报告、未授权文件、混合类型反例。"
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "tests/unit/test_verify_task.py",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-s",
+        "-k",
+        "test_vitest_real_suite_shapes"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.04/logs/R2-native-suite-shapes.txt",
+      "evidence_kind": "actual",
+      "note": "5 passed；日志逐例打印原生 suite/test/success、runner exit、验证器 exit/status/counts。同名 3 suites/2 tests 得 passed，空组保持原生 failed。"
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "tests/unit/test_verify_task.py",
+        "-p",
+        "no:cacheprovider",
+        "-q"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.04/logs/R2-pytest-verifier.txt",
+      "evidence_kind": "actual",
+      "note": "M00.0.04 完整单测 94 passed，包含原 B4-R1/R2/R3 保护回归。"
+    },
+    {
+      "argv": [
+        ".local-tools/node-v24.21.0-win-x64/node.exe",
+        ".local-tools/node-v24.21.0-win-x64/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "test:unit",
+        "--",
+        "reports/evidence/M00.0.02"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.04/logs/R2-vitest-smoke.txt",
+      "evidence_kind": "actual",
+      "note": "冻结 Node 仅子进程 PATH 前置；原 Vitest smoke 2 files / 6 tests passed。"
+    },
+    {
+      "argv": [
+        ".local-tools/python-3.13.15/python.exe",
+        "docs/handoff/check_batch004_r2_scope.py"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.04/logs/R2-final-scope.txt",
+      "evidence_kind": "actual",
+      "note": "最终 scope 含自身与 taskctl 日志后复跑，结果见原始输出。"
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "docs/execution/taskctl.py",
+        "validate"
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.04/logs/R2-taskctl.txt",
+      "evidence_kind": "actual",
+      "note": "只读计划校验。"
+    },
+    {
+      "argv": [
+        ".venv/Scripts/python.exe",
+        "docs/execution/taskctl.py",
+        "next",
+        "--repo",
+        "."
+      ],
+      "cwd": "C:\\Users\\xiayu\\Documents\\Codex\\companion-agent",
+      "exit_code": 0,
+      "log_path": "reports/evidence/M00.0.04/logs/R2-taskctl.txt",
+      "evidence_kind": "actual",
+      "note": "独立验收前仍应 M00.0.04 changes_requested、accepted=9。"
+    }
+  ],
+  "acceptance_results": [
+    {
+      "id": "M00.0.04-A01",
+      "status": "passed",
+      "evidence": "原精确白名单逻辑未改；真实 test_ts_exact_include_blocks_prefix_and_nested_decoys_before_execution 仍证明未授权顶层标记不出现，报告文件集合不符时仍拒绝。未知 ID、非法/越界路径全量单测继续通过；R2-targeted-regressions.txt、R2-pytest-verifier.txt。"
+    },
+    {
+      "id": "M00.0.04-A02",
+      "status": "passed",
+      "evidence": "真实同名组原生 3 suite/2 tests/success=true，验证器现 exit 0/passed/2 cases；普通/嵌套通过，原生空组失败仍为 exit 1/failed。负/布尔/非整数、suite 汇总不守恒、case 总数矛盾、缺失/截断报告仍拒绝，零测试/全 skipped 不会通过；R2-native-suite-shapes.txt、R2-targeted-regressions.txt、R2-pytest-verifier.txt。"
+    },
+    {
+      "id": "M00.0.04-A03",
+      "status": "passed",
+      "evidence": "live/bootstrap 任务仍 not_run、不启动 runner；M00.0.04 全量 94 单测包含此回归，无模型/账号调用。"
+    },
+    {
+      "id": "M00.0.04-A04",
+      "status": "passed",
+      "evidence": "固定 pytest/冻结 Node/npm 参数数组、shell=False、仅内部生成 Vitest 配置，未执行清单 shell 字符串；本轮未改命令入口，94 项单测保留其覆盖。"
+    }
+  ],
+  "dispatch_acceptance_map": {
+    "ref": "docs/handoff/BATCH-004-R2.md",
+    "repair_ids": [
+      "B4R1-R1"
+    ],
+    "note": "同名/空 suite 的可证明下界替代原错误等式；原 B4-R1/R2/R3 防护继续回归。"
+  },
+  "integration_evidence_kind": "actual",
+  "unresolved": [],
+  "evaluator_followups": [
+    "M00.6.05、M04.1.01、M04.4.02 仍声明混合 .py/.test.ts；首次真正执行前另行实现并验收分流。当前整卡 not_run/unsupported_test_types，不能将部分测试冒充整卡检查通过。",
+    "Vitest 当前 JSON 的 ancestorTitles 是标题路径，不携带唯一 suite ID；同名和空组数不能从 assertionResults 精确反推。校验只使用可证明的 suite 下界、汇总守恒、用例/文件/状态一致性，并保留真实 runner 退出码判定。"
+  ],
+  "next_step": "submitted；等待交接方独立复核 BATCH-004-R2，不写 accepted，不开展 M00.0.05 或 Hermes/批外任务。",
+  "changed_files_this_round": [
+    "tools/verify_task.py",
+    "tests/unit/test_verify_task.py",
+    "reports/M00.0.04.json",
+    "reports/M00.0.04.checkpoint.md",
+    "reports/evidence/M00.0.04/artifact-manifest.json",
+    "reports/evidence/M00.0.04/verification.txt",
+    "reports/evidence/M00.0.04/logs/R2-pre-fix-reproduction.txt",
+    "reports/evidence/M00.0.04/logs/R2-targeted-regressions.txt",
+    "reports/evidence/M00.0.04/logs/R2-native-suite-shapes.txt",
+    "reports/evidence/M00.0.04/logs/R2-pytest-verifier.txt",
+    "reports/evidence/M00.0.04/logs/R2-vitest-smoke.txt",
+    "reports/evidence/M00.0.04/logs/R2-final-scope.txt",
+    "reports/evidence/M00.0.04/logs/R2-taskctl.txt"
+  ]
+}
