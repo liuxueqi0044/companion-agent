@@ -1,0 +1,57 @@
+{
+  "batch": "CORE-009",
+  "status": "submitted",
+  "review": "architect_implemented_and_self_verified",
+  "changes": [
+    "AGENTS.md",
+    "apps/desktop/personal-space/activity.mjs",
+    "apps/desktop/personal-space/app.mjs",
+    "apps/desktop/personal-space/client.mjs",
+    "apps/desktop/personal-space/sse.mjs",
+    "apps/desktop/personal-space/styles.css",
+    "apps/desktop/product/providers/deepseek.mjs",
+    "apps/desktop/product/providers/streaming.mjs",
+    "apps/desktop/product/web/server.mjs",
+    "docs/development/CORE-009.md",
+    "docs/handoff/CURRENT-TASK.md",
+    "tests/product/core009/streaming.test.mjs",
+    "tests/product/core009/transport.test.mjs",
+    "tools/personal_space.mjs"
+  ],
+  "result_ref": "manifest-sha256:b1e9f83aeb3ca5d3de15ded6ef94d13f3bef263b8afccd15496cba6d314907c6",
+  "manifest_entries": 31,
+  "validation": {
+    "full_node_regression_passed": 222,
+    "final_targeted_passed": 43,
+    "full_suite_timing": "Before final heartbeat/session/error refinements; final refinements targeted, final history selection checked in browser.",
+    "schema_source": "PASS",
+    "write_scope": "PASS",
+    "frozen_core006": "PASS",
+    "real_local_stream_csv_total": "16.00 USD",
+    "live_deepseek_requests": 2,
+    "live_http_200": 2,
+    "distinct_partial_lengths": [
+      20,
+      47
+    ],
+    "browser_partial_output_observed": true,
+    "browser_completed_reply_reload": "PASS",
+    "inflight_reconnect_and_cancel": "PASS: isolated real HTTP/Node/Python tests",
+    "live_browser_mid_generation_reload": "not_run: reload happened after completion",
+    "idle_server_restart_selection_restored": true,
+    "restart_extra_model_requests": 0
+  },
+  "first_publication_commit": "bf72c3776a15b585ff13ecb532c787dd1cc470ce",
+  "not_run": [
+    "independent_review",
+    "generated_interface_activation",
+    "native_isolation",
+    "background_proactive_delivery",
+    "desktop_packaging",
+    "community_fork",
+    "tts",
+    "official_coding_agent_live"
+  ],
+  "next_plan": "docs/development/CORE-009.md",
+  "url": "http://127.0.0.1:51794/"
+}

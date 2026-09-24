@@ -1,6 +1,6 @@
 import {createApp,h,ref,computed,onMounted,onUnmounted,nextTick} from '/vendor/vue.mjs'
 import {createClient} from './client.mjs'
-import {presentActivity,currentStop} from './activity.mjs'
+import {presentActivity,currentStop,visibleDraft} from './activity.mjs'
 
 const paths={spark:'M12 2l2.5 6.8L22 12l-7.5 2.7L12 22l-2.6-7.3L2 12l7.4-3.2Z',
  arrow:'M5 12h14m-6-6 6 6-6 6',send:'m6 12 6-7 6 7m-6-6v14',close:'m6 6 12 12M6 18 18 6',
@@ -48,16 +48,26 @@ createApp({setup(){
   const conversationId=ref(crypto.randomUUID()),selectedTurn=ref(null),fileInput=ref(null),composer=ref(null),drawer=ref(null)
   const memoryText=ref(''),memoryCategory=ref('preferences'),editing=ref(null),editText=ref(''),styleText=ref('')
   const reminderText=ref(''),reminderDate=ref(''),contactForm=ref(null),resultVisible=ref(false)
-  let fileGeneration=0,previousFocus=null,toastTimer=null,client=null
+  let fileGeneration=0,previousFocus=null,toastTimer=null,client=null,navigationIntent=0
+  const selectionKey='morrow:last-turn'
   const view=computed(()=>state.value?.view),policy=computed(()=>view.value?.policy?.policy)
   const connection=computed(()=>state.value?.connection),busy=computed(()=>sending.value||!!view.value?.runtime.executionBusy)
   const chatRecords=computed(()=>records.value.filter(row=>row.conversation_id===conversationId.value))
   const name=computed(()=>view.value?.home?.profile.preferences.ai_name||'我的 AI')
   const notify=(text,error=false)=>{clearTimeout(toastTimer);toast.value={text,error};toastTimer=setTimeout(()=>{toast.value=null},error?10000:4500)}
   function accept(snapshot){
+    const restarted=state.value?.epoch&&snapshot.epoch!==state.value.epoch
     state.value=snapshot
     const turn=snapshot.view.conversation?.turn
-    if(turn){const idx=records.value.findIndex(item=>item.id===turn.id);if(idx<0)records.value.push({...turn});else records.value[idx]={...records.value[idx],...turn,preview:false};selectedTurn.value=turn.id}
+    if(turn){
+      if(!records.value.length){conversationId.value=turn.conversation_id;temporary.value=!!turn.temporary}
+      const idx=records.value.findIndex(item=>item.id===turn.id);if(idx<0)records.value.push({...turn});else records.value[idx]={...records.value[idx],...turn,preview:false};selectedTurn.value=turn.id
+      if(!turn.temporary)try{localStorage.setItem(selectionKey,turn.id)}catch{}
+    }
+    if(restarted&&!turn&&selectedTurn.value&&!panel.value&&!snapshot.view.runtime.executionBusy){
+      const turnId=selectedTurn.value,intent=navigationIntent
+      queueMicrotask(()=>{if(intent===navigationIntent)void call('open',{panel:'conversation',turnId})})
+    }
   }
   client=createClient({token:document.querySelector('meta[name="personal-space-session"]').content,
     onSnapshot:accept,onConnection:value=>{connected.value=value}})
@@ -71,6 +81,7 @@ createApp({setup(){
     }finally{working.value=false}
   }
   async function openPanel(target){
+    navigationIntent++
     previousFocus=document.activeElement;panel.value=target;resultVisible.value=false;editing.value=null
     if(['memory','contact','inbox','reminders'].includes(target)){
       const result=await call('open',{panel:target})
@@ -88,21 +99,24 @@ createApp({setup(){
   }
   async function newConversation(){
     if(busy.value)return notify('先让正在做的事结束，或停止它。')
+    navigationIntent++;try{localStorage.removeItem(selectionKey)}catch{}
     await call('open',{panel:'home'});conversationId.value=crypto.randomUUID();selectedTurn.value=null;panel.value=null;draft.value='';attachment.value=null
     await nextTick();composer.value?.focus()
   }
   async function loadConversation(item){
     if(busy.value)return notify('当前还有任务在进行，稍后再切换对话。')
+    navigationIntent++
     const result=await call('conversation.turns',{id:item.conversation_id})
     if(!result.ok)return
     conversationId.value=item.conversation_id
     const prior=new Map(records.value.map(row=>[row.id,row]))
     records.value=[...records.value.filter(row=>row.conversation_id!==item.conversation_id),...result.result.slice().reverse().map(row=>prior.get(row.id)??{id:row.id,conversation_id:item.conversation_id,text:row.text_preview,reply:row.reply_preview,state:row.state,preview:true})]
     const selected=await call('open',{panel:'conversation',turnId:item.latest_turn_id})
-    if(selected.ok)panel.value=null
+    if(selected.ok){temporary.value=!!view.value?.conversation?.turn?.temporary;panel.value=null}
   }
   async function send(){
     if(!draft.value.trim()||busy.value||!connected.value)return
+    navigationIntent++
     const text=draft.value,id=crypto.randomUUID()
     const input={command_id:id,conversation_id:conversationId.value,text,csv_text:attachment.value?.text??null,temporary:temporary.value}
     sending.value=true;pendingMessage.value=id
@@ -240,10 +254,12 @@ createApp({setup(){
     send:view.value?.runtime.send,pendingId:pendingMessage.value})
   const stopTarget=()=>currentStop({send:view.value?.runtime.send,work:view.value?.work,pendingId:pendingMessage.value})
   const stopCurrent=()=>{const target=stopTarget();if(target)return call(target.action,target.args)}
+  const draftView=record=>visibleDraft(record,{progress:state.value?.progress,send:view.value?.runtime.send,
+    work:view.value?.work,pendingId:pendingMessage.value})
   function summaryBlock(record){
-    const summary=activityView(record).summary
-    return summary?h('details',{class:'reasoning-summary'},[h('summary','处理思路'),
-      h('p',summary),h('small','模型提供的简要说明；实际执行请看工具记录。')]):null
+    const partial=draftView(record),summary=activityView(record).summary||partial?.summary
+    return summary?h('details',{class:'reasoning-summary',open:!!partial},[h('summary','处理思路'),
+      h('p',summary),h('small',partial?'正在生成的公开摘要':'模型提供的简要说明；实际执行请看工具记录。')]):null
   }
   function activityBlock(record){
     const {activity:a,active,running,hasActions,done,heading,mode}=activityView(record)
@@ -254,7 +270,7 @@ createApp({setup(){
       active&&a?.needsReconciliation?btn('核对实际状态',()=>call('work.reconcile',{turnId:record.id}),{class:'secondary small',disabled:working.value}):null]
     if(!hasActions)return h('section',{class:['response-state',mode],'aria-label':'回复状态'},[
       h('div',{class:'thinking-row',role:'status'},[icon('spark',17),h('span',heading),...controls]),
-      mode==='thinking'?h('p',{class:'thinking-note'},'回复准备好后会出现在这里。'):null])
+      mode==='thinking'?h('p',{class:'thinking-note'},draftView(record)?.reply?'回复正在生成，尚未完成。':'正在准备回应…'):null])
     const events=(a.events??[]).filter(e=>!e.historical)
     const step=done?'结果来自真实计算，可以逐行查看来源。':a.taskId?'CSV 核对工具 · 以实际执行回执为准':'已收到工具建议，等待本地确认。'
     return h('section',{class:['activity-card',done?'complete':''],'aria-label':'工具执行过程'},[
@@ -274,7 +290,27 @@ createApp({setup(){
       else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus()}
     }
   }
-  onMounted(()=>{client.start();document.addEventListener('keydown',onKeys)})
+  onMounted(async()=>{
+    document.addEventListener('keydown',onKeys)
+    const intent=navigationIntent
+    await client.start()
+    if(intent!==navigationIntent)return
+    if(!view.value?.conversation?.turn&&!busy.value){
+      let saved;try{saved=localStorage.getItem(selectionKey)}catch{}
+      if(saved&&/^[0-9a-f-]{36}$/i.test(saved))await call('open',{panel:'conversation',turnId:saved})
+    }
+    const turn=view.value?.conversation?.turn
+    // Listing turns resets the session selection. Do not disturb an active runner.
+    if(turn&&intent===navigationIntent&&!turn.temporary&&!busy.value){
+      const id=turn.conversation_id,result=await client.call('conversation.turns',{id})
+      if(result.ok&&intent===navigationIntent&&conversationId.value===id){
+        const rows=new Map(result.result.slice().reverse().map(row=>[row.id,{id:row.id,conversation_id:id,text:row.text_preview,reply:row.reply_preview,state:row.state,preview:true}]))
+        for(const row of records.value.filter(r=>r.conversation_id===id))rows.set(row.id,row)
+        records.value=[...records.value.filter(r=>r.conversation_id!==id),...rows.values()]
+        await call('open',{panel:'conversation',turnId:turn.id})
+      }
+    }
+  })
   onUnmounted(()=>{client.dispose();document.removeEventListener('keydown',onKeys);clearTimeout(toastTimer)})
   return ()=>h('div',{class:'app-shell'},[
     h('div',{class:'workspace',inert:panel.value?'':undefined},[
@@ -285,7 +321,7 @@ createApp({setup(){
         chatRecords.value.length?h('section',{class:'conversation','aria-label':'对话'},[
           h('div',{class:'conversation-label'},['一段属于你的对话',temporary.value?h('span','临时对话'):null]),
           ...chatRecords.value.map(record=>h('article',{key:record.id,class:'exchange'},[h('div',{class:'user-message'},[h('span',{class:'speaker'},'你'),h('p',record.text)]),
-            summaryBlock(record),record.reply?h('div',{class:'ai-message'},[h('span',{class:'ai-symbol'},icon('spark',19)),h('div',[h('span',{class:'speaker'},name.value),h('p',record.reply),record.preview?btn('查看完整内容',()=>call('open',{panel:'conversation',turnId:record.id}),{class:'text-button'}):null])]):null,
+            summaryBlock(record),(record.reply||draftView(record)?.reply)?h('div',{class:['ai-message',draftView(record)?'streaming':'']},[h('span',{class:'ai-symbol'},icon('spark',19)),h('div',[h('span',{class:'speaker'},name.value),h('p',record.reply||draftView(record)?.reply),record.preview?btn('查看完整内容',()=>call('open',{panel:'conversation',turnId:record.id}),{class:'text-button'}):null])]):null,
             activityBlock(record)])),h('div',{class:'conversation-end'})]):h('section',{class:'welcome'},[
           botanical(),h('p',{class:'eyebrow'},'A LITTLE SPACE, JUST FOR YOU'),h('h1',['慢慢来，',h('br'),'我们一起。']),
           h('p',{class:'welcome-note'},['聊聊今天，或把一件事交给我。',h('br'),'我会一点点，成为更懂你的 AI。']),

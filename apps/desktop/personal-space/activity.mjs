@@ -9,6 +9,7 @@ export function currentStop({send,work,pendingId}={}){
 }
 /** Presentation only: model reply text can never create a tool or completion badge. */
 export function presentActivity(record,{activity,work,send,pendingId}={}){
+  if(work?.selected&&work.turnId===record.id&&work.activity?.turnId===record.id)activity=work.activity
   const active=activity?.turnId===record.id
   const a=active?activity:projectActivity({turn:record})
   const ownedWork=work?.selected&&work.turnId===record.id
@@ -23,4 +24,11 @@ export function presentActivity(record,{activity,work,send,pendingId}={}){
       queued:'等待回应',generating:'上次回复中断，待核对',saving:'输入是否保存待核对'})[record.state]??null
   return {active,activity:a,running,hasActions,done,heading,summary:summary||null,
     mode:hasActions?'tool':running?'thinking':heading?'notice':null}
+}
+
+export function visibleDraft(record,{progress,send,work,pendingId}={}){
+  if(!progress||progress.turnId!==record.id||!['generating','received'].includes(progress.state)||
+    !['saving','queued','generating'].includes(record.state))return null
+  if(!presentActivity(record,{send,work,pendingId}).running)return null
+  return {reply:typeof progress.reply==='string'?progress.reply:'',summary:typeof progress.summary==='string'?progress.summary:''}
 }

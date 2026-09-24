@@ -10,3 +10,5 @@ Keep credentials, databases, private memories, runtime data and holdout fixtures
 
 
 CORE-007/008 source has been added, including the first personal-space UI and real DeepSeek adapter. The user removed the local count quota. Historical six-attempt dispatch constraints no longer apply to the product launcher. See docs/development/CORE-008.md. This remains a source publication mirror; continue development in companion-agent-core.
+
+CORE-009 adds live streaming, public preview separation, read-only reconnect and session recovery. See docs/development/CORE-009.md and reports/core-009/report.json. Generated UI activation, background contact and desktop delivery remain incomplete. Continue from the latest handoff, not a historical dispatch.

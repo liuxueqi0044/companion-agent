@@ -9,7 +9,7 @@ const deny=error=>({ok:false,error})
 const plain=value=>value!==null&&typeof value==='object'&&!Array.isArray(value)
 const exact=(value,keys)=>plain(value)&&Object.keys(value).every(k=>keys.includes(k))
 
-export async function createPersonalSpaceServer({runtime,connection=()=>({configured:false}),vueFile,port=0}={}){
+export async function createPersonalSpaceServer({runtime,connection=()=>({configured:false}),progress,vueFile,port=0}={}){
   if(!runtime?.snapshot||!path.isAbsolute(vueFile))throw Error('trusted_server_configuration_required')
   const root=fileURLToPath(new URL('../../personal-space/',import.meta.url))
   const token=randomBytes(32).toString('base64url')
@@ -17,6 +17,7 @@ export async function createPersonalSpaceServer({runtime,connection=()=>({config
     ['/',{file:path.join(root,'index.html'),type:'text/html; charset=utf-8'}],
     ['/app.mjs',{file:path.join(root,'app.mjs'),type:'text/javascript; charset=utf-8'}],
     ['/client.mjs',{file:path.join(root,'client.mjs'),type:'text/javascript; charset=utf-8'}],
+    ['/sse.mjs',{file:path.join(root,'sse.mjs'),type:'text/javascript; charset=utf-8'}],
     ['/activity.mjs',{file:path.join(root,'activity.mjs'),type:'text/javascript; charset=utf-8'}],
     ['/product/application/activity.mjs',{file:path.resolve(root,'../product/application/activity.mjs'),type:'text/javascript; charset=utf-8'}],
     ['/product/application/state.mjs',{file:path.resolve(root,'../product/application/state.mjs'),type:'text/javascript; charset=utf-8'}],
@@ -24,9 +25,27 @@ export async function createPersonalSpaceServer({runtime,connection=()=>({config
     ['/vendor/vue.mjs',{file:vueFile,type:'text/javascript; charset=utf-8'}],
   ])
   let revision=0,origin=null,managementBusy=false,closed=false
-  const unsubscribe=runtime.subscribe(()=>{revision++})
-  const snapshot=()=>({revision,view:runtime.snapshot(),connection:connection(),
+  const epoch=randomBytes(12).toString('hex'),peers=new Set(),blocked=new WeakSet()
+  let updateTimer=null
+  const snapshot=()=>({epoch,revision,view:runtime.snapshot(),connection:connection(),progress:progress?.snapshot()??null,
     capabilities:{nativeIsolation:false,backgroundContact:false,generatedInterfaces:false}})
+  function push(res){
+    if(res.destroyed||blocked.has(res))return
+    try{
+      if(!res.write(`data: ${JSON.stringify(snapshot())}\n\n`)){
+        if(res.writableLength>1024*1024){res.destroy();return}
+        blocked.add(res)
+        res.once('drain',()=>{blocked.delete(res);if(!closed)push(res)})
+      }
+    }catch{res.destroy()}
+  }
+  function changed(){
+    revision++
+    if(!updateTimer&&!closed)updateTimer=setTimeout(()=>{updateTimer=null;for(const res of peers)push(res)},35)
+  }
+  const unsubscribe=runtime.subscribe(changed),unsubscribeProgress=progress?.subscribe(changed)
+  const heartbeat=setInterval(()=>{for(const res of peers)push(res)},15000)
+  heartbeat.unref()
   const selected=id=>typeof id==='string'&&runtime.snapshot().conversation?.turn?.id===id&&
     runtime.snapshot().conversation?.selectedTurnId===id&&!runtime.snapshot().conversation?.loading
   const commands=new Map([
@@ -108,7 +127,7 @@ export async function createPersonalSpaceServer({runtime,connection=()=>({config
         if(req.url==='/')data=Buffer.from(data.toString('utf8').replace('__SESSION_TOKEN__',token))
         res.writeHead(200,{...headers,'Content-Type':entry.type});res.end(data);return
       }
-      if(req.method!=='POST'||req.url!=='/api/command')return send(404,deny('not_found'))
+      if(req.method!=='POST'||!['/api/command','/api/events'].includes(req.url))return send(404,deny('not_found'))
       if(req.headers.origin!==origin)return send(403,deny('origin_denied'))
       const supplied=Buffer.from(String(req.headers['x-personal-space-token']??'')),expected=Buffer.from(token)
       if(supplied.length!==expected.length||!timingSafeEqual(supplied,expected))return send(401,deny('session_required'))
@@ -117,6 +136,11 @@ export async function createPersonalSpaceServer({runtime,connection=()=>({config
       for await(const chunk of req){size+=chunk.length;if(size>384*1024){send(413,deny('request_too_large'));return}chunks.push(chunk)}
       let message
       try{message=JSON.parse(Buffer.concat(chunks).toString('utf8'))}catch{return send(400,deny('invalid_json'))}
+      if(req.url==='/api/events'){
+        if(!exact(message,[])||peers.size>=8)return send(400,deny('invalid_event_subscription'))
+        res.writeHead(200,{...headers,'Content-Type':'text/event-stream; charset=utf-8','X-Accel-Buffering':'no'})
+        peers.add(res);res.once('close',()=>peers.delete(res));push(res);return
+      }
       if(!exact(message,['action','args'])||typeof message.action!=='string')return send(400,deny('invalid_request'))
       const result=await dispatch(message.action,message.args??{})
       send(200,{reply:result,snapshot:snapshot()})
@@ -126,7 +150,8 @@ export async function createPersonalSpaceServer({runtime,connection=()=>({config
   await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(port,'127.0.0.1',resolve)})
   origin=`http://127.0.0.1:${server.address().port}`
   return {url:origin,snapshot,async close(){
-    if(closed)return;closed=true;unsubscribe();runtime.dispose()
+    if(closed)return;closed=true;unsubscribe();unsubscribeProgress?.();clearTimeout(updateTimer);clearInterval(heartbeat)
+    for(const res of peers)res.end();peers.clear();runtime.dispose()
     server.closeIdleConnections()
     const stopped=new Promise(resolve=>server.close(resolve))
     await runtime.whenIdle();server.closeAllConnections();await stopped

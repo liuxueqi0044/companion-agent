@@ -30,14 +30,14 @@ if(live){
   catch{throw Error('credential_decode_failed')}
   if(result.stderr||!result.stdout.trim())throw Error('credential_decode_failed')
   const ledger=createRequestLedger({file:path.resolve(root,'.product-data/core-007-deepseek-budget.json')})
-  providers=createDeepSeekProviders({apiKey:result.stdout.trim(),ledger});result=null
+  providers=createDeepSeekProviders({apiKey:result.stdout.trim(),ledger,streaming:true});result=null
 }
 const host=createProductHost({python,workspace:root,dataRoot})
 const runtime=createProductRuntime({host,timeoutMs:60000,intent:input=>input.csv_text?['csv.audit']:[],
   ...(providers?{turnProvider:providers.turn,contactProvider:providers.contact}:{})})
 const boot=await runtime.initialize()
 if(!boot.ok){runtime.dispose();await runtime.whenIdle();await host.dispose();throw Error('product_initialize_failed')}
-const app=await createPersonalSpaceServer({runtime,vueFile,port,connection:()=>providers?.connection()??{configured:false,provider:null}})
+const app=await createPersonalSpaceServer({runtime,vueFile,port,progress:providers?.progress,connection:()=>providers?.connection()??{configured:false,provider:null}})
 await fs.mkdir(path.resolve(root,'.product-data'),{recursive:true})
 await fs.writeFile(path.resolve(root,'.product-data/personal-space-server.json'),JSON.stringify({url:app.url,pid:process.pid,live},null,2))
 console.log(JSON.stringify({url:app.url,mode:live?'deepseek':'offline'}))
