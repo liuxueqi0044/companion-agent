@@ -13,10 +13,10 @@ from services.product.entry import handle
 from services.product.kernel import ProductKernel
 sys.stdout.buffer.write(handle(sys.stdin.buffer.read(393217),ProductKernel(root),reviewed_packages=json.loads(sys.argv[3])))
 `
-const READS = new Set(['artifact.read','artifact.download','inbox.latest','home','policy.read','memory.list','contact.controls','contact.inspect','inbox.list',
+const READS = new Set(['tool.list','tool.read','artifact.read','artifact.download','inbox.latest','home','policy.read','memory.list','contact.controls','contact.inspect','inbox.list',
   'inbox.explain','turn.read','events','task.get','task.result','task.events','experience.history',
   'conversation.list','conversation.turns','reminder.read','reminder.list','contact.read'])
-const ACTIONS = new Set([...READS, 'bootstrap','policy.replace','turn.submit','turn.begin','turn.accept',
+const ACTIONS = new Set([...READS, 'tool.manage','bootstrap','policy.replace','turn.submit','turn.begin','turn.accept',
   'turn.respond','turn.execute','turn.revoke','turn.stop','turn.fail-generation',
   'memory.add','memory.edit','memory.forget','memory.clear','contact.cancel',
   'contact.block-topic','contact.unblock-topic','contact.tick','reminder.create','reminder.read','reminder.list','reminder.revise',

@@ -1,7 +1,7 @@
 /** Public browser surface, morrow.ui/1. Runtime and auth objects are intentionally absent. */
 export type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
 export type Reply<T=unknown> = {ok:true;result?:T} | {ok:false;error:string};
-export type Scope='conversation'|'tasks'|'memory'|'preferences'|'inbox'|'reminders';
+export type Scope='conversation'|'tasks'|'memory'|'preferences'|'inbox'|'reminders'|'window';
 export interface InterfaceSource {
   sdk:'morrow.ui/1'; id:string; name:string; entry:string; styles:string[];
   scopes:Scope[]; files:Record<string,string>;
@@ -30,8 +30,9 @@ export interface Client {
   };
   tasks:{get(args:TaskBinding):Promise<Reply>;result(args:TaskBinding):Promise<Reply>;stop(args:RunBinding):Promise<Reply>};
   artifacts:{read(args:{turnId:string;actionId:string}):Promise<Reply>;download(args:{turnId:string;actionId:string}):Promise<Reply<{name:string;mime:string;base64:string;sha256:string}>>};
+  tools:{list():Promise<Reply>;read(args:{toolId:string}):Promise<Reply>;manage(args:{command_id:string;tool_id:string;expected_revision:number;operation:'enable'|'disable'|'restore';version?:number}):Promise<Reply>};
   draft:{read():Promise<Reply<Versioned<Draft>>>;write(args:{expectedRevision:number;value:Draft}):Promise<Reply<Versioned<Draft>>>};
   state:{read():Promise<Reply<Versioned<Record<string,Json>>>>;write(args:{expectedRevision:number;value:Record<string,Json>}):Promise<Reply<Versioned<Record<string,Json>>>>};
-  host:{openRecovery():Promise<Reply>};
+  host:{openRecovery():Promise<Reply>;configureWindow(settings:{width?:number;height?:number;frame?:boolean;transparent?:boolean;alwaysOnTop?:boolean;opacity?:number}):Promise<Reply>};
 }
 export function createClient(options?:{onSnapshot?:(s:Snapshot)=>void;onConnection?:(connected:boolean)=>void}):Client;

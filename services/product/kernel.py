@@ -18,6 +18,7 @@ from .memory import ManagedMemory
 from .models import FailGenerationRequest, ModelDecision, ProductError, StopTurnRequest, UserTurn, validate
 from .ports import ProviderReply, UnconfiguredModel
 from .store import ProductStore, canonical, digest, guard, stamp
+from .tool_library import ToolLibrary, csv_input
 
 
 class ProductKernel:
@@ -30,6 +31,7 @@ class ProductKernel:
         self.memory = ManagedMemory(self.store, self.clock)
         self.contact = ContactService(self.store, self.clock)
         self.conversations = ConversationBrowser(self.store)
+        self.tools = ToolLibrary(self.root, self.clock)
 
     def bootstrap(self):
         guard(self.root)
@@ -37,6 +39,7 @@ class ProductKernel:
         _guard_root(self.root, create=False)
         profile = self.workbench.bootstrap()
         self.store.bootstrap(profile.profile_id)
+        self.tools.bootstrap()
         return self.home()
 
     def migrate(self, expected_version):
@@ -60,7 +63,7 @@ class ProductKernel:
     def submit_turn(self, value, *, capabilities=()):
         """Capabilities come from the trusted host's user-intent/approval boundary, never model output."""
         request = validate(UserTurn, value)
-        if not isinstance(capabilities, (tuple, list)) or any(item not in ('csv.audit', 'profile.change', 'artifact.create', 'reminder.create') for item in capabilities):
+        if not isinstance(capabilities, (tuple, list)) or any(item not in ('csv.audit', 'profile.change', 'artifact.create', 'reminder.create', 'tool.save', 'tool.run') for item in capabilities):
             raise ProductError('invalid_capability')
         grants = sorted(set(capabilities))
         if 'csv.audit' in grants and request.csv_text is None:
@@ -81,6 +84,21 @@ class ProductKernel:
                 self.store.event(db, request.command_id, 'interaction.submitted', self.clock())
         return self.turn(request.command_id)
 
+    def _context(self, db, turn, policy, profile):
+        context, signature = turn_context(db, turn, policy, profile)
+        if any(c in context['capabilities'] for c in ('tool.save', 'tool.run')):
+            context['tools'] = self.tools.catalog()
+            # Only explicitly named tools supply their saved logic for an edit/reuse.
+            # The library is untrusted input; it cannot add grants or read old materials.
+            selected = [tool for tool in context['tools'] if tool['id'] in turn['text'] or tool['name'] in turn['text']][:2]
+            context['tool_details'] = [{'id':tool['id'], 'definition':self.tools.read(tool['id'])['definition']} for tool in selected]
+            try:
+                context['csv_columns'] = csv_input(turn['csv_text'])[0]
+            except ProductError:
+                context['csv_columns'] = []
+            signature = digest({'context': context, 'base_signature': signature})
+        return context, signature
+
     def begin(self, turn_id):
         profile = self.workbench.profile.read()
         with self.store.tx(True) as db:
@@ -91,7 +109,7 @@ class ProductKernel:
                 raise ProductError('invalid_transition')
             policy = self.store.policy(db)
             ticket = str(uuid4())
-            context, signature = turn_context(db, turn, policy, profile)
+            context, signature = self._context(db, turn, policy, profile)
             db.execute("""UPDATE turns SET state='generating',ticket=?,policy_revision=?,profile_revision=?,
                        context_signature=?,context_cursor=?,error=NULL WHERE id=?""",
                        (ticket, policy.revision, profile.revision, signature,
@@ -122,7 +140,7 @@ class ProductKernel:
                 return {'id': turn_id, 'state': 'model_failed', 'error': 'context_changed'}
             policy = self.store.policy(db)
             current_profile = self.workbench.profile.read()
-            _, signature = turn_context(db, turn, policy, current_profile)
+            _, signature = self._context(db, turn, policy, current_profile)
             if (policy.revision != turn['policy_revision'] or current_profile.revision != turn['profile_revision']
                     or signature != turn['context_signature']):
                 db.execute("UPDATE turns SET state='model_failed',ticket=NULL,error='context_changed' WHERE id=?", (turn_id,))
@@ -190,6 +208,17 @@ class ProductKernel:
                         result = self.workbench.submit({'command_id': row['id'], 'requirement_text': turn['text'], 'csv_text': turn['csv_text']})
                     elif row['kind'] == 'artifact.create':
                         result = artifacts.create_receipt(row['id'], json.loads(row['payload_json']), self.clock())
+                    elif row['kind'] == 'tool.save':
+                        result = self.tools.save(row['id'], json.loads(row['payload_json']))
+                    elif row['kind'] == 'tool.run':
+                        payload = json.loads(row['payload_json'])
+                        computed = self.tools.run(payload['tool_id'], payload['version'], payload['parameters'], turn['csv_text'])
+                        result = artifacts.create_receipt(row['id'], {
+                            'kind':'artifact.create', 'title':computed['tool']['name'],
+                            'files':[{'path':'result.json', 'content':canonical(computed['rows'])}]}, self.clock())
+                        result['tool'] = computed['tool']
+                        result['row_count'] = len(computed['rows'])
+                        result['input_rows'] = computed['input_rows']
                     elif row['kind'] == 'reminder.create':
                         payload = json.loads(row['payload_json'])
                         body = {'text': payload['text'], 'due_at': stamp(datetime.fromisoformat(payload['due_at']))}
@@ -322,8 +351,13 @@ class ProductKernel:
                         snapshot = self.workbench.get({'task_id': task_id})
                         item.update(task=snapshot.model_dump(mode='json'),
                                     events=self.workbench.events({'task_id': task_id}).model_dump(mode='json'))
-                    elif row['kind'] == 'artifact.create':
+                    elif row['kind'] in ('artifact.create', 'tool.run'):
                         item['artifact'] = artifacts.summary(result)
+                        if row['kind'] == 'tool.run':
+                            item['tool'] = result['tool']
+                            item['row_count'] = result['row_count']
+                    elif row['kind'] == 'tool.save':
+                        item['tool'] = result
                     elif row['kind'] == 'reminder.create':
                         item['reminder'] = self.contact._reminder(db.execute('SELECT * FROM reminders WHERE id=?', (row['id'],)).fetchone())
                     else:

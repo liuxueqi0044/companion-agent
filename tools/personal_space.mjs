@@ -25,12 +25,16 @@ if(!Number.isSafeInteger(port)||port<0||port>65535)throw Error('invalid_local_po
 const stateRoot=path.resolve(process.env.PERSONAL_AI_HOME??path.join(root,'.product-data'))
 await guardPath(stateRoot,{create:true})
 let installed={};try{installed=JSON.parse(await fs.readFile(path.join(root,'runtime.json'),'utf8'))}catch(e){if(e.code!=='ENOENT')throw Error('runtime_configuration_invalid')}
-const localPath=(env,key,fallback)=>process.env[env]??(installed[key]?path.resolve(root,installed[key]):fallback)
+const localPath=async(env,key,checkoutPath,fallback)=>{
+  if(process.env[env])return process.env[env]
+  if(installed[key])return path.resolve(root,installed[key])
+  const local=path.resolve(root,checkoutPath);try{await fs.access(local);return local}catch{return fallback}
+}
 const releaseInstance=acquireInstance(path.join(stateRoot,'personal-space.instance.json'),{recoverDead:true})
 process.once('exit',releaseInstance)
-const python=localPath('PERSONAL_AI_PYTHON','python',path.resolve(root,'../companion-agent/.venv/Scripts/python.exe'))
-const vueFile=localPath('PERSONAL_AI_VUE','vue',path.resolve(root,'../companion-agent/node_modules/vue/dist/vue.runtime.esm-browser.prod.js'))
-const bundlerFile=localPath('PERSONAL_AI_BUNDLER','bundler',path.resolve(root,'../companion-agent/node_modules/rolldown/dist/index.mjs'))
+const python=await localPath('PERSONAL_AI_PYTHON','python','.venv/Scripts/python.exe',path.resolve(root,'../companion-agent/.venv/Scripts/python.exe'))
+const vueFile=await localPath('PERSONAL_AI_VUE','vue','node_modules/vue/dist/vue.runtime.esm-browser.prod.js',path.resolve(root,'../companion-agent/node_modules/vue/dist/vue.runtime.esm-browser.prod.js'))
+const bundlerFile=await localPath('PERSONAL_AI_BUNDLER','bundler','node_modules/rolldown/dist/index.mjs',path.resolve(root,'../companion-agent/node_modules/rolldown/dist/index.mjs'))
 const dataRoot=path.join(stateRoot,'personal-space')
 let providers=null,coding=null
 if(live){
@@ -47,7 +51,7 @@ if(live){
   result=null
 }
 const host=createProductHost({python,workspace:root,dataRoot})
-const runtime=createProductRuntime({host,timeoutMs:coding?115000:60000,intent:input=>['artifact.create','reminder.create',...(input.csv_text?['csv.audit']:[])],
+const runtime=createProductRuntime({host,timeoutMs:coding?115000:60000,intent:input=>['artifact.create','reminder.create','tool.save','tool.run',...(input.csv_text?['csv.audit']:[])],
   ...(providers?{turnProvider:{configured:true,respond:(context,options)=>coding&&context.user_text.startsWith('/code ')?coding.respond(context,options):providers.turn.respond(context,options)},contactProvider:providers.contact}:{})})
 const boot=await runtime.initialize()
 if(!boot.ok){runtime.dispose();await runtime.whenIdle();await host.dispose();throw Error('product_initialize_failed')}
@@ -67,6 +71,7 @@ const app=await createPersonalSpaceServer({runtime,space,interfaces,vueFile,port
   nativeControl:async(action,args)=>{
     if(action==='status'&&Object.keys(args).length===0)return {ok:true,result:{background:background.snapshot(),busy:runtime.snapshot().runtime.executionBusy,connection:connection()}}
     if(action==='background.configure')return background.configure(args)
+    if(action==='window.authorize'&&Object.keys(args).sort().join('|')==='mountId|settings')return interfaces.call({mountId:args.mountId,action:'host.window',args:{}})
     if(action==='quit'&&Object.keys(args).length===0){setTimeout(()=>void shutdown(),25);return {ok:true}}
     return {ok:false,error:'invalid_request'}
   }})

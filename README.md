@@ -2,7 +2,7 @@
 
 一个围绕个人持续成长的 AI 原型：记住用户明确提供的偏好，执行实际任务，并逐步支持由 AI 编写代码来改变自己的界面和能力。
 
-**当前是开发中的原型，并非可交付的完整 Personal AI 产品。** 本仓库保留 BATCH-015 基础、已独立复核的 CORE-006，以及架构师实现并自验到 **CORE-012** 的个人空间、完整界面替换、成果工具与后台运行代码。这是源码备份，不代表原开发工作区全部后续变更已完成合并或产品已经发布。各批次的 `submitted` 与独立复核结论分别保留在 `reports/` 和 `reviews/`；最近一次独立复核结论见 [CORE-006 复核](reviews/CORE-006.md)。
+**当前是开发中的原型，并非可交付的完整 Personal AI 产品。** 本仓库保留 BATCH-015 基础、已独立复核的 CORE-006，以及架构师实现并自验到 **CORE-013** 的个人空间、完整界面替换、成果工具与后台运行代码。这是源码备份，不代表原开发工作区全部后续变更已完成合并或产品已经发布。各批次的 `submitted` 与独立复核结论分别保留在 `reports/` 和 `reviews/`；最近一次独立复核结论见 [CORE-006 复核](reviews/CORE-006.md)。
 
 ## 已实现
 
@@ -75,7 +75,7 @@ Node 测试与五份演示目前复用开发机器固定的相邻路径 `../comp
 
 当前界面接入从 [CORE-011 SDK 与界面包说明](docs/development/CORE-011.md) 开始；[frontend-handoff](docs/development/frontend-handoff.md) 保留早期内核接入背景。运行时对象只属于可信宿主，不可直接暴露给生成页面。CORE-012 的后台调度复用同一执行槽，保持主动联系默认关闭。
 
-完整产品体验见 [交互设计](docs/product/product-experience.md)，CORE-006 时点的估计见 [历史产品进度](reports/core-006-architect/product-progress.md)，最新实现范围见本文 CORE-012 节。CORE-011 已将替换范围扩展到完整界面；CORE-012 补充后台和便携运行，原生隔离与社区分享仍未完成。
+完整产品体验见 [交互设计](docs/product/product-experience.md)，CORE-006 时点的估计见 [历史产品进度](reports/core-006-architect/product-progress.md)，最新实现范围见本文 CORE-013 节。CORE-011 已将替换范围扩展到完整界面；CORE-012 补充后台和便携运行，原生隔离与社区分享仍未完成。
 
 ## 快照范围与限制
 
@@ -138,3 +138,30 @@ API 密钥不包含在仓库内。不要运行历史 live 脚本来验证源码�
 最终回归：**Python 133 项、Node 259 项**；SDK 类型、Schema、范围、包安装与两次冷启动通过。三次真实串行 DeepSeek 检查验证记忆保存/使用、成果、提醒与到期联系重评估；原业务数据库升级前后哈希一致。系统托盘/通知的实际视觉、另机安装、官方编码 CLI 连通及敌对代码原生隔离仍须分别验收。整套界面的自然语言作者工具链按用户决定后置。
 
 详见 [CORE-012 架构与限制](docs/development/CORE-012.md)、[本批报告](reports/core-012/report.json)。报告为架构师自验 submitted，原始证据、完整本地 manifest 与便携 ZIP 保留在开发工作区；发布副本的文件哈希另列于 `reports/core-012/artifacts.json`。
+
+
+## CORE-013 私人工具与原生本地 Alpha
+
+现在可让 AI 保存一个反复使用的文本/CSV 工具：AI 编写 SQLite 查询、给出虚构样例，程序实际运行验证后保存不可变版本；换新材料即可调用。提供工具库、源码/样例查看、修改、停用、版本回退和结果下载。工具不执行任意 Python/Shell，也不将样例通过当成所有输入都正确。
+
+新增 Electron 44.4.4 原生窗口、托盘和独立恢复。授权界面可通过 SDK 改变大小、无边框、透明与置顶，默认 UI 仍可完整替换。关闭窗口不终止后台服务；“一句话自动改写整套界面”按产品决定继续后置。原生 renderer 使用上下文隔离、沙箱、窄 IPC 和网络/导航限制；它仍不是已审计的敌对社区代码通用沙箱。
+
+Windows 本地 Alpha ZIP 已在开发机完成独立安装、两次冷启动与保存工具重开验证，包含 Node/Python/Electron/Vue 等运行时；ZIP 不在 Git 中。源码服务现在优先使用本 checkout 的 .venv 和 node_modules，也支持显式环境路径。准备本地依赖后可启动：
+
+```powershell
+uv sync --locked
+npm ci
+# 浏览器载体（默认不调用模型）
+node tools/personal_space.mjs
+# 可选原生窗口：下载校验固定官方 Electron 分发，再启动
+pwsh -File tools/fetch_electron.ps1
+pwsh -File tools/start_morrow.ps1 -Offline
+```
+
+DeepSeek 凭据由用户另行在本机配置；不运行历史 live 脚本来验收源码备份。部分历史测试及发行构建脚本仍保留相邻开发工作区路径，见交接说明；便携应用不依赖 donor 目录。
+
+本批自验：Python **153 项**、整套 Node **263 项**，最终调整再跑 5 项定向（与全量重叠）；10 项实际原生检查、SDK/Schema/范围/安装完整性通过。两个串行真实 DeepSeek 请求完成工具创建与新 CSV 复用，旧三份业务数据库升级前后哈希一致。状态为 submitted，未伪称独立 accepted。
+
+当前交付定位是**可试用的 Windows 本地 Alpha**。系统通知实际送达、长时间睡眠唤醒、另一机器安装仍待验收；官方编码 CLI 实连、云端常驻、TTS、社区分享和通用电脑操作不属于本批完成项。没有把整个长期 Personal AI 愿景称为已完成。
+
+从 [试用指南](docs/product/LOCAL-ALPHA.md)、[CORE-013 架构](docs/development/CORE-013.md)、[当前交接](docs/handoff/CURRENT-TASK.md) 开始；[本批报告](reports/core-013/report.json) 记录具体边界。发布文件哈希见 reports/core-013/artifacts.json，原始证据与完整本地 manifest 不上传。

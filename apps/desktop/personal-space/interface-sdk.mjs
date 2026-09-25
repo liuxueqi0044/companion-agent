@@ -41,8 +41,9 @@ export function createClient({onSnapshot=()=>{},onConnection=()=>{}}={}){
     conversation:{list:args=>call('conversations.read',args),turns:args=>call('turns.read',args),get:args=>call('turn.read',args),send:args=>call('send',args)},
     tasks:{get:args=>call('task.read',args),result:args=>call('task.result',args),stop:args=>call('work.stop',args)},
     artifacts:{read:args=>call('artifact.read',{...args,download:false}),download:args=>call('artifact.read',{...args,download:true})},
+    tools:{list:()=>call('tools.list'),read:args=>call('tools.read',args),manage:args=>call('tools.manage',args)},
     state:{read:()=>call('ui.state.read'),write:args=>call('ui.state.write',args)},
     draft:{read:()=>call('draft.read'),write:args=>call('draft.write',args)},
-    host:{openRecovery:()=>call('host.recovery')},
+    host:{openRecovery:()=>call('host.recovery'),configureWindow:settings=>call('host.window',settings)},
   })
 }

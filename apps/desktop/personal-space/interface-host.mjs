@@ -19,6 +19,10 @@ export function mountInterface({container,mount,client,onReady=()=>{},onError=()
       inFlight++
       try{
         if(data.action==='host.recovery'){if(!mount.preview)onRecovery();reply(data.id,{ok:true});return}
+        if(data.action==='host.window'){
+          const result=mount.preview?{ok:false,error:'preview_read_only'}:globalThis.morrowDesktop?await globalThis.morrowDesktop.configureWindow(mount.id,data.args??{}):{ok:false,error:'native_unavailable'}
+          reply(data.id,result);return
+        }
         const result=await client.call('interface.call',{mountId:mount.id,action:data.action,args:data.args??{}})
         reply(data.id,result);void refresh()
       }finally{inFlight--}

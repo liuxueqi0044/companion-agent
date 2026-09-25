@@ -144,6 +144,7 @@ export async function createInterfaceService({root,runtime,vueFile,bundlerFile,c
       const record=recordFor(mountId);record.expires=Date.now()+3600000
       if(typeof action!=='string')return {ok:false,error:'invalid_request'}
       if(record.preview)return {ok:false,error:'preview_read_only'}
+      if(action==='host.window')return record.bundle.source.scopes.includes('window')?{ok:true}:{ok:false,error:'scope_denied'}
       if(action.startsWith('draft.')&&!record.bundle.source.scopes.includes('conversation'))return {ok:false,error:'scope_denied'}
       if(['draft.read','draft.write','ui.state.read','ui.state.write'].includes(action)&&dataError)return {ok:false,error:dataError}
       if(action==='draft.read'||action==='ui.state.read')return {ok:true,result:readData(record,action==='draft.read'?'draft':'package')}

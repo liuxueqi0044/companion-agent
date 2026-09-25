@@ -31,7 +31,7 @@ def exact(payload, required, optional=()):
 def dispatch(app, action, p, *, reviewed_packages=()):
     no_payload = {'bootstrap', 'home', 'policy.read', 'contact.controls', 'contact.inspect',
                   'contact.tick', 'contact.claim', 'reminder.deliver-due',
-                  'runtime.recover', 'worker.run-next', 'worker.recover', 'tasks.sync', 'experience.history', 'inbox.latest'}
+                  'runtime.recover', 'worker.run-next', 'worker.recover', 'tasks.sync', 'experience.history', 'inbox.latest', 'tool.list'}
     if action in no_payload:
         exact(p, ())
     if action == 'bootstrap': return app.bootstrap()
@@ -39,6 +39,11 @@ def dispatch(app, action, p, *, reviewed_packages=()):
         exact(p, ('expected_version',))
         return app.migrate(p['expected_version'])
     if action == 'home': return app.home()
+    if action == 'tool.list': return app.tools.catalog()
+    if action == 'tool.read':
+        exact(p, ('tool_id',))
+        return app.tools.read(p['tool_id'])
+    if action == 'tool.manage': return app.tools.manage(p)
     if action == 'inbox.latest':
         with app.store.tx() as db:
             return {'cursor': db.execute('SELECT COALESCE(MAX(rowid),0) FROM inbox').fetchone()[0]}

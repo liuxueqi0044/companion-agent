@@ -15,7 +15,7 @@ ID = Annotated[str, AfterValidator(canonical_uuid)]
 UTC = Annotated[datetime, AfterValidator(utc)]
 Category = Literal['work', 'preferences', 'goals']
 Topic = Literal['work', 'daily', 'wellbeing']
-Capability = Literal['csv.audit', 'profile.change', 'artifact.create', 'reminder.create']
+Capability = Literal['csv.audit', 'profile.change', 'artifact.create', 'reminder.create', 'tool.save', 'tool.run']
 
 
 class ProductError(Exception):
@@ -243,7 +243,67 @@ class ReminderAction(Model):
         return bounded_text(value, 4096)
 
 
-Action = Annotated[CsvAction | ProfileAction | ArtifactAction | ReminderAction, Field(discriminator='kind')]
+class ToolParameter(Model):
+    name: str = Field(pattern=r'^[A-Za-z][A-Za-z0-9_]{0,31}$')
+    type: Literal['text', 'number']
+    description: str = Field(min_length=1, max_length=240)
+
+
+class ToolExample(Model):
+    csv_text: str | None = Field(default=None, max_length=16384)
+    parameters: dict[str, str | int | float] = Field(default_factory=dict)
+    expected: list[dict[str, str | int | float | None]] = Field(max_length=100)
+
+
+class ToolDefinition(Model):
+    name: str = Field(min_length=1, max_length=80)
+    description: str = Field(min_length=1, max_length=500)
+    sql: str = Field(min_length=1, max_length=8192)
+    parameters: list[ToolParameter] = Field(default_factory=list, max_length=12)
+    examples: list[ToolExample] = Field(min_length=1, max_length=3)
+
+    @model_validator(mode='after')
+    def unique_parameters(self):
+        if len({p.name for p in self.parameters}) != len(self.parameters):
+            raise ValueError('duplicate_parameter')
+        return self
+
+
+class ToolSaveAction(Model):
+    kind: Literal['tool.save']
+    definition: ToolDefinition
+    tool_id: ID | None = None
+    expected_revision: StrictInt | None = Field(default=None, ge=1)
+
+    @model_validator(mode='after')
+    def update_pair(self):
+        if (self.tool_id is None) != (self.expected_revision is None):
+            raise ValueError('tool_revision_required')
+        return self
+
+
+class ToolRunAction(Model):
+    kind: Literal['tool.run']
+    tool_id: ID
+    version: StrictInt = Field(ge=1)
+    parameters: dict[str, str | int | float] = Field(default_factory=dict)
+
+
+class ToolManageRequest(Model):
+    command_id: ID
+    tool_id: ID
+    expected_revision: StrictInt = Field(ge=1)
+    operation: Literal['enable', 'disable', 'restore']
+    version: StrictInt | None = Field(default=None, ge=1)
+
+    @model_validator(mode='after')
+    def restore_version(self):
+        if (self.operation == 'restore') != (self.version is not None):
+            raise ValueError('invalid_tool_operation')
+        return self
+
+
+Action = Annotated[CsvAction | ProfileAction | ArtifactAction | ReminderAction | ToolSaveAction | ToolRunAction, Field(discriminator='kind')]
 
 
 class MemorySuggestion(Model):

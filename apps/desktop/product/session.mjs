@@ -9,7 +9,7 @@ const pick = (source, keys) => Object.fromEntries(keys.filter(key => Object.hasO
 const turnView = item => item && ({...pick(item, [
   'id','conversation_id','text','reply','state','error','provider_summary','completion_source','temporary']),
   actions: Array.isArray(item.actions) ? item.actions.map(action => pick(action,
-    ['id','kind','state','error','task','events','result','artifact','reminder'])) : []})
+    ['id','kind','state','error','task','events','result','artifact','reminder','tool','row_count'])) : []})
 const conversationView = item => pick(item,
   ['conversation_id','latest_turn_id','cursor','last_active_at','text_preview','reply_preview'])
 const summaryView = item => pick(item,
@@ -132,7 +132,7 @@ export function createProductSession({host, intent = () => []}) {
     let capabilities
     try {
       capabilities = intent(clone(turn))
-      if (!Array.isArray(capabilities) || capabilities.some(item => !['csv.audit','profile.change','artifact.create','reminder.create'].includes(item)))
+      if (!Array.isArray(capabilities) || capabilities.some(item => !['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run'].includes(item)))
         return {ok:false,error:'invalid_capability'}
     } catch { return {ok:false,error:'invalid_capability'} }
     try {

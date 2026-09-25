@@ -374,7 +374,9 @@
                 "artifact.create": "#/$defs/ArtifactAction",
                 "csv.audit": "#/$defs/CsvAction",
                 "profile.change": "#/$defs/ProfileAction",
-                "reminder.create": "#/$defs/ReminderAction"
+                "reminder.create": "#/$defs/ReminderAction",
+                "tool.run": "#/$defs/ToolRunAction",
+                "tool.save": "#/$defs/ToolSaveAction"
               },
               "propertyName": "kind"
             },
@@ -390,6 +392,12 @@
               },
               {
                 "$ref": "#/$defs/ReminderAction"
+              },
+              {
+                "$ref": "#/$defs/ToolSaveAction"
+              },
+              {
+                "$ref": "#/$defs/ToolRunAction"
               }
             ]
           },
@@ -728,6 +736,284 @@
       "title": "StopTurnRequest",
       "type": "object"
     },
+    "ToolDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "examples": {
+          "items": {
+            "$ref": "#/$defs/ToolExample"
+          },
+          "maxItems": 3,
+          "minItems": 1,
+          "title": "Examples",
+          "type": "array"
+        },
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "parameters": {
+          "items": {
+            "$ref": "#/$defs/ToolParameter"
+          },
+          "maxItems": 12,
+          "title": "Parameters",
+          "type": "array"
+        },
+        "sql": {
+          "maxLength": 8192,
+          "minLength": 1,
+          "title": "Sql",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "sql",
+        "examples"
+      ],
+      "title": "ToolDefinition",
+      "type": "object"
+    },
+    "ToolExample": {
+      "additionalProperties": false,
+      "properties": {
+        "csv_text": {
+          "anyOf": [
+            {
+              "maxLength": 16384,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Csv Text"
+        },
+        "expected": {
+          "items": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object"
+          },
+          "maxItems": 100,
+          "title": "Expected",
+          "type": "array"
+        },
+        "parameters": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "title": "Parameters",
+          "type": "object"
+        }
+      },
+      "required": [
+        "expected"
+      ],
+      "title": "ToolExample",
+      "type": "object"
+    },
+    "ToolManageRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "command_id": {
+          "title": "Command Id",
+          "type": "string"
+        },
+        "expected_revision": {
+          "minimum": 1,
+          "title": "Expected Revision",
+          "type": "integer"
+        },
+        "operation": {
+          "enum": [
+            "enable",
+            "disable",
+            "restore"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "tool_id": {
+          "title": "Tool Id",
+          "type": "string"
+        },
+        "version": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Version"
+        }
+      },
+      "required": [
+        "command_id",
+        "tool_id",
+        "expected_revision",
+        "operation"
+      ],
+      "title": "ToolManageRequest",
+      "type": "object"
+    },
+    "ToolParameter": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "name": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_]{0,31}$",
+          "title": "Name",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "text",
+            "number"
+          ],
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "description"
+      ],
+      "title": "ToolParameter",
+      "type": "object"
+    },
+    "ToolRunAction": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "tool.run",
+          "title": "Kind",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "title": "Parameters",
+          "type": "object"
+        },
+        "tool_id": {
+          "title": "Tool Id",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "tool_id",
+        "version"
+      ],
+      "title": "ToolRunAction",
+      "type": "object"
+    },
+    "ToolSaveAction": {
+      "additionalProperties": false,
+      "properties": {
+        "definition": {
+          "$ref": "#/$defs/ToolDefinition"
+        },
+        "expected_revision": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Revision"
+        },
+        "kind": {
+          "const": "tool.save",
+          "title": "Kind",
+          "type": "string"
+        },
+        "tool_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Id"
+        }
+      },
+      "required": [
+        "kind",
+        "definition"
+      ],
+      "title": "ToolSaveAction",
+      "type": "object"
+    },
     "UserTurn": {
       "additionalProperties": false,
       "properties": {
@@ -808,6 +1094,9 @@
     "reminder_revise": {
       "$ref": "#/$defs/ReminderReviseRequest"
     },
+    "tool_manage": {
+      "$ref": "#/$defs/ToolManageRequest"
+    },
     "turn_fail_generation": {
       "$ref": "#/$defs/FailGenerationRequest"
     },
@@ -833,7 +1122,8 @@
     "turn_fail_generation",
     "contact_id",
     "contact_complete",
-    "contact_fail_generation"
+    "contact_fail_generation",
+    "tool_manage"
   ],
   "title": "Contracts",
   "type": "object"

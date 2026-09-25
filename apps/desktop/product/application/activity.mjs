@@ -48,7 +48,7 @@ export function projectActivity({turn,stop} = {}) {
         if (events.length > 100) {events=events.slice(0,100);truncatedEvents=true}
       }
     }
-    actions.push({id:raw.id,kind:['csv.audit','profile.change','artifact.create','reminder.create'].includes(raw.kind)?raw.kind:'unknown',state:raw.state,
+    actions.push({id:raw.id,kind:['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run'].includes(raw.kind)?raw.kind:'unknown',state:raw.state,
     error:typeof raw.error === 'string' ? safeCode(raw.error) : null,...task,events})
   }
   const primary=actions.find(item => item.kind === 'csv.audit' && item.taskId)

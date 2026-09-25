@@ -203,7 +203,7 @@ export function createTurnRunner({host,provider=UnavailableProvider,timeoutMs=30
     if(accepted.result.state!=='actions_ready' ||
       !Array.isArray(accepted.result.actions) || accepted.result.actions.length===0 ||
       accepted.result.actions.some(item=>!validId(item.id) ||
-        !['csv.audit','profile.change','artifact.create','reminder.create'].includes(item.kind) || item.state!=='ready') ||
+        !['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run'].includes(item.kind) || item.state!=='ready') ||
       snapshot().activity?.protocolError)return unknown(record,'protocol_error')
     if(!eligible(record))return fail('provider_aborted')
     phase(record,'executing')

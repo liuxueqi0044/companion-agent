@@ -31,6 +31,9 @@ export function createResourceAPI({host,operation,run,stop,execution,send,cancel
   return Object.freeze({
     version:'1',execution,
     turn:input=>captured(input,readTurn),
+    tools:()=>operation(()=>request(host,'tool.list',{})),
+    tool:input=>captured(input,a=>validId(a?.toolId)?request(host,'tool.read',{tool_id:a.toolId}):fail('invalid_request')),
+    manageTool:input=>captured(input,a=>request(host,'tool.manage',a)),
     artifact:input=>captured(input,async a=>{
       if(!a||!validId(a.turnId)||!validId(a.actionId)||typeof a.download!=='boolean')return fail('invalid_request')
       return request(host,a.download?'artifact.download':'artifact.read',{turn_id:a.turnId,action_id:a.actionId})

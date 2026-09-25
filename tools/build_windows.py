@@ -32,10 +32,10 @@ def build(output):
     if output.exists():
         raise RuntimeError('release_output_must_be_new')
     output.mkdir(parents=True)
-    for relative in ['services', 'apps/desktop/product', 'apps/desktop/personal-space', 'tests/spikes/personal-space/core']:
+    for relative in ['services', 'apps/desktop/product', 'apps/desktop/personal-space', 'apps/desktop/native', 'tests/spikes/personal-space/core']:
         copy_tree(ROOT / relative, output / relative)
     (output/'tools').mkdir()
-    for name in ['personal_space.mjs', 'load_product_credential.ps1', 'morrow_tray.ps1', 'configure_deepseek.ps1', 'install_morrow.ps1']:
+    for name in ['personal_space.mjs', 'load_product_credential.ps1', 'morrow_tray.ps1', 'configure_deepseek.ps1', 'install_morrow.ps1', 'start_morrow.ps1']:
         shutil.copyfile(ROOT/'tools'/name, output/'tools'/name)
     runtime = output/'runtime'
     runtime.mkdir()
@@ -68,12 +68,22 @@ def build(output):
     for name in ['LICENSE', 'package.json']:
         shutil.copyfile(vue/name, runtime/'vue'/name)
     shutil.copyfile(vue/'dist/vue.runtime.esm-browser.prod.js', runtime/'vue/vue.mjs')
+    electron = ROOT/'.local-tools/electron-44.4.4'
+    if hashlib.sha256((electron/'electron.zip').read_bytes()).hexdigest() != '47a3097f1e14030c99937a5ff9534446f44cf0c0032b88f2466360bab4ca9cdc':
+        raise RuntimeError('electron_distribution_integrity_error')
+    # Verify extracted runtime bytes against the pinned distribution, not only its ZIP.
+    with zipfile.ZipFile(electron/'electron.zip') as distribution:
+        for item in distribution.infolist():
+            if not item.is_dir() and (electron/'dist'/item.filename).read_bytes() != distribution.read(item):
+                raise RuntimeError('electron_extraction_integrity_error')
+    copy_tree(electron/'dist',runtime/'electron')
+    copied['electron']={'version':'44.4.4','license':'MIT; Chromium third-party notices included','distribution_sha256':'47a3097f1e14030c99937a5ff9534446f44cf0c0032b88f2466360bab4ca9cdc'}
     configuration = {'format':'morrow.windows/1','node':'runtime/node.exe','python':'runtime/python/python.exe',
-                     'vue':'runtime/vue/vue.mjs','bundler':'node_modules/rolldown/dist/index.mjs'}
+                     'vue':'runtime/vue/vue.mjs','bundler':'node_modules/rolldown/dist/index.mjs','electron':'runtime/electron/electron.exe'}
     (output/'runtime.json').write_text(json.dumps(configuration,indent=2),encoding='utf-8')
-    (output/'Morrow.cmd').write_text('@echo off\r\npwsh.exe -NoProfile -STA -File "%~dp0tools\\morrow_tray.ps1" %*\r\n',encoding='utf-8')
+    (output/'Morrow.cmd').write_text('@echo off\r\nstart "" "%~dp0runtime\\electron\\electron.exe" "%~dp0apps\\desktop\\native\\main.cjs"\r\n',encoding='utf-8')
     (output/'Install.cmd').write_text('@echo off\r\npwsh.exe -NoProfile -File "%~dp0tools\\install_morrow.ps1"\r\n',encoding='utf-8')
-    (output/'README.txt').write_text('Morrow Windows x64 preview\nRequires Windows 10/11 and PowerShell 7 (pwsh).\nRun Install.cmd to install for the current user, or Morrow.cmd for portable use.\nData: %LOCALAPPDATA%/Morrow/data; credentials stay under the current Windows user.\nConfigure DeepSeek from the tray, then restart. Closing the browser keeps Morrow running; Exit in the tray stops it.\nNo startup registration. Generated source files are downloads, not automatically executed.\nUnsigned development preview; native hostile-code isolation is not implemented.\n',encoding='utf-8')
+    (output/'README.txt').write_text('Morrow Windows x64 local alpha\nWindows 10/11. PowerShell 7 (pwsh) is required for install and encrypted DeepSeek credentials.\nRun Install.cmd to install for the current user, or Morrow.cmd for portable use.\nData: %LOCALAPPDATA%/Morrow/data; credentials stay under the current Windows user.\nConfigure DeepSeek from the tray, then restart. Closing the window keeps Morrow running; Exit in the tray stops its owned service.\nTray recovery resets window form and opens trusted interface management. No startup registration.\nPersonal SQL tools run on explicitly supplied text/CSV; generated source artifacts are downloads, not arbitrary executable programs.\nUnsigned alpha. Renderer sandbox, IPC restrictions and external HTTP blocking are defense in depth, not a universal hostile-code sandbox.\n',encoding='utf-8')
     files = []
     for file in sorted(output.rglob('*')):
         if file.is_file():

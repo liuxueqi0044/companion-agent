@@ -22,8 +22,8 @@ Copy-Item -LiteralPath (Join-Path $source 'release-manifest.json') -Destination 
 if (-not $NoShortcut) {
 $shell=New-Object -ComObject WScript.Shell
 $shortcut=$shell.CreateShortcut((Join-Path ([Environment]::GetFolderPath('Programs')) 'Morrow.lnk'))
-$shortcut.TargetPath=(Get-Command pwsh.exe).Source
-$shortcut.Arguments='-NoProfile -STA -WindowStyle Hidden -File "'+(Join-Path $Destination 'tools/morrow_tray.ps1')+'"'
+$shortcut.TargetPath=Join-Path $Destination 'runtime/electron/electron.exe'
+$shortcut.Arguments='"'+(Join-Path $Destination 'apps/desktop/native/main.cjs')+'"'
 $shortcut.WorkingDirectory=$Destination;$shortcut.Description='Morrow · 我的 AI';$shortcut.Save()
 }
 if($NoShortcut){[Console]::WriteLine('Installed without a shortcut. No startup task was created.')}

@@ -1,5 +1,6 @@
 import {createClient} from './client.mjs'
 import {mountInterface} from './interface-host.mjs'
+if(globalThis.morrowDesktop)document.documentElement.style.background='transparent'
 const surface=document.querySelector('#surface'),recovery=document.querySelector('#recovery')
 let mounted=null,current=null,epoch=null,loading=false,lastRevision=-1,intent=0
 const clientId=sessionStorage.getItem('morrow.interface.client')??crypto.randomUUID()

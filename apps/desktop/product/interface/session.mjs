@@ -1,7 +1,7 @@
 /** One presentation session per mounted UI; the execution runtime is shared. */
 import {fail} from '../application/state.mjs'
 
-export const SCOPES=Object.freeze(['conversation','tasks','memory','preferences','inbox','reminders'])
+export const SCOPES=Object.freeze(['conversation','tasks','memory','preferences','inbox','reminders','window'])
 const exact=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).every(k=>keys.includes(k))
 export async function createInterfaceSession({runtime,scopes=SCOPES,onChange=()=>{}}){
   const app=runtime.createView(),allowed=new Set(scopes)
@@ -32,6 +32,9 @@ export async function createInterfaceSession({runtime,scopes=SCOPES,onChange=()=
   add('task.read','tasks',['turnId','taskId','attemptId'],a=>runtime.resources.task(a),true)
   add('task.result','tasks',['turnId','taskId','attemptId'],a=>runtime.resources.result(a),true)
   add('artifact.read','tasks',['turnId','actionId','download'],a=>runtime.resources.artifact(a),true)
+  add('tools.list','tasks',[],()=>runtime.resources.tools(),true)
+  add('tools.read','tasks',['toolId'],a=>runtime.resources.tool(a),true)
+  add('tools.manage','tasks',['command_id','tool_id','expected_revision','operation','version'],a=>runtime.resources.manageTool(a))
   add('work.start','conversation',['turnId'],a=>runtime.resources.start(a),true)
   add('work.local','tasks',['turnId'],a=>runtime.resources.local(a),true)
   add('work.stop','tasks',['turnId','runId'],a=>runtime.resources.stop(a),true)

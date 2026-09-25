@@ -20,6 +20,7 @@ const field=(label,node,hint)=>h('label',{class:'field'},[h('span',label),node,h
 const para=text=>h('p',{class:'muted'},text)
 const formatTime=value=>{try{return new Intl.DateTimeFormat('zh-CN',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(value))}catch{return '时间待核对'}}
 const errors={model_not_configured:'还没有连接模型。你的输入已保存。',provider_failed:'这次回应没有成功，请查看连接状态后再试。',
+ tool_example_failed:'这个工具没有通过样例验证，未保存。可以让 AI 修改后再试。',tool_query_rejected:'这个工具无法处理当前输入，请检查列名、参数或修改工具。',tool_query_limit:'工具已达到本次计算限制，未继续执行。',tool_revision_conflict:'工具版本已改变，请重新选择最新版本。',tool_disabled:'这个工具已停用。',tool_parameters_invalid:'工具参数不完整或类型不匹配。',
  credential_rejected:'模型密钥未通过验证。',provider_insufficient_balance:'DeepSeek 账户余额不足。',provider_rate_limited:'模型服务暂时繁忙，请稍后再试。',
  transport_unavailable:'本地连接中断。操作结果可能尚未确认，请先重新连接并核对。',
  ledger_locked:'请求记录正在被另一项操作使用，请稍后再试。',ledger_invalid:'本地请求记录需要核对，已有对话仍然保留。',ledger_write_failed:'请求已结束，但本地记录未能确认保存，请先核对状态。',
@@ -54,6 +55,7 @@ createApp({setup(){
   const conversationId=ref(crypto.randomUUID()),selectedTurn=ref(null),fileInput=ref(null),composer=ref(null),drawer=ref(null)
   const memoryText=ref(''),memoryCategory=ref('preferences'),editing=ref(null),editText=ref(''),styleText=ref('')
   const reminderText=ref(''),reminderDate=ref(''),contactForm=ref(null),resultVisible=ref(false)
+  const toolItems=ref([]),toolDetail=ref(null)
   let fileGeneration=0,previousFocus=null,toastTimer=null,client=null,navigationIntent=0
   let savedSelection=null,draftRevision=0,draftHydrated=false,draftFlight=Promise.resolve()
   const view=computed(()=>state.value?.view),policy=computed(()=>view.value?.policy?.policy)
@@ -96,6 +98,9 @@ createApp({setup(){
       if(result.ok&&target==='contact')contactForm.value={...policy.value}
     }else if(target==='history'){
       const result=await call('conversation.list');if(result.ok)conversations.value=result.result
+    }else if(target==='tools'){
+      toolDetail.value=null
+      const own=navigationIntent,result=await call('tools.list');if(result.ok&&own===navigationIntent&&panel.value==='tools')toolItems.value=result.result
     }
     await nextTick();drawer.value?.querySelector('button')?.focus()
   }
@@ -233,16 +238,40 @@ createApp({setup(){
     h('div',{class:'connection-card'},[h('div',{class:['connection-light',c?.configured?'ready':'']}),h('strong',c?.configured?'DeepSeek 已配置':'模型尚未连接'),h('p',c?.configured?c.model:'可以查看和管理本地内容。')]),
     para('你的密钥只在本地服务端使用，不会交给界面。模型可以接收你这次对话所需的上下文；临时对话不会使用长期记忆。'),
     c?.lastError?h('p',{class:'error-text'},errors[c.lastError]??'上一次模型请求未成功。'):null,
-    h('div',{class:'soft-note'},'这一版在本机浏览器中运行。关闭本地服务后不会处理任务；后台问候尚未开放。默认界面也通过公开 SDK 运行。整套界面的源码、预览与恢复位于“改变这里”。')
+    h('div',{class:'soft-note'},state.value?.capabilities.backgroundContact?'保持本地服务运行，就能继续处理到期消息。界面的源码、预览与恢复位于“改变这里”。':'当前服务未开启后台消息；已有内容仍可查看。')
   ]}
+  async function inspectTool(item){const own=navigationIntent,r=await call('tools.read',{toolId:item.id});if(r.ok&&own===navigationIntent&&panel.value==='tools')toolDetail.value=r.result}
+  async function changeTool(operation,version){
+    const item=toolDetail.value;if(!item)return
+    const r=await call('tools.manage',{command_id:crypto.randomUUID(),tool_id:item.id,expected_revision:item.revision,operation,...(version?{version}:{})},'工具已更新')
+    if(r.ok){await inspectTool(item);const list=await call('tools.list');if(list.ok)toolItems.value=list.result}
+  }
+  async function requestTool(item,edit=false){
+    await closePanel()
+    draft.value=edit?`请修改我的工具「${item.name}」（ID：${item.id}）。我希望：`:`请使用我的工具「${item.name}」（ID：${item.id}）。${item.parameters.map(p=>`${p.description}：`).join('；')}`
+    await nextTick();composer.value?.focus()
+  }
+  function toolsPanel(){const item=toolDetail.value
+    if(item)return [btn('返回工具列表',()=>{toolDetail.value=null},{class:'secondary small'}),h('h3',item.definition.name),para(item.definition.description),
+      h('p',`版本 ${item.version} · ${item.enabled?'可使用':'已停用'} · ${item.validation.passed} 个样例通过`),
+      h('div',{class:'activity-actions'},[btn(item.enabled?'停用':'启用',()=>changeTool(item.enabled?'disable':'enable'),{class:'secondary small',disabled:working.value}),btn('让 AI 修改',()=>requestTool({...item,...item.definition},true),{class:'secondary small'})]),
+      h('details',[h('summary','查看工具逻辑与样例'),h('pre',{style:'white-space:pre-wrap;overflow-wrap:anywhere'},JSON.stringify(item.definition,null,2))]),
+      h('h3','已有版本'),...item.versions.map(v=>btn(`版本 ${v.version}${v.version===item.version?' · 当前':' · 恢复'}`,()=>changeTool('restore',v.version),{class:'history-item',disabled:v.version===item.version||working.value}))]
+    return [para('这些做法会留下来，下次换一份材料也能继续用。可以直接在聊天里让 AI 创建或调用。'),
+      ...toolItems.value.map(t=>h('div',{class:'memory-item',key:t.id},[h('h3',t.name),para(t.description),h('small',`版本 ${t.version} · ${t.enabled?'可使用':'已停用'}`),
+        h('div',{class:'activity-actions'},[btn('使用',()=>requestTool(t),{class:'secondary small',disabled:!t.enabled||busy.value}),btn('查看与管理',()=>inspectTool(t),{class:'secondary small'})])])),
+      !toolItems.value.length?empty('把有用的做法留下来','试着说：帮我做一个去掉重复行的工具，以后还要用。','spark'):null]
+  }
   function content(){
     if(panel.value==='about')return [h('div',{class:'identity'},[h('div',{class:'identity-mark'},icon('spark',32)),h('h3',name.value),para('记住你，也为你做些事。')]),
       menuItem('memory','记忆',policy.value?.memory_enabled?'正在开启 · 你随时可以修改':'已经关闭',()=>openPanel('memory')),
       menuItem('bell','主动联系',policy.value?.proactive_enabled?'已允许 · 可以随时调整':'默认关闭 · 由你决定是否开启',()=>openPanel('contact')),
+      menuItem('spark','我的工具','把有用的做法留下来',()=>openPanel('tools')),
       menuItem('leaf','改变这里','把你喜欢的样子告诉我',()=>openPanel('appearance')),
       menuItem('link','模型与连接',connection.value?.configured?'DeepSeek · 本机服务':'尚未连接模型',()=>openPanel('connection')),
       h('p',{class:'panel-footnote'},'同一个 AI，同一份记忆。外观可以改变，属于你的东西会留下。')]
     if(panel.value==='memory')return memoryPanel()
+    if(panel.value==='tools')return toolsPanel()
     if(panel.value==='contact')return contactPanel()
     if(panel.value==='inbox')return inboxPanel()
     if(panel.value==='reminders')return remindersPanel()
@@ -251,7 +280,7 @@ createApp({setup(){
     if(panel.value==='history')return conversations.value.length?conversations.value.map(item=>btn('',()=>loadConversation(item),{class:'history-item'},[h('strong',item.text_preview||'一段对话'),h('p',item.reply_preview||'这段对话还在等一个回应'),h('small',formatTime(item.last_active_at))])):[empty('从第一句话开始','之后的对话会留在这里。','history')]
     return []
   }
-  const titles={about:'我的 AI',memory:'记忆',contact:'主动联系',inbox:'近况',reminders:'我的提醒',appearance:'改变这里',connection:'模型与连接',history:'我们的对话',result:'核对结果'}
+  const titles={about:'我的 AI',tools:'我的工具',memory:'记忆',contact:'主动联系',inbox:'近况',reminders:'我的提醒',appearance:'改变这里',connection:'模型与连接',history:'我们的对话',result:'核对结果'}
   const activityView=record=>presentActivity(record,{activity:view.value?.activity,work:view.value?.work,
     send:view.value?.runtime.send,pendingId:pendingMessage.value})
   const stopTarget=()=>currentStop({send:view.value?.runtime.send,work:view.value?.work,pendingId:pendingMessage.value})
@@ -285,6 +314,10 @@ createApp({setup(){
           const a=document.createElement('a');a.href=url;a.download=r.result.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)
         },{class:'secondary small'},[icon('download',16),'下载成果'])])),
       ...(record.actions??[]).filter(x=>x.reminder&&x.state==='accepted').map(x=>h('p',{key:x.id},['已安排提醒：',x.reminder.text,' · ',formatTime(x.reminder.due_at)])),
+      ...(record.actions??[]).filter(x=>x.tool&&x.state==='accepted').map(x=>h('div',{class:'memory-item',key:x.id},[
+        h('strong',x.kind==='tool.save'?`已保存工具 · ${x.tool.name}`:`已运行工具 · ${x.tool.name}`),
+        h('p',x.kind==='tool.save'?`版本 ${x.tool.version} · ${x.tool.validation.passed} 个样例通过，下次可以继续使用。`:`版本 ${x.tool.version} · 实际输出 ${x.row_count} 行`),
+        btn('我的工具',()=>openPanel('tools'),{class:'secondary small'})])),
       events.length?h('ol',{class:'event-list'},events.map(e=>h('li',{key:e.seq},[h('span',{class:'event-dot'}),h('span',eventLabel[e.kind]??e.kind),h('time',e.occurredAt?formatTime(e.occurredAt):'')]))):null,
       h('div',{class:'activity-actions'},[...controls,done&&a.taskId?btn('查看成果与来源',()=>openResult(record.id),{class:'primary small',disabled:busy.value},['查看成果与来源',icon('arrow',16)]):null,
         active&&a.taskStatus==='queued'&&!running?btn('继续本地任务',()=>call('work.local',{turnId:record.id}),{class:'secondary small'}):null]),
