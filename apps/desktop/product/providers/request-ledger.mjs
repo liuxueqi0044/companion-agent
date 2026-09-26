@@ -16,7 +16,7 @@ export function createRequestLedger({file}){
       legacy&&value.attempts.length>value.limit)throw fail('ledger_invalid')
     const seen=new Set()
     for(const row of value.attempts){
-      if(!row||typeof row.id!=='string'||seen.has(row.id)||!['turn','contact','space','coding'].includes(row.kind)||
+      if(!row||typeof row.id!=='string'||seen.has(row.id)||!['turn','contact','space','coding','goal_director','goal_worker','goal_reviewer','claude_code_run'].includes(row.kind)||
         !['reserved','received','failed'].includes(row.state)||typeof row.at!=='string')throw fail('ledger_invalid')
       seen.add(row.id)
     }
@@ -64,7 +64,7 @@ export function createRequestLedger({file}){
     })},
     snapshot(){const v=read();return {used:v.attempts.length,inFlight:v.attempts.some(r=>r.state==='reserved')}},
     reserve(kind){
-      if(!['turn','contact','space','coding'].includes(kind))throw fail('ledger_invalid')
+      if(!['turn','contact','space','coding','goal_director','goal_worker','goal_reviewer','claude_code_run'].includes(kind))throw fail('ledger_invalid')
       return change(value=>{
         if(value.attempts.some(item=>item.state==='reserved'))throw fail('request_in_progress')
         const id=randomUUID();value.attempts.push({id,kind,state:'reserved',at:new Date().toISOString(),owner_pid:process.pid});return id

@@ -20,7 +20,7 @@ const field=(label,node,hint)=>h('label',{class:'field'},[h('span',label),node,h
 const para=text=>h('p',{class:'muted'},text)
 const formatTime=value=>{try{return new Intl.DateTimeFormat('zh-CN',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(value))}catch{return '时间待核对'}}
 const errors={model_not_configured:'还没有连接模型。你的输入已保存。',provider_failed:'这次回应没有成功，请查看连接状态后再试。',
- workflow_waiting:'上一步还没有确认完成，请先核对实际状态。',workflow_checkpoint:'已保存进度，可以从当前结果继续。',workflow_step_limit:'这项任务的步骤较多，请基于已有结果开始一段新对话。',repeated_action:'模型重复提出了已经做过的写入，已停下，原成果仍保留。',superseded_turn:'这一步之后已有新的输入，请在新对话中继续。',
+ workflow_waiting:'上一步还没有确认完成，请先核对实际状态。',workflow_checkpoint:'已保存进度，可以从当前结果继续。',workflow_step_limit:'这项任务的步骤较多，请基于已有结果开始一段新对话。',goal_no_progress:'连续几次未能推进目标，已保存进度。可以先查看失败原因，再决定是否继续。',goal_review_evidence_mismatch:'验收引用的成果与当前任务不符，请核对任务记录。',repeated_action:'模型重复提出了已经做过的写入，已停下，原成果仍保留。',superseded_turn:'这一步之后已有新的输入，请在新对话中继续。',
  tool_example_failed:'这个工具没有通过样例验证，未保存。可以让 AI 修改后再试。',tool_query_rejected:'这个工具无法处理当前输入，请检查列名、参数或修改工具。',tool_query_limit:'工具已达到本次计算限制，未继续执行。',tool_revision_conflict:'工具版本已改变，请重新选择最新版本。',tool_disabled:'这个工具已停用。',tool_parameters_invalid:'工具参数不完整或类型不匹配。',
  credential_rejected:'模型密钥未通过验证。',provider_insufficient_balance:'DeepSeek 账户余额不足。',provider_rate_limited:'模型服务暂时繁忙，请稍后再试。',
  transport_unavailable:'本地连接中断。操作结果可能尚未确认，请先重新连接并核对。',
@@ -311,21 +311,30 @@ createApp({setup(){
     return h('section',{class:['activity-card',done?'complete':''],'aria-label':'工具执行过程'},[
       h('div',{class:'activity-heading'},[h('span',{class:'activity-symbol'},icon(done?'check':'spark',19)),h('div',[h('h3',heading),h('p',step)])]),
       loop?.plan.length?h('ol',{class:'workflow-plan','aria-label':'处理计划'},loop.plan.map((p,i)=>h('li',{key:i},p))):null,
+      loop?.goal?h('div',{class:'goal-board','aria-label':'目标与分工'},[
+        h('p',{class:'item-meta'},`目标模式 · ${loop.goal.phase==='finished'?'已收束':loop.goal.phase==='cancelled'?'已停止':({director:'主控规划',worker:'执行任务',reviewer:'主控验收'})[loop.goal.role]}`),
+        ...loop.goal.tasks.map(t=>h('details',{class:'goal-task',key:t.id,open:['working','submitted','rework'].includes(t.state)},[
+          h('summary',[h('strong',t.title),h('span',({queued:'等待分派',working:'执行中',submitted:'等待验收',accepted:'主控已验收',rework:'需要返工'})[t.state])]),
+          h('p',{class:'muted'},`${t.executor==='claude'?'Claude Code':'执行模型'} · 第 ${t.attempt} 次派工${t.depends_on.length?' · 依赖：'+t.depends_on.join('、'):''}`),
+          ...t.criteria.map((c,i)=>h('p',{key:i},`${i+1}. ${c}`)),
+          ...t.checks.map(c=>h('p',{class:c.passed?'workflow-receipt':'error-text',key:c.criterion},`${c.passed?'通过':'需修改'}：${c.reason}`)),
+        ])),h('small',{class:'muted'},'验收依据是实际成果与模型判断；语法检查不等于行为测试。')]):null,
       loop?h('details',{class:'workflow-trace',open:running||!done},[
         h('summary',`处理记录 · ${loop.step_count} 步`),
         loop.has_more_steps?h('p',{class:'muted'},'这里显示最近 12 步；更早的动作成果仍保留在下面。'):null,
         ...loop.steps.map(s=>h('section',{class:'workflow-step',key:s.ordinal},[
-          h('div',{class:'item-meta'},[h('strong',`第 ${s.ordinal} 步`),h('span',s.state==='generating'?'正在思考':s.state==='failed'?'已中断':'已记录')]),
+          h('div',{class:'item-meta'},[h('strong',`第 ${s.ordinal} 步${s.role?' · '+({director:'主控',worker:s.executor==='claude'?'Claude Code':'执行者',reviewer:'验收'})[s.role]:''}`),h('span',s.state==='generating'?'正在思考':s.state==='failed'?'已中断':'已记录')]),
           s.summary||s.reply?h('p',s.summary||s.reply):null,
           s.error?h('p',{class:'error-text'},errors[s.error]||`未继续处理（${s.error}）`):null,
           ...s.action_ids.map(id=>{const action=(record.actions??[]).find(x=>x.id===id)??a.actions.find(x=>x.id===id);return action?h('p',{class:action.state==='failed'?'error-text':'workflow-receipt',key:id},[
-            ({'data.query':'查询附件','tool.save':'保存可复用工具','tool.run':'运行工具','artifact.create':'保存文件','csv.audit':'核对 CSV','reminder.create':'设置提醒','profile.change':'更新偏好'})[action.kind]??'工具',
+            ({'data.query':'查询附件','tool.save':'保存可复用工具','tool.run':'运行工具','artifact.create':'保存文件','csv.audit':'核对 CSV','reminder.create':'设置提醒','profile.change':'更新偏好','goal.plan':'拆分目标','goal.dispatch':'分派任务','goal.submit':'提交成果','goal.review':'验收成果','goal.finish':'收束目标'})[action.kind]??'工具',
             ' · ',({ready:'等待执行',accepted:'回执已确认',failed:'未执行成功',blocked:'已停止',outcome_unknown:'结果待核对'})[action.state],
             Number.isSafeInteger(action.row_count)?` · 输出 ${action.row_count} 行`:'',action.error?` · ${errors[action.error]||action.error}`:'']):null})
         ]))
       ]):null,
       ...(record.actions??[]).filter(x=>x.artifact&&x.state==='accepted').map(x=>h('div',{class:'memory-item',key:x.id},[
         h('h3',x.artifact.title),h('p',x.artifact.files.map(f=>f.path).join(' · ')),
+        loop?.goal?h('p',{class:'item-meta'},loop.goal.tasks.some(t=>t.state==='accepted'&&t.evidence_ids.includes(x.id))?'当前已验收成果':'过程文件 · 未列入当前已验收成果'):null,
         h('small',x.artifact.files.some(f=>/\.(py|js|mjs|ts|html|svg)$/.test(f.path))?'源码已保存，尚未执行或部署。':`共 ${x.artifact.files.length} 个文件，可下载保存。`),
         btn('下载成果',async()=>{const r=await call('artifact.read',{turnId:record.id,actionId:x.id,download:true});if(!r.ok)return;
           const bytes=Uint8Array.from(atob(r.result.base64),c=>c.charCodeAt(0)),url=URL.createObjectURL(new Blob([bytes],{type:r.result.mime}));
@@ -409,7 +418,9 @@ createApp({setup(){
           h('div',{class:['composer',busy.value?'processing':'']},[h('textarea',{ref:composer,value:draft.value,onInput:e=>{draft.value=e.target.value},rows:2,placeholder:'有我在。想聊什么，或想一起做点什么？','aria-label':'给 AI 的消息',disabled:sending.value,
             onKeydown:event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();void send()}}}),
             h('div',{class:'composer-tools'},[h('div',{class:'composer-left'},[btn('添加 CSV 材料',()=>fileInput.value?.click(),{class:'icon-button','aria-label':'添加 CSV 材料',title:'添加 CSV 材料',disabled:busy.value},icon('attach',19)),
-              btn('临时对话',()=>{temporary.value=!temporary.value},{class:['temporary',temporary.value?'selected':''],'aria-pressed':temporary.value,title:'临时对话不读取或写入长期记忆',disabled:busy.value},[icon('moon',15),temporary.value?'临时对话已开':'临时对话'])]),
+              btn('临时对话',()=>{temporary.value=!temporary.value},{class:['temporary',temporary.value?'selected':''],'aria-pressed':temporary.value,title:'临时对话不读取或写入长期记忆',disabled:busy.value},[icon('moon',15),temporary.value?'临时对话已开':'临时对话']),
+              btn('目标模式',()=>{draft.value=/^\s*(?:\/goal(?:\s|$)|目标模式[：:])/u.test(draft.value)?draft.value.replace(/^\s*(?:\/goal\s*|目标模式[：:]\s*)/u,''):'目标模式：'+draft.value;composer.value?.focus()},
+                {class:['temporary',/^\s*(?:\/goal(?:\s|$)|目标模式[：:])/u.test(draft.value)?'selected':''],'aria-pressed':/^\s*(?:\/goal(?:\s|$)|目标模式[：:])/u.test(draft.value),title:'主控拆分目标、分派执行者，再逐项验收',disabled:busy.value},'目标模式')]),
               busy.value?btn('停止回复',stopCurrent,{class:'send-button stop-button','aria-label':'停止回复',disabled:!stopTarget()},icon('stop',17)):
               btn('发送消息',send,{class:'send-button','aria-label':'发送消息',disabled:!draft.value.trim()||!connected.value||!state.value},icon('send',21))])]),
           h('input',{ref:fileInput,type:'file',accept:'.csv,text/csv',class:'file-input',onChange:attach,'aria-label':'选择 CSV 文件'}),

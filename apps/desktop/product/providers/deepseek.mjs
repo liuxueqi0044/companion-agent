@@ -4,6 +4,7 @@ import path from 'node:path'
 import {randomUUID} from 'node:crypto'
 import {readChatStream,publicPrefix} from './streaming.mjs'
 import {SPACE_PROMPT,validateSpaceDecision} from '../space/package.mjs'
+import {GOAL_PROMPT} from './goal.mjs'
 
 export const ENDPOINT='https://api.deepseek.com/chat/completions'
 export const MODEL='deepseek-flash'
@@ -57,21 +58,26 @@ export function createAttemptBudget({file,limit=6}){
   }
 }
 
-export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalThis.fetch,timeoutMs=55000,streaming=false}={}){
+export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalThis.fetch,timeoutMs=55000,streaming=false,roleModels={}}={}){
   const journal=ledger??budget // budget is retained only for historical bounded experiment helpers.
   if(typeof apiKey!=='string'||!apiKey.trim()||!journal?.reserve||typeof fetchImpl!=='function')
     throw fail('provider_configuration_required')
+  const models={director:MODEL,worker:MODEL,reviewer:roleModels.director??MODEL,...roleModels}
+  if(Object.keys(models).some(k=>!['director','worker','reviewer'].includes(k))||Object.values(models).some(v=>typeof v!=='string'||!v.trim()||v.length>100))throw fail('provider_configuration_required')
   let busy=false,lastError=null,lastUsage=null
   let visible=null;const listeners=new Set()
   const publish=value=>{visible=value;for(const fn of listeners)try{fn()}catch{}}
   const progress={snapshot:()=>visible?structuredClone(visible):null,
     subscribe(fn){listeners.add(fn);return ()=>listeners.delete(fn)}}
-  const connection=()=>({configured:true,provider:'DeepSeek',model:MODEL,busy,lastError,lastUsage,
+  const connection=()=>({configured:true,provider:'DeepSeek',model:MODEL,roleModels:models,busy,lastError,lastUsage,
     ...(ledger?{requests:journal.snapshot()}:{budget:journal.snapshot()})})
   async function generate(kind,context,{signal}={}){
     if(busy)throw fail('provider_busy')
     if(signal?.aborted)throw fail('provider_aborted')
-    const messages=[{role:'system',content:kind==='turn'?TURN_PROMPT:kind==='space'?SPACE_PROMPT:CONTACT_PROMPT},
+    const goalRole=kind==='turn'&&context.goal?context.goal.role:null
+    if(goalRole&&!Object.hasOwn(models,goalRole))throw fail('provider_invalid_output')
+    const model=goalRole?models[goalRole]:MODEL
+    const messages=[{role:'system',content:kind==='turn'?TURN_PROMPT+(goalRole?GOAL_PROMPT:''):kind==='space'?SPACE_PROMPT:CONTACT_PROMPT},
       {role:'user',content:JSON.stringify({current_time_utc:new Date().toISOString(),context})}]
     if(Buffer.byteLength(JSON.stringify(messages))>96*1024)throw fail('provider_input_too_large')
     busy=true;lastError=null
@@ -81,11 +87,11 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
     const transportSignal=AbortSignal.any([...(signal?[signal]:[]),AbortSignal.timeout(kind==='space'?Math.max(timeoutMs,90000):timeoutMs)])
     const emit=(state,preview={})=>{if(stream&&turnId)publish({turnId,runId:id,state,reply:'',summary:'',...preview})}
     try{
-      id=journal.reserve(kind)
+      id=journal.reserve(goalRole?'goal_'+goalRole:kind)
       emit('generating')
       const response=await fetchImpl(ENDPOINT,{method:'POST',redirect:'error',
         headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},
-        body:JSON.stringify({model:MODEL,messages,response_format:{type:'json_object'},
+        body:JSON.stringify({model,messages,response_format:{type:'json_object'},
           thinking:{type:'disabled'},max_tokens:kind==='contact'?2048:8192,stream,...(stream?{stream_options:{include_usage:true}}:{})}),
         signal:transportSignal})
       status=response.status
@@ -120,7 +126,7 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
       // Python remains the authority for action grants, memory and follow-up validation.
       const numbers=['prompt_tokens','completion_tokens','total_tokens']
       lastUsage=Object.fromEntries(numbers.map(key=>[key,Number.isSafeInteger(raw.usage?.[key])&&raw.usage[key]>=0?raw.usage[key]:null]))
-      journal.finish(id,{state:'received',http_status:status,usage:lastUsage})
+      journal.finish(id,{state:'received',http_status:status,usage:lastUsage,...(goalRole?{role:goalRole,model}:{})})
       emit('received',{reply:decision.reply,summary:summary??''})
       return kind==='space'?decision:{decision,...(summary===undefined?{}:{displayableSummary:summary})}
     }catch(error){

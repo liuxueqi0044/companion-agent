@@ -49,6 +49,135 @@
       "title": "ArtifactFile",
       "type": "object"
     },
+    "CodeCheckEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "detail": {
+          "maxLength": 800,
+          "title": "Detail",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "node_syntax",
+            "python_syntax",
+            "json_parse",
+            "not_run"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "not_run"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "kind",
+        "status",
+        "detail"
+      ],
+      "title": "CodeCheckEvidence",
+      "type": "object"
+    },
+    "CodeFileEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "maximum": 65536,
+          "minimum": 0,
+          "title": "Bytes",
+          "type": "integer"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "title": "CodeFileEvidence",
+      "type": "object"
+    },
+    "CodingEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "api_requests": {
+          "maximum": 1000,
+          "minimum": 0,
+          "title": "Api Requests",
+          "type": "integer"
+        },
+        "checks": {
+          "items": {
+            "$ref": "#/$defs/CodeCheckEvidence"
+          },
+          "maxItems": 12,
+          "minItems": 1,
+          "title": "Checks",
+          "type": "array"
+        },
+        "files": {
+          "items": {
+            "$ref": "#/$defs/CodeFileEvidence"
+          },
+          "maxItems": 12,
+          "minItems": 1,
+          "title": "Files",
+          "type": "array"
+        },
+        "kind": {
+          "const": "claude-code",
+          "title": "Kind",
+          "type": "string"
+        },
+        "model": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Model",
+          "type": "string"
+        },
+        "receipt_id": {
+          "title": "Receipt Id",
+          "type": "string"
+        },
+        "tool_calls": {
+          "maximum": 1000,
+          "minimum": 0,
+          "title": "Tool Calls",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "receipt_id",
+        "model",
+        "files",
+        "checks",
+        "tool_calls",
+        "api_requests"
+      ],
+      "title": "CodingEvidence",
+      "type": "object"
+    },
     "ContactCompleteRequest": {
       "additionalProperties": false,
       "properties": {
@@ -369,6 +498,245 @@
       "title": "FollowUpSuggestion",
       "type": "object"
     },
+    "GoalCriterionReview": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Criterion",
+          "type": "integer"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "reason": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion",
+        "passed",
+        "reason",
+        "evidence_ids"
+      ],
+      "title": "GoalCriterionReview",
+      "type": "object"
+    },
+    "GoalDispatchAction": {
+      "additionalProperties": false,
+      "properties": {
+        "executor": {
+          "default": "worker",
+          "enum": [
+            "worker",
+            "claude"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "kind": {
+          "const": "goal.dispatch",
+          "title": "Kind",
+          "type": "string"
+        },
+        "task_id": {
+          "maxLength": 32,
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "task_id"
+      ],
+      "title": "GoalDispatchAction",
+      "type": "object"
+    },
+    "GoalFinishAction": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "goal.finish",
+          "title": "Kind",
+          "type": "string"
+        },
+        "outcome": {
+          "enum": [
+            "complete",
+            "needs_input",
+            "incomplete"
+          ],
+          "title": "Outcome",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "outcome"
+      ],
+      "title": "GoalFinishAction",
+      "type": "object"
+    },
+    "GoalPlanAction": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "goal.plan",
+          "title": "Kind",
+          "type": "string"
+        },
+        "tasks": {
+          "items": {
+            "$ref": "#/$defs/GoalTaskSpec"
+          },
+          "maxItems": 12,
+          "minItems": 1,
+          "title": "Tasks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "tasks"
+      ],
+      "title": "GoalPlanAction",
+      "type": "object"
+    },
+    "GoalReviewAction": {
+      "additionalProperties": false,
+      "properties": {
+        "checks": {
+          "items": {
+            "$ref": "#/$defs/GoalCriterionReview"
+          },
+          "maxItems": 6,
+          "minItems": 1,
+          "title": "Checks",
+          "type": "array"
+        },
+        "kind": {
+          "const": "goal.review",
+          "title": "Kind",
+          "type": "string"
+        },
+        "task_id": {
+          "maxLength": 32,
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "accept",
+            "rework"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "task_id",
+        "verdict",
+        "checks"
+      ],
+      "title": "GoalReviewAction",
+      "type": "object"
+    },
+    "GoalSubmitAction": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "kind": {
+          "const": "goal.submit",
+          "title": "Kind",
+          "type": "string"
+        },
+        "summary": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "summary",
+        "evidence_ids"
+      ],
+      "title": "GoalSubmitAction",
+      "type": "object"
+    },
+    "GoalTaskSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "criteria": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 6,
+          "minItems": 1,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "depends_on": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 11,
+          "title": "Depends On",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[a-z][a-z0-9_-]{0,31}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "instruction": {
+          "maxLength": 3000,
+          "minLength": 1,
+          "title": "Instruction",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "instruction",
+        "criteria"
+      ],
+      "title": "GoalTaskSpec",
+      "type": "object"
+    },
     "MemorySuggestion": {
       "additionalProperties": false,
       "properties": {
@@ -403,6 +771,11 @@
                 "artifact.create": "#/$defs/ArtifactAction",
                 "csv.audit": "#/$defs/CsvAction",
                 "data.query": "#/$defs/DataQueryAction",
+                "goal.dispatch": "#/$defs/GoalDispatchAction",
+                "goal.finish": "#/$defs/GoalFinishAction",
+                "goal.plan": "#/$defs/GoalPlanAction",
+                "goal.review": "#/$defs/GoalReviewAction",
+                "goal.submit": "#/$defs/GoalSubmitAction",
                 "profile.change": "#/$defs/ProfileAction",
                 "reminder.create": "#/$defs/ReminderAction",
                 "tool.run": "#/$defs/ToolRunAction",
@@ -431,6 +804,21 @@
               },
               {
                 "$ref": "#/$defs/DataQueryAction"
+              },
+              {
+                "$ref": "#/$defs/GoalPlanAction"
+              },
+              {
+                "$ref": "#/$defs/GoalDispatchAction"
+              },
+              {
+                "$ref": "#/$defs/GoalSubmitAction"
+              },
+              {
+                "$ref": "#/$defs/GoalReviewAction"
+              },
+              {
+                "$ref": "#/$defs/GoalFinishAction"
               }
             ]
           },
@@ -1109,6 +1497,9 @@
   },
   "additionalProperties": false,
   "properties": {
+    "coding_evidence": {
+      "$ref": "#/$defs/CodingEvidence"
+    },
     "contact_complete": {
       "$ref": "#/$defs/ContactCompleteRequest"
     },
@@ -1174,7 +1565,8 @@
     "contact_id",
     "contact_complete",
     "contact_fail_generation",
-    "tool_manage"
+    "tool_manage",
+    "coding_evidence"
   ],
   "title": "Contracts",
   "type": "object"

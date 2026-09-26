@@ -4,6 +4,7 @@ import json
 from . import artifacts
 from .models import ProductError
 from .store import canonical, digest, stamp
+from . import goals
 
 WINDOW = 8
 MAX_STEPS = 64
@@ -27,6 +28,7 @@ def install(db):
     else:
         for statement in SCHEMA:
             db.execute(statement)
+    goals.install(db)
 
 
 def enabled(db, turn_id):
@@ -50,8 +52,11 @@ def prepare(db, turn, *, automatic):
     steps = count(db, turn['id'])
     if not automatic:
         db.execute('UPDATE workflow_runs SET window_start=? WHERE turn_id=?', (steps, turn['id']))
-    reason = 'workflow_step_limit' if steps >= MAX_STEPS else (
-        'workflow_checkpoint' if automatic and steps-row['window_start'] >= WINDOW else None)
+    maximum, window = (192, 24) if goals.run(db, turn['id']) is not None else (MAX_STEPS, WINDOW)
+    reason = 'workflow_step_limit' if steps >= maximum else (
+        'workflow_checkpoint' if automatic and steps-row['window_start'] >= window else None)
+    if not reason and automatic and maximum==192 and goals.stalled(db,turn['id'],row['window_start']):
+        reason = 'goal_no_progress'
     if reason:
         db.execute("UPDATE turns SET state='paused',error=?,ticket=NULL WHERE id=?", (reason, turn['id']))
         return False
@@ -62,6 +67,7 @@ def started(db, turn_id, ticket, now):
     if enabled(db, turn_id) is not None:
         db.execute("INSERT INTO workflow_steps VALUES(?,?,?,'generating',NULL,NULL,'[]',NULL,?)",
                    (turn_id, count(db, turn_id)+1, ticket, stamp(now)))
+        goals.started(db, turn_id, count(db, turn_id))
 
 
 def failed(db, turn_id, ticket, reason):
@@ -104,7 +110,7 @@ def check_actions(db, turn_id, decision):
         raise ProductError('invalid_request')
     old = [json.loads(r[0]) for r in db.execute('SELECT payload_json FROM actions WHERE turn_id=?', (turn_id,))]
     for action in decision.actions:
-        if action.kind in ('data.query', 'tool.run'):
+        if action.kind in ('data.query', 'tool.run', *goals.CONTROL):
             continue  # Read-only reruns can verify a result; execution still has limits.
         value = action.model_dump(mode='json', exclude_unset=True)
         if value in old:
@@ -200,13 +206,19 @@ def view(db, turn):
     steps = [dict(r) for r in db.execute('''SELECT ordinal,state,reply,summary,action_ids_json,error,created_at
                FROM workflow_steps WHERE turn_id=? ORDER BY ordinal DESC LIMIT 12''', (turn['id'],))]
     for step in steps:
+        meta = db.execute('SELECT role,task_id,executor FROM goal_steps WHERE turn_id=? AND ordinal=?',
+                          (turn['id'], step['ordinal'])).fetchone()
+        if meta:
+            step.update(dict(meta))
         step['action_ids'] = json.loads(step.pop('action_ids_json'))
         if step['reply']:
             step['reply'] = step['reply'][:2048]
         if step['summary']:
             step['summary'] = step['summary'][:800]
+    goal = goals.view(db, turn)
     return {'version':1,'step_count':total,'plan':json.loads(row['plan_json']),
+            **({'goal':goal} if goal else {}),
             'steps':list(reversed(steps)),'has_more_steps':total>len(steps),
             'outcome':row['outcome'],'pause_reason':turn['error'],
             'next':'continue' if turn['state']=='actions_recorded' else 'none',
-            'can_continue':latest and turn['state'] in ('paused','model_failed','actions_recorded','actions_ready') and total<MAX_STEPS}
+            'can_continue':latest and turn['state'] in ('paused','model_failed','actions_recorded','actions_ready') and total<(192 if goal else MAX_STEPS)}

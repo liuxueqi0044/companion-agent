@@ -210,7 +210,7 @@ export function createTurnRunner({host,provider=UnavailableProvider,timeoutMs=30
     if(!eligible(record))return fail('provider_aborted')
     phase(record,'accepting')
     accepted=await call(record,'turn.accept',{turn_id:record.turnId,ticket:record.ticket,
-      decision:output.decision,...(output.displayableSummary===null ? {} :
+      decision:output.decision,...(output.executionEvidence===undefined?{}:{execution_evidence:output.executionEvidence}),...(output.displayableSummary===null ? {} :
         {provider_summary:output.displayableSummary})})
     if(!eligible(record))return fail('provider_aborted')
     if(!accepted.ok){
@@ -235,7 +235,7 @@ export function createTurnRunner({host,provider=UnavailableProvider,timeoutMs=30
       !Array.isArray(accepted.result.actions) || accepted.result.actions.length===0 ||
       !accepted.result.actions.some(item=>item.state==='ready') ||
       accepted.result.actions.some(item=>!validId(item.id) ||
-        !['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run','data.query'].includes(item.kind) ||
+        !['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run','data.query','goal.plan','goal.dispatch','goal.submit','goal.review','goal.finish'].includes(item.kind) ||
         (!accepted.result.workflow && item.state!=='ready')) ||
       snapshot().activity?.protocolError)return unknown(record,'protocol_error')
     if(!eligible(record))return fail('provider_aborted')

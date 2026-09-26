@@ -73,8 +73,8 @@ def dispatch(app, action, p, *, reviewed_packages=()):
         exact(p, ('turn_id', 'ticket', 'reason'))
         return app.fail_generation(p)
     if action == 'turn.accept':
-        exact(p, ('turn_id', 'ticket', 'decision'), ('provider_summary',))
-        return app.accept(p['turn_id'], p['ticket'], p['decision'], provider_summary=p.get('provider_summary'))
+        exact(p, ('turn_id', 'ticket', 'decision'), ('provider_summary', 'execution_evidence'))
+        return app.accept(p['turn_id'], p['ticket'], p['decision'], provider_summary=p.get('provider_summary'), execution_evidence=p.get('execution_evidence'))
     if action == 'memory.list':
         exact(p, (), ('limit', 'before'))
         return app.memory.list(p.get('limit', 200), p.get('before'))

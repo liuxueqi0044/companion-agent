@@ -32,18 +32,21 @@ export async function createPersonalSpaceServer({runtime,space,interfaces,connec
       staticFiles.set(url,{file:path.join(root,file),type:type+'; charset=utf-8'})
   }
   let revision=0,origin=null,managementBusy=false,closed=false
-  const epoch=randomBytes(12).toString('hex'),peers=new Set(),blocked=new WeakSet()
+  const epoch=randomBytes(12).toString('hex'),peers=new Set(),blocked=new WeakSet(),pendingPush=new WeakSet()
   let updateTimer=null
   const snapshot=()=>({epoch,revision,view:runtime.snapshot(),connection:connection(),progress:progress?.snapshot()??null,
     space:space?.snapshot()??null,interfaces:interfaces?.summary()??null,
     capabilities:{nativeIsolation:false,backgroundContact:!!background,generatedInterfaces:!!interfaces||!!space,generatedScope:interfaces?'whole_interface_granted_sdk':'home_canvas_no_private_data'}})
   function push(res){
-    if(res.destroyed||blocked.has(res))return
+    if(res.destroyed)return
+    if(blocked.has(res)){pendingPush.add(res);return}
     try{
       if(!res.write(`data: ${JSON.stringify(snapshot())}\n\n`)){
         if(res.writableLength>1024*1024){res.destroy();return}
         blocked.add(res)
-        res.once('drain',()=>{blocked.delete(res);if(!closed)push(res)})
+        // write(false) already queued this snapshot. Only newer pending state
+        // needs another write: blindly resending on drain spins on large goals.
+        res.once('drain',()=>{blocked.delete(res);if(pendingPush.delete(res)&&!closed)push(res)})
       }
     }catch{res.destroy()}
   }

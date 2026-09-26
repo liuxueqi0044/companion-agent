@@ -1,0 +1,172 @@
+{
+  "format": "artifact-manifest/1",
+  "batch": "CORE-015",
+  "scope": "published files with LF line endings; publication README/AGENTS retain history; private local manifest and evidence excluded",
+  "artifacts": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "22bbb339ca8993953d03c7bcd4f4a4e3d8aaa174a05def1681869928e40a63f4",
+      "bytes": 6010
+    },
+    {
+      "path": "README.md",
+      "sha256": "4d0a4d451c400f0c8d17ed597c96e472551a4e52365e65a40088b328556056f2",
+      "bytes": 20209
+    },
+    {
+      "path": "apps/desktop/personal-space/app.mjs",
+      "sha256": "57ed7fe0094bda2619d99f67aaaccd6dab354f343060fba8267c7c746a03a486",
+      "bytes": 50059
+    },
+    {
+      "path": "apps/desktop/personal-space/interface-sdk.d.ts",
+      "sha256": "d60c4160e619e3e3a3b323e51f1ad52978a70f144018581a0b902596d827f27e",
+      "bytes": 4178
+    },
+    {
+      "path": "apps/desktop/personal-space/styles.css",
+      "sha256": "e3dd054888b87283008fac9ac1588016a4c1c02946f02d7b39a686c412ea23ef",
+      "bytes": 23006
+    },
+    {
+      "path": "apps/desktop/product/application/activity.mjs",
+      "sha256": "d059253258e8f91f85a3d2b7a20156f91117e5fd8970c8df4a9b0702ad04af9b",
+      "bytes": 5541
+    },
+    {
+      "path": "apps/desktop/product/application/workflow.mjs",
+      "sha256": "dec1763619203240a7fee7dcf5f9d9adf5973850676adc95c6a788795e83bd32",
+      "bytes": 3330
+    },
+    {
+      "path": "apps/desktop/product/execution/provider.mjs",
+      "sha256": "95ed79534449aceed44a62477c2ec92689ec2f3c5f0bc5356e3c05f7b91aae62",
+      "bytes": 973
+    },
+    {
+      "path": "apps/desktop/product/execution/runner.mjs",
+      "sha256": "449e89505ac49f6f561be6243705effcc2f2cc929288d08b1ed7486bf8de8f1f",
+      "bytes": 21713
+    },
+    {
+      "path": "apps/desktop/product/providers/claude.mjs",
+      "sha256": "90508a550f0eb0883cc79ea32b793a98929ee3756b9ab3c3115db02c42417a58",
+      "bytes": 14767
+    },
+    {
+      "path": "apps/desktop/product/providers/deepseek.mjs",
+      "sha256": "568082b16940f0f657f820c591d07f429cb73583d3de69d3c5a6498ccc5a7671",
+      "bytes": 18099
+    },
+    {
+      "path": "apps/desktop/product/providers/goal.mjs",
+      "sha256": "1de5bf98c5187dc4d0d0a742071cbeefe8912a34e54b03014c293e6c6cafd31c",
+      "bytes": 5386
+    },
+    {
+      "path": "apps/desktop/product/providers/request-ledger.mjs",
+      "sha256": "3de88f8bcfaa724417fcdc6078ab3c0e2d4eaa17985168d14f0e3dc67ac0b845",
+      "bytes": 4050
+    },
+    {
+      "path": "apps/desktop/product/session.mjs",
+      "sha256": "1230c4ef83a3918ed62c169e71eefc2617c4ecda5d426fc0b971eb3436f59d29",
+      "bytes": 11185
+    },
+    {
+      "path": "apps/desktop/product/web/server.mjs",
+      "sha256": "9624a1ff8b572361bc6ae04b8313409009037be603a5b44af2724d51f22cd9a4",
+      "bytes": 16383
+    },
+    {
+      "path": "docs/development/CORE-015.md",
+      "sha256": "4ecc62b71ddc006a6dfc7689ba339ff4a31e50c12ce1042ec860b14c99707495",
+      "bytes": 3591
+    },
+    {
+      "path": "docs/handoff/CURRENT-TASK.md",
+      "sha256": "c5a895e45730d8d2bf721a933f3458865b892181cc067770630bc9f7815c6c67",
+      "bytes": 3305
+    },
+    {
+      "path": "docs/product/GOAL-MODE.md",
+      "sha256": "5bd8a4b09436f2049f5e5b338870e003d3a38691402d3f86f84edf7d86301238",
+      "bytes": 2165
+    },
+    {
+      "path": "docs/product/LOCAL-ALPHA.md",
+      "sha256": "fc244c27efec4a28c278b1f1c7bf0d125b6b0be06d34b97b9203bd32dc5e9bd1",
+      "bytes": 5976
+    },
+    {
+      "path": "packages/contracts/product-core/schema.json",
+      "sha256": "fb9e42ee043fda24b842994b27cd3cb84d3df7dba0656ff9288c5fd013f3c9dd",
+      "bytes": 35262
+    },
+    {
+      "path": "reports/core-015/report.json",
+      "sha256": "88ce02b911e1e2dee9101f13df39b502ec4b3bdfb4928c37d1244589cc45c8ab",
+      "bytes": 5908
+    },
+    {
+      "path": "services/product/entry.py",
+      "sha256": "1eeb8c8a4d3576ce3f51a572227e679646437b0ada0f80a703309baae8faa6ba",
+      "bytes": 9442
+    },
+    {
+      "path": "services/product/goals.py",
+      "sha256": "7312a832bf46e603509c063fc76fd4d5b18e9ea6c54742203126bf586c0159ad",
+      "bytes": 16233
+    },
+    {
+      "path": "services/product/kernel.py",
+      "sha256": "cfc91ab77834c4c16c8852cc7db54ef3445cf6997f8ae16fb4217f7c7fbf002d",
+      "bytes": 30787
+    },
+    {
+      "path": "services/product/models.py",
+      "sha256": "c35f0d47bdbb3f6744df4e3791026ec796a0742e63dcf8c5df06b79331da2207",
+      "bytes": 15872
+    },
+    {
+      "path": "services/product/schema.py",
+      "sha256": "d5a3dba5fb8adafdf4cfed45089dfcd3eba4d481b57338d998ebed008c46e813",
+      "bytes": 1851
+    },
+    {
+      "path": "services/product/workflow.py",
+      "sha256": "847779401805bb7f6e037cde4df9ec472cbad38af751468365480eb1f05db99b",
+      "bytes": 11510
+    },
+    {
+      "path": "tests/product/core015/events.test.mjs",
+      "sha256": "2ec58aba9d142137a3b0e282a8416b37a9081506535350478b839b4d7f2711c7",
+      "bytes": 1975
+    },
+    {
+      "path": "tests/product/core015/goals.test.mjs",
+      "sha256": "a2c52168f3675623f70731400cb1a1395750c5f421cf4abef003db48bfeb36e1",
+      "bytes": 12655
+    },
+    {
+      "path": "tests/product/core015/test_goals.py",
+      "sha256": "79c181749a0598642ff7ead0a086d9ff3ab8ec4926fce7850e12436f3bc099bf",
+      "bytes": 11726
+    },
+    {
+      "path": "tools/personal_space.mjs",
+      "sha256": "df240475869991d5a624f70f455928114e79d7893df6aea9ea054184676e4542",
+      "bytes": 7789
+    },
+    {
+      "path": "tools/product_core015_demo.mjs",
+      "sha256": "b68fd9096f45e516ce917954ac764c333e8a0b5650a5a3d21e8e09ce5b715d10",
+      "bytes": 6043
+    },
+    {
+      "path": "tools/product_core015_live_check.mjs",
+      "sha256": "7867abec97030f5d07f58988d3c41fedbb0a009ed273a8cd87e46a3e830d46b6",
+      "bytes": 7459
+    }
+  ]
+}

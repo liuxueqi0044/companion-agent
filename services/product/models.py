@@ -309,7 +309,79 @@ class DataQueryAction(Model):
     sql: str = Field(min_length=1, max_length=8192)
 
 
-Action = Annotated[CsvAction | ProfileAction | ArtifactAction | ReminderAction | ToolSaveAction | ToolRunAction | DataQueryAction, Field(discriminator='kind')]
+class GoalTaskSpec(Model):
+    id: str = Field(pattern=r'^[a-z][a-z0-9_-]{0,31}$')
+    title: str = Field(min_length=1, max_length=160)
+    instruction: str = Field(min_length=1, max_length=3000)
+    criteria: list[str] = Field(min_length=1, max_length=6)
+    depends_on: list[str] = Field(default_factory=list, max_length=11)
+
+    @field_validator('criteria')
+    @classmethod
+    def criteria_size(cls, value):
+        return [bounded_text(item, 600) for item in value]
+
+
+class GoalPlanAction(Model):
+    kind: Literal['goal.plan']
+    tasks: list[GoalTaskSpec] = Field(min_length=1, max_length=12)
+
+
+class GoalDispatchAction(Model):
+    kind: Literal['goal.dispatch']
+    task_id: str = Field(min_length=1, max_length=32)
+    executor: Literal['worker', 'claude'] = 'worker'
+
+
+class GoalSubmitAction(Model):
+    kind: Literal['goal.submit']
+    summary: str = Field(min_length=1, max_length=2000)
+    evidence_ids: list[ID] = Field(min_length=1, max_length=12)
+
+
+class GoalCriterionReview(Model):
+    criterion: StrictInt = Field(ge=0, le=5)
+    passed: bool
+    reason: str = Field(min_length=1, max_length=1000)
+    evidence_ids: list[ID] = Field(min_length=1, max_length=12)
+
+
+class GoalReviewAction(Model):
+    kind: Literal['goal.review']
+    task_id: str = Field(min_length=1, max_length=32)
+    verdict: Literal['accept', 'rework']
+    checks: list[GoalCriterionReview] = Field(min_length=1, max_length=6)
+
+
+class GoalFinishAction(Model):
+    kind: Literal['goal.finish']
+    outcome: Literal['complete', 'needs_input', 'incomplete']
+
+
+class CodeFileEvidence(Model):
+    path: str
+    sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
+    bytes: StrictInt = Field(ge=0, le=65536)
+
+
+class CodeCheckEvidence(Model):
+    path: str
+    kind: Literal['node_syntax', 'python_syntax', 'json_parse', 'not_run']
+    status: Literal['passed', 'failed', 'not_run']
+    detail: str = Field(max_length=800)
+
+
+class CodingEvidence(Model):
+    kind: Literal['claude-code']
+    receipt_id: ID
+    model: str = Field(min_length=1, max_length=100)
+    files: list[CodeFileEvidence] = Field(min_length=1, max_length=12)
+    checks: list[CodeCheckEvidence] = Field(min_length=1, max_length=12)
+    tool_calls: StrictInt = Field(ge=0, le=1000)
+    api_requests: StrictInt = Field(ge=0, le=1000)
+
+
+Action = Annotated[CsvAction | ProfileAction | ArtifactAction | ReminderAction | ToolSaveAction | ToolRunAction | DataQueryAction | GoalPlanAction | GoalDispatchAction | GoalSubmitAction | GoalReviewAction | GoalFinishAction, Field(discriminator='kind')]
 
 
 class MemorySuggestion(Model):
@@ -348,6 +420,15 @@ class ModelDecision(Model):
     plan: list[str] = Field(default_factory=list, max_length=8)
     outcome: Literal['complete', 'needs_input', 'incomplete'] = 'complete'
 
+    @field_validator('outcome', mode='before')
+    @classmethod
+    def intermediate_outcome(cls, value, info):
+        # Some providers explicitly emit null while tools are still pending.
+        # Outcome is not consumed for an action-bearing step; keep final replies strict.
+        if value is None and info.data.get('actions'):
+            return 'complete'
+        return value
+
     @field_validator('plan')
     @classmethod
     def plan_size(cls, value):
@@ -355,10 +436,12 @@ class ModelDecision(Model):
     @field_validator('reply')
     @classmethod
     def text_size(cls, value):
-        return bounded_text(value, 16 * 1024)
+        return value if value == '' else bounded_text(value, 16 * 1024)
 
     @model_validator(mode='after')
     def distinct_actions(self):
+        if not self.reply and not self.actions:
+            raise ValueError('empty_final_reply')
         if len({item.kind for item in self.actions}) != len(self.actions):
             raise ValueError('duplicate_action')
         return self

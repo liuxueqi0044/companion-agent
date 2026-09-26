@@ -12,8 +12,11 @@ export interface RunBinding {turnId:string;runId:string}
 export interface Draft {text?:string;conversationId?:string;selectedTurn?:string|null;temporary?:boolean;attachment?:{name:string;text:string}|null}
 export interface Versioned<T> {revision:number;value:T}
 export interface Page<T> {items:T[];snapshot:number;next_before:number|null}
-export interface WorkflowStep {ordinal:number;state:'generating'|'accepted'|'failed';reply:string|null;summary:string|null;action_ids:string[];error:string|null;created_at:string}
-export interface Workflow {version:1;step_count:number;plan:string[];steps:WorkflowStep[];has_more_steps:boolean;outcome:'complete'|'needs_input'|'incomplete'|null;pause_reason:string|null;next:'continue'|'none';can_continue:boolean}
+export interface GoalCheck {criterion:number;passed:boolean;reason:string;evidence_ids:string[]}
+export interface GoalTask {id:string;title:string;criteria:string[];depends_on:string[];state:'queued'|'working'|'submitted'|'accepted'|'rework';attempt:number;executor:'worker'|'claude';summary:string;evidence_ids:string[];checks:GoalCheck[]}
+export interface Goal {version:1;phase:'planning'|'dispatching'|'working'|'reviewing'|'finished'|'cancelled';role:'director'|'worker'|'reviewer';active_task:string|null;outcome:string|null;tasks:GoalTask[]}
+export interface WorkflowStep {ordinal:number;state:'generating'|'accepted'|'failed';reply:string|null;summary:string|null;action_ids:string[];error:string|null;created_at:string;role?:'director'|'worker'|'reviewer';task_id?:string|null;executor?:string}
+export interface Workflow {version:1;step_count:number;plan:string[];steps:WorkflowStep[];has_more_steps:boolean;outcome:'complete'|'needs_input'|'incomplete'|null;pause_reason:string|null;next:'continue'|'none';can_continue:boolean;goal?:Goal}
 export interface Turn {id:string;conversation_id:string;text:string;state:string;reply:string|null;provider_summary?:string|null;temporary:boolean;actions:unknown[];workflow?:Workflow|null}
 export interface Snapshot {
   epoch:string;revision:number;

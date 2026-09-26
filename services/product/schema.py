@@ -5,7 +5,7 @@ from .models import (Model, Policy, UserTurn, ModelDecision, FollowUpDecision,
                      ConversationListRequest, ConversationTurnsRequest,
                      ReminderCreateRequest, ReminderIdRequest, ReminderListRequest,
                      ReminderReviseRequest, StopTurnRequest, FailGenerationRequest,
-                     ContactIdRequest, ContactCompleteRequest, ContactFailGenerationRequest, ToolManageRequest)
+                     ContactIdRequest, ContactCompleteRequest, ContactFailGenerationRequest, ToolManageRequest, CodingEvidence)
 
 
 class Contracts(Model):
@@ -25,6 +25,7 @@ class Contracts(Model):
     contact_complete: ContactCompleteRequest
     contact_fail_generation: ContactFailGenerationRequest
     tool_manage: ToolManageRequest
+    coding_evidence: CodingEvidence
 
 
 def schema_bytes():

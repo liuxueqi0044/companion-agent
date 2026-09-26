@@ -11,7 +11,7 @@ from services.local_tasks.models import LocalTaskError, bounded_text
 from services.personal_ai.models import PersonalAIError
 
 from .contact import ContactService
-from . import artifacts, workflow
+from . import artifacts, workflow, goals
 from .context import cursor, is_latest_turn, turn_context
 from .conversation import ConversationBrowser
 from .memory import ManagedMemory
@@ -63,9 +63,11 @@ class ProductKernel:
     def submit_turn(self, value, *, capabilities=()):
         """Capabilities come from the trusted host's user-intent/approval boundary, never model output."""
         request = validate(UserTurn, value)
-        if not isinstance(capabilities, (tuple, list)) or any(item not in ('csv.audit', 'profile.change', 'artifact.create', 'reminder.create', 'tool.save', 'tool.run', 'data.query', 'task.loop') for item in capabilities):
+        if not isinstance(capabilities, (tuple, list)) or any(item not in ('csv.audit', 'profile.change', 'artifact.create', 'reminder.create', 'tool.save', 'tool.run', 'data.query', 'task.loop', 'agent.claude', *goals.CONTROL) for item in capabilities):
             raise ProductError('invalid_capability')
         grants = sorted(set(capabilities))
+        if any(c in grants for c in (*goals.CONTROL,'agent.claude')) and not (set(goals.CONTROL) | {'task.loop'}) <= set(grants):
+            raise ProductError('invalid_capability')
         if any(c in grants for c in ('csv.audit', 'data.query')) and request.csv_text is None:
             raise ProductError('missing_material')
         profile = self.workbench.profile.read()
@@ -84,6 +86,8 @@ class ProductKernel:
                 self.store.event(db, request.command_id, 'interaction.submitted', self.clock())
                 if 'task.loop' in grants:
                     workflow.create(db, request.command_id)
+                if 'goal.plan' in grants:
+                    goals.create(db, request.command_id)
         return self.turn(request.command_id)
 
     def _context(self, db, turn, policy, profile):
@@ -101,6 +105,18 @@ class ProductKernel:
         loop = workflow.context(db, turn, self.workbench)
         if loop is not None:
             context['workflow'] = loop
+            goal = goals.context(db, turn, loop)
+            if goal:
+                context['goal'] = goal
+                if goal['role'] == 'worker':
+                    context['user_text'] = goal['task']['instruction']
+                    context['history'] = []
+                    context['memories'] = []
+                    context['workflow']['receipts'] = goal['task_receipts']
+                    context['workflow']['plan'] = [goal['task']['title']]
+                    context['capabilities'] = [c for c in context['capabilities'] if c not in (*goals.CONTROL,'agent.claude','reminder.create','profile.change')]+['goal.submit']
+                else:
+                    context['capabilities'] = list(goals.CONTROL)
         signature = digest({'context': context, 'base_signature': signature})
         return context, signature
 
@@ -146,7 +162,7 @@ class ProductKernel:
             raise ProductError('not_found')
         return row
 
-    def accept(self, turn_id, ticket, value, *, provider_summary=None):
+    def accept(self, turn_id, ticket, value, *, provider_summary=None, execution_evidence=None):
         decision = validate(ModelDecision, value)
         if provider_summary is not None:
             try:
@@ -178,6 +194,7 @@ class ProductKernel:
                 if action.kind == 'reminder.create' and action.due_at <= self.clock():
                     raise ProductError('invalid_reminder_time')
             # One transaction accepts the entire structured output or nothing.
+            goals.guard_decision(db, turn, decision, execution_evidence)
             workflow.check_actions(db, turn_id, decision)
             offset = db.execute('SELECT COUNT(*) FROM actions WHERE turn_id=?', (turn_id,)).fetchone()[0]
             action_ids = []
@@ -233,15 +250,22 @@ class ProductKernel:
             if workflow.enabled(db, turn_id) is not None and turn['state'] not in ('actions_ready','actions_recorded','outcome_unknown'):
                 raise ProductError('invalid_transition')
             grants = json.loads(turn['grants_json'])
+            failed_goal_plan = False
             for row in db.execute('SELECT * FROM actions WHERE turn_id=? ORDER BY ordinal', (turn_id,)).fetchall():
                 if row['state'] not in ('ready', 'outcome_unknown'):
+                    continue
+                if failed_goal_plan and row['kind'] == 'goal.dispatch':
+                    db.execute("UPDATE actions SET state='failed',error='goal_plan_failed' WHERE id=?", (row['id'],))
+                    self.store.event(db, turn_id, 'action.failed', self.clock(), row['id'])
                     continue
                 if row['kind'] not in grants:
                     db.execute("UPDATE actions SET state='blocked',error='permission_revoked' WHERE id=?", (row['id'],))
                     continue
                 self.store.event(db, turn_id, 'action.started', self.clock(), row['id'])
                 try:
-                    if row['kind'] == 'csv.audit':
+                    if row['kind'] in goals.CONTROL:
+                        result = goals.apply(db, turn, json.loads(row['payload_json']))
+                    elif row['kind'] == 'csv.audit':
                         result = self.workbench.submit({'command_id': row['id'], 'requirement_text': turn['text'], 'csv_text': turn['csv_text']})
                     elif row['kind'] == 'artifact.create':
                         result = artifacts.create_receipt(row['id'], json.loads(row['payload_json']), self.clock())
@@ -279,6 +303,8 @@ class ProductKernel:
                     db.execute("UPDATE actions SET state='accepted',result_json=?,error=NULL WHERE id=?", (result_json, row['id']))
                     self.store.event(db, turn_id, 'action.accepted', self.clock(), row['id'])
                 except (LocalTaskError, PersonalAIError, ProductError) as exc:
+                    if row['kind'] == 'goal.plan':
+                        failed_goal_plan = True
                     db.execute("UPDATE actions SET state='failed',error=? WHERE id=?", (exc.code, row['id']))
                     self.store.event(db, turn_id, 'action.failed', self.clock(), row['id'])
                 except Exception:

@@ -6,6 +6,8 @@ import {promisify} from 'node:util'
 import {createProductHost} from '../apps/desktop/product/host.mjs'
 import {createProductRuntime} from '../apps/desktop/product/runtime/index.mjs'
 import {createDeepSeekProviders} from '../apps/desktop/product/providers/deepseek.mjs'
+import {createClaudeProvider} from '../apps/desktop/product/providers/claude.mjs'
+import {createGoalRouter,goalIntent} from '../apps/desktop/product/providers/goal.mjs'
 import {createRequestLedger} from '../apps/desktop/product/providers/request-ledger.mjs'
 import {createPersonalSpaceServer} from '../apps/desktop/product/web/server.mjs'
 import {acquireInstance} from '../apps/desktop/product/web/instance.mjs'
@@ -17,6 +19,7 @@ import {randomBytes} from 'node:crypto'
 import {createCodingProvider} from '../apps/desktop/product/providers/coding.mjs'
 
 const exec=promisify(execFile)
+const exists=async file=>{try{return (await fs.stat(file)).isFile()}catch(e){if(e.code==='ENOENT')return false;throw e}}
 const root=fileURLToPath(new URL('..',import.meta.url))
 const live=process.argv.includes('--deepseek')
 if(process.argv.slice(2).some(arg=>arg!=='--deepseek'))throw Error('invalid_arguments')
@@ -36,7 +39,7 @@ const python=await localPath('PERSONAL_AI_PYTHON','python','.venv/Scripts/python
 const vueFile=await localPath('PERSONAL_AI_VUE','vue','node_modules/vue/dist/vue.runtime.esm-browser.prod.js',path.resolve(root,'../companion-agent/node_modules/vue/dist/vue.runtime.esm-browser.prod.js'))
 const bundlerFile=await localPath('PERSONAL_AI_BUNDLER','bundler','node_modules/rolldown/dist/index.mjs',path.resolve(root,'../companion-agent/node_modules/rolldown/dist/index.mjs'))
 const dataRoot=path.join(stateRoot,'personal-space')
-let providers=null,coding=null
+let providers=null,coding=null,claude=null,goalProvider=null
 if(live){
   const credential=process.env.PERSONAL_AI_CREDENTIAL_FILE??path.join(process.env.LOCALAPPDATA,'CompanionAgent/credentials/deepseek.dpapi')
   let result
@@ -46,14 +49,23 @@ if(live){
   if(result.stderr||!result.stdout.trim())throw Error('credential_decode_failed')
   const ledger=createRequestLedger({file:path.join(stateRoot,'core-007-deepseek-budget.json')})
   ledger.recoverInterrupted()
-  providers=createDeepSeekProviders({apiKey:result.stdout.trim(),ledger,streaming:true})
+  providers=createDeepSeekProviders({apiKey:result.stdout.trim(),ledger,streaming:true,roleModels:{
+    director:process.env.PERSONAL_AI_DIRECTOR_MODEL??'deepseek-v4-pro',
+    worker:process.env.PERSONAL_AI_WORKER_MODEL??'deepseek-v4-flash',
+    reviewer:process.env.PERSONAL_AI_REVIEWER_MODEL??process.env.PERSONAL_AI_DIRECTOR_MODEL??'deepseek-v4-pro'}})
+  const claudePath=process.env.PERSONAL_AI_CLAUDE??path.join(process.env.USERPROFILE??'','.local','bin','claude.exe')
+  if(path.isAbsolute(claudePath)&&await exists(claudePath))claude=createClaudeProvider({executable:claudePath,root:path.join(stateRoot,'claude-goals'),
+    apiKey:result.stdout.trim(),ledger,python,model:process.env.PERSONAL_AI_CLAUDE_MODEL??'deepseek-v4-pro'})
+  goalProvider=createGoalRouter({turn:providers.turn,claude})
   if(process.env.PERSONAL_AI_CODEX) coding=createCodingProvider({executable:process.env.PERSONAL_AI_CODEX,root:path.join(stateRoot,'coding'),apiKey:result.stdout.trim(),ledger})
   result=null
 }
 const host=createProductHost({python,workspace:root,dataRoot})
-const runtime=createProductRuntime({host,timeoutMs:coding?115000:60000,intent:input=>['artifact.create','reminder.create','tool.save','tool.run',
-  ...(coding&&input.text.startsWith('/code ')?[]:['task.loop']),...(input.csv_text?['csv.audit','data.query']:[])],
-  ...(providers?{turnProvider:{configured:true,respond:(context,options)=>coding&&context.user_text.startsWith('/code ')?coding.respond(context,options):providers.turn.respond(context,options)},contactProvider:providers.contact}:{})})
+const runtime=createProductRuntime({host,timeoutMs:claude?120000:coding?115000:60000,intent:input=>{
+  const grants=goalIntent(input,{claude:!!claude})
+  return coding&&input.text.startsWith('/code ')?grants.filter(c=>c!=='task.loop'):grants
+},
+  ...(providers?{turnProvider:{configured:true,respond:(context,options)=>coding&&!context.goal&&context.user_text.startsWith('/code ')?coding.respond(context,options):goalProvider.respond(context,options)},contactProvider:providers.contact}:{})})
 const boot=await runtime.initialize()
 if(!boot.ok){runtime.dispose();await runtime.whenIdle();await host.dispose();throw Error('product_initialize_failed')}
 const recovery=await host.request('runtime.recover',{})
@@ -62,7 +74,7 @@ let space
 try{space=await createSpaceService({root:path.join(dataRoot,'canvas'),provider:providers?.space,
   isRuntimeBusy:()=>runtime.snapshot().runtime.executionBusy||runtime.snapshot().runtime.pendingOperations>0})}
 catch{space=unavailableSpaceService();console.error('space_state_invalid: customization disabled; existing files preserved')}
-const connection=()=>({...providers?.connection()??{configured:false,provider:null},coding:!!coding})
+const connection=()=>({...providers?.connection()??{configured:false,provider:null},coding:!!coding,claude:!!claude})
 const background=await createBackgroundService({runtime,host,root:dataRoot,
   isBusy:()=>space.snapshot().busy,
   notify:notice=>writeJSON(path.join(stateRoot,'notification.json'),notice)})
