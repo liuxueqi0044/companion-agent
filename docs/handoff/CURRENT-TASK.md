@@ -1,23 +1,23 @@
-# 当前交接：CORE-013 本地 Alpha 收尾
+# 当前交接：CORE-014 多步任务
 
-工作区：C:\Users\xiayu\Documents\Codex\companion-agent-core。原 companion-agent 只读；Git 发布副本 companion-agent-github。先读 docs/development/CORE-013.md 与 docs/product/LOCAL-ALPHA.md。本批由架构师串行开发，无额外 assistant 任务或 OpenAI 账户请求。
+工作区：`C:\Users\xiayu\Documents\Codex\companion-agent-core`。原 `companion-agent` 只读；Git 发布副本 `companion-agent-github`。先读 `docs/development/CORE-014.md`、`docs/product/LOCAL-ALPHA.md` 和本批报告。没有额外 assistant 会话或 OpenAI 账户调用。
 
-## 已接通
+## 本批行为
 
-- 原有持久聊天、记忆默认开/可管理、主动联系默认关/模型选时、到期重评估、明确提醒、CSV 核对与成果下载继续保留。
-- 私人工具是 AI 编写的 SQLite 查询：真实样例验证 → 不可变版本保存 → 新材料运行 → 可下载结果 → 停用/恢复/版本回退。独立 tools.sqlite3，不改旧三库 Schema；已验证两个真实串行 DeepSeek 请求的创建/复用链。
-- Electron 44.4.4 桌面载体，窗口关闭后仍运行，托盘恢复/退出；SDK host.configureWindow() 经活动挂载的 window 权限授权，可调整大小、无边框、透明度和置顶。边框/透明切换重建视图，不重启执行服务。
-- 完整前端代码包继续使用 CORE-011 SDK、构建/预览/授权启用/回退。不提供固定皮肤目录。自然语言作者仍没有接到普通聊天。
-- 便携包包含 Electron/Node/Python/Vue/Rolldown，安装脚本核对文件清单并写入新目录。DPAPI 配置仍需 PowerShell 7。原生限制阻断外部 HTTP、弹窗、任意主框架跳转，不将这些措施冒充社区敌对代码全面审计。
+- 宿主授予 task.loop 后，同一用户请求可以模型判断 → 真实工具 → 结果反馈 → 修正/继续 → 最终回答。普通聊天仍只需一次判断。
+- data.query 复用有授权和成本限制的 SQLite 只读执行器，仅接收当前附件。可复用工具和固定 CSV 核对器继续保留。
+- 每步票据、公开摘要、动作关联在 product.sqlite3 的两个附加表持久化。原有 v2 表和行保持；bootstrap 安装并验证附加表形状，v1 显式迁移同时加入扩展。
+- 结果反馈有行数/大小限制和截断标记；模型能看到真实结果或错误。模型宣称完成不能覆盖最后一步的实际失败状态。报告文件的存在不等于其内容被独立证明正确。
+- 单一执行槽覆盖循环与清理。停止撤权；网络失败不重试；状态不明先停止核对。重启不自动重发模型请求，用户从保存的进度继续；已确认动作不重做。
+- 连续八次判断后暂停，可点击“从这里继续”；整项任务最多 64 次判断。这是任务循环的资源边界，不是账号调用预算。
+- 默认前端在原任务卡显示计划和最近 12 步；更早的动作成果仍可见。自定义界面读取同一 SDK workflow 投影，不拥有内核生命周期。
 
-## 启动与数据
+## 检查与已知边界
 
-源码桌面：pwsh -File tools/start_morrow.ps1 -HomePath <数据目录>。不指定 HomePath 时使用 %LOCALAPPDATA%/Morrow/data；原浏览器开发数据在 .product-data。安装包双击 Morrow.cmd。已有独立服务被附着时，关闭桌面不会杀掉该外部服务；菜单明确提示。
+本批按用户要求曾暂停，原记录在 `reports/core-014/PAUSED.md`。恢复后验证和修订汇总在最终 `reports/core-014/report.json`；不要把原暂停记录或中途失败日志改成通过。独立复核仍未进行。
 
-全新源码 checkout 可 uv sync --locked、npm ci，服务优先使用本 checkout 的 .venv 与 node_modules；显式 PERSONAL_AI_PYTHON/VUE/BUNDLER/NODE 可覆盖。源码桌面先执行 tools/fetch_electron.ps1 下载并校验固定官方分发，再运行启动脚本。Windows 包的构建脚本及一部分历史测试仍使用开发机相邻工具路径，产品发行包不依赖该 donor 目录。
+真实串行 DeepSeek 验证仅使用虚构 CSV：计算 A=5/B=4，读取结果后保存 Markdown，最后答复；三次请求，没有重试。未触碰真实四个业务数据库。默认界面缺少新 workflow 模块的构建问题已修复，重新跑完整测试。
 
-## 冻结边界与下一步
+现有源服务曾已退出，升级前备份真实数据；启动按 `.product-data/personal-space-server.json` 核验。具体升级和便携包验证以批报告/证据为准。
 
-不要修改旧 reports/reviews 的 accepted/submitted 结论。本批 reports/core-013/report.json 是架构师实现及自验。原始调用记录、截图、凭据、数据库、打包产物与 scope 基线不提交 Git。
-
-本地 Alpha 之后先收集真实试用反馈；整套 UI 自然语言作者工具链仍按用户决定留到最后。官方 Coding Agent 真实 DeepSeek 连通、TTS、社区分发、云端常驻、任意电脑操作没有作为本批完工项。Windows 通知实际送达、长期睡眠唤醒、另一台机器安装继续单独验收。不得把“代码和定向测试已写完”描述成整个长期 Personal AI 愿景已经完成。
+整套 UI 的自然语言作者仍按用户决定放到最后。CORE-014 是通用协调循环的第一个受控执行器实例，不等于任意 shell/浏览器/电脑操作已经实现。官方 Codex→DeepSeek 协议接入、TTS、社区、云端、跨设备、长期系统通知/睡眠测试仍留在后续。

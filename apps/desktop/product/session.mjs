@@ -7,7 +7,7 @@ const clone = value => structuredClone(value)
 const pick = (source, keys) => Object.fromEntries(keys.filter(key => Object.hasOwn(source ?? {}, key))
   .map(key => [key, clone(source[key])]))
 const turnView = item => item && ({...pick(item, [
-  'id','conversation_id','text','reply','state','error','provider_summary','completion_source','temporary']),
+  'id','conversation_id','text','reply','state','error','provider_summary','completion_source','temporary','workflow']),
   actions: Array.isArray(item.actions) ? item.actions.map(action => pick(action,
     ['id','kind','state','error','task','events','result','artifact','reminder','tool','row_count'])) : []})
 const conversationView = item => pick(item,
@@ -132,7 +132,7 @@ export function createProductSession({host, intent = () => []}) {
     let capabilities
     try {
       capabilities = intent(clone(turn))
-      if (!Array.isArray(capabilities) || capabilities.some(item => !['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run'].includes(item)))
+      if (!Array.isArray(capabilities) || capabilities.some(item => !['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run','data.query','task.loop'].includes(item)))
         return {ok:false,error:'invalid_capability'}
     } catch { return {ok:false,error:'invalid_capability'} }
     try {

@@ -51,7 +51,8 @@ if(live){
   result=null
 }
 const host=createProductHost({python,workspace:root,dataRoot})
-const runtime=createProductRuntime({host,timeoutMs:coding?115000:60000,intent:input=>['artifact.create','reminder.create','tool.save','tool.run',...(input.csv_text?['csv.audit']:[])],
+const runtime=createProductRuntime({host,timeoutMs:coding?115000:60000,intent:input=>['artifact.create','reminder.create','tool.save','tool.run',
+  ...(coding&&input.text.startsWith('/code ')?[]:['task.loop']),...(input.csv_text?['csv.audit','data.query']:[])],
   ...(providers?{turnProvider:{configured:true,respond:(context,options)=>coding&&context.user_text.startsWith('/code ')?coding.respond(context,options):providers.turn.respond(context,options)},contactProvider:providers.contact}:{})})
 const boot=await runtime.initialize()
 if(!boot.ok){runtime.dispose();await runtime.whenIdle();await host.dispose();throw Error('product_initialize_failed')}

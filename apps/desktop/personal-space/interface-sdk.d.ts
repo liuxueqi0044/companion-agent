@@ -12,7 +12,9 @@ export interface RunBinding {turnId:string;runId:string}
 export interface Draft {text?:string;conversationId?:string;selectedTurn?:string|null;temporary?:boolean;attachment?:{name:string;text:string}|null}
 export interface Versioned<T> {revision:number;value:T}
 export interface Page<T> {items:T[];snapshot:number;next_before:number|null}
-export interface Turn {id:string;conversation_id:string;text:string;state:string;reply:string|null;provider_summary?:string|null;temporary:boolean;actions:unknown[]}
+export interface WorkflowStep {ordinal:number;state:'generating'|'accepted'|'failed';reply:string|null;summary:string|null;action_ids:string[];error:string|null;created_at:string}
+export interface Workflow {version:1;step_count:number;plan:string[];steps:WorkflowStep[];has_more_steps:boolean;outcome:'complete'|'needs_input'|'incomplete'|null;pause_reason:string|null;next:'continue'|'none';can_continue:boolean}
+export interface Turn {id:string;conversation_id:string;text:string;state:string;reply:string|null;provider_summary?:string|null;temporary:boolean;actions:unknown[];workflow?:Workflow|null}
 export interface Snapshot {
   epoch:string;revision:number;
   interface:{revision:string;preview:boolean;sdk:'morrow.ui/1'};

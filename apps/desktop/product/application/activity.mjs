@@ -1,7 +1,8 @@
 import {safeCode,validId} from './state.mjs'
+import {workflowView} from './workflow.mjs'
 
 const STATES = new Set(['queued','generating','responded','model_failed','actions_ready',
-  'actions_recorded','outcome_unknown','cancelled'])
+  'actions_recorded','outcome_unknown','cancelled','paused'])
 const TASK_STATES = new Set(['queued','running','cancelling','completed','failed','cancelled','interrupted'])
 const ACTION_STATES = new Set(['ready','accepted','failed','blocked','outcome_unknown'])
 const EVENT_KINDS = new Set(['submitted','started','cancel_requested','cancelled',
@@ -48,10 +49,12 @@ export function projectActivity({turn,stop} = {}) {
         if (events.length > 100) {events=events.slice(0,100);truncatedEvents=true}
       }
     }
-    actions.push({id:raw.id,kind:['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run'].includes(raw.kind)?raw.kind:'unknown',state:raw.state,
+    actions.push({id:raw.id,kind:['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run','data.query'].includes(raw.kind)?raw.kind:'unknown',state:raw.state,
     error:typeof raw.error === 'string' ? safeCode(raw.error) : null,...task,events})
   }
   const primary=actions.find(item => item.kind === 'csv.audit' && item.taskId)
+  const workflow=workflowView(turn.workflow)
+  if(turn.workflow&&!workflow)protocolError=true
   const stopped=stop && typeof stop === 'object' ? stop : null
   const stoppedTask=Array.isArray(stopped?.tasks) ? stopped.tasks.find(item => item.task_id === primary?.taskId) : null
   const needsReconciliation=turn.state === 'outcome_unknown' ||
@@ -62,6 +65,9 @@ export function projectActivity({turn,stop} = {}) {
   let displayState = turn.state
   if (protocolError) displayState='protocol_error'
   else if (needsReconciliation) displayState='outcome_unknown'
+  else if (workflow) displayState=turn.state==='responded'
+    ? ({complete:'reviewed',needs_input:'needs_input',incomplete:'incomplete'}[workflow.outcome]??'responded')
+    : turn.state
   else if (actions.some(item=>item.state==='failed')) displayState='failed'
   else if (actions.some(item=>item.state==='blocked')) displayState='blocked'
   else if (actions.some(item=>item.state==='ready') && primary?.taskStatus==='completed') displayState='submitted'
@@ -70,7 +76,7 @@ export function projectActivity({turn,stop} = {}) {
   else if (turn.state === 'actions_ready' || turn.state === 'actions_recorded') displayState='submitted'
   return {
     turnId:turn.id,turnState:turn.state,providerSummary:typeof turn.provider_summary === 'string'
-      ? turn.provider_summary : null,actions,
+      ? turn.provider_summary : null,actions,workflow,
     taskId:primary?.taskId ?? null,currentAttemptId:primary?.currentAttemptId ?? null,
     taskStatus:primary?.taskStatus ?? null,events:primary?.events ?? [],
     needsReconciliation,cancelRequested,workerExited:typeof stopped?.worker_exited === 'boolean'

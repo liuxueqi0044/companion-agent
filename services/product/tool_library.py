@@ -53,6 +53,11 @@ def query(definition, csv_text, parameters):
             raise ProductError('tool_parameters_invalid')
         if p.type == 'number' and (type(v) not in (int, float) or not math.isfinite(v) or abs(v) > 1e15):
             raise ProductError('tool_parameters_invalid')
+    return query_sql(definition.sql, csv_text, parameters)
+
+
+def query_sql(sql, csv_text, parameters):
+    """Shared execution primitive; callers validate their typed SQL request first."""
     columns, rows = csv_input(csv_text)
     deadline, ticks = time.monotonic()+1.0, 0
     def progress():
@@ -90,7 +95,7 @@ def query(definition, csv_text, parameters):
             db.create_function('num', 1, number, deterministic=True)
             db.set_authorizer(authorize)
             db.set_progress_handler(progress, 1000)
-            cursor = db.execute(definition.sql, parameters)
+            cursor = db.execute(sql, parameters)
             if not cursor.description:
                 raise ProductError('tool_query_rejected')
             names = [col[0] for col in cursor.description]

@@ -7,6 +7,7 @@ import {createInboxController} from './inbox.mjs'
 import {createReminderController} from './reminders.mjs'
 import {createResultController} from './results.mjs'
 import {projectActivity} from './activity.mjs'
+import {workflowView} from './workflow.mjs'
 
 const PANELS=new Set(['home','conversation','memory','contact','inbox','reminders'])
 // Keep the legacy session private: its trusted snapshots contain raw tool receipts.
@@ -14,8 +15,9 @@ export function turnView(raw) {
   if (!raw) return null
   return {...pick(raw,['id','conversation_id','text','state','reply','provider_summary',
     'completion_source','temporary']),error:raw.error ? safeCode(raw.error) : null,
+    ...(raw.workflow?{workflow:workflowView(raw.workflow)}:{}),
     actions:(raw.actions ?? []).map(action=>({
-      ...pick(action,['id','kind','state']),error:action.error ? safeCode(action.error) : null,
+      ...pick(action,['id','kind','state','row_count']),error:action.error ? safeCode(action.error) : null,
       ...(action.artifact ? {artifact:pick(action.artifact,['id','title','files','sha256','created_at'])} : {}),
       ...(action.tool ? {tool:pick(action.tool,['id','name','description','revision','version','enabled','validation','sha256']),row_count:action.row_count} : {}),
       ...(action.reminder ? {reminder:pick(action.reminder,['id','text','due_at','state','revision'])} : {}),

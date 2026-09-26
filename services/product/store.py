@@ -142,6 +142,10 @@ class ProductStore:
                     raise ProductError('migration_required')
                 if meta['version'] != 2:
                     raise ProductError('recovery_required')
+            # Additive workflow extension, in the same journal transaction as turns.
+            from .workflow import install
+            with self.tx(True) as db:
+                install(db)
         except sqlite3.Error as exc:
             raise ProductError('recovery_required') from exc
 
@@ -170,6 +174,8 @@ class ProductStore:
                     db.execute(statement)
                     if _fault is not None:
                         _fault(index)
+                from .workflow import install
+                install(db)
                 db.execute("UPDATE turns SET state='model_failed',ticket=NULL,error='interrupted' WHERE state='generating'")
                 db.execute("UPDATE followups SET state='needs_retry',ticket=NULL,reason='interrupted' WHERE state='evaluating'")
                 db.execute('UPDATE meta SET version=2 WHERE singleton=1')

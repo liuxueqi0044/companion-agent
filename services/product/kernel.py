@@ -11,14 +11,14 @@ from services.local_tasks.models import LocalTaskError, bounded_text
 from services.personal_ai.models import PersonalAIError
 
 from .contact import ContactService
-from . import artifacts
+from . import artifacts, workflow
 from .context import cursor, is_latest_turn, turn_context
 from .conversation import ConversationBrowser
 from .memory import ManagedMemory
 from .models import FailGenerationRequest, ModelDecision, ProductError, StopTurnRequest, UserTurn, validate
 from .ports import ProviderReply, UnconfiguredModel
 from .store import ProductStore, canonical, digest, guard, stamp
-from .tool_library import ToolLibrary, csv_input
+from .tool_library import ToolLibrary, csv_input, query_sql
 
 
 class ProductKernel:
@@ -63,10 +63,10 @@ class ProductKernel:
     def submit_turn(self, value, *, capabilities=()):
         """Capabilities come from the trusted host's user-intent/approval boundary, never model output."""
         request = validate(UserTurn, value)
-        if not isinstance(capabilities, (tuple, list)) or any(item not in ('csv.audit', 'profile.change', 'artifact.create', 'reminder.create', 'tool.save', 'tool.run') for item in capabilities):
+        if not isinstance(capabilities, (tuple, list)) or any(item not in ('csv.audit', 'profile.change', 'artifact.create', 'reminder.create', 'tool.save', 'tool.run', 'data.query', 'task.loop') for item in capabilities):
             raise ProductError('invalid_capability')
         grants = sorted(set(capabilities))
-        if 'csv.audit' in grants and request.csv_text is None:
+        if any(c in grants for c in ('csv.audit', 'data.query')) and request.csv_text is None:
             raise ProductError('missing_material')
         profile = self.workbench.profile.read()
         fingerprint = digest({'request': request.model_dump(mode='json'), 'grants': grants})
@@ -82,11 +82,13 @@ class ProductKernel:
                            (request.command_id, fingerprint, request.conversation_id, request.text, request.csv_text,
                             int(request.temporary), canonical(grants), profile.revision, policy.revision, stamp(self.clock())))
                 self.store.event(db, request.command_id, 'interaction.submitted', self.clock())
+                if 'task.loop' in grants:
+                    workflow.create(db, request.command_id)
         return self.turn(request.command_id)
 
     def _context(self, db, turn, policy, profile):
         context, signature = turn_context(db, turn, policy, profile)
-        if any(c in context['capabilities'] for c in ('tool.save', 'tool.run')):
+        if any(c in context['capabilities'] for c in ('tool.save', 'tool.run', 'data.query')):
             context['tools'] = self.tools.catalog()
             # Only explicitly named tools supply their saved logic for an edit/reuse.
             # The library is untrusted input; it cannot add grants or read old materials.
@@ -96,26 +98,46 @@ class ProductKernel:
                 context['csv_columns'] = csv_input(turn['csv_text'])[0]
             except ProductError:
                 context['csv_columns'] = []
-            signature = digest({'context': context, 'base_signature': signature})
+        loop = workflow.context(db, turn, self.workbench)
+        if loop is not None:
+            context['workflow'] = loop
+        signature = digest({'context': context, 'base_signature': signature})
         return context, signature
 
-    def begin(self, turn_id):
+    def begin(self, turn_id, *, automatic=False):
         profile = self.workbench.profile.read()
         with self.store.tx(True) as db:
             turn = self._turn(db, turn_id)
             if not is_latest_turn(db, turn):
                 raise ProductError('superseded_turn')
-            if turn['state'] not in ('queued', 'model_failed'):
+            loop = workflow.enabled(db, turn_id) is not None
+            if automatic and (not loop or turn['state'] != 'actions_recorded'):
                 raise ProductError('invalid_transition')
-            policy = self.store.policy(db)
-            ticket = str(uuid4())
-            context, signature = self._context(db, turn, policy, profile)
-            db.execute("""UPDATE turns SET state='generating',ticket=?,policy_revision=?,profile_revision=?,
-                       context_signature=?,context_cursor=?,error=NULL WHERE id=?""",
-                       (ticket, policy.revision, profile.revision, signature,
-                        cursor(db, turn['conversation_id']), turn_id))
-            self.store.event(db, turn_id, 'model.started', self.clock())
-            return {'turn_id': turn_id, 'ticket': ticket, **context, 'now': stamp(self.clock())}
+            if loop and 'task.loop' not in json.loads(turn['grants_json']):
+                raise ProductError('permission_denied')
+            if loop and turn['state'] == 'actions_ready' and not automatic:
+                return {'turn_id':turn_id, 'resume_actions':True, 'turn':self.turn(turn_id)}
+            if turn['state'] not in (('queued', 'model_failed', 'actions_recorded', 'paused') if loop else ('queued', 'model_failed')):
+                raise ProductError('invalid_transition')
+            if loop:
+                workflow.observe(db, turn_id, self.workbench, require_settled=True)
+            if not workflow.prepare(db, turn, automatic=automatic):
+                # Read the updated projection after committing the pause below.
+                paused = True
+            else:
+                paused = False
+                policy = self.store.policy(db)
+                ticket = str(uuid4())
+                workflow.started(db, turn_id, ticket, self.clock())
+                context, signature = self._context(db, turn, policy, profile)
+                db.execute("""UPDATE turns SET state='generating',ticket=?,policy_revision=?,profile_revision=?,
+                           context_signature=?,context_cursor=?,error=NULL WHERE id=?""",
+                           (ticket, policy.revision, profile.revision, signature,
+                            cursor(db, turn['conversation_id']), turn_id))
+                self.store.event(db, turn_id, 'model.started', self.clock())
+        if paused:
+            return {'turn_id':turn_id,'paused':True,'turn':self.turn(turn_id)}
+        return {'turn_id': turn_id, 'ticket': ticket, **context, 'now': stamp(self.clock())}
 
     @staticmethod
     def _turn(db, turn_id):
@@ -136,6 +158,7 @@ class ProductKernel:
             if turn['state'] != 'generating' or turn['ticket'] != ticket:
                 raise ProductError('stale_generation')
             if not is_latest_turn(db, turn):
+                workflow.failed(db, turn_id, ticket, 'context_changed')
                 db.execute("UPDATE turns SET state='model_failed',ticket=NULL,error='context_changed' WHERE id=?", (turn_id,))
                 return {'id': turn_id, 'state': 'model_failed', 'error': 'context_changed'}
             policy = self.store.policy(db)
@@ -143,22 +166,29 @@ class ProductKernel:
             _, signature = self._context(db, turn, policy, current_profile)
             if (policy.revision != turn['policy_revision'] or current_profile.revision != turn['profile_revision']
                     or signature != turn['context_signature']):
+                workflow.failed(db, turn_id, ticket, 'context_changed')
                 db.execute("UPDATE turns SET state='model_failed',ticket=NULL,error='context_changed' WHERE id=?", (turn_id,))
                 return {'id': turn_id, 'state': 'model_failed', 'error': 'context_changed'}
             grants = json.loads(turn['grants_json'])
             for action in decision.actions:
                 if action.kind not in grants:
                     raise ProductError('permission_denied')
-                if action.kind == 'csv.audit' and turn['csv_text'] is None:
+                if action.kind in ('csv.audit','data.query') and turn['csv_text'] is None:
                     raise ProductError('missing_material')
                 if action.kind == 'reminder.create' and action.due_at <= self.clock():
                     raise ProductError('invalid_reminder_time')
             # One transaction accepts the entire structured output or nothing.
-            for ordinal, action in enumerate(decision.actions):
+            workflow.check_actions(db, turn_id, decision)
+            offset = db.execute('SELECT COUNT(*) FROM actions WHERE turn_id=?', (turn_id,)).fetchone()[0]
+            action_ids = []
+            for ordinal, action in enumerate(decision.actions, start=offset):
+                action_id = str(uuid4())
+                action_ids.append(action_id)
                 db.execute("INSERT INTO actions(id,turn_id,ordinal,kind,payload_json,state) VALUES(?,?,?,?,?,'ready')",
-                           (str(uuid4()), turn_id, ordinal, action.kind, action.model_dump_json(exclude_unset=True)))
+                           (action_id, turn_id, ordinal, action.kind, action.model_dump_json(exclude_unset=True)))
             ManagedMemory.accept_suggestions(db, policy, turn, decision.memories)
             ContactService.propose(db, policy, turn, decision.followup, self.clock())
+            workflow.accepted(db, turn, decision, provider_summary, action_ids, self.workbench)
             db.execute('UPDATE turns SET state=?,ticket=NULL,reply=?,summary=? WHERE id=?',
                        ('actions_ready' if decision.actions else 'responded', decision.reply, provider_summary, turn_id))
             self.store.event(db, turn_id, 'model.responded', self.clock())
@@ -173,11 +203,14 @@ class ProductKernel:
                 raise ProductError('stale_generation')
             db.execute("UPDATE turns SET state='model_failed',ticket=NULL,error=? WHERE id=?",
                        (request.reason, request.turn_id))
+            workflow.failed(db, request.turn_id, request.ticket, request.reason)
             self.store.event(db, request.turn_id, 'model.failed', self.clock())
             return {'id': request.turn_id, 'state': 'model_failed', 'error': request.reason}
 
     def respond(self, turn_id):
         context = self.begin(turn_id)
+        if context.get('paused') or context.get('resume_actions'):
+            return context['turn']  # CLI single-step entry never bypasses the coordinator.
         try:
             value = self.model.respond(context)
             return (self.accept(turn_id, context['ticket'], value.decision, provider_summary=value.displayable_summary)
@@ -185,6 +218,7 @@ class ProductKernel:
         except Exception as exc:
             code = exc.code if isinstance(exc, ProductError) else 'model_failed'
             with self.store.tx(True) as db:
+                workflow.failed(db, turn_id, context['ticket'], code)
                 db.execute("UPDATE turns SET state='model_failed',ticket=NULL,error=? WHERE id=? AND state='generating' AND ticket=?",
                            (code, turn_id, context['ticket']))
             return self.turn(turn_id)
@@ -195,6 +229,9 @@ class ProductKernel:
             turn = self._turn(db, turn_id)
             if turn['state'] == 'cancelled':
                 raise ProductError('permission_denied')
+            # Finalized replies cannot be turned back into executing work by replay.
+            if workflow.enabled(db, turn_id) is not None and turn['state'] not in ('actions_ready','actions_recorded','outcome_unknown'):
+                raise ProductError('invalid_transition')
             grants = json.loads(turn['grants_json'])
             for row in db.execute('SELECT * FROM actions WHERE turn_id=? ORDER BY ordinal', (turn_id,)).fetchall():
                 if row['state'] not in ('ready', 'outcome_unknown'):
@@ -219,6 +256,14 @@ class ProductKernel:
                         result['tool'] = computed['tool']
                         result['row_count'] = len(computed['rows'])
                         result['input_rows'] = computed['input_rows']
+                    elif row['kind'] == 'data.query':
+                        payload = json.loads(row['payload_json'])
+                        computed = query_sql(payload['sql'], turn['csv_text'], {})
+                        result = artifacts.create_receipt(row['id'], {
+                            'kind':'artifact.create','title':payload['title'],
+                            'files':[{'path':'result.json','content':canonical(computed['rows'])}]}, self.clock())
+                        result.update(row_count=len(computed['rows']),input_rows=computed['input_rows'],
+                                      columns=computed['columns'])
                     elif row['kind'] == 'reminder.create':
                         payload = json.loads(row['payload_json'])
                         body = {'text': payload['text'], 'due_at': stamp(datetime.fromisoformat(payload['due_at']))}
@@ -257,6 +302,7 @@ class ProductKernel:
 
     @staticmethod
     def _revoke_db(db, turn_id):
+        db.execute("UPDATE workflow_steps SET state='failed',error='provider_aborted' WHERE turn_id=? AND state='generating'", (turn_id,))
         db.execute("UPDATE turns SET grants_json='[]',ticket=NULL,state='cancelled' WHERE id=?", (turn_id,))
         db.execute("UPDATE actions SET state='blocked',error='permission_revoked' WHERE turn_id=? AND state IN ('ready','outcome_unknown')", (turn_id,))
         db.execute("UPDATE followups SET state='cancelled',ticket=NULL,purpose='',reason='source_cancelled' WHERE source_id=? AND state IN ('pending','evaluating','needs_retry')", (turn_id,))
@@ -351,10 +397,11 @@ class ProductKernel:
                         snapshot = self.workbench.get({'task_id': task_id})
                         item.update(task=snapshot.model_dump(mode='json'),
                                     events=self.workbench.events({'task_id': task_id}).model_dump(mode='json'))
-                    elif row['kind'] in ('artifact.create', 'tool.run'):
+                    elif row['kind'] in ('artifact.create', 'tool.run', 'data.query'):
                         item['artifact'] = artifacts.summary(result)
                         if row['kind'] == 'tool.run':
                             item['tool'] = result['tool']
+                        if row['kind'] in ('tool.run','data.query'):
                             item['row_count'] = result['row_count']
                     elif row['kind'] == 'tool.save':
                         item['tool'] = result
@@ -368,6 +415,7 @@ class ProductKernel:
                     'state': turn['state'], 'reply': turn['reply'], 'error': turn['error'],
                     'provider_summary': turn['summary'], 'actions': actions,
                     'completion_source': 'tool_receipts',
+                    'workflow': workflow.view(db, turn),
                     'temporary': bool(turn['temporary'])}
 
     def events(self, after=0, limit=100):
@@ -378,6 +426,7 @@ class ProductKernel:
 
     def recover(self):
         with self.store.tx(True) as db:
+            db.execute("UPDATE workflow_steps SET state='failed',error='interrupted' WHERE state='generating'")
             count = db.execute("UPDATE turns SET state='model_failed',ticket=NULL,error='interrupted' WHERE state='generating'").rowcount
         return {'interrupted_model_turns': count, 'interrupted_followups': self.contact.recover()}
 

@@ -1,0 +1,162 @@
+{
+  "format": "artifact-manifest/1",
+  "batch": "CORE-014",
+  "scope": "published files; raw local evidence excluded",
+  "artifacts": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "dc13bd2dc9f09406339226f0b8cf108ef8f3e80464da7eda13b37ead37f4462a",
+      "bytes": 5294
+    },
+    {
+      "path": "README.md",
+      "sha256": "70ade16dc60fd1781df7cac54e0f7654c9d9a9c1c4a7af0b98031f47cac7dc95",
+      "bytes": 18519
+    },
+    {
+      "path": "apps/desktop/personal-space/activity.mjs",
+      "sha256": "bca9fac8fe2c9d42aa894687f558eebd74a9ef98db29e9f99a5f1d27edd71a05",
+      "bytes": 3343
+    },
+    {
+      "path": "apps/desktop/personal-space/app.mjs",
+      "sha256": "d2762be1d184b93e7444cdb2f09e4f37416a675f98017b9cd6d887a79cb7440c",
+      "bytes": 48030
+    },
+    {
+      "path": "apps/desktop/personal-space/interface-sdk.d.ts",
+      "sha256": "64e4eba752959673890590b36d8ab718435922918f46081f62ad4fbc96097c9e",
+      "bytes": 3544
+    },
+    {
+      "path": "apps/desktop/personal-space/styles.css",
+      "sha256": "78f552bb7a39702f4a255fdfcefae2d4a05ae06419c7f0cbfc077f3a160a830f",
+      "bytes": 22607
+    },
+    {
+      "path": "apps/desktop/product/application/activity.mjs",
+      "sha256": "e112d5b182b813756432a2bf2d21a48bf5c25424e74fdb6ed026743f12dbfd8c",
+      "bytes": 5471
+    },
+    {
+      "path": "apps/desktop/product/application/index.mjs",
+      "sha256": "5db78bfb01005f6cf9e7e1214ce40e89af69332ccce07a2e3985db000b7bb60d",
+      "bytes": 13487
+    },
+    {
+      "path": "apps/desktop/product/application/workflow.mjs",
+      "sha256": "90c0036efc36be067717fdaf0939668cd8f0597939452202a8b72e51afec26ee",
+      "bytes": 1377
+    },
+    {
+      "path": "apps/desktop/product/execution/runner.mjs",
+      "sha256": "3275b5d8bda29d586b1123912d9779f602e1d9c6415c6ef43ee664077d8e41be",
+      "bytes": 21552
+    },
+    {
+      "path": "apps/desktop/product/host.mjs",
+      "sha256": "5f0d9a9865ab4e949931fcaa65d671b95069a5f80055d1d0c74975c4aa6ceb79",
+      "bytes": 4922
+    },
+    {
+      "path": "apps/desktop/product/interface/builder.mjs",
+      "sha256": "b7aba82ade7a33dd54c1ab12cc7e2f338aabdb01fc77d73d6108bc48dbf10d48",
+      "bytes": 6133
+    },
+    {
+      "path": "apps/desktop/product/providers/deepseek.mjs",
+      "sha256": "0f4d7db0c44c4eb01dace85a4222c75987c3d784324e0507bf36d3f597215b85",
+      "bytes": 17440
+    },
+    {
+      "path": "apps/desktop/product/session.mjs",
+      "sha256": "c245a909597573104936f17a65086fbbc0681fad9d02498633cbfb2a128dc5df",
+      "bytes": 11100
+    },
+    {
+      "path": "docs/development/CORE-014.md",
+      "sha256": "adec21ff40fe34ddd02a7980d7fdee6fb080b4fa3816672e5d840ef098a13e4d",
+      "bytes": 3072
+    },
+    {
+      "path": "docs/handoff/CURRENT-TASK.md",
+      "sha256": "45454ad72366776d9fb9227fa97fdb586b2727336325bfcc1694872118ab05c5",
+      "bytes": 2677
+    },
+    {
+      "path": "docs/product/LOCAL-ALPHA.md",
+      "sha256": "9da471b3e58449b34fdd93ca6820067eba6137a69423823345e1e4bcfb2301fe",
+      "bytes": 5720
+    },
+    {
+      "path": "packages/contracts/product-core/schema.json",
+      "sha256": "fc94e8e628b71cc3625b3d0a4f6976c7fdca219dcacc854657119ca765cc8d78",
+      "bytes": 26312
+    },
+    {
+      "path": "reports/core-014/report.json",
+      "sha256": "f52e9bc86ab1f38ea1b1cc52aa67a7a7dd25dd7dd99ff265770f2afb823713c1",
+      "bytes": 5452
+    },
+    {
+      "path": "services/product/artifacts.py",
+      "sha256": "fe4a368a9ed3057a2506c015ad0fed33e0b650487ce7fcdd2ddf5924d368027a",
+      "bytes": 2630
+    },
+    {
+      "path": "services/product/entry.py",
+      "sha256": "aa73cc04746c47fb800bb19f73020432d05e5f7c4b9b4648b232f7657753b31a",
+      "bytes": 9373
+    },
+    {
+      "path": "services/product/kernel.py",
+      "sha256": "1827b63d6ae59f4cab014323b0e1858d908fed0e3f5885d790edc1b345e42a97",
+      "bytes": 29048
+    },
+    {
+      "path": "services/product/models.py",
+      "sha256": "f79001c3dc7c8939020e3d5aa99d231fa5c8b7c1440faa6bd568382ca045402f",
+      "bytes": 12985
+    },
+    {
+      "path": "services/product/store.py",
+      "sha256": "93a2ba0c259c7d33068934756031d008e1d5ed1d6770e21b89e226a040c7bd1b",
+      "bytes": 11015
+    },
+    {
+      "path": "services/product/tool_library.py",
+      "sha256": "ab17a9385e358bb98c0330690c46abf531db0aa35736e34c9529c7aeb2cf8547",
+      "bytes": 13532
+    },
+    {
+      "path": "services/product/workflow.py",
+      "sha256": "db9fb3476865b50fb4846ac6003b9fb81707752f9a0b25a0381333c8d95c73e9",
+      "bytes": 10839
+    },
+    {
+      "path": "tests/product/core014/test_workflow.py",
+      "sha256": "c94241c3d918ece80a72d3e5e0e5661323bb9473b59056c3c39ee37217a2cb66",
+      "bytes": 11909
+    },
+    {
+      "path": "tests/product/core014/workflow.test.mjs",
+      "sha256": "834a481a521ae1195e4762b68881ce72458168ba97f0feae634b408de37eab84",
+      "bytes": 10414
+    },
+    {
+      "path": "tools/personal_space.mjs",
+      "sha256": "050f66b6f5fd6efb9d03d6e77b91a8e5c70b85d9c625a0e283c1cb9bcc532989",
+      "bytes": 6748
+    },
+    {
+      "path": "tools/product_core014_demo.mjs",
+      "sha256": "dfddf3ca662815a5b23edb877fa3742513621ad8ae170abee1f4737d636fbf0b",
+      "bytes": 4857
+    },
+    {
+      "path": "tools/product_core014_live_check.mjs",
+      "sha256": "59ffb19f9549baa9a7e97869919855d1471417909c2e801a55179b08ad3bef25",
+      "bytes": 5163
+    }
+  ]
+}

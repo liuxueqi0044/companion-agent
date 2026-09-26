@@ -20,6 +20,7 @@ const field=(label,node,hint)=>h('label',{class:'field'},[h('span',label),node,h
 const para=text=>h('p',{class:'muted'},text)
 const formatTime=value=>{try{return new Intl.DateTimeFormat('zh-CN',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(value))}catch{return '时间待核对'}}
 const errors={model_not_configured:'还没有连接模型。你的输入已保存。',provider_failed:'这次回应没有成功，请查看连接状态后再试。',
+ workflow_waiting:'上一步还没有确认完成，请先核对实际状态。',workflow_checkpoint:'已保存进度，可以从当前结果继续。',workflow_step_limit:'这项任务的步骤较多，请基于已有结果开始一段新对话。',repeated_action:'模型重复提出了已经做过的写入，已停下，原成果仍保留。',superseded_turn:'这一步之后已有新的输入，请在新对话中继续。',
  tool_example_failed:'这个工具没有通过样例验证，未保存。可以让 AI 修改后再试。',tool_query_rejected:'这个工具无法处理当前输入，请检查列名、参数或修改工具。',tool_query_limit:'工具已达到本次计算限制，未继续执行。',tool_revision_conflict:'工具版本已改变，请重新选择最新版本。',tool_disabled:'这个工具已停用。',tool_parameters_invalid:'工具参数不完整或类型不匹配。',
  credential_rejected:'模型密钥未通过验证。',provider_insufficient_balance:'DeepSeek 账户余额不足。',provider_rate_limited:'模型服务暂时繁忙，请稍后再试。',
  transport_unavailable:'本地连接中断。操作结果可能尚未确认，请先重新连接并核对。',
@@ -288,7 +289,7 @@ createApp({setup(){
   const draftView=record=>visibleDraft(record,{progress:state.value?.progress,send:view.value?.runtime.send,
     work:view.value?.work,pendingId:pendingMessage.value})
   function summaryBlock(record){
-    const partial=draftView(record),summary=activityView(record).summary||partial?.summary
+    const partial=draftView(record),summary=partial?.summary||activityView(record).summary
     return summary?h('details',{class:'reasoning-summary',open:!!partial},[h('summary','处理思路'),
       h('p',summary),h('small',partial?'正在生成的公开摘要':'模型提供的简要说明；实际执行请看工具记录。')]):null
   }
@@ -297,15 +298,32 @@ createApp({setup(){
     if(!mode)return null
     const stop=()=>view.value?.runtime.send?.commandId?call('send.cancel',{commandId:view.value.runtime.send.commandId}):call('work.stop',{turnId:record.id})
     const controls=[running?btn('停止',stop,{class:'text-button',disabled:!view.value?.runtime.send&&!active},[icon('stop',13),'停止']):null,
+      !running&&a?.workflow?.can_continue?btn('从这里继续',async()=>{const r=await call('open',{panel:'conversation',turnId:record.id});if(r.ok)await call('work.start',{turnId:record.id})},{class:'secondary small',disabled:working.value||busy.value}):
       !running&&active&&['queued','model_failed'].includes(record.state)?btn('重新回应',()=>call('work.start',{turnId:record.id}),{class:'secondary small',disabled:working.value||busy.value}):null,
       active&&a?.needsReconciliation?btn('核对实际状态',()=>call('work.reconcile',{turnId:record.id}),{class:'secondary small',disabled:working.value}):null]
     if(!hasActions)return h('section',{class:['response-state',mode],'aria-label':'回复状态'},[
       h('div',{class:'thinking-row',role:'status'},[icon('spark',17),h('span',heading),...controls]),
       mode==='thinking'?h('p',{class:'thinking-note'},draftView(record)?.reply?'回复正在生成，尚未完成。':'正在准备回应…'):null])
     const events=(a.events??[]).filter(e=>!e.historical)
-    const step=done?(a.taskId?'结果来自真实计算，可以逐行查看来源。':'已保存到你的个人空间。'):a.taskId?'CSV 核对工具 · 以实际执行回执为准':'正在保存工具成果…'
+    const loop=a.workflow
+    const step=loop?(record.state==='paused'?'已经做过的步骤和成果都保留了，继续时会先读取这些结果。':done?'已读取工具回执并整理结论；可展开查看每一步。':`第 ${loop.step_count} 轮处理 · 根据实际结果决定下一步`):
+      done?(a.taskId?'结果来自真实计算，可以逐行查看来源。':'已保存到你的个人空间。'):a.taskId?'CSV 核对工具 · 以实际执行回执为准':'正在保存工具成果…'
     return h('section',{class:['activity-card',done?'complete':''],'aria-label':'工具执行过程'},[
       h('div',{class:'activity-heading'},[h('span',{class:'activity-symbol'},icon(done?'check':'spark',19)),h('div',[h('h3',heading),h('p',step)])]),
+      loop?.plan.length?h('ol',{class:'workflow-plan','aria-label':'处理计划'},loop.plan.map((p,i)=>h('li',{key:i},p))):null,
+      loop?h('details',{class:'workflow-trace',open:running||!done},[
+        h('summary',`处理记录 · ${loop.step_count} 步`),
+        loop.has_more_steps?h('p',{class:'muted'},'这里显示最近 12 步；更早的动作成果仍保留在下面。'):null,
+        ...loop.steps.map(s=>h('section',{class:'workflow-step',key:s.ordinal},[
+          h('div',{class:'item-meta'},[h('strong',`第 ${s.ordinal} 步`),h('span',s.state==='generating'?'正在思考':s.state==='failed'?'已中断':'已记录')]),
+          s.summary||s.reply?h('p',s.summary||s.reply):null,
+          s.error?h('p',{class:'error-text'},errors[s.error]||`未继续处理（${s.error}）`):null,
+          ...s.action_ids.map(id=>{const action=(record.actions??[]).find(x=>x.id===id)??a.actions.find(x=>x.id===id);return action?h('p',{class:action.state==='failed'?'error-text':'workflow-receipt',key:id},[
+            ({'data.query':'查询附件','tool.save':'保存可复用工具','tool.run':'运行工具','artifact.create':'保存文件','csv.audit':'核对 CSV','reminder.create':'设置提醒','profile.change':'更新偏好'})[action.kind]??'工具',
+            ' · ',({ready:'等待执行',accepted:'回执已确认',failed:'未执行成功',blocked:'已停止',outcome_unknown:'结果待核对'})[action.state],
+            Number.isSafeInteger(action.row_count)?` · 输出 ${action.row_count} 行`:'',action.error?` · ${errors[action.error]||action.error}`:'']):null})
+        ]))
+      ]):null,
       ...(record.actions??[]).filter(x=>x.artifact&&x.state==='accepted').map(x=>h('div',{class:'memory-item',key:x.id},[
         h('h3',x.artifact.title),h('p',x.artifact.files.map(f=>f.path).join(' · ')),
         h('small',x.artifact.files.some(f=>/\.(py|js|mjs|ts|html|svg)$/.test(f.path))?'源码已保存，尚未执行或部署。':`共 ${x.artifact.files.length} 个文件，可下载保存。`),

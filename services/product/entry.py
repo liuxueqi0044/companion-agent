@@ -59,6 +59,9 @@ def dispatch(app, action, p, *, reviewed_packages=()):
     if action == 'turn.submit':
         exact(p, ('turn',), ('capabilities',))
         return app.submit_turn(p['turn'], capabilities=p.get('capabilities', ()))
+    if action == 'turn.advance':
+        exact(p, ('turn_id',))
+        return app.begin(p['turn_id'], automatic=True)
     if action in ('turn.begin', 'turn.respond', 'turn.execute', 'turn.read', 'turn.revoke'):
         exact(p, ('turn_id',))
         return {'turn.begin': app.begin, 'turn.respond': app.respond, 'turn.execute': app.execute,

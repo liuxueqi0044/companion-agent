@@ -34,6 +34,7 @@ export async function defaultSource(){
   for(const name of ['app.mjs','activity.mjs','styles.css'])files[name]=await fs.readFile(path.join(sourceRoot,name),'utf8')
   files['core/activity.mjs']=await fs.readFile(path.resolve(sourceRoot,'../product/application/activity.mjs'),'utf8')
   files['core/state.mjs']=await fs.readFile(path.resolve(sourceRoot,'../product/application/state.mjs'),'utf8')
+  files['core/workflow.mjs']=await fs.readFile(path.resolve(sourceRoot,'../product/application/workflow.mjs'),'utf8')
   files['activity.mjs']=files['activity.mjs'].replace('../product/application/activity.mjs','./core/activity.mjs')
   return {sdk:'morrow.ui/1',id:'morrow.default',name:'Morrow · 初始界面',entry:'app.mjs',styles:['styles.css'],scopes:[...SCOPES],files}
 }

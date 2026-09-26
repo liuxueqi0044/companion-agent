@@ -1,6 +1,6 @@
 import {projectActivity} from '../product/application/activity.mjs'
 
-const runningPhases=new Set(['starting','beginning','generating','accepting','executing','working','reading','stopping'])
+const runningPhases=new Set(['starting','beginning','generating','accepting','executing','working','reading','observing','stopping'])
 export function currentStop({send,work,pendingId}={}){
   if(send?.commandId&&(!pendingId||send.commandId===pendingId))return {action:'send.cancel',args:{commandId:send.commandId}}
   if(pendingId)return null // New input has not been acknowledged; never stop the previous turn.
@@ -16,9 +16,11 @@ export function presentActivity(record,{activity,work,send,pendingId}={}){
   const running=pendingId===record.id||send?.turnId===record.id||send?.commandId===record.id||
     !!(ownedWork&&runningPhases.has(work.phase))
   const hasActions=!!a?.actions?.length
-  const done=(a?.taskStatus==='completed'||a?.displayState==='completed')&&!a?.protocolError&&!a?.needsReconciliation
+  const done=(a?.workflow?a.displayState==='reviewed':a?.taskStatus==='completed'||a?.displayState==='completed')&&!a?.protocolError&&!a?.needsReconciliation
   const summary=typeof record.provider_summary==='string'?record.provider_summary:a?.providerSummary
-  const heading=hasActions?(done?(a?.taskId?'核对完成':'已完成'):({queued:'等待执行',running:'正在核对 CSV',cancelling:'正在停止',
+  const heading=hasActions&&a?.workflow?(running?({executing:'正在使用工具',working:'正在核对材料',reading:'正在读取结果',observing:'正在检查结果',stopping:'正在停止'})[work?.phase]??'正在思考下一步':
+    ({paused:'已保存进度',model_failed:'这一轮思考中断了',cancelled:'已停止',responded:({complete:'已整理好结果',needs_input:'需要你补充一点信息',incomplete:'还有一部分未完成'})[a.workflow.outcome],outcome_unknown:'执行状态待核对'})[record.state]??'等待继续'):
+    hasActions?(done?(a?.taskId?'核对完成':'已完成'):({queued:'等待执行',running:'正在核对 CSV',cancelling:'正在停止',
     failed:'核对未完成',cancelled:'核对已停止',interrupted:'执行已中断'})[a.taskStatus]??'准备调用工具'):
     running?'正在思考':({model_failed:'这次回复未完成',cancelled:'已停止回复',outcome_unknown:'这次回复的状态待核对',
       queued:'等待回应',generating:'上次回复中断，待核对',saving:'输入是否保存待核对'})[record.state]??null
@@ -27,8 +29,10 @@ export function presentActivity(record,{activity,work,send,pendingId}={}){
 }
 
 export function visibleDraft(record,{progress,send,work,pendingId}={}){
+  const continuing=record.workflow&&work?.turnId===record.id&&work?.phase==='generating'&&
+    ['actions_ready','actions_recorded'].includes(record.state)
   if(!progress||progress.turnId!==record.id||!['generating','received'].includes(progress.state)||
-    !['saving','queued','generating'].includes(record.state))return null
+    (!continuing&&!['saving','queued','generating'].includes(record.state)))return null
   if(!presentActivity(record,{send,work,pendingId}).running)return null
   return {reply:typeof progress.reply==='string'?progress.reply:'',summary:typeof progress.summary==='string'?progress.summary:''}
 }

@@ -11,8 +11,8 @@ const rejectedWrites=new Set(['invalid_request','invalid_capability','missing_ma
   'not_found','revision_conflict','idempotency_conflict','invalid_transition',
   'invalid_reminder_time','invalid_followup_window','request_too_large','unsupported_action',
   'unsupported_version','permission_denied','superseded_turn','stale_generation',
-  'invalid_provider_metadata','disposed'])
-const chainWrites=new Set(['turn.begin','turn.accept','turn.execute','worker.run-next'])
+  'invalid_provider_metadata','disposed','repeated_action','workflow_waiting','reconciliation_required'])
+const chainWrites=new Set(['turn.begin','turn.advance','turn.accept','turn.execute','worker.run-next'])
 
 export function createTurnRunner({host,provider=UnavailableProvider,timeoutMs=30000,timers=globalThis}={}) {
   if (!host || typeof host.request!=='function' || !provider || typeof provider.respond!=='function' ||
@@ -146,16 +146,41 @@ export function createTurnRunner({host,provider=UnavailableProvider,timeoutMs=30
     return true
   }
   async function runChain(record) {
+    let automatic=false
+    while(eligible(record)){
+      const reply=await runStep(record,automatic)
+      if(!reply.ok || reply.result?.continue!==true)return reply
+      automatic=true
+    }
+    return fail('provider_aborted')
+  }
+  async function runStep(record,automatic) {
     if(!eligible(record))return fail(disposed?'disposed':'provider_aborted')
+    record.ticket=null;record.cleanupAttempted=false;record.cleanupPromise=null
     phase(record,'beginning')
-    const begun=await call(record,'turn.begin',{turn_id:record.turnId})
+    const begun=await call(record,automatic?'turn.advance':'turn.begin',{turn_id:record.turnId})
     if(!begun.ok) {
       if(!eligible(record))return fail('provider_aborted')
       return !rejectedWrites.has(begun.error)
         ? unknown(record,begun.error) : rejected(record,begun.error)
     }
-    if(begun.result?.turn_id!==record.turnId || !validId(begun.result?.ticket))
+    if(begun.result?.turn_id!==record.turnId)
       return unknown(record,'protocol_error')
+    if(!eligible(record)){
+      if(validId(begun.result.ticket)){record.ticket=begun.result.ticket;void failOwn(record,'provider_aborted')}
+      return fail('provider_aborted')
+    }
+    if(begun.result.paused===true){
+      if(begun.result.turn?.state!=='paused'||!capture(record,begun.result.turn))return unknown(record,'protocol_error')
+      phase(record,'paused')
+      return {ok:true,result:{phase:'paused',activity:snapshot().activity}}
+    }
+    let accepted
+    if(begun.result.resume_actions===true){
+      if(begun.result.turn?.state!=='actions_ready')return unknown(record,'protocol_error')
+      accepted={ok:true,result:begun.result.turn}
+    }else{
+    if(!validId(begun.result.ticket))return unknown(record,'protocol_error')
     record.ticket=begun.result.ticket
     if(!eligible(record)){
       void failOwn(record,'provider_aborted')
@@ -163,6 +188,11 @@ export function createTurnRunner({host,provider=UnavailableProvider,timeoutMs=30
     }
     const context=clone(begun.result)
     delete context.ticket
+    if(context.workflow){
+      const current=await call(record,'turn.read',{turn_id:record.turnId})
+      if(!eligible(record))return fail('provider_aborted')
+      if(!current.ok || !capture(record,current.result))return unknown(record,current.error??'protocol_error')
+    }
     phase(record,'generating')
     if(!eligible(record))return fail('provider_aborted')
     const generated=await providerStage(record,context)
@@ -179,7 +209,7 @@ export function createTurnRunner({host,provider=UnavailableProvider,timeoutMs=30
     if(!output){await failOwn(record,'provider_invalid_output');return rejected(record,'provider_invalid_output')}
     if(!eligible(record))return fail('provider_aborted')
     phase(record,'accepting')
-    const accepted=await call(record,'turn.accept',{turn_id:record.turnId,ticket:record.ticket,
+    accepted=await call(record,'turn.accept',{turn_id:record.turnId,ticket:record.ticket,
       decision:output.decision,...(output.displayableSummary===null ? {} :
         {provider_summary:output.displayableSummary})})
     if(!eligible(record))return fail('provider_aborted')
@@ -187,9 +217,10 @@ export function createTurnRunner({host,provider=UnavailableProvider,timeoutMs=30
       if(!rejectedWrites.has(accepted.error))
         return unknown(record,accepted.error)
       if(['invalid_request','permission_denied','invalid_provider_metadata',
-        'invalid_followup_window','invalid_reminder_time','missing_material'].includes(accepted.error))
+        'invalid_followup_window','invalid_reminder_time','missing_material','repeated_action'].includes(accepted.error))
         await failOwn(record,'provider_invalid_output')
       return rejected(record,accepted.error)
+    }
     }
     if(!capture(record,accepted.result))return unknown(record,'protocol_error')
     if(accepted.result.state==='model_failed'){
@@ -202,8 +233,10 @@ export function createTurnRunner({host,provider=UnavailableProvider,timeoutMs=30
     }
     if(accepted.result.state!=='actions_ready' ||
       !Array.isArray(accepted.result.actions) || accepted.result.actions.length===0 ||
+      !accepted.result.actions.some(item=>item.state==='ready') ||
       accepted.result.actions.some(item=>!validId(item.id) ||
-        !['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run'].includes(item.kind) || item.state!=='ready') ||
+        !['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run','data.query'].includes(item.kind) ||
+        (!accepted.result.workflow && item.state!=='ready')) ||
       snapshot().activity?.protocolError)return unknown(record,'protocol_error')
     if(!eligible(record))return fail('provider_aborted')
     phase(record,'executing')
@@ -236,8 +269,9 @@ export function createTurnRunner({host,provider=UnavailableProvider,timeoutMs=30
     const next=activity?.needsReconciliation ? 'needs_reconciliation' :
       activity?.taskStatus==='queued' ? 'waiting_for_worker' : 'settled'
     if(next==='needs_reconciliation')return unknown(record,'outcome_unknown')
-    phase(record,next)
-    return {ok:true,result:{phase:next,activity}}
+    const more=next==='settled'&&read.result.workflow?.next==='continue'
+    phase(record,more?'observing':next)
+    return {ok:true,result:{phase:next,activity,continue:more}}
   }
   function start(input,mode) {
     if(disposed)return Promise.resolve(fail('disposed'))

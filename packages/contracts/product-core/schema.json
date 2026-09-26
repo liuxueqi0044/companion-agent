@@ -218,6 +218,35 @@
       "title": "CsvAction",
       "type": "object"
     },
+    "DataQueryAction": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "data.query",
+          "title": "Kind",
+          "type": "string"
+        },
+        "sql": {
+          "maxLength": 8192,
+          "minLength": 1,
+          "title": "Sql",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "title",
+        "sql"
+      ],
+      "title": "DataQueryAction",
+      "type": "object"
+    },
     "FailGenerationRequest": {
       "additionalProperties": false,
       "properties": {
@@ -373,6 +402,7 @@
               "mapping": {
                 "artifact.create": "#/$defs/ArtifactAction",
                 "csv.audit": "#/$defs/CsvAction",
+                "data.query": "#/$defs/DataQueryAction",
                 "profile.change": "#/$defs/ProfileAction",
                 "reminder.create": "#/$defs/ReminderAction",
                 "tool.run": "#/$defs/ToolRunAction",
@@ -398,6 +428,9 @@
               },
               {
                 "$ref": "#/$defs/ToolRunAction"
+              },
+              {
+                "$ref": "#/$defs/DataQueryAction"
               }
             ]
           },
@@ -422,6 +455,24 @@
           },
           "maxItems": 5,
           "title": "Memories",
+          "type": "array"
+        },
+        "outcome": {
+          "default": "complete",
+          "enum": [
+            "complete",
+            "needs_input",
+            "incomplete"
+          ],
+          "title": "Outcome",
+          "type": "string"
+        },
+        "plan": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Plan",
           "type": "array"
         },
         "reply": {

@@ -34,7 +34,7 @@ def summary(receipt):
 
 def read_artifact(store, turn_id, action_id):
     with store.tx() as db:
-        row = db.execute("SELECT result_json FROM actions WHERE id=? AND turn_id=? AND kind IN ('artifact.create','tool.run') AND state='accepted'", (action_id, turn_id)).fetchone()
+        row = db.execute("SELECT result_json FROM actions WHERE id=? AND turn_id=? AND kind IN ('artifact.create','tool.run','data.query') AND state='accepted'", (action_id, turn_id)).fetchone()
         if row is None:
             raise ProductError('artifact_not_found')
         try:

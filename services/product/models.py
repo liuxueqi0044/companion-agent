@@ -15,7 +15,7 @@ ID = Annotated[str, AfterValidator(canonical_uuid)]
 UTC = Annotated[datetime, AfterValidator(utc)]
 Category = Literal['work', 'preferences', 'goals']
 Topic = Literal['work', 'daily', 'wellbeing']
-Capability = Literal['csv.audit', 'profile.change', 'artifact.create', 'reminder.create', 'tool.save', 'tool.run']
+Capability = Literal['csv.audit', 'profile.change', 'artifact.create', 'reminder.create', 'tool.save', 'tool.run', 'data.query', 'task.loop']
 
 
 class ProductError(Exception):
@@ -303,7 +303,13 @@ class ToolManageRequest(Model):
         return self
 
 
-Action = Annotated[CsvAction | ProfileAction | ArtifactAction | ReminderAction | ToolSaveAction | ToolRunAction, Field(discriminator='kind')]
+class DataQueryAction(Model):
+    kind: Literal['data.query']
+    title: str = Field(min_length=1, max_length=240)
+    sql: str = Field(min_length=1, max_length=8192)
+
+
+Action = Annotated[CsvAction | ProfileAction | ArtifactAction | ReminderAction | ToolSaveAction | ToolRunAction | DataQueryAction, Field(discriminator='kind')]
 
 
 class MemorySuggestion(Model):
@@ -339,6 +345,13 @@ class ModelDecision(Model):
     actions: list[Action] = Field(default_factory=list, max_length=2)
     memories: list[MemorySuggestion] = Field(default_factory=list, max_length=5)
     followup: FollowUpSuggestion | None = None
+    plan: list[str] = Field(default_factory=list, max_length=8)
+    outcome: Literal['complete', 'needs_input', 'incomplete'] = 'complete'
+
+    @field_validator('plan')
+    @classmethod
+    def plan_size(cls, value):
+        return [bounded_text(item, 400) for item in value]
     @field_validator('reply')
     @classmethod
     def text_size(cls, value):
