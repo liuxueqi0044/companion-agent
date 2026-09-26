@@ -8,14 +8,38 @@ import hashlib
 import json
 import shutil
 import zipfile
+import stat
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 DONOR = ROOT.parent / 'companion-agent'
+RELEASE = {'version': '0.18.0-alpha.1', 'milestone': 'CORE-018', 'channel': 'local-preview',
+           'platform': 'windows-x64', 'redistribution': 'pending-character-artwork-permission',
+           'interfaces': ['whale', 'form', 'atelier']}
+INVITATION = {**RELEASE, 'version': '0.19.0-alpha.1', 'milestone': 'CORE-019',
+              'channel': 'invitation-alpha', 'redistribution': 'character-artwork-excluded',
+              'interfaces': ['form', 'atelier'], 'signed': False}
 
 
-def copy_tree(source, target):
-    source = source.resolve()
+def plain_path(value):
+    """Check ancestors before resolving, including a linked source root itself."""
+    value = value.absolute()
+    for part in (value, *value.parents):
+        try:
+            info = part.lstat()
+        except FileNotFoundError:
+            continue
+        if stat.S_ISLNK(info.st_mode) or getattr(info, 'st_file_attributes', 0) & 0x400:
+            raise RuntimeError('reparse_point_in_release_path')
+    return value
+
+
+def copy_tree(source, target, excluded=()):
+    source = plain_path(source).resolve()
+    plain_path(target)
     for file in source.rglob('*'):
+        if any(file.relative_to(source) == Path(p) or Path(p) in file.relative_to(source).parents for p in excluded):
+            continue
         if file.is_symlink() or (hasattr(file, 'is_junction') and file.is_junction()):
             raise RuntimeError('reparse_point_in_release_input')
         if not file.is_file() or '__pycache__' in file.parts or file.suffix in ('.pyc', '.pyo'):
@@ -27,15 +51,39 @@ def copy_tree(source, target):
         shutil.copyfile(file, dst)
 
 
-def build(output):
-    output = output.absolute()
+def copy_ui(output, invitation=True, starter='form'):
+    target = output/'apps/desktop/personal-space'
+    copy_tree(ROOT/'apps/desktop/personal-space', target,
+              ('characters', 'whale-room.mjs', 'companion-motion.mjs') if invitation else ())
+    if invitation:
+        if starter not in INVITATION['interfaces']:
+            raise RuntimeError('invalid_invitation_starter')
+        (target/'starter-config.mjs').write_text(
+            'export const initialStarter = '+json.dumps(starter)+'\nexport const availableStarterIds = ["form","atelier"]\n', encoding='utf-8')
+        (target/'starter-character.mjs').write_text(
+            'export const WhaleRoom = null\nexport const whaleCharacter = () => null\nexport const hasCharacter = false\n', encoding='utf-8')
+
+
+def build(output, invitation=True, starter='form'):
+    if not invitation:
+        raise RuntimeError('local_preview_artwork_not_in_source_snapshot')
+    release = {**INVITATION}
+    if invitation:
+        if starter not in release['interfaces']: raise RuntimeError('invalid_invitation_starter')
+        release['initial_interface'] = starter
+    output = plain_path(output)
+    archive = Path(str(output) + '.zip')
     if output.exists():
         raise RuntimeError('release_output_must_be_new')
+    plain_path(archive)
+    if archive.exists():
+        raise RuntimeError('release_archive_exists')
     output.mkdir(parents=True)
-    for relative in ['services', 'apps/desktop/product', 'apps/desktop/personal-space', 'apps/desktop/native', 'tests/spikes/personal-space/core']:
+    for relative in ['services', 'apps/desktop/product', 'apps/desktop/native', 'tests/spikes/personal-space/core']:
         copy_tree(ROOT / relative, output / relative)
+    copy_ui(output, invitation, starter)
     (output/'tools').mkdir()
-    for name in ['personal_space.mjs', 'load_product_credential.ps1', 'morrow_tray.ps1', 'configure_deepseek.ps1', 'install_morrow.ps1', 'start_morrow.ps1']:
+    for name in ['personal_space.mjs', 'load_product_credential.ps1', 'configure_deepseek.ps1', 'install_morrow.ps1', 'uninstall_morrow.ps1', 'release_paths.ps1', 'start_morrow.ps1', 'check_morrow.ps1', 'verify_windows_release.mjs']:
         shutil.copyfile(ROOT/'tools'/name, output/'tools'/name)
     runtime = output/'runtime'
     runtime.mkdir()
@@ -81,16 +129,33 @@ def build(output):
     configuration = {'format':'morrow.windows/1','node':'runtime/node.exe','python':'runtime/python/python.exe',
                      'vue':'runtime/vue/vue.mjs','bundler':'node_modules/rolldown/dist/index.mjs','electron':'runtime/electron/electron.exe'}
     (output/'runtime.json').write_text(json.dumps(configuration,indent=2),encoding='utf-8')
+    (output/'release-info.json').write_text(json.dumps(release,indent=2),encoding='utf-8')
     (output/'Morrow.cmd').write_text('@echo off\r\nstart "" "%~dp0runtime\\electron\\electron.exe" "%~dp0apps\\desktop\\native\\main.cjs"\r\n',encoding='utf-8')
-    (output/'Install.cmd').write_text('@echo off\r\npwsh.exe -NoProfile -File "%~dp0tools\\install_morrow.ps1"\r\n',encoding='utf-8')
-    (output/'README.txt').write_text('Morrow Windows x64 local alpha\nWindows 10/11. PowerShell 7 (pwsh) is required for install and encrypted DeepSeek credentials.\nRun Install.cmd to install for the current user, or Morrow.cmd for portable use.\nData: %LOCALAPPDATA%/Morrow/data; credentials stay under the current Windows user.\nConfigure DeepSeek from the tray, then restart. Closing the window keeps Morrow running; Exit in the tray stops its owned service.\nTray recovery resets window form and opens trusted interface management. No startup registration.\nPersonal SQL tools run on explicitly supplied text/CSV; generated source artifacts are downloads, not arbitrary executable programs.\nUnsigned alpha. Renderer sandbox, IPC restrictions and external HTTP blocking are defense in depth, not a universal hostile-code sandbox.\n',encoding='utf-8')
+    (output/'Install.cmd').write_text('@echo off\r\nsetlocal\r\nset "PSModulePath=%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\Modules"\r\n"%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "%~dp0tools\\install_morrow.ps1"\r\nif errorlevel 1 pause\r\n',encoding='utf-8')
+    (output/'Uninstall.cmd').write_text('@echo off\r\nsetlocal\r\nset "PSModulePath=%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\Modules"\r\n"%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -NoProfile -ExecutionPolicy Bypass -STA -File "%~dp0tools\\uninstall_morrow.ps1"\r\nif errorlevel 1 pause\r\n',encoding='utf-8')
+    (output/'Check.cmd').write_text('@echo off\r\nsetlocal\r\nset "PSModulePath=%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\Modules"\r\n"%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "%~dp0tools\\check_morrow.ps1"\r\npause\r\n',encoding='utf-8')
+    guide = ROOT/('docs/product/INVITATION-ALPHA.md' if invitation else 'docs/product/LOCAL-ALPHA.md')
+    (output/'README.txt').write_text('Morrow '+release['version']+' | '+release['channel']+'\n\n'
+        'Windows 10/11 x64. Node, Python, Vue and Electron are included.\n'
+        'Run Morrow.cmd for portable use or Install.cmd for current-user installation.\n'
+        'Windows built-in PowerShell is used; PowerShell 7 is not required.\n'
+        +('Community character artwork is excluded from this invitation package.\n\n' if invitation else 'Community whale artwork: local prototype only. Read ARTWORK-NOTICE.md.\n\n')+guide.read_text(encoding='utf-8'),encoding='utf-8-sig')
+    if not invitation:
+        shutil.copyfile(ROOT/'apps/desktop/personal-space/characters/NOTICE.md',output/'ARTWORK-NOTICE.md')
+    (output/'docs/product').mkdir(parents=True)
+    for name in [('INVITATION-ALPHA.md' if invitation else 'LOCAL-ALPHA.md'),'GOAL-MODE.md','TRIAL-CHECKLIST.md']:
+        shutil.copyfile(ROOT/'docs/product'/name,output/'docs/product'/name)
     files = []
     for file in sorted(output.rglob('*')):
         if file.is_file():
             data=file.read_bytes();files.append({'path':file.relative_to(output).as_posix(),'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()})
-    (output/'release-manifest.json').write_text(json.dumps({'format':'morrow-release/1','packages':copied,'files':files},indent=2),encoding='utf-8')
-    archive = output.with_suffix('.zip')
-    if archive.exists(): raise RuntimeError('release_archive_exists')
+    if invitation:
+        for item in files:
+            if '/characters/' in item['path'] or item['path'].endswith('/whale-room.mjs'):
+                raise RuntimeError('character_asset_in_invitation')
+            if item['path'].endswith(('.mjs','.js','.css','.html')) and re.search(rb'data:image/png;base64,[A-Za-z0-9+/]{20}', (output/item['path']).read_bytes()):
+                raise RuntimeError('unexpected_embedded_image_in_invitation: '+item['path'])
+    (output/'release-manifest.json').write_text(json.dumps({'format':'morrow-release/1','release':release,'packages':copied,'files':files},indent=2),encoding='utf-8')
     with zipfile.ZipFile(archive,'x',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
         for file in sorted(output.rglob('*')):
             if file.is_file(): z.write(file,output.name+'/'+file.relative_to(output).as_posix())
@@ -99,4 +164,5 @@ def build(output):
 
 if __name__ == '__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--output',type=Path,required=True)
-    build(parser.parse_args().output)
+    parser.add_argument('--invitation',action='store_true',default=True,help='Invitation profile is the only profile in this source snapshot');parser.add_argument('--starter',choices=['form','atelier'],default='form')
+    args=parser.parse_args();build(args.output,args.invitation,args.starter)

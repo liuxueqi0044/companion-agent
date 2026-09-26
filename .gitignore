@@ -43,3 +43,8 @@ Thumbs.db
 **/baseline.sha256
 reports/core-*/evidence/
 reports/core-*/*.txt
+
+# Local exports and character assets are not part of this source publication
+outputs/
+apps/desktop/personal-space/characters/
+*.zip

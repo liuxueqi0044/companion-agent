@@ -1,6 +1,6 @@
 import {readSse} from '../../personal-space/sse.mjs'
 
-const invalid=()=>Object.assign(Error('provider_invalid_output'),{code:'provider_invalid_output'})
+const invalid=(detail='public_json_prefix')=>Object.assign(Error('provider_invalid_output'),{code:'provider_invalid_output',detail})
 /** Decode only top-level public string fields. Partial JSON never becomes a decision. */
 export function publicPrefix(text){
   let i=0;const fields={},seen=new Set()
@@ -60,18 +60,18 @@ export async function readChatStream(body,{signal,onContent=()=>{},secret}={}){
     if(data==='[DONE]'){done=true;break}
     if(secret&&data.includes(secret))throw Object.assign(Error('credential_echo_detected'),{code:'credential_echo_detected'})
     const part=JSON.parse(data)
-    if(part.error||!Array.isArray(part.choices))throw invalid()
-    if(part.id!==undefined){if(streamId!==null&&part.id!==streamId)throw invalid();streamId=part.id}
+    if(part.error||!Array.isArray(part.choices))throw invalid('stream_envelope')
+    if(part.id!==undefined){if(streamId!==null&&part.id!==streamId)throw invalid('stream_identity');streamId=part.id}
     if(part.usage)usage=part.usage
-    if(part.choices.length===0){if(!finish||!part.usage)throw invalid();continue}
-    if(part.choices.length!==1||part.choices[0].index!==0)throw invalid()
+    if(part.choices.length===0){if(!finish||!part.usage)throw invalid('stream_usage_order');continue}
+    if(part.choices.length!==1||part.choices[0].index!==0)throw invalid('stream_choices')
     const choice=part.choices[0],delta=choice.delta
-    if(!delta||typeof delta!=='object'||delta.tool_calls||delta.function_call)throw invalid()
-    if(finish)throw invalid()
+    if(!delta||typeof delta!=='object'||delta.tool_calls||delta.function_call)throw invalid('stream_delta')
+    if(finish)throw invalid('stream_after_finish')
     if(delta.content!==null&&delta.content!==undefined){
-      if(typeof delta.content!=='string')throw invalid()
+      if(typeof delta.content!=='string')throw invalid('stream_content_type')
       content+=delta.content
-      if(content.length>64*1024)throw invalid()
+      if(content.length>64*1024)throw invalid('stream_content_limit')
       const fields=publicPrefix(content),preview={reply:'',summary:''}
       for(const [name,value] of Object.entries(fields)){
         if(secret&&value.value.includes(secret))throw Object.assign(Error('credential_echo_detected'),{code:'credential_echo_detected'})
@@ -83,9 +83,9 @@ export async function readChatStream(body,{signal,onContent=()=>{},secret}={}){
       onContent(preview)
     }
     if(choice.finish_reason!==null&&choice.finish_reason!==undefined){
-      if(choice.finish_reason!=='stop')throw invalid();finish='stop'
+      if(choice.finish_reason!=='stop')throw invalid('stream_finish_reason');finish='stop'
     }
   }
-  if(!done||finish!=='stop')throw invalid()
+  if(!done||finish!=='stop')throw invalid('stream_incomplete')
   return {choices:[{finish_reason:'stop',message:{content}}],usage}
 }

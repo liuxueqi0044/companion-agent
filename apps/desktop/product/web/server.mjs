@@ -137,7 +137,7 @@ export async function createPersonalSpaceServer({runtime,space,interfaces,connec
       const result=await command[1](args)
       // The frozen runner records a generic provider failure. Present only allowlisted
       // codes from our trusted adapter, never exception text or provider response bodies.
-      if(modelCommands.has(action)&&result?.error==='provider_failed'){
+      if((modelCommands.has(action)||action==='interface.call'&&['send','work.start'].includes(args.action))&&result?.error==='provider_failed'){
         const detail=connection().lastError
         if(publicProviderErrors.has(detail))return {...result,error:detail}
       }

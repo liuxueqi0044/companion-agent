@@ -64,12 +64,12 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
     throw fail('provider_configuration_required')
   const models={director:MODEL,worker:MODEL,reviewer:roleModels.director??MODEL,...roleModels}
   if(Object.keys(models).some(k=>!['director','worker','reviewer'].includes(k))||Object.values(models).some(v=>typeof v!=='string'||!v.trim()||v.length>100))throw fail('provider_configuration_required')
-  let busy=false,lastError=null,lastUsage=null
+  let busy=false,lastError=null,lastUsage=null,lastFailure=null
   let visible=null;const listeners=new Set()
   const publish=value=>{visible=value;for(const fn of listeners)try{fn()}catch{}}
   const progress={snapshot:()=>visible?structuredClone(visible):null,
     subscribe(fn){listeners.add(fn);return ()=>listeners.delete(fn)}}
-  const connection=()=>({configured:true,provider:'DeepSeek',model:MODEL,roleModels:models,busy,lastError,lastUsage,
+  const connection=()=>({configured:true,provider:'DeepSeek',model:MODEL,roleModels:models,busy,lastError,lastUsage,lastFailure,
     ...(ledger?{requests:journal.snapshot()}:{budget:journal.snapshot()})})
   async function generate(kind,context,{signal}={}){
     if(busy)throw fail('provider_busy')
@@ -80,7 +80,8 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
     const messages=[{role:'system',content:kind==='turn'?TURN_PROMPT+(goalRole?GOAL_PROMPT:''):kind==='space'?SPACE_PROMPT:CONTACT_PROMPT},
       {role:'user',content:JSON.stringify({current_time_utc:new Date().toISOString(),context})}]
     if(Buffer.byteLength(JSON.stringify(messages))>96*1024)throw fail('provider_input_too_large')
-    busy=true;lastError=null
+    busy=true;lastError=null;lastFailure=null
+    let stage='request'
     let id,status=null
     const stream=streaming&&kind==='turn'
     const turnId=typeof context.turn_id==='string'?context.turn_id:null
@@ -98,6 +99,7 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
       if(!response.ok){await response.body?.cancel();throw fail(status===401?'credential_rejected':
         status===402?'provider_insufficient_balance':status===429?'provider_rate_limited':'provider_http_error')}
       let raw
+      stage='transport_body'
       if(stream){
         if(!response.headers.get('content-type')?.includes('text/event-stream'))throw fail('provider_invalid_output')
         raw=await readChatStream(response.body,{signal:transportSignal,secret:apiKey,onContent:preview=>{
@@ -111,16 +113,21 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
         raw=JSON.parse(text)
       }
       const choice=raw.choices?.[0]
+      stage='completion_envelope'
       if(transportSignal.aborted)throw fail('provider_aborted')
       if(raw.choices?.length!==1||choice.finish_reason!=='stop'||typeof choice.message?.content!=='string')throw fail('provider_invalid_output')
+      stage='decision_json'
       const decision=JSON.parse(choice.message.content)
       publicPrefix(choice.message.content) // Reject duplicate top-level keys even in non-stream mode.
       if(JSON.stringify(decision).includes(apiKey))throw fail('credential_echo_detected')
       const keys=kind==='turn'?['reply','actions','memories','followup','displayable_summary','plan','outcome']:kind==='space'?['summary','files']:['disposition','text','due_at','reason']
+      stage='decision_fields'
       if(!decision||typeof decision!=='object'||Array.isArray(decision)||Object.keys(decision).some(k=>!keys.includes(k)))throw fail('provider_invalid_output')
+      stage='decision_reply'
       if(kind==='turn'&&typeof decision.reply!=='string')throw fail('provider_invalid_output')
       if(kind==='space')validateSpaceDecision(decision)
       const summary=decision.displayable_summary
+      stage='decision_summary'
       if(summary!==undefined&&(typeof summary!=='string'||!summary.trim()||summary.length>800))throw fail('provider_invalid_output')
       delete decision.displayable_summary
       // Python remains the authority for action grants, memory and follow-up validation.
@@ -137,7 +144,9 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
       lastError=signal?.aborted?'provider_aborted':transportSignal.aborted||error?.name==='TimeoutError'?'provider_timeout':
         allowed.has(error?.code)?error.code:error instanceof SyntaxError||error?.message==='incomplete_event'?'provider_invalid_output':
         ['event_frame_too_large','event_stream_too_large'].includes(error?.message)?'provider_response_too_large':'provider_failed'
-      if(id)try{journal.finish(id,{state:'failed',http_status:status,error:lastError})}catch{lastError=ledger?'ledger_write_failed':'budget_write_failed'}
+      const details=new Set(['public_json_prefix','stream_envelope','stream_identity','stream_usage_order','stream_choices','stream_delta','stream_after_finish','stream_content_type','stream_content_limit','stream_finish_reason','stream_incomplete'])
+      lastFailure={stage,detail:details.has(error?.detail)?error.detail:null}
+      if(id)try{journal.finish(id,{state:'failed',http_status:status,error:lastError,validation:lastFailure})}catch{lastError=ledger?'ledger_write_failed':'budget_write_failed'}
       emit('failed')
       throw fail(lastError)
     }finally{busy=false}

@@ -1,6 +1,9 @@
 import {createApp,h,ref,computed,onMounted,onUnmounted,nextTick,watch} from 'vue'
 import {createClient} from '@morrow/sdk'
 import {presentActivity,currentStop,visibleDraft} from './activity.mjs'
+import {createAppearanceStore} from './appearance.mjs'
+import {initialStarter} from './starter-config.mjs'
+import {renderStarter,appearanceGallery} from './starters.mjs'
 
 const paths={spark:'M12 2l2.5 6.8L22 12l-7.5 2.7L12 22l-2.6-7.3L2 12l7.4-3.2Z',
  arrow:'M5 12h14m-6-6 6 6-6 6',send:'m6 12 6-7 6 7m-6-6v14',close:'m6 6 12 12M6 18 18 6',
@@ -42,21 +45,13 @@ const eventLabel={submitted:'任务已保存',started:'开始核对材料',compl
 const columnLabel={item:'品名',unit:'单位',qty:'数量',unit_price:'单价',currency:'币种'}
 const sourceLabel=value=>{const match=/^csv:record:\d+:column:.+:physical-lines:(\d+)-(\d+)$/.exec(value??'');return match?`原表第 ${match[1]===match[2]?match[1]:`${match[1]}–${match[2]}`} 行`:'来源待核对'}
 
-function botanical(){
-  return h('svg',{class:'botanical',width:190,height:158,viewBox:'0 0 190 158','aria-hidden':'true'},[
-    h('circle',{cx:119,cy:64,r:36,fill:'#eac4a8'}),h('path',{d:'M33 137Q103 144 155 134',stroke:'#d7d6c8','stroke-width':1.5,fill:'none'}),
-    h('path',{d:'M92 137Q85 94 101 43M96 86 63 66M94 105l34-23',stroke:'#7e9176','stroke-width':2,fill:'none'}),
-    h('path',{d:'M96 81Q72 37 52 46Q48 74 96 81M100 56Q119 27 131 34Q131 55 100 65M96 108Q121 65 141 75Q147 99 96 108M91 124Q54 97 49 113Q58 132 91 124',fill:'#91a185'}),
-    h('path',{d:'m42 29 2-7 2 7 7 2-7 2-2 7-2-7-7-2Z',fill:'#bf8462'}),h('circle',{cx:149,cy:111,r:2,fill:'#c8a880'})])
-}
-
 createApp({setup(){
   const state=ref(null),connected=ref(true),panel=ref(null),draft=ref(''),attachment=ref(null),temporary=ref(false)
   const sending=ref(false),pendingMessage=ref(null),working=ref(false),toast=ref(null),records=ref([]),conversations=ref([])
   const conversationId=ref(crypto.randomUUID()),selectedTurn=ref(null),fileInput=ref(null),composer=ref(null),drawer=ref(null)
   const memoryText=ref(''),memoryCategory=ref('preferences'),editing=ref(null),editText=ref(''),styleText=ref('')
   const reminderText=ref(''),reminderDate=ref(''),contactForm=ref(null),resultVisible=ref(false)
-  const toolItems=ref([]),toolDetail=ref(null)
+  const toolItems=ref([]),toolDetail=ref(null),theme=ref(initialStarter),composerOptions=ref(false)
   let fileGeneration=0,previousFocus=null,toastTimer=null,client=null,navigationIntent=0
   let savedSelection=null,draftRevision=0,draftHydrated=false,draftFlight=Promise.resolve()
   const view=computed(()=>state.value?.view),policy=computed(()=>view.value?.policy?.policy)
@@ -80,6 +75,7 @@ createApp({setup(){
     }
   }
   client=createClient({onSnapshot:accept,onConnection:value=>{connected.value=value}})
+  const appearance=createAppearanceStore({state:client.state,initial:initialStarter,onChange:id=>{theme.value=id},onError:()=>notify('外观已切换，但未能保存偏好。重新打开后可能恢复之前的样子。',true)})
   async function call(action,args={},success){
     if(['work.stop','work.reconcile'].includes(action))args={...args,runId:view.value?.work?.runId}
     working.value=true
@@ -91,7 +87,6 @@ createApp({setup(){
     }finally{working.value=false}
   }
   async function openPanel(target){
-    if(target==='appearance'){await saveDraft();return client.host.openRecovery()}
     navigationIntent++
     previousFocus=document.activeElement;panel.value=target;resultVisible.value=false;editing.value=null
     if(['memory','contact','inbox','reminders'].includes(target)){
@@ -264,11 +259,15 @@ createApp({setup(){
       !toolItems.value.length?empty('把有用的做法留下来','试着说：帮我做一个去掉重复行的工具，以后还要用。','spark'):null]
   }
   function content(){
+    if(panel.value==='appearance')return appearanceGallery({theme:theme.value,select:id=>appearance.select(id),recover:async()=>{await saveDraft();await appearance.settled();await client.host.openRecovery()}})
     if(panel.value==='about')return [h('div',{class:'identity'},[h('div',{class:'identity-mark'},icon('spark',32)),h('h3',name.value),para('记住你，也为你做些事。')]),
+      menuItem('plus','新的对话','从一页空白开始',newConversation),
+      menuItem('history','我们的对话','翻翻之前一起聊过的事',()=>openPanel('history')),
+      menuItem('bell','近况','消息与任务留下的记录',()=>openPanel('inbox')),
       menuItem('memory','记忆',policy.value?.memory_enabled?'正在开启 · 你随时可以修改':'已经关闭',()=>openPanel('memory')),
       menuItem('bell','主动联系',policy.value?.proactive_enabled?'已允许 · 可以随时调整':'默认关闭 · 由你决定是否开启',()=>openPanel('contact')),
       menuItem('spark','我的工具','把有用的做法留下来',()=>openPanel('tools')),
-      menuItem('leaf','改变这里','把你喜欢的样子告诉我',()=>openPanel('appearance')),
+      menuItem('leaf','改变这里','三个起点，和更多属于你的可能',()=>openPanel('appearance')),
       menuItem('link','模型与连接',connection.value?.configured?'DeepSeek · 本机服务':'尚未连接模型',()=>openPanel('connection')),
       h('p',{class:'panel-footnote'},'同一个 AI，同一份记忆。外观可以改变，属于你的东西会留下。')]
     if(panel.value==='memory')return memoryPanel()
@@ -351,7 +350,7 @@ createApp({setup(){
     ])
   }
   function onKeys(event){
-    if(!panel.value)return
+    if(!panel.value){if(event.key==='Escape')composerOptions.value=false;return}
     if(event.key==='Escape'){event.preventDefault();void closePanel();return}
     if(event.key==='Tab'){
       const elements=[...drawer.value.querySelectorAll('button:not(:disabled),input:not(:disabled),textarea:not(:disabled),select:not(:disabled),a[href],summary,iframe')]
@@ -375,6 +374,7 @@ createApp({setup(){
     document.addEventListener('keydown',onKeys)
     const intent=navigationIntent
     await client.start()
+    await appearance.initialize()
     const saved=await client.draft.read()
     if(saved.ok){draftRevision=saved.result.revision;const d=saved.result.value;draft.value=d.text??'';attachment.value=d.attachment??null;temporary.value=d.temporary??false;if(d.conversationId)conversationId.value=d.conversationId;savedSelection=d.selectedTurn??null}
     draftHydrated=saved.ok
@@ -399,38 +399,45 @@ createApp({setup(){
     }
   })
   onUnmounted(()=>{client.dispose();document.removeEventListener('keydown',onKeys);clearTimeout(toastTimer)})
-  return ()=>h('div',{class:'app-shell'},[
-    h('div',{class:'workspace',inert:panel.value?'':undefined},[
-      h('header',{class:'topbar'},[btn('打开我的 AI',()=>openPanel('about'),{class:'brand'},[h('span',{class:'brand-mark'},icon('spark',23)),h('span',{class:'wordmark'},'morrow'),h('span',{class:'brand-divider'}),h('span',{class:'personal-name'},name.value)]),
-        h('nav',{'aria-label':'个人空间'},[btn('改变这里',()=>openPanel('appearance'),{class:'icon-button','aria-label':'改变这里',title:'改变这里'},icon('leaf')),btn('历史对话',()=>openPanel('history'),{class:'icon-button','aria-label':'历史对话',title:'历史对话'},icon('history')),btn('近况',()=>openPanel('inbox'),{class:'inbox-button'},[icon('bell',18),'近况',view.value?.home?.unreadCount?h('span',{class:'unread-dot','aria-label':`${view.value.home.unreadCount} 条未读`}):null]),btn('新的对话',newConversation,{class:'icon-button','aria-label':'新的对话',title:'新的对话',disabled:busy.value},icon('plus'))])]),
-      !connected.value?h('div',{class:'connection-banner',role:'status'},['本地连接已断开。已保存的内容不会丢失。',btn('重新连接',()=>client.call('snapshot'),{class:'text-button'})]):null,
-      h('main',{class:['main-space',chatRecords.value.length?'has-conversation':'']},[
-        chatRecords.value.length?h('section',{class:'conversation','aria-label':'对话'},[
+  const conversationView=()=>h('section',{class:'conversation','aria-label':'对话'},[
           h('div',{class:'conversation-label'},['一段属于你的对话',temporary.value?h('span','临时对话'):null]),
           ...chatRecords.value.map(record=>h('article',{key:record.id,class:'exchange'},[h('div',{class:'user-message'},[h('span',{class:'speaker'},'你'),h('p',record.text)]),
             summaryBlock(record),(record.reply||draftView(record)?.reply)?h('div',{class:['ai-message',draftView(record)?'streaming':'']},[h('span',{class:'ai-symbol'},icon('spark',19)),h('div',[h('span',{class:'speaker'},name.value),h('p',record.reply||draftView(record)?.reply),record.preview?btn('查看完整内容',()=>call('open',{panel:'conversation',turnId:record.id}),{class:'text-button'}):null])]):null,
-            activityBlock(record)])),h('div',{class:'conversation-end'})]):h('section',{class:'welcome'},[
-          botanical(),h('p',{class:'eyebrow'},'A LITTLE SPACE, JUST FOR YOU'),h('h1',['慢慢来，',h('br'),'我们一起。']),
-          h('p',{class:'welcome-note'},['聊聊今天，或把一件事交给我。',h('br'),'我会一点点，成为更懂你的 AI。']),
-          h('div',{class:'starter-links'},[btn('告诉你一件小事',()=>{draft.value='今天有件小事想和你说。';composer.value?.focus()},{class:'starter'},[icon('spark',15),'告诉你一件小事']),btn('帮我处理一份材料',()=>{draft.value='请帮我核对这份 CSV 的数量、单价和金额。';fileInput.value?.click()},{class:'starter'},[icon('paper',15),'帮我处理一份材料'])])]),
-        h('div',{class:'composer-area'},[
-          attachment.value?h('div',{class:'attachment-chip'},[icon('paper',16),h('span',attachment.value.name),btn('移除附件',()=>{fileGeneration++;attachment.value=null},{class:'icon-button tiny','aria-label':'移除附件'},icon('close',13))]):null,
-          h('div',{class:['composer',busy.value?'processing':'']},[h('textarea',{ref:composer,value:draft.value,onInput:e=>{draft.value=e.target.value},rows:2,placeholder:'有我在。想聊什么，或想一起做点什么？','aria-label':'给 AI 的消息',disabled:sending.value,
-            onKeydown:event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();void send()}}}),
-            h('div',{class:'composer-tools'},[h('div',{class:'composer-left'},[btn('添加 CSV 材料',()=>fileInput.value?.click(),{class:'icon-button','aria-label':'添加 CSV 材料',title:'添加 CSV 材料',disabled:busy.value},icon('attach',19)),
-              btn('临时对话',()=>{temporary.value=!temporary.value},{class:['temporary',temporary.value?'selected':''],'aria-pressed':temporary.value,title:'临时对话不读取或写入长期记忆',disabled:busy.value},[icon('moon',15),temporary.value?'临时对话已开':'临时对话']),
-              btn('目标模式',()=>{draft.value=/^\s*(?:\/goal(?:\s|$)|目标模式[：:])/u.test(draft.value)?draft.value.replace(/^\s*(?:\/goal\s*|目标模式[：:]\s*)/u,''):'目标模式：'+draft.value;composer.value?.focus()},
-                {class:['temporary',/^\s*(?:\/goal(?:\s|$)|目标模式[：:])/u.test(draft.value)?'selected':''],'aria-pressed':/^\s*(?:\/goal(?:\s|$)|目标模式[：:])/u.test(draft.value),title:'主控拆分目标、分派执行者，再逐项验收',disabled:busy.value},'目标模式')]),
-              busy.value?btn('停止回复',stopCurrent,{class:'send-button stop-button','aria-label':'停止回复',disabled:!stopTarget()},icon('stop',17)):
-              btn('发送消息',send,{class:'send-button','aria-label':'发送消息',disabled:!draft.value.trim()||!connected.value||!state.value},icon('send',21))])]),
-          h('input',{ref:fileInput,type:'file',accept:'.csv,text/csv',class:'file-input',onChange:attach,'aria-label':'选择 CSV 文件'}),
-          h('div',{class:'composer-meta'},[btn(policy.value?.memory_enabled?'记忆已开启':'记忆已关闭',()=>openPanel('memory'),{class:'quiet-control'},[h('span',{class:['tiny-dot',policy.value?.memory_enabled?'on':'']}),policy.value?.memory_enabled?'记忆已开启':'记忆已关闭']),
-            btn(connection.value?.configured?'DeepSeek 已连接':'连接你的模型',()=>openPanel('connection'),{class:'quiet-control'},[connection.value?.configured?'DeepSeek · 已配置':'连接你的模型',icon('chevron',11)])]),
-          view.value?.conversation?.submitUnknown?btn('核对上一条输入是否已保存',()=>call('send.reconcile'),{class:'text-button error-text'}):null,
-        ]),
+            activityBlock(record)])),h('div',{class:'conversation-end'})])
+  const composerView=()=>h('div',{class:['composer-area',composerOptions.value?'options-open':'']},[
+    attachment.value?h('div',{class:'attachment-chip'},[icon('paper',15),h('span',attachment.value.name),btn('移除附件',()=>{fileGeneration++;attachment.value=null},{class:'icon-button tiny','aria-label':'移除附件'},icon('close',13))]):null,
+    h('div',{class:['composer',busy.value?'processing':'']},[
+      h('div',{class:'composer-entry'},[
+        btn('更多输入选项',()=>{composerOptions.value=!composerOptions.value},{class:'composer-expand','aria-label':'更多输入选项','aria-expanded':composerOptions.value,title:'附件、临时对话与目标模式'},icon(composerOptions.value?'close':'plus',18)),
+        h('textarea',{ref:composer,value:draft.value,onInput:e=>{draft.value=e.target.value},rows:theme.value==='atelier'?5:1,
+          placeholder:theme.value==='whale'?'跟我说句话…':theme.value==='form'?'一个问题，一个想法。':'今天，想从哪句话开始？',
+          'aria-label':'给 AI 的消息',disabled:sending.value,
+          onKeydown:event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();void send()}}}),
+        busy.value?btn('停止回复',stopCurrent,{class:'send-button stop-button','aria-label':'停止回复',disabled:!stopTarget()},icon('stop',15)):
+        btn('发送消息',send,{class:['send-button',!draft.value.trim()?'send-empty':''],'aria-label':'发送消息',disabled:!draft.value.trim()||!connected.value||!state.value},icon('arrow',19)),
       ]),
-      h('footer',{class:'page-footer'},[h('span','YOUR AI, A LITTLE MORE YOURS.'),h('span','这段共同经历，从现在开始。')]),
+      composerOptions.value?h('div',{class:'composer-options'},[
+        btn('添加 CSV 材料',()=>fileInput.value?.click(),{class:'compose-option',disabled:busy.value},[icon('attach',16),'添加材料']),
+        btn('临时对话',()=>{temporary.value=!temporary.value},{class:['compose-option',temporary.value?'selected':''],'aria-pressed':temporary.value,title:'临时对话不读取或写入长期记忆',disabled:busy.value},[icon('moon',15),'临时对话']),
+        btn('目标模式',()=>{draft.value=/^\s*(?:\/goal(?:\s|$)|目标模式[：:])/u.test(draft.value)?draft.value.replace(/^\s*(?:\/goal\s*|目标模式[：:]\s*)/u,''):'目标模式：'+draft.value;composer.value?.focus()},
+          {class:['compose-option',/^\s*(?:\/goal(?:\s|$)|目标模式[：:])/u.test(draft.value)?'selected':''],'aria-pressed':/^\s*(?:\/goal(?:\s|$)|目标模式[：:])/u.test(draft.value),disabled:busy.value},[icon('spark',15),'目标模式']),
+        h('div',{class:'composer-meta'},[btn(policy.value?.memory_enabled?'记忆已开启':'记忆已关闭',()=>openPanel('memory'),{class:'quiet-control'},policy.value?.memory_enabled?'记忆已开启':'记忆已关闭'),btn('模型与连接',()=>openPanel('connection'),{class:'quiet-control'},[icon('link',13),'模型与连接'])]),
+      ]):null,
     ]),
+    temporary.value&&!composerOptions.value?h('span',{class:'input-mode-note'},'临时对话'):null,
+    /^\s*(?:\/goal(?:\s|$)|目标模式[：:])/u.test(draft.value)&&!composerOptions.value?h('span',{class:'input-mode-note'},'目标模式'):null,
+    h('input',{ref:fileInput,type:'file',accept:'.csv,text/csv',class:'file-input',onChange:attach,'aria-label':'选择 CSV 文件'}),
+    view.value?.conversation?.submitUnknown?btn('核对上一条输入是否已保存',()=>call('send.reconcile'),{class:'text-button error-text'}):null,
+  ])
+  return ()=>h('div',{class:['app-shell',`theme-${theme.value}`]},[
+    renderStarter({theme:theme.value,name:name.value,hasConversation:!!chatRecords.value.length,busy:busy.value,
+      runningTools:chatRecords.value.some(record=>{const a=activityView(record);return a.running&&a.hasActions}),unread:view.value?.home?.unreadCount,inert:!!panel.value,
+      open:openPanel,newConversation,icon,
+      lastArtifact:chatRecords.value.flatMap(record=>(record.actions??[]).filter(a=>a.state==='accepted'&&a.artifact).map(a=>a.artifact)).at(-1),
+      prompt:text=>{draft.value=text;nextTick(()=>composer.value?.focus())},
+      banner:!connected.value?h('div',{class:'connection-banner',role:'status'},['本地连接已断开。已保存的内容不会丢失。',btn('重新连接',()=>client.call('snapshot'),{class:'text-button'})]):null,
+      conversation:chatRecords.value.length?conversationView():null,composer:composerView(),
+    }),
     panel.value?h('div',{class:'panel-layer'},[h('div',{class:'scrim',onClick:closePanel}),h('aside',{ref:drawer,class:['drawer',panel.value==='result'?'wide':'',panel.value==='appearance'?'appearance-drawer':''],role:'dialog','aria-modal':'true','aria-labelledby':'panel-title'},[
       h('header',{class:'drawer-header'},[h('div',[panel.value!=='about'?btn('返回我的 AI',()=>openPanel('about'),{class:'icon-button small-icon','aria-label':'返回我的 AI'},icon('back',17)):null,h('h2',{id:'panel-title'},titles[panel.value])]),btn('关闭面板',closePanel,{class:'icon-button','aria-label':'关闭面板'},icon('close'))]),
       h('div',{class:'drawer-content'},content())])]):null,

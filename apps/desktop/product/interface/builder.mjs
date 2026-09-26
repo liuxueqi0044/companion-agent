@@ -4,6 +4,7 @@ import path from 'node:path'
 import {createHash} from 'node:crypto'
 import {pathToFileURL,fileURLToPath} from 'node:url'
 import {SCOPES} from './session.mjs'
+import {initialStarter,availableStarterIds} from '../../personal-space/starter-config.mjs'
 export const sha=value=>createHash('sha256').update(value).digest('hex')
 const fail=code=>Object.assign(Error(code),{code})
 const workspace=fileURLToPath(new URL('../../../..',import.meta.url))
@@ -29,14 +30,18 @@ export function validateSource(source){
   if(!/\.(?:mjs|js|ts)$/.test(source.entry))throw fail('interface_invalid_source')
   return structuredClone(source)
 }
-export async function defaultSource(){
+export async function defaultSource({starter=initialStarter,standalone=false}={}){
+  if(!availableStarterIds.includes(starter))throw fail('interface_invalid_starter')
   const files={}
-  for(const name of ['app.mjs','activity.mjs','styles.css'])files[name]=await fs.readFile(path.join(sourceRoot,name),'utf8')
+  for(const name of ['app.mjs','activity.mjs','styles.css','appearance.mjs','starters.mjs','starters.css','starter-common.mjs','starter-character.mjs',...(availableStarterIds.includes('whale')?['whale-room.mjs','companion-motion.mjs']:[])])files[name]=await fs.readFile(path.join(sourceRoot,name),'utf8')
+  files['starter-config.mjs']=`export const initialStarter = ${JSON.stringify(starter)}\nexport const availableStarterIds = ${JSON.stringify(availableStarterIds)}\n`
+  if(availableStarterIds.includes('whale'))for(const name of (await fs.readdir(path.join(sourceRoot,'characters'))).filter(n=>/^[a-z0-9-]+\.mjs$/.test(n)).sort())
+    files['characters/'+name]=await fs.readFile(path.join(sourceRoot,'characters',name),'utf8')
   files['core/activity.mjs']=await fs.readFile(path.resolve(sourceRoot,'../product/application/activity.mjs'),'utf8')
   files['core/state.mjs']=await fs.readFile(path.resolve(sourceRoot,'../product/application/state.mjs'),'utf8')
   files['core/workflow.mjs']=await fs.readFile(path.resolve(sourceRoot,'../product/application/workflow.mjs'),'utf8')
   files['activity.mjs']=files['activity.mjs'].replace('../product/application/activity.mjs','./core/activity.mjs')
-  return {sdk:'morrow.ui/1',id:'morrow.default',name:'Morrow · 初始界面',entry:'app.mjs',styles:['styles.css'],scopes:[...SCOPES],files}
+  return {sdk:'morrow.ui/1',id:standalone?`morrow.starter.${starter}`:'morrow.default',name:standalone?({whale:'蓝鲸小窝',form:'FORM',atelier:'ATELIER'})[starter]:'Morrow · 初始界面',entry:'app.mjs',styles:['styles.css','starters.css'],scopes:[...SCOPES],files}
 }
 export async function buildInterface(value,{vueFile,bundlerFile=path.resolve(workspace,'../companion-agent/node_modules/rolldown/dist/index.mjs')}={}){
   const source=validateSource(value)

@@ -1,0 +1,88 @@
+{
+  "batch_id": "CORE-019",
+  "status": "submitted",
+  "independently_accepted": false,
+  "outcome": "invitation_package_verified_on_development_pc_external_checks_pending",
+  "validation": {
+    "python_full_passed": 219,
+    "packaging_final_passed": 10,
+    "packaging_final_deselected": 210,
+    "node_full_passed": 304,
+    "native_checks_passed": 12,
+    "final_inventory_files": 1763,
+    "zip_entries": 1764,
+    "final_installation": "passed",
+    "full_candidate_uninstall": "passed",
+    "packaged_offline_check": "passed",
+    "reminder_pause_and_deduplication": "passed",
+    "schema_and_donor": "passed"
+  },
+  "live": {
+    "requests_total": 4,
+    "received": 3,
+    "failed_format": 1,
+    "manual_resume_requests": 1,
+    "automatic_retries": 0,
+    "openai_requests": 0,
+    "coding_agent_invocations": 0,
+    "real_credential_read": true,
+    "initial_trial": "failed",
+    "manual_resume": "passed",
+    "original_failure_preserved": true,
+    "query_not_repeated": true
+  },
+  "unverified": [
+    "another_computer_with_security_enabled",
+    "physical_sleep_wake",
+    "human_observed_os_toast_and_click",
+    "interactive_real_key_entry",
+    "interactive_diagnostic_save_dialog",
+    "code_signing"
+  ],
+  "deferred": [
+    "whole_interface_natural_language_author",
+    "cloud",
+    "TTS",
+    "community",
+    "general_computer_use"
+  ],
+  "private_user_data_modified": false,
+  "extra_assistant_sessions": 0,
+  "artifact": {
+    "final_manifest_sha256": "b628f77a7d56a948887e1e3435fa558871eedc7670e71870a24936609f7cea3e",
+    "candidate3_payload_identical": true,
+    "zip_sha256": "cd3afc28311bedaf923af0617336ad7a411aad79028f596cf3544910a0adef4e",
+    "zip_bytes": 219454487,
+    "archive_name": "Morrow-0.19.0-alpha.1-Invite.zip",
+    "uploaded": false
+  },
+  "local_origin": {
+    "manifest_sha256": "b62600b54290b86b596ddc7c22a818f5e5018fafdbc99fb05c85621bb1f19402",
+    "report_sha256": "178956ee62a22221db4d70c5a2c70c57bfb7ebba5d764fc6760384a982b38c04",
+    "raw_evidence_included": false
+  },
+  "publication": {
+    "kind": "source_snapshot",
+    "profile": "invitation",
+    "interfaces": [
+      "form",
+      "atelier"
+    ],
+    "initial_interface": "form",
+    "binary_release_uploaded": false,
+    "private_user_data_included": false,
+    "validation": {
+      "python_passed": 222,
+      "node_passed": 305,
+      "schema": "PASS",
+      "source_exports": 3,
+      "model_requests": 0,
+      "credentials_read": false
+    },
+    "local_validation_log_hashes": {
+      "python.txt": "1c619eb7b09b7a15d87d06b5cb5934a916e50564b050b477de3679aff0fc4595",
+      "node.txt": "f1799c01ba6133e057e4895997f0eefe47a72656be032df6c629619bafaea79a",
+      "schema.txt": "a56cc15aa44a676c974f5e6ca174d5bb37e5de205cc74d4e3ecd5d39387c1d61"
+    }
+  }
+}

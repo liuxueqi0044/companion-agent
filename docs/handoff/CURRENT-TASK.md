@@ -1,27 +1,11 @@
-# 当前交接：CORE-015 目标模式与 Claude Code
+# Current handoff: CORE-019 invitation Alpha source
 
-工作区：`C:\Users\xiayu\Documents\Codex\companion-agent-core`。原 `companion-agent` 只读；Git 发布副本 `companion-agent-github`。先读 `docs/development/CORE-015.md`、`docs/product/GOAL-MODE.md` 和 `reports/core-015/report.json`。
+Read `docs/development/CORE-019.md`, `docs/product/INVITATION-ALPHA.md`, and `reports/core-019/README.md`. This is the Git publication mirror; the development workspace is separate. Implementation remains submitted, not independently accepted.
 
-## 已接通
+The source profile here contains FORM / ATELIER only, defaults to FORM, and retains full source-package replacement and recovery. Character artwork, encoded sprites, live model candidates, credentials, private data and binary releases are excluded. `tools/build_windows.py` defaults to invitation builds; the older local-preview profile is intentionally unavailable.
 
-- 显式 `/goal` 或“目标模式：”才授予目标控制。模型生成任务及标准，宿主管理依赖、轮次、角色、真实证据及停止恢复。角色可独立选模型；请求仍串行。
-- Pro 规划/验收，Flash 工作者使用受限上下文与现有工具；工作者不能自验收、完结目标或更改个人记忆。主控看原始成果预览及截断标识，不能用无关任务或旧轮次成果冒充当前提交。
-- 实际 Claude Code 2.1.215 通过 DeepSeek Anthropic 接口写文件，宿主读取真实输出及语法检查，再交主控验收。独立设置、无继承登录/插件/MCP/钩子、无 Shell，真实凭据不进入 CLI 子进程。CLI 授权不是操作系统级沙箱。
-- 四个附加表持久化目标、任务、步骤角色和编码回执。旧记录保留；前端使用同一 SDK 投影。连续 24 判断或重复控制失败会暂停，用户可继续；网络错误不自动重试。
-- 大目标暴露出原 SSE 流控问题：单帧超过写入水位时重复发送同一帧，导致页面空白。已改为等待 drain 后只发送等待中的新状态，并新增真实 HTTP 回归。
+Installation receipts, versioned uninstall, welcome/help, allowlisted diagnostics, offline package checks and durable notification consumption are implemented. Development-PC native and package checks passed. Real DeepSeek verification had one format failure followed by explicit successful resume; the initial failure remains recorded. No automatic retry, OpenAI request or duplicate data query was used.
 
-## 实际试验与诚实边界
+Next external checks: another Windows machine with protection enabled, physical sleep/wake, human-observed notification/click, real key entry and diagnostic-save dialog. Code signing remains pending. Do not claim public-release readiness from local regression results.
 
-DeepSeek 多角色试验使用虚构 CSV，计算 A=5/B=4 后保存报告。初期暴露了跨依赖验收引用过窄、模型中间 outcome=null 的兼容问题；已修正，并从原保存状态手动继续。空 outcome 的归一化限定于有实际动作的中间步骤；最终回复仍严格验证。一次修订曾影响日期解析，全量回归发现后改用字段级验证，失败日志保留。
-
-生产流式路径也已实测。主控在同一步规划并派工，以及工具调用时 reply 为空的正常输出已兼容；规划失败会阻止配套派工，空最终答复仍拒绝。失败样本和手动继续过程均保留；真实成功不代表任意目标都可完成。
-
-Claude Code 试验写出 `sum.mjs` 和 `README.md`，4 次文件工具调用，4 次 CLI 内 DeepSeek 请求，加 5 次主控/验收请求；宿主 JS 语法检查通过，主控验收。源码没有执行行为测试，不以“语法通过”冒充功能正确。
-
-离线 demo 使用脚本模型和真实本地工具，演示报告错误→退回→第二轮修正→重新验收。全量测试、浏览器检查、实际升级与便携包结果以批报告为准，不自行将 submitted 变为独立 accepted。
-
-## 保留约束与后续
-
-禁止额外 Codex 会话或当前 OpenAI 账号试验。DeepSeek 仍可串行测试，凭据和实际用户数据不得出现在 Git。历史报告、原始失败记录与旧账本不可改写。
-
-用户可开始试用目标模式及有限编码任务。更强工具（受控运行代码、浏览器/电脑操作）、长时间/跨机目标、TTS、社区、云端仍是后续扩展。整套 UI 自然语言作者按用户决定放到最后。模型负责智能决策，但程序证据/恢复/授权是产品责任，不能只靠提示词替代。
+Full-interface natural-language authoring, cloud, TTS, community and general computer use remain deferred. Do not run live providers, read credentials or start additional AI sessions merely to validate this source mirror. Private test roots and original raw evidence stay outside Git.

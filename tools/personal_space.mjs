@@ -17,6 +17,7 @@ import {createBackgroundService} from '../apps/desktop/product/background.mjs'
 import {guardPath,writeJSON} from '../apps/desktop/product/storage.mjs'
 import {randomBytes} from 'node:crypto'
 import {createCodingProvider} from '../apps/desktop/product/providers/coding.mjs'
+import platform from '../apps/desktop/product/platform.cjs'
 
 const exec=promisify(execFile)
 const exists=async file=>{try{return (await fs.stat(file)).isFile()}catch(e){if(e.code==='ENOENT')return false;throw e}}
@@ -43,8 +44,8 @@ let providers=null,coding=null,claude=null,goalProvider=null
 if(live){
   const credential=process.env.PERSONAL_AI_CREDENTIAL_FILE??path.join(process.env.LOCALAPPDATA,'CompanionAgent/credentials/deepseek.dpapi')
   let result
-  // Reuse the same installed PowerShell 7 runtime as the existing credential writer.
-  try{result=await exec('pwsh',['-NoProfile','-NonInteractive','-File',path.join(root,'tools/load_product_credential.ps1'),'-CredentialPath',credential],{windowsHide:true,maxBuffer:8192})}
+  // Built-in Windows PowerShell can decode existing current-user PS 7 DPAPI blobs.
+  try{result=await exec(platform.systemPowerShell(),['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',path.join(root,'tools/load_product_credential.ps1'),'-CredentialPath',credential],{windowsHide:true,maxBuffer:8192,env:platform.powerShellEnvironment()})}
   catch{throw Error('credential_decode_failed')}
   if(result.stderr||!result.stdout.trim())throw Error('credential_decode_failed')
   const ledger=createRequestLedger({file:path.join(stateRoot,'core-007-deepseek-budget.json')})
@@ -84,6 +85,7 @@ const app=await createPersonalSpaceServer({runtime,space,interfaces,vueFile,port
   nativeControl:async(action,args)=>{
     if(action==='status'&&Object.keys(args).length===0)return {ok:true,result:{background:background.snapshot(),busy:runtime.snapshot().runtime.executionBusy,connection:connection()}}
     if(action==='background.configure')return background.configure(args)
+    if(action==='background.tick'&&Object.keys(args).length===0)return background.tick()
     if(action==='window.authorize'&&Object.keys(args).sort().join('|')==='mountId|settings')return interfaces.call({mountId:args.mountId,action:'host.window',args:{}})
     if(action==='quit'&&Object.keys(args).length===0){setTimeout(()=>void shutdown(),25);return {ok:true}}
     return {ok:false,error:'invalid_request'}
