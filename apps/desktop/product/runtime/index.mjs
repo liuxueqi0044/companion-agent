@@ -24,7 +24,7 @@ function sendInput(value){
   return {value:frozen,hash:createHash('sha256').update(json).digest('hex')}
 }
 
-export function createProductRuntime({host,intent,turnProvider,contactProvider,
+export function createProductRuntime({host,intent,turnProvider,contactProvider,capabilityExecutor,
   timeoutMs,timers}={}) {
   if(!host || typeof host.request!=='function' ||
     (intent!==undefined && typeof intent!=='function'))
@@ -34,7 +34,7 @@ export function createProductRuntime({host,intent,turnProvider,contactProvider,
     ...(timers===undefined?{}:{timers})}
   let turn,contact,app
   try{
-    turn=createTurnRunner({...runnerOptions,...(turnProvider===undefined?{}:{provider:turnProvider})})
+    turn=createTurnRunner({...runnerOptions,capabilityExecutor,...(turnProvider===undefined?{}:{provider:turnProvider})})
     contact=createContactRunner({...runnerOptions,
       ...(contactProvider===undefined?{}:{provider:contactProvider})})
     app=createProductApplication({host,...(intent===undefined?{}:{intent}),runner:turn})

@@ -29,6 +29,8 @@ def exact(payload, required, optional=()):
 
 
 def dispatch(app, action, p, *, reviewed_packages=()):
+    if action.startswith('capability.'):
+        return app.capabilities.dispatch(action.removeprefix('capability.'), p)
     no_payload = {'bootstrap', 'home', 'policy.read', 'contact.controls', 'contact.inspect',
                   'contact.tick', 'contact.claim', 'reminder.deliver-due',
                   'runtime.recover', 'worker.run-next', 'worker.recover', 'tasks.sync', 'experience.history', 'inbox.latest', 'tool.list'}

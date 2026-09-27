@@ -29,6 +29,8 @@ def install(db):
         for statement in SCHEMA:
             db.execute(statement)
     goals.install(db)
+    from .capabilities import install as install_capabilities
+    install_capabilities(db)
 
 
 def enabled(db, turn_id):
@@ -110,7 +112,7 @@ def check_actions(db, turn_id, decision):
         raise ProductError('invalid_request')
     old = [json.loads(r[0]) for r in db.execute('SELECT payload_json FROM actions WHERE turn_id=?', (turn_id,))]
     for action in decision.actions:
-        if action.kind in ('data.query', 'tool.run', *goals.CONTROL):
+        if action.kind in ('data.query', 'tool.run', 'capability.describe', 'capability.call', *goals.CONTROL):
             continue  # Read-only reruns can verify a result; execution still has limits.
         value = action.model_dump(mode='json', exclude_unset=True)
         if value in old:

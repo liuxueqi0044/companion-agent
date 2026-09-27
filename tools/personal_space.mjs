@@ -19,6 +19,7 @@ import {randomBytes} from 'node:crypto'
 import {createCodingProvider} from '../apps/desktop/product/providers/coding.mjs'
 import platform from '../apps/desktop/product/platform.cjs'
 import {resolveRuntime} from '../apps/desktop/product/runtime-paths.mjs'
+import {createCapabilityService} from '../apps/desktop/product/capabilities/service.mjs'
 
 const exec=promisify(execFile)
 const exists=async file=>{try{return (await fs.stat(file)).isFile()}catch(e){if(e.code==='ENOENT')return false;throw e}}
@@ -55,8 +56,9 @@ if(live){
   result=null
 }
 const host=createProductHost({python,workspace:root,dataRoot})
-const runtime=createProductRuntime({host,timeoutMs:claude?120000:coding?115000:60000,intent:input=>{
-  const grants=goalIntent(input,{claude:!!claude})
+const capabilities=createCapabilityService({host,root:path.join(dataRoot,'capabilities'),python})
+const runtime=createProductRuntime({host,capabilityExecutor:capabilities.execute,timeoutMs:claude?120000:coding?115000:60000,intent:input=>{
+  const grants=[...goalIntent(input,{claude:!!claude}),'capability.describe','capability.call']
   return coding&&input.text.startsWith('/code ')?grants.filter(c=>c!=='task.loop'):grants
 },
   ...(providers?{turnProvider:{configured:true,respond:(context,options)=>coding&&!context.goal&&context.user_text.startsWith('/code ')?coding.respond(context,options):goalProvider.respond(context,options)},contactProvider:providers.contact}:{})})
@@ -70,11 +72,11 @@ try{space=await createSpaceService({root:path.join(dataRoot,'canvas'),provider:p
 catch{space=unavailableSpaceService();console.error('space_state_invalid: customization disabled; existing files preserved')}
 const connection=()=>({...providers?.connection()??{configured:false,provider:null},coding:!!coding,claude:!!claude})
 const background=await createBackgroundService({runtime,host,root:dataRoot,
-  isBusy:()=>space.snapshot().busy,
+  isBusy:()=>space.snapshot().busy||capabilities.busy,
   notify:notice=>writeJSON(path.join(stateRoot,'notification.json'),notice)})
 const interfaces=await createInterfaceService({root:path.join(dataRoot,'interfaces'),runtime,vueFile,bundlerFile,progress:providers?.progress,connection,background})
 const nativeToken=randomBytes(32).toString('base64url')
-const app=await createPersonalSpaceServer({runtime,space,interfaces,vueFile,port,progress:providers?.progress,connection,background,nativeToken,
+const app=await createPersonalSpaceServer({runtime,space,interfaces,capabilities,vueFile,port,progress:providers?.progress,connection,background,nativeToken,
   nativeControl:async(action,args)=>{
     if(action==='status'&&Object.keys(args).length===0)return {ok:true,result:{background:background.snapshot(),busy:runtime.snapshot().runtime.executionBusy,connection:connection()}}
     if(action==='background.configure')return background.configure(args)
@@ -87,5 +89,5 @@ await writeJSON(path.join(stateRoot,'personal-space-server.json'),{url:app.url,p
 background.start()
 console.log(JSON.stringify({url:app.url,mode:live?'deepseek':'offline'}))
 let closing=false
-async function shutdown(){if(closing)return;closing=true;await background.close();await app.close();await host.dispose();releaseInstance();process.exitCode=0}
+async function shutdown(){if(closing)return;closing=true;await background.close();await app.close();await capabilities.close();await host.dispose();releaseInstance();process.exitCode=0}
 process.once('SIGINT',shutdown);process.once('SIGTERM',shutdown)

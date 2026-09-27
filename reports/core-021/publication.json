@@ -1,0 +1,76 @@
+{
+  "format": "morrow-source-publication/1",
+  "milestone": "CORE-021",
+  "date": "2026-09-28",
+  "base_commit": "6db4c7eccc1aed8039be72f1d976141494b714ee",
+  "source_manifest_sha256": "ae0d1a8691b2372a795181d7b6a9f9194939ae886b0c8eedfb71e8bde00746cb",
+  "purpose": "Publish the existing capability ecosystem implementation and offline revalidate the publication profile.",
+  "implementation_report": "reports/core-021/report.json",
+  "implementation_status": "submitted",
+  "independent_review": "not_run",
+  "profile": {
+    "interfaces": [
+      "form",
+      "atelier"
+    ],
+    "initial_interface": "form",
+    "build_default": "invitation",
+    "artwork_included": false
+  },
+  "scope": [
+    "portable Skill/Codex/Claude component import",
+    "versioned capability sets",
+    "trusted-host grants and readonly MCP calls",
+    "capability manager and scoped SDK entry",
+    "pinned dependency packaging",
+    "tests and source documentation"
+  ],
+  "excluded": [
+    "CORE-022 website",
+    "personal filing and support records",
+    "credentials",
+    "runtime databases and private data",
+    "raw local evidence",
+    "character artwork",
+    "dependency binaries and release archives"
+  ],
+  "source_adaptations": {
+    "tools/build_windows.py": "Port CORE-021 dependency closure copying while retaining the published invitation-only defaults.",
+    "AGENTS.md": "Append mirror-specific CORE-021 guidance; do not copy later development dispatches.",
+    "README.md": "Document the new source functionality without claiming a new binary release.",
+    "docs/handoff/CURRENT-TASK.md": "Prepend the publication scope to existing historical handoff.",
+    "reports/core-021/README.md": "Distinguish the historical implementation report from this offline source publication.",
+    "line_endings": "Preserve LF for existing mirror files where appropriate."
+  },
+  "verification": {
+    "command": "node tools/product.mjs test",
+    "exit_code": 0,
+    "python": {
+      "passed": 235
+    },
+    "node": {
+      "passed": 324,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "check": {
+      "command": "node tools/product.mjs check",
+      "exit_code": 0,
+      "python_syntax": 51,
+      "schema": "passed",
+      "configured_strict_typescript": "passed",
+      "starter_builds": [
+        "form",
+        "atelier"
+      ]
+    },
+    "dependencies": "Reused existing pinned local installation; no package downloads or installation scripts.",
+    "local_test_log_sha256": "944ee18a4f093463467b9550a9092d505fe0327c6b3de13e2c9cf8fabc8d0d6a",
+    "model_requests": 0,
+    "credential_reads": 0,
+    "external_network_note": "No provider trials; test HTTP calls are local fixtures. Git fetch/push is the only external publication operation."
+  },
+  "binary_release": "not_created",
+  "git_delivery": "This file records the source snapshot; the enclosing Git commit and remote branch establish publication."
+}

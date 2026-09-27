@@ -65,6 +65,23 @@ def copy_ui(output, invitation=True, starter='form'):
             'export const WhaleRoom = null\nexport const whaleCharacter = () => null\nexport const hasCharacter = false\n', encoding='utf-8')
 
 
+def copy_node_dependencies(output, modules, names):
+    """Copy the production dependency closure, including each upstream license."""
+    queue = list(names)
+    copied = {}
+    while queue:
+        name = queue.pop()
+        if name in copied:
+            continue
+        source = modules/name
+        metadata = json.loads((source/'package.json').read_text(encoding='utf-8'))
+        copy_tree(source, output/'node_modules'/name)
+        copied[name] = {'version':metadata['version'], 'license':metadata.get('license')}
+        queue += list(metadata.get('dependencies', {}))
+    return copied
+
+
+
 def build(output, invitation=True, starter='form'):
     if not invitation:
         raise RuntimeError('local_preview_artwork_not_in_source_snapshot')
@@ -101,17 +118,10 @@ def build(output, invitation=True, starter='form'):
         if any(file.name == name or file.name == name+'.py' or file.name.startswith(name+'-') for name in selected) or file.name.startswith('tzdata'):
             if file.is_dir(): copy_tree(file, site/file.name)
             else: shutil.copyfile(file, site/file.name)
-    modules = DONOR/'node_modules'
-    queue = ['rolldown', '@rolldown/binding-win32-x64-msvc']
-    copied = {}
-    while queue:
-        name = queue.pop()
-        if name in copied: continue
-        source = modules/name
-        metadata = json.loads((source/'package.json').read_text(encoding='utf-8'))
-        copy_tree(source, output/'node_modules'/name)
-        copied[name] = {'version': metadata['version'], 'license': metadata.get('license')}
-        queue += list(metadata.get('dependencies', {}))
+    # Runtime binaries may come from an explicit donor; application dependencies
+    # come from this checkout's installation and committed lockfile.
+    modules = ROOT/'node_modules'
+    copied = copy_node_dependencies(output, modules, ['rolldown', '@rolldown/binding-win32-x64-msvc', '@modelcontextprotocol/client', 'yaml', 'ajv'])
     vue = modules/'vue'
     (runtime/'vue').mkdir()
     for name in ['LICENSE', 'package.json']:

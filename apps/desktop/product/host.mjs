@@ -23,6 +23,8 @@ const ACTIONS = new Set([...READS, 'tool.manage','bootstrap','policy.replace','t
   'contact.claim','contact.complete','contact.fail-generation','reminder.deliver-due',
   'conversation.list','conversation.turns','reminder.cancel','inbox.read','runtime.recover','runtime.migrate',
   'worker.run-next','worker.recover','tasks.sync','task.cancel','task.retry','experience.activate','experience.restore'])
+for(const name of ['list','read','definition','sets']){READS.add('capability.'+name);ACTIONS.add('capability.'+name)}
+for(const name of ['import','manage','connected','grant','claim','reject','finish','save-set','apply-set'])ACTIONS.add('capability.'+name)
 
 /** Options are application-owned, not values accepted from messages or package manifests. */
 export function createProductHost({ python, workspace, dataRoot, reviewedPackages = [], timeoutMs = 30000, disposeTimeoutMs = 2000 }) {

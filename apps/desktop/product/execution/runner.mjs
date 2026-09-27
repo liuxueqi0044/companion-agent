@@ -14,7 +14,7 @@ const rejectedWrites=new Set(['invalid_request','invalid_capability','missing_ma
   'invalid_provider_metadata','disposed','repeated_action','workflow_waiting','reconciliation_required'])
 const chainWrites=new Set(['turn.begin','turn.advance','turn.accept','turn.execute','worker.run-next'])
 
-export function createTurnRunner({host,provider=UnavailableProvider,timeoutMs=30000,timers=globalThis}={}) {
+export function createTurnRunner({host,provider=UnavailableProvider,capabilityExecutor,timeoutMs=30000,timers=globalThis}={}) {
   if (!host || typeof host.request!=='function' || !provider || typeof provider.respond!=='function' ||
     typeof provider.configured!=='boolean' || !Number.isSafeInteger(timeoutMs) ||
     timeoutMs<1 || timeoutMs>120000 || typeof timers.setTimeout!=='function' ||
@@ -235,11 +235,23 @@ export function createTurnRunner({host,provider=UnavailableProvider,timeoutMs=30
       !Array.isArray(accepted.result.actions) || accepted.result.actions.length===0 ||
       !accepted.result.actions.some(item=>item.state==='ready') ||
       accepted.result.actions.some(item=>!validId(item.id) ||
-        !['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run','data.query','goal.plan','goal.dispatch','goal.submit','goal.review','goal.finish'].includes(item.kind) ||
+        !['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run','data.query','capability.describe','capability.call','goal.plan','goal.dispatch','goal.submit','goal.review','goal.finish'].includes(item.kind) ||
         (!accepted.result.workflow && item.state!=='ready')) ||
       snapshot().activity?.protocolError)return unknown(record,'protocol_error')
     if(!eligible(record))return fail('provider_aborted')
     phase(record,'executing')
+    for(const action of accepted.result.actions.filter(a=>a.kind==='capability.call'&&a.state==='ready')){
+      if(!capabilityExecutor)break // Kernel returns an honest unavailable receipt.
+      if(!eligible(record))return fail('provider_aborted')
+      record.hostPending++;setPending(record)
+      let reply
+      try{
+        if(!eligible(record))return fail('provider_aborted')
+        reply=await capabilityExecutor({turnId:record.turnId,actionId:action.id,signal:record.abortController.signal})
+      }finally{record.hostPending--;setPending(record);release()}
+      if(!reply?.ok)return unknown(record,reply?.error??'capability_receipt_unknown')
+      if(!eligible(record))return fail('provider_aborted')
+    }
     const executed=await call(record,'turn.execute',{turn_id:record.turnId})
     if(!eligible(record))return fail('provider_aborted')
     if(!executed.ok)return !rejectedWrites.has(executed.error)

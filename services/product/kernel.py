@@ -19,6 +19,7 @@ from .models import FailGenerationRequest, ModelDecision, ProductError, StopTurn
 from .ports import ProviderReply, UnconfiguredModel
 from .store import ProductStore, canonical, digest, guard, stamp
 from .tool_library import ToolLibrary, csv_input, query_sql
+from . import capabilities as capability_module
 
 
 class ProductKernel:
@@ -32,6 +33,7 @@ class ProductKernel:
         self.contact = ContactService(self.store, self.clock)
         self.conversations = ConversationBrowser(self.store)
         self.tools = ToolLibrary(self.root, self.clock)
+        self.capabilities = capability_module.CapabilityService(self)
 
     def bootstrap(self):
         guard(self.root)
@@ -63,7 +65,7 @@ class ProductKernel:
     def submit_turn(self, value, *, capabilities=()):
         """Capabilities come from the trusted host's user-intent/approval boundary, never model output."""
         request = validate(UserTurn, value)
-        if not isinstance(capabilities, (tuple, list)) or any(item not in ('csv.audit', 'profile.change', 'artifact.create', 'reminder.create', 'tool.save', 'tool.run', 'data.query', 'task.loop', 'agent.claude', *goals.CONTROL) for item in capabilities):
+        if not isinstance(capabilities, (tuple, list)) or any(item not in ('csv.audit', 'profile.change', 'artifact.create', 'reminder.create', 'tool.save', 'tool.run', 'data.query', 'task.loop', 'agent.claude', 'capability.describe', 'capability.call', *goals.CONTROL) for item in capabilities):
             raise ProductError('invalid_capability')
         grants = sorted(set(capabilities))
         if any(c in grants for c in (*goals.CONTROL,'agent.claude')) and not (set(goals.CONTROL) | {'task.loop'}) <= set(grants):
@@ -92,6 +94,8 @@ class ProductKernel:
 
     def _context(self, db, turn, policy, profile):
         context, signature = turn_context(db, turn, policy, profile)
+        if 'capability.describe' in context['capabilities']:
+            context['capability_catalog'] = capability_module.catalog(db, model=True)
         if any(c in context['capabilities'] for c in ('tool.save', 'tool.run', 'data.query')):
             context['tools'] = self.tools.catalog()
             # Only explicitly named tools supply their saved logic for an edit/reuse.
@@ -254,6 +258,9 @@ class ProductKernel:
             for row in db.execute('SELECT * FROM actions WHERE turn_id=? ORDER BY ordinal', (turn_id,)).fetchall():
                 if row['state'] not in ('ready', 'outcome_unknown'):
                     continue
+                if row['kind'] == 'capability.call' and row['state'] == 'outcome_unknown':
+                    # Never turn a lost MCP receipt into a fresh execution or a definite failure.
+                    continue
                 if failed_goal_plan and row['kind'] == 'goal.dispatch':
                     db.execute("UPDATE actions SET state='failed',error='goal_plan_failed' WHERE id=?", (row['id'],))
                     self.store.event(db, turn_id, 'action.failed', self.clock(), row['id'])
@@ -265,6 +272,10 @@ class ProductKernel:
                 try:
                     if row['kind'] in goals.CONTROL:
                         result = goals.apply(db, turn, json.loads(row['payload_json']))
+                    elif row['kind'] == 'capability.describe':
+                        result = capability_module.describe(db, json.loads(row['payload_json']))
+                    elif row['kind'] == 'capability.call':
+                        raise ProductError('capability_executor_unavailable')
                     elif row['kind'] == 'csv.audit':
                         result = self.workbench.submit({'command_id': row['id'], 'requirement_text': turn['text'], 'csv_text': turn['csv_text']})
                     elif row['kind'] == 'artifact.create':
@@ -416,6 +427,9 @@ class ProductKernel:
             actions = []
             for row in db.execute('SELECT * FROM actions WHERE turn_id=? ORDER BY ordinal', (turn_id,)):
                 item = {'id': row['id'], 'kind': row['kind'], 'state': row['state'], 'error': row['error']}
+                if row['kind'] in ('capability.describe','capability.call'):
+                    payload = json.loads(row['payload_json'])
+                    item['capability'] = {k:payload[k] for k in ('package_id','version','component','tool') if k in payload}
                 if row['result_json']:
                     result = json.loads(row['result_json'])
                     if row['kind'] == 'csv.audit':
@@ -433,6 +447,8 @@ class ProductKernel:
                         item['tool'] = result
                     elif row['kind'] == 'reminder.create':
                         item['reminder'] = self.contact._reminder(db.execute('SELECT * FROM reminders WHERE id=?', (row['id'],)).fetchone())
+                    elif row['kind'] == 'capability.call':
+                        item['capability_result'] = result
                     else:
                         item['result'] = result
                 actions.append(item)
@@ -454,7 +470,11 @@ class ProductKernel:
         with self.store.tx(True) as db:
             db.execute("UPDATE workflow_steps SET state='failed',error='interrupted' WHERE state='generating'")
             count = db.execute("UPDATE turns SET state='model_failed',ticket=NULL,error='interrupted' WHERE state='generating'").rowcount
-        return {'interrupted_model_turns': count, 'interrupted_followups': self.contact.recover()}
+            calls = db.execute("UPDATE cap_calls SET state='unknown',receipt_json=? WHERE state='running'",
+                               (canonical({'status':'unknown','result':None,'error':'capability_interrupted'}),)).rowcount
+            db.execute("UPDATE actions SET error='capability_interrupted' WHERE state='outcome_unknown' AND kind='capability.call'")
+            db.execute("UPDATE turns SET state='outcome_unknown' WHERE state='actions_ready' AND id IN (SELECT turn_id FROM actions WHERE state='outcome_unknown' AND kind='capability.call')")
+        return {'interrupted_model_turns': count, 'interrupted_followups': self.contact.recover(), 'interrupted_capability_calls':calls}
 
     def tick(self):
         """Called by the trusted local host, not installed as an OS/cloud scheduled task."""

@@ -11,7 +11,7 @@ function windowPatch(value){
 }
 function localOrigin(value){try{const u=new URL(value);return u.protocol==='http:'&&u.hostname==='127.0.0.1'&&u.port&&u.origin===value}catch{return false}}
 function navigationAllowed(value,origin,{main=true}={}){
-  try{const u=new URL(value);return u.origin===origin&&!u.search&&!u.hash&&(main?['/','/recover'].includes(u.pathname):/^\/interface-frame\/[a-f0-9]{48}$/.test(u.pathname))}catch{return false}
+  try{const u=new URL(value);return u.origin===origin&&!u.search&&!u.hash&&(main?['/','/recover','/capabilities'].includes(u.pathname):/^\/interface-frame\/[a-f0-9]{48}$/.test(u.pathname))}catch{return false}
 }
 function requestAllowed(value,origin){
   try{const u=new URL(value);return (u.origin===origin&&u.protocol==='http:')||['data:','blob:'].includes(u.protocol)}catch{return false}

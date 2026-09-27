@@ -253,7 +253,7 @@ createApp({setup(){
       h('div',{class:'activity-actions'},[btn(item.enabled?'停用':'启用',()=>changeTool(item.enabled?'disable':'enable'),{class:'secondary small',disabled:working.value}),btn('让 AI 修改',()=>requestTool({...item,...item.definition},true),{class:'secondary small'})]),
       h('details',[h('summary','查看工具逻辑与样例'),h('pre',{style:'white-space:pre-wrap;overflow-wrap:anywhere'},JSON.stringify(item.definition,null,2))]),
       h('h3','已有版本'),...item.versions.map(v=>btn(`版本 ${v.version}${v.version===item.version?' · 当前':' · 恢复'}`,()=>changeTool('restore',v.version),{class:'history-item',disabled:v.version===item.version||working.value}))]
-    return [para('这些做法会留下来，下次换一份材料也能继续用。可以直接在聊天里让 AI 创建或调用。'),
+    return [btn('添加能力',async()=>{await saveDraft();await client.host.openCapabilities()},{class:'secondary small'}),para('这些做法会留下来，下次换一份材料也能继续用。可以直接在聊天里让 AI 创建或调用。'),
       ...toolItems.value.map(t=>h('div',{class:'memory-item',key:t.id},[h('h3',t.name),para(t.description),h('small',`版本 ${t.version} · ${t.enabled?'可使用':'已停用'}`),
         h('div',{class:'activity-actions'},[btn('使用',()=>requestTool(t),{class:'secondary small',disabled:!t.enabled||busy.value}),btn('查看与管理',()=>inspectTool(t),{class:'secondary small'})])])),
       !toolItems.value.length?empty('把有用的做法留下来','试着说：帮我做一个去掉重复行的工具，以后还要用。','spark'):null]
@@ -267,6 +267,7 @@ createApp({setup(){
       menuItem('memory','记忆',policy.value?.memory_enabled?'正在开启 · 你随时可以修改':'已经关闭',()=>openPanel('memory')),
       menuItem('bell','主动联系',policy.value?.proactive_enabled?'已允许 · 可以随时调整':'默认关闭 · 由你决定是否开启',()=>openPanel('contact')),
       menuItem('spark','我的工具','把有用的做法留下来',()=>openPanel('tools')),
+      menuItem('plus','添加能力','带来新的方法，连接更多工具',async()=>{await saveDraft();await client.host.openCapabilities()}),
       menuItem('leaf','改变这里','三个起点，和更多属于你的可能',()=>openPanel('appearance')),
       menuItem('link','模型与连接',connection.value?.configured?'DeepSeek · 本机服务':'尚未连接模型',()=>openPanel('connection')),
       h('p',{class:'panel-footnote'},'同一个 AI，同一份记忆。外观可以改变，属于你的东西会留下。')]
@@ -326,7 +327,7 @@ createApp({setup(){
           s.summary||s.reply?h('p',s.summary||s.reply):null,
           s.error?h('p',{class:'error-text'},errors[s.error]||`未继续处理（${s.error}）`):null,
           ...s.action_ids.map(id=>{const action=(record.actions??[]).find(x=>x.id===id)??a.actions.find(x=>x.id===id);return action?h('p',{class:action.state==='failed'?'error-text':'workflow-receipt',key:id},[
-            ({'data.query':'查询附件','tool.save':'保存可复用工具','tool.run':'运行工具','artifact.create':'保存文件','csv.audit':'核对 CSV','reminder.create':'设置提醒','profile.change':'更新偏好','goal.plan':'拆分目标','goal.dispatch':'分派任务','goal.submit':'提交成果','goal.review':'验收成果','goal.finish':'收束目标'})[action.kind]??'工具',
+            ({'data.query':'查询附件','tool.save':'保存可复用工具','tool.run':'运行工具','capability.describe':'了解已添加的能力','capability.call':'调用已连接的工具','artifact.create':'保存文件','csv.audit':'核对 CSV','reminder.create':'设置提醒','profile.change':'更新偏好','goal.plan':'拆分目标','goal.dispatch':'分派任务','goal.submit':'提交成果','goal.review':'验收成果','goal.finish':'收束目标'})[action.kind]??'工具',
             ' · ',({ready:'等待执行',accepted:'回执已确认',failed:'未执行成功',blocked:'已停止',outcome_unknown:'结果待核对'})[action.state],
             Number.isSafeInteger(action.row_count)?` · 输出 ${action.row_count} 行`:'',action.error?` · ${errors[action.error]||action.error}`:'']):null})
         ]))
@@ -340,6 +341,9 @@ createApp({setup(){
           const a=document.createElement('a');a.href=url;a.download=r.result.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)
         },{class:'secondary small'},[icon('download',16),'下载成果'])])),
       ...(record.actions??[]).filter(x=>x.reminder&&x.state==='accepted').map(x=>h('p',{key:x.id},['已安排提醒：',x.reminder.text,' · ',formatTime(x.reminder.due_at)])),
+      ...(record.actions??[]).filter(x=>x.kind==='capability.call'&&x.capability_result).map(x=>h('details',{key:x.id,class:'memory-item'},[
+        h('summary',`${x.capability?.tool??'外部工具'} · ${x.state==='accepted'?'实际返回的结果':'调用记录'}`),
+        h('pre',{style:'white-space:pre-wrap;overflow-wrap:anywhere'},JSON.stringify(x.capability_result,null,2))])),
       ...(record.actions??[]).filter(x=>x.tool&&x.state==='accepted').map(x=>h('div',{class:'memory-item',key:x.id},[
         h('strong',x.kind==='tool.save'?`已保存工具 · ${x.tool.name}`:`已运行工具 · ${x.tool.name}`),
         h('p',x.kind==='tool.save'?`版本 ${x.tool.version} · ${x.tool.validation.passed} 个样例通过，下次可以继续使用。`:`版本 ${x.tool.version} · 实际输出 ${x.row_count} 行`),

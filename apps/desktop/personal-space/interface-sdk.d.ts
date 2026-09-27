@@ -38,6 +38,6 @@ export interface Client {
   tools:{list():Promise<Reply>;read(args:{toolId:string}):Promise<Reply>;manage(args:{command_id:string;tool_id:string;expected_revision:number;operation:'enable'|'disable'|'restore';version?:number}):Promise<Reply>};
   draft:{read():Promise<Reply<Versioned<Draft>>>;write(args:{expectedRevision:number;value:Draft}):Promise<Reply<Versioned<Draft>>>};
   state:{read():Promise<Reply<Versioned<Record<string,Json>>>>;write(args:{expectedRevision:number;value:Record<string,Json>}):Promise<Reply<Versioned<Record<string,Json>>>>};
-  host:{openRecovery():Promise<Reply>;configureWindow(settings:{width?:number;height?:number;frame?:boolean;transparent?:boolean;alwaysOnTop?:boolean;opacity?:number}):Promise<Reply>};
+  host:{openRecovery():Promise<Reply>;openCapabilities():Promise<Reply>;configureWindow(settings:{width?:number;height?:number;frame?:boolean;transparent?:boolean;alwaysOnTop?:boolean;opacity?:number}):Promise<Reply>};
 }
 export function createClient(options?:{onSnapshot?:(s:Snapshot)=>void;onConnection?:(connected:boolean)=>void}):Client;

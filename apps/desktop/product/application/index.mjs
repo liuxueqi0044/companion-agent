@@ -21,6 +21,8 @@ export function turnView(raw) {
       ...(action.artifact ? {artifact:pick(action.artifact,['id','title','files','sha256','created_at'])} : {}),
       ...(action.tool ? {tool:pick(action.tool,['id','name','description','revision','version','enabled','validation','sha256']),row_count:action.row_count} : {}),
       ...(action.reminder ? {reminder:pick(action.reminder,['id','text','due_at','state','revision'])} : {}),
+      ...(action.capability ? {capability:pick(action.capability,['package_id','version','component','tool'])} : {}),
+      ...(action.kind==='capability.call'&&action.capability_result ? {capability_result:structuredClone(action.capability_result)} : {}),
       ...(action.task ? {task:{...pick(action.task,['task_id','status','created_at','updated_at',
         'last_seq','current_attempt_id','attempt_count','executor','tool_version','requirements_interpretation']),
         error_code:action.task.error_code ? safeCode(action.task.error_code) : null}} : {}),

@@ -44,6 +44,6 @@ export function createClient({onSnapshot=()=>{},onConnection=()=>{}}={}){
     tools:{list:()=>call('tools.list'),read:args=>call('tools.read',args),manage:args=>call('tools.manage',args)},
     state:{read:()=>call('ui.state.read'),write:args=>call('ui.state.write',args)},
     draft:{read:()=>call('draft.read'),write:args=>call('draft.write',args)},
-    host:{openRecovery:()=>call('host.recovery'),configureWindow:settings=>call('host.window',settings)},
+    host:{openRecovery:()=>call('host.recovery'),openCapabilities:()=>call('host.capabilities'),configureWindow:settings=>call('host.window',settings)},
   })
 }

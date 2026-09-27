@@ -9,7 +9,7 @@ const deny=error=>({ok:false,error})
 const plain=value=>value!==null&&typeof value==='object'&&!Array.isArray(value)
 const exact=(value,keys)=>plain(value)&&Object.keys(value).every(k=>keys.includes(k))
 
-export async function createPersonalSpaceServer({runtime,space,interfaces,connection=()=>({configured:false}),progress,vueFile,port=0,nativeToken,nativeControl,background}={}){
+export async function createPersonalSpaceServer({runtime,space,interfaces,capabilities,connection=()=>({configured:false}),progress,vueFile,port=0,nativeToken,nativeControl,background}={}){
   if(!runtime?.snapshot||!path.isAbsolute(vueFile))throw Error('trusted_server_configuration_required')
   const root=fileURLToPath(new URL('../../personal-space/',import.meta.url))
   const token=randomBytes(32).toString('base64url')
@@ -31,6 +31,8 @@ export async function createPersonalSpaceServer({runtime,space,interfaces,connec
       ['/interface-host.mjs','interface-host.mjs','text/javascript'],['/host.css','host.css','text/css']])
       staticFiles.set(url,{file:path.join(root,file),type:type+'; charset=utf-8'})
   }
+  if(capabilities)for(const [url,file,type] of [['/capabilities','capabilities.html','text/html'],['/capabilities.mjs','capabilities.mjs','text/javascript'],['/capabilities.css','capabilities.css','text/css']])
+    staticFiles.set(url,{file:path.join(root,file),type:type+'; charset=utf-8'})
   let revision=0,origin=null,managementBusy=false,closed=false
   const epoch=randomBytes(12).toString('hex'),peers=new Set(),blocked=new WeakSet(),pendingPush=new WeakSet()
   let updateTimer=null
@@ -117,6 +119,11 @@ export async function createPersonalSpaceServer({runtime,space,interfaces,connec
     ['unmount',['mountId'],a=>interfaces.unmount(a)],['activate',['mountId','expectedVersion','trustSource'],a=>interfaces.activate(a)],
     ['restore',['expectedVersion','previous'],a=>interfaces.restore(a)],
   ])commands.set('interface.'+name,[keys,method])
+  if(capabilities)for(const [name,keys] of [
+    ['list',[]],['read',['id']],['import',['name','source','files']],['connect',['id','version','component','expected_revision','trustSource']],
+    ['grant',['id','expected_revision','component','tools']],['manage',['id','expected_revision','operation','version']],
+    ['sets',[]],['save-set',['name','items']],['apply-set',['id']],['export-set',['id']],['inspect-set',['recipe']],
+  ])commands.set('capabilities.'+name,[keys,async args=>({ok:true,result:await capabilities.command(name,args)})])
   const concurrent=new Set(['snapshot','send','send.cancel','work.start','work.stop','work.reconcile','work.local','space.cancel','space.ready','space.preview','space.source'])
   const modelCommands=new Set(['send','work.start'])
   const publicProviderErrors=new Set(['request_in_progress','credential_rejected',
@@ -127,8 +134,9 @@ export async function createPersonalSpaceServer({runtime,space,interfaces,connec
     if(!command||!exact(args,command[0]))return deny('invalid_request')
     // Space generation reserves its flag synchronously before yielding; runtime.send does the
     // same for executionBusy. Opposite starts therefore cannot pass each other in this process.
-    if(['send','work.start','work.local','work.reconcile','send.reconcile'].includes(action)&&space?.snapshot().busy)return deny('runner_busy')
-    if(action==='interface.call'&&['send','work.start','work.local','work.reconcile','send.reconcile'].includes(args.action)&&space?.snapshot().busy)return deny('runner_busy')
+    if(['send','work.start','work.local','work.reconcile','send.reconcile'].includes(action)&&(space?.snapshot().busy||capabilities?.busy))return deny('runner_busy')
+    if(action==='interface.call'&&['send','work.start','work.local','work.reconcile','send.reconcile'].includes(args.action)&&(space?.snapshot().busy||capabilities?.busy))return deny('runner_busy')
+    if(action.startsWith('capabilities.')&&!['capabilities.list','capabilities.read','capabilities.sets','capabilities.export-set','capabilities.inspect-set'].includes(action)&&!(action==='capabilities.manage'&&args.operation==='disable')&&runtime.snapshot().runtime?.executionBusy)return deny('runner_busy')
     // Compound select+write operations cannot be rebound by another tab's navigation.
     const management=!concurrent.has(action)&&!action.startsWith('interface.')
     if(management&&managementBusy)return deny('management_busy')
@@ -143,6 +151,7 @@ export async function createPersonalSpaceServer({runtime,space,interfaces,connec
       }
       return result
     }catch(error){
+      if(action.startsWith('capabilities.'))return deny(/^(capability_[a-z_]+|invalid_request|revision_conflict|permission_denied|management_busy|disposed)$/.test(error.code??'')?error.code:'capability_operation_failed')
       if(action.startsWith('interface.'))return deny(/^(interface_[a-z_]+|scope_denied|revision_conflict|management_busy|reparse_point)$/.test(error.code??'')?error.code:'interface_operation_failed')
       if(action.startsWith('space.'))return deny(publicProviderErrors.has(error.code)||
         /^(space_|revision_conflict$|runner_busy$|model_not_configured$|invalid_request$)/.test(error.code??'')?error.code:'space_operation_failed')
@@ -191,7 +200,7 @@ export async function createPersonalSpaceServer({runtime,space,interfaces,connec
         if(req.headers.origin&&req.headers.origin!==origin)return send(403,deny('origin_denied'))
         const entry=staticFiles.get(req.url)
         let data=await fs.readFile(entry.file)
-        if(req.url==='/'||req.url==='/recover')data=Buffer.from(data.toString('utf8').replace('__SESSION_TOKEN__',token))
+        if(req.url==='/'||req.url==='/recover'||req.url==='/capabilities')data=Buffer.from(data.toString('utf8').replace('__SESSION_TOKEN__',token))
         res.writeHead(200,{...headers,'Content-Type':entry.type});res.end(data);return
       }
       if(req.method!=='POST'||!['/api/command','/api/events'].includes(req.url))return send(404,deny('not_found'))
@@ -222,6 +231,6 @@ export async function createPersonalSpaceServer({runtime,space,interfaces,connec
     for(const res of peers)res.end();peers.clear();await interfaces?.close();runtime.dispose()
     server.closeIdleConnections()
     const stopped=new Promise(resolve=>server.close(resolve))
-    await space?.close();await runtime.whenIdle();server.closeAllConnections();await stopped
+    await space?.close();await runtime.whenIdle();await capabilities?.close();server.closeAllConnections();await stopped
   }}
 }

@@ -49,6 +49,112 @@
       "title": "ArtifactFile",
       "type": "object"
     },
+    "CapabilityCallAction": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments": {
+          "additionalProperties": true,
+          "title": "Arguments",
+          "type": "object"
+        },
+        "component": {
+          "pattern": "^[a-zA-Z0-9_.-]{1,100}$",
+          "title": "Component",
+          "type": "string"
+        },
+        "kind": {
+          "const": "capability.call",
+          "title": "Kind",
+          "type": "string"
+        },
+        "package_id": {
+          "pattern": "^[0-9a-f]{32}$",
+          "title": "Package Id",
+          "type": "string"
+        },
+        "tool": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Tool",
+          "type": "string"
+        },
+        "version": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "package_id",
+        "version",
+        "component",
+        "tool"
+      ],
+      "title": "CapabilityCallAction",
+      "type": "object"
+    },
+    "CapabilityDescribeAction": {
+      "additionalProperties": false,
+      "properties": {
+        "component": {
+          "pattern": "^[a-zA-Z0-9_.-]{1,100}$",
+          "title": "Component",
+          "type": "string"
+        },
+        "kind": {
+          "const": "capability.describe",
+          "title": "Kind",
+          "type": "string"
+        },
+        "package_id": {
+          "pattern": "^[0-9a-f]{32}$",
+          "title": "Package Id",
+          "type": "string"
+        },
+        "resource": {
+          "anyOf": [
+            {
+              "maxLength": 180,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Resource"
+        },
+        "tool": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool"
+        },
+        "version": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "package_id",
+        "version",
+        "component"
+      ],
+      "title": "CapabilityDescribeAction",
+      "type": "object"
+    },
     "CodeCheckEvidence": {
       "additionalProperties": false,
       "properties": {
@@ -769,6 +875,8 @@
             "discriminator": {
               "mapping": {
                 "artifact.create": "#/$defs/ArtifactAction",
+                "capability.call": "#/$defs/CapabilityCallAction",
+                "capability.describe": "#/$defs/CapabilityDescribeAction",
                 "csv.audit": "#/$defs/CsvAction",
                 "data.query": "#/$defs/DataQueryAction",
                 "goal.dispatch": "#/$defs/GoalDispatchAction",
@@ -804,6 +912,12 @@
               },
               {
                 "$ref": "#/$defs/DataQueryAction"
+              },
+              {
+                "$ref": "#/$defs/CapabilityDescribeAction"
+              },
+              {
+                "$ref": "#/$defs/CapabilityCallAction"
               },
               {
                 "$ref": "#/$defs/GoalPlanAction"

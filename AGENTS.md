@@ -33,3 +33,14 @@ CORE-016 through CORE-019 add distinct interaction surfaces and invitation deliv
 
 
 CORE-020 fixes crash-held locks, accumulated request context and recent-only memory retrieval. Default build/check/test commands now target the actual product and use checkout-local or explicitly configured dependency paths. See docs/development/PRODUCT-COMMANDS.md. Preserve unknown legacy lock evidence and the invitation-only publication profile. No live model calls or credential reads for source verification.
+
+
+CORE-021 adds portable Skill/Codex/Claude component imports, versioned capability
+sets, explicit trusted-host connection/tool grants, and readonly MCP execution
+through the official SDK. Read docs/product/CAPABILITIES.md and
+docs/development/CORE-021.md. Imports are data; no hooks, dependency auto-install,
+OAuth or arbitrary agent-specific execution. Trusted MCP servers are not an OS
+sandbox. This mirror preserves its FORM/ATELIER invitation profile; CORE-022
+website work, personal filing/support records and binary releases are not part
+of this publication. Run offline tests only; no models, credentials or extra
+assistant sessions are needed to validate this source snapshot.

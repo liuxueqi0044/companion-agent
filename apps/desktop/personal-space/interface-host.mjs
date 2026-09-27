@@ -1,5 +1,5 @@
 /** Trusted MessagePort bridge. Every port belongs to exactly one iframe/mount. */
-export function mountInterface({container,mount,client,onReady=()=>{},onError=()=>{},onRecovery=()=>{location.href='/recover'}}){
+export function mountInterface({container,mount,client,onReady=()=>{},onError=()=>{},onRecovery=()=>{location.href='/recover'},onCapabilities=()=>{location.href='/capabilities'}}){
   const frame=document.createElement('iframe')
   frame.title=mount.preview?'界面预览':mount.name
   frame.setAttribute('sandbox','allow-scripts allow-downloads allow-modals')
@@ -19,6 +19,7 @@ export function mountInterface({container,mount,client,onReady=()=>{},onError=()
       inFlight++
       try{
         if(data.action==='host.recovery'){if(!mount.preview)onRecovery();reply(data.id,{ok:true});return}
+        if(data.action==='host.capabilities'){if(!mount.preview)onCapabilities();reply(data.id,mount.preview?{ok:false,error:'preview_read_only'}:{ok:true});return}
         if(data.action==='host.window'){
           const result=mount.preview?{ok:false,error:'preview_read_only'}:globalThis.morrowDesktop?await globalThis.morrowDesktop.configureWindow(mount.id,data.args??{}):{ok:false,error:'native_unavailable'}
           reply(data.id,result);return

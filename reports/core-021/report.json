@@ -1,0 +1,49 @@
+{
+  "milestone": "CORE-021",
+  "status": "submitted",
+  "independent_review": "not_run",
+  "result_ref": "manifest-sha256:ae0d1a8691b2372a795181d7b6a9f9194939ae886b0c8eedfb71e8bde00746cb",
+  "verification": {
+    "full_python": {
+      "passed": 232,
+      "failed": 0
+    },
+    "full_node": {
+      "passed": 321,
+      "failed": 0
+    },
+    "final_focused_python": {
+      "passed": 9,
+      "failed": 0
+    },
+    "final_focused_node": {
+      "passed": 9,
+      "failed": 0
+    },
+    "counts_overlap": true,
+    "syntax_schema_typecheck_three_builds": "passed",
+    "browser_observation": "passed",
+    "screenshot_export": "not_run",
+    "portable_dependency_closure": "passed",
+    "complete_installer_rebuild": "not_run"
+  },
+  "deepseek": {
+    "requests": 5,
+    "parallel": false,
+    "automatic_retries": 0,
+    "tool_calls": 1,
+    "verified_total": 42,
+    "markdown_readback": "passed",
+    "result_sha256": "23bb11e33ddc379f840242a3989c17d688e6d20fbe070c39891d8f2830f36344"
+  },
+  "openai_requests": 0,
+  "extra_assistant_sessions": 0,
+  "git_push": "not_run",
+  "limits": [
+    "readonly_mcp_tools",
+    "trusted_servers_only_not_os_sandbox",
+    "unsupported_agent_specific_components",
+    "no_public_marketplace_or_auto_dependency_install",
+    "no_complete_installer_rebuild"
+  ]
+}

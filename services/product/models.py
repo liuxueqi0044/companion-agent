@@ -309,6 +309,32 @@ class DataQueryAction(Model):
     sql: str = Field(min_length=1, max_length=8192)
 
 
+class CapabilityDescribeAction(Model):
+    kind: Literal['capability.describe']
+    package_id: str = Field(pattern=r'^[0-9a-f]{32}$')
+    version: str = Field(pattern=r'^[0-9a-f]{64}$')
+    component: str = Field(pattern=r'^[a-zA-Z0-9_.-]{1,100}$')
+    tool: str | None = Field(default=None, min_length=1, max_length=128)
+    resource: str | None = Field(default=None, min_length=1, max_length=180)
+
+
+class CapabilityCallAction(Model):
+    kind: Literal['capability.call']
+    package_id: str = Field(pattern=r'^[0-9a-f]{32}$')
+    version: str = Field(pattern=r'^[0-9a-f]{64}$')
+    component: str = Field(pattern=r'^[a-zA-Z0-9_.-]{1,100}$')
+    tool: str = Field(min_length=1, max_length=128)
+    arguments: dict = Field(default_factory=dict)
+
+    @field_validator('arguments')
+    @classmethod
+    def argument_size(cls, value):
+        import json
+        if len(json.dumps(value, ensure_ascii=False, allow_nan=False).encode()) > 24*1024:
+            raise ValueError('arguments_too_large')
+        return value
+
+
 class GoalTaskSpec(Model):
     id: str = Field(pattern=r'^[a-z][a-z0-9_-]{0,31}$')
     title: str = Field(min_length=1, max_length=160)
@@ -381,7 +407,7 @@ class CodingEvidence(Model):
     api_requests: StrictInt = Field(ge=0, le=1000)
 
 
-Action = Annotated[CsvAction | ProfileAction | ArtifactAction | ReminderAction | ToolSaveAction | ToolRunAction | DataQueryAction | GoalPlanAction | GoalDispatchAction | GoalSubmitAction | GoalReviewAction | GoalFinishAction, Field(discriminator='kind')]
+Action = Annotated[CsvAction | ProfileAction | ArtifactAction | ReminderAction | ToolSaveAction | ToolRunAction | DataQueryAction | CapabilityDescribeAction | CapabilityCallAction | GoalPlanAction | GoalDispatchAction | GoalSubmitAction | GoalReviewAction | GoalFinishAction, Field(discriminator='kind')]
 
 
 class MemorySuggestion(Model):

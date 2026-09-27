@@ -1,3 +1,23 @@
+# Current handoff: CORE-021 capability ecosystem
+
+Read docs/development/CORE-021.md, docs/product/CAPABILITIES.md and
+reports/core-021/README.md. Portable Skill/plugin imports, immutable versions,
+trusted-host grants, readonly MCP execution, composition and receipt feedback
+are implemented. Architect self-validation remains submitted, not independently
+accepted. No models or credentials are needed for source verification.
+
+This publication keeps the existing FORM / ATELIER invitation-only profile.
+The dependency copier now includes pinned MCP/parser runtime dependencies and
+licenses. No new binary release is part of this push. CORE-022 website and
+original-interface release work remain in the development workspace.
+
+Hooks, automatic installs, OAuth, MCP Apps, write tools, universal compatibility
+and public marketplace infrastructure are not implemented. MCP servers retain
+their actual privileges and must be trusted. Keep personal state, credentials,
+raw evidence and artwork outside Git.
+
+## Prior handoff
+
 # Current handoff: CORE-020 reliability fixes
 
 Read `docs/development/CORE-020.md`, `docs/development/PRODUCT-COMMANDS.md`, and `reports/core-020/README.md`. OS-owned crash-safe locks, bounded provider context, query-aware memory and portable product commands are implemented. Unknown legacy empty locks remain preserved. Memory is bounded lexical retrieval, not semantic recall. Strict types cover the SDK contract and new reliability modules, not all legacy JavaScript.

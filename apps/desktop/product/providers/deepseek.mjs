@@ -7,6 +7,7 @@ import {SPACE_PROMPT,validateSpaceDecision} from '../space/package.mjs'
 import {GOAL_PROMPT} from './goal.mjs'
 import {acquireProcessLock,recoverLegacyLock} from '../process-lock.mjs'
 import {packMessages} from './context-window.mjs'
+import {CAPABILITY_PROMPT} from '../capabilities/prompt.mjs'
 
 export const ENDPOINT='https://api.deepseek.com/chat/completions'
 export const MODEL='deepseek-flash'
@@ -83,7 +84,7 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
     const request=messages=>({model,messages,response_format:{type:'json_object'},
       thinking:{type:'disabled'},max_tokens:kind==='contact'?2048:8192,stream,...(stream?{stream_options:{include_usage:true}}:{})})
     const messages=packMessages({context,request,
-      prompt:kind==='turn'?TURN_PROMPT+(goalRole?GOAL_PROMPT:''):kind==='space'?SPACE_PROMPT:CONTACT_PROMPT})
+      prompt:kind==='turn'?TURN_PROMPT+(context.capability_catalog?.length?CAPABILITY_PROMPT:'')+(goalRole?GOAL_PROMPT:''):kind==='space'?SPACE_PROMPT:CONTACT_PROMPT})
     busy=true;lastError=null;lastFailure=null
     let stage='request'
     let id,status=null

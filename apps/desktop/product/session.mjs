@@ -132,7 +132,7 @@ export function createProductSession({host, intent = () => []}) {
     let capabilities
     try {
       capabilities = intent(clone(turn))
-      if (!Array.isArray(capabilities) || capabilities.some(item => !['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run','data.query','task.loop','agent.claude','goal.plan','goal.dispatch','goal.submit','goal.review','goal.finish'].includes(item)))
+      if (!Array.isArray(capabilities) || capabilities.some(item => !['csv.audit','profile.change','artifact.create','reminder.create','tool.save','tool.run','data.query','capability.describe','capability.call','task.loop','agent.claude','goal.plan','goal.dispatch','goal.submit','goal.review','goal.finish'].includes(item)))
         return {ok:false,error:'invalid_capability'}
     } catch { return {ok:false,error:'invalid_capability'} }
     try {
