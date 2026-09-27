@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../apps/desktop/product/runtime-paths.mjs'
 /** Explicit serial product integration trial. Fictional inputs only; no Codex invocation. */
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -16,7 +17,7 @@ if(process.argv.length!==3||!['--serial-goal','--serial-claude'].includes(mode))
 const exec=promisify(execFile),workspace=process.cwd(),resume=process.env.PERSONAL_AI_TRIAL_RESUME
 const root=resume?path.resolve(resume):await fs.mkdtemp(path.resolve('.test-data/core015-live-'))
 if(resume&&(!root.startsWith(path.resolve('.test-data')+path.sep)||!path.basename(root).startsWith('core015-live-')))throw Error('invalid_trial_root')
-const python=path.resolve('../companion-agent/.venv/Scripts/python.exe')
+const python=resolveRuntime('python')
 const protectedFiles=['personal_ai.sqlite3','product.sqlite3','tasks.sqlite3','tools.sqlite3'].map(f=>path.resolve('.product-data/personal-space',f))
 const hashes=()=>Promise.all(protectedFiles.map(async p=>createHash('sha256').update(await fs.readFile(p)).digest('hex')))
 const before=await hashes(),ledger=createRequestLedger({file:path.join(root,'requests.json')})

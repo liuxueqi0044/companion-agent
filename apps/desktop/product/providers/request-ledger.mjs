@@ -2,6 +2,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import {randomUUID} from 'node:crypto'
+import {acquireProcessLock,recoverLegacyLock} from '../process-lock.mjs'
 
 const fail=code=>Object.assign(new Error(code),{code})
 export function createRequestLedger({file}){
@@ -23,9 +24,10 @@ export function createRequestLedger({file}){
     return value
   }
   function change(update){
-    let lock,temp
-    try{lock=fs.openSync(file+'.lock','wx',0o600)}catch{throw fail('ledger_locked')}
+    let temp
+    const release=acquireProcessLock(file+'.guard.sqlite','ledger_locked')
     try{
+      recoverLegacyLock(file+'.lock',{recoverDead:true,code:'ledger_locked'})
       const value=read()
       const result=update(value)
       if(value.version===1){
@@ -41,8 +43,7 @@ export function createRequestLedger({file}){
       fs.renameSync(temp,file);temp=null
       return result
     }finally{
-      if(temp&&fs.existsSync(temp))fs.unlinkSync(temp)
-      fs.closeSync(lock);fs.unlinkSync(file+'.lock')
+      try{if(temp&&fs.existsSync(temp))fs.unlinkSync(temp)}finally{release()}
     }
   }
   return {

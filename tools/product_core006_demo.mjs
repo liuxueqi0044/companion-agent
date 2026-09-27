@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../apps/desktop/product/runtime-paths.mjs'
 /** Trusted, headless CORE-006 driver. Decisions are synthetic; all storage/tool I/O is local. */
 import * as fs from 'node:fs/promises'
 import path from 'node:path'
@@ -10,7 +11,7 @@ import {createProductRuntime} from '../apps/desktop/product/runtime/index.mjs'
 
 const exec=promisify(execFile)
 const workspace=path.resolve(fileURLToPath(new URL('..',import.meta.url)))
-const python=path.resolve(workspace,'../companion-agent/.venv/Scripts/python.exe')
+const python=resolveRuntime('python')
 const parent=path.join(workspace,'.test-data')
 await fs.mkdir(parent,{recursive:true})
 const root=await fs.mkdtemp(path.join(parent,'core-006-demo-'))

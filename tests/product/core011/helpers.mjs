@@ -1,9 +1,10 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import {randomUUID} from 'node:crypto'
 import {createProductRuntime} from '../../../apps/desktop/product/runtime/index.mjs'
 import {createProductHost} from '../../../apps/desktop/product/host.mjs'
-export const vueFile=path.resolve('../companion-agent/node_modules/vue/dist/vue.runtime.esm-browser.prod.js')
+export const vueFile=resolveRuntime('vue')
 export const input=()=>({command_id:randomUUID(),conversation_id:randomUUID(),text:'Fictional audit',
   csv_text:'item,unit,qty,unit_price,currency\nPen,piece,2,3,CNY\n'})
 export const decision={decision:{reply:'Fictional audit complete.',actions:[{kind:'csv.audit'}]}}
@@ -11,7 +12,7 @@ export const deferred=()=>{let resolve;const promise=new Promise(r=>{resolve=r})
 export async function setup(provider={configured:true,respond:()=>decision}){
   await fs.mkdir('.test-data',{recursive:true})
   const root=await fs.mkdtemp(path.resolve('.test-data/core-011-'))
-  const host=createProductHost({python:path.resolve('../companion-agent/.venv/Scripts/python.exe'),workspace:path.resolve('.'),dataRoot:root})
+  const host=createProductHost({python:resolveRuntime('python'),workspace:path.resolve('.'),dataRoot:root})
   const runtime=createProductRuntime({host,intent:i=>i.csv_text?['csv.audit']:[],turnProvider:provider})
   await runtime.initialize()
   return {root,host,runtime,async close(){runtime.dispose();await runtime.whenIdle();await host.dispose()}}

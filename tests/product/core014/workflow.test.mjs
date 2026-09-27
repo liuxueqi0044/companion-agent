@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
@@ -18,7 +19,7 @@ const reply=(actions=[],other={})=>({decision:{reply:'公开回应',actions,...o
 const deferred=()=>{let resolve;return {promise:new Promise(r=>{resolve=r}),resolve:(...a)=>resolve(...a)}}
 async function fixture(respond,wrap=x=>x){
   const root=await fs.mkdtemp(path.resolve('.test-data/core014-'))
-  const real=createProductHost({python:path.resolve('../companion-agent/.venv/Scripts/python.exe'),workspace:process.cwd(),dataRoot:root})
+  const real=createProductHost({python:resolveRuntime('python'),workspace:process.cwd(),dataRoot:root})
   const host=wrap(real),runtime=createProductRuntime({host,intent:()=>['task.loop','data.query','artifact.create','tool.save','tool.run'],turnProvider:{configured:true,respond}})
   assert.ok((await runtime.initialize()).ok)
   return {root,host,real,runtime,input:{command_id:randomUUID(),conversation_id:randomUUID(),text:'检查附件、汇总并保存报告',csv_text:csv},

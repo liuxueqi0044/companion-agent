@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
@@ -11,7 +12,7 @@ import {createSpaceService} from '../../../apps/desktop/product/space/service.mj
 const sample={summary:'Small fictional canvas',files:{'view.html':'<main><h1>一个新空间</h1></main>','view.css':'body{background:#ffe9cc}','view.js':''}}
 async function setup(){
   await fs.mkdir('.test-data',{recursive:true});const dataRoot=await fs.mkdtemp(path.resolve('.test-data/core-010-http-'))
-  const host=createProductHost({python:path.resolve('../companion-agent/.venv/Scripts/python.exe'),workspace:path.resolve('.'),dataRoot})
+  const host=createProductHost({python:resolveRuntime('python'),workspace:path.resolve('.'),dataRoot})
   let resolveSpace,enteredSpace,resolveTurn,enteredTurn,calls=0
   const spaceStarted=new Promise(r=>{enteredSpace=r}),turnStarted=new Promise(r=>{enteredTurn=r})
   const spaceWait=new Promise(r=>{resolveSpace=r}),turnWait=new Promise(r=>{resolveTurn=r})
@@ -19,7 +20,7 @@ async function setup(){
   assert.equal((await runtime.initialize()).ok,true)
   const space=await createSpaceService({root:path.join(dataRoot,'canvas'),isRuntimeBusy:()=>runtime.snapshot().runtime.executionBusy,
     provider:{generate:async()=>{calls++;enteredSpace();await spaceWait;return sample}}})
-  const server=await createPersonalSpaceServer({runtime,space,vueFile:path.resolve('../companion-agent/node_modules/vue/dist/vue.runtime.esm-browser.prod.js')})
+  const server=await createPersonalSpaceServer({runtime,space,vueFile:resolveRuntime('vue')})
   const token=(await(await fetch(server.url)).text()).match(/name="personal-space-session" content="([^"]+)"/)[1]
   const headers={Origin:server.url,'Content-Type':'application/json','X-Personal-Space-Token':token}
   const post=async(action,args={},extra={})=>(await fetch(server.url+'/api/command',{method:'POST',headers:{...headers,...extra},body:JSON.stringify({action,args})})).json()

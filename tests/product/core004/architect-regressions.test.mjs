@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {randomUUID as uuid} from 'node:crypto'
@@ -191,7 +192,7 @@ test('readback reentry is single flight and an observed unknown cannot enable ne
 
 test('real invalid followup window rolls back suggestions and closes the owned generation',async()=>{
   const workspace=path.resolve(fileURLToPath(new URL('../../..',import.meta.url)))
-  const python=path.resolve(workspace,'../companion-agent/.venv/Scripts/python.exe')
+  const python=resolveRuntime('python')
   const parent=path.join(workspace,'.test-data');await fs.mkdir(parent,{recursive:true})
   const dataRoot=await fs.mkdtemp(path.join(parent,'core-004-architect-'))
   const host=createProductHost({python,workspace,dataRoot})

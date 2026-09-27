@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "skipLibCheck": false
+  },
+  "files": [
+    "../personal-space/interface-sdk.d.ts",
+    "../../../tests/product/sdk-contract.ts",
+    "process-lock.mjs",
+    "providers/context-window.mjs",
+    "runtime-paths.mjs"
+  ]
+}

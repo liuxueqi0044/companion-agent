@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import path from 'node:path'
@@ -6,7 +7,7 @@ import {createPersonalSpaceServer} from '../../../apps/desktop/product/web/serve
 test('large goal snapshots drain once and later revisions still arrive without starving HTTP',async()=>{
   let notify,reads=0,version=0
   const runtime={snapshot:()=>{reads++;return {version,payload:'x'.repeat(192*1024)}},subscribe:fn=>{notify=fn;return ()=>{}},dispose(){},whenIdle:async()=>{}}
-  const server=await createPersonalSpaceServer({runtime,vueFile:path.resolve('../companion-agent/node_modules/vue/dist/vue.runtime.esm-browser.prod.js')})
+  const server=await createPersonalSpaceServer({runtime,vueFile:resolveRuntime('vue')})
   const controller=new AbortController();let consumer
   try{
     const html=await(await fetch(server.url)).text(),token=html.match(/name="personal-space-session" content="([^"]+)"/)[1]

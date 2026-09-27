@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../apps/desktop/product/runtime-paths.mjs'
 /** Explicit, serial fictional-data validation. Never runs as part of application startup. */
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -10,7 +11,7 @@ import {createDeepSeekProviders} from '../apps/desktop/product/providers/deepsee
 import {createRequestLedger} from '../apps/desktop/product/providers/request-ledger.mjs'
 import {createBackgroundService} from '../apps/desktop/product/background.mjs'
 if(process.argv[2]!=='--run-three-serial-fictional-checks')throw Error('explicit_live_check_required')
-const workspace=process.cwd(),exec=promisify(execFile),python=path.resolve('../companion-agent/.venv/Scripts/python.exe')
+const workspace=process.cwd(),exec=promisify(execFile),python=resolveRuntime('python')
 const root=await fs.mkdtemp(path.resolve('.test-data/core012-live-'))
 const protectedFiles=['personal_ai.sqlite3','product.sqlite3','tasks.sqlite3'].map(n=>path.resolve('.product-data/personal-space',n))
 const hash=async file=>createHash('sha256').update(await fs.readFile(file)).digest('hex')

@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
@@ -8,7 +9,7 @@ import {createProductRuntime} from '../../../apps/desktop/product/runtime/index.
 import {createInterfaceSession} from '../../../apps/desktop/product/interface/session.mjs'
 test('save validated SQL then reuse on new data across real Node/Python, SDK and reopen',async()=>{
  const root=await fs.mkdtemp(path.resolve('.test-data/core013-tools-'))
- const host=createProductHost({python:path.resolve('../companion-agent/.venv/Scripts/python.exe'),workspace:process.cwd(),dataRoot:root})
+ const host=createProductHost({python:resolveRuntime('python'),workspace:process.cwd(),dataRoot:root})
  let selected
  const runtime=createProductRuntime({host,intent:()=>['tool.save','tool.run'],turnProvider:{configured:true,respond:context=>({decision:{reply:'准备处理。',actions:[selected?{kind:'tool.run',tool_id:selected.id,version:selected.version,parameters:{}}:{kind:'tool.save',definition:{name:'去重',description:'name 去重排序',sql:'SELECT DISTINCT name FROM data ORDER BY name',parameters:[],examples:[{csv_text:'name\nB\nA\nB\n',parameters:{},expected:[{name:'A'},{name:'B'}]}]}}]}})}})
  let denied,allowed
@@ -27,7 +28,7 @@ test('save validated SQL then reuse on new data across real Node/Python, SDK and
   assert.equal((await allowed.call('tools.list')).result.length,1)
   const change=await allowed.call('tools.manage',{command_id:randomUUID(),tool_id:selected.id,expected_revision:selected.revision,operation:'disable'})
   assert.ok(change.ok,JSON.stringify(change));assert.equal((await runtime.resources.tools()).result[0].enabled,false)
-  const reopened=createProductHost({python:path.resolve('../companion-agent/.venv/Scripts/python.exe'),workspace:process.cwd(),dataRoot:root})
+  const reopened=createProductHost({python:resolveRuntime('python'),workspace:process.cwd(),dataRoot:root})
   try{assert.equal((await reopened.request('tool.list',{})).result[0].enabled,false)}finally{await reopened.dispose()}
  }finally{denied?.dispose();allowed?.dispose();runtime.dispose();await runtime.whenIdle();await host.dispose()}
 })

@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 /** Optional browser test server. Fresh isolated data; no credentials or model calls. */
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -22,11 +23,11 @@ document.querySelector('#results').textContent=lines.join('\\n')+'\\nFake comman
 }}
 const broken={summary:'Intentional script failure: the host must keep recovery available.',files:{
  'view.html':'<h1>Broken fixture</h1>','view.css':'body{background:#ddd}','view.js':'throw Error("intentional fixture failure")'}}
-const host=createProductHost({python:path.resolve('../companion-agent/.venv/Scripts/python.exe'),workspace:path.resolve('.'),dataRoot})
+const host=createProductHost({python:resolveRuntime('python'),workspace:path.resolve('.'),dataRoot})
 const runtime=createProductRuntime({host});await runtime.initialize()
 const space=await createSpaceService({root:path.join(dataRoot,'canvas'),provider:{generate:async ctx=>ctx.request==='broken'?broken:probe}})
 for(const prompt of ['probe','broken']){await space.generate({prompt,expectedVersion:space.snapshot().version});await space.whenIdle()}
-const app=await createPersonalSpaceServer({runtime,space,vueFile:path.resolve('../companion-agent/node_modules/vue/dist/vue.runtime.esm-browser.prod.js')})
+const app=await createPersonalSpaceServer({runtime,space,vueFile:resolveRuntime('vue')})
 await fs.writeFile(path.resolve('.test-data/core010-edit/browser-server.json'),JSON.stringify({url:app.url,pid:process.pid,dataRoot}))
 console.log(JSON.stringify({url:app.url,pid:process.pid,dataRoot}))
 async function stop(){await app.close();await host.dispose()}

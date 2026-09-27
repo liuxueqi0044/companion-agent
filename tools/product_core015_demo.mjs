@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../apps/desktop/product/runtime-paths.mjs'
 /** Scripted models, real local query/artifacts/role state/rework. No network or credentials. */
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -14,7 +15,7 @@ import {unavailableSpaceService} from '../apps/desktop/product/space/service.mjs
 const serve=process.argv.includes('--serve')
 if(process.argv.slice(2).some(a=>a!=='--serve'))throw Error('invalid_arguments')
 const workspace=process.cwd(),root=await fs.mkdtemp(path.resolve('.test-data/core015-demo-'))
-const host=createProductHost({python:path.resolve('../companion-agent/.venv/Scripts/python.exe'),workspace,dataRoot:root})
+const host=createProductHost({python:resolveRuntime('python'),workspace,dataRoot:root})
 const answer=(reply,actions=[])=>({decision:{reply,actions}})
 const provider={configured:true,respond:c=>{
   const g=c.goal
@@ -58,7 +59,7 @@ try{
   const result={ok:true,root,turn_id:end.id,model:'offline_fixture',http_model_requests:0,steps:end.workflow.step_count,
     goal:reopened.workflow.goal,final_state:end.state}
   if(serve){
-    const vueFile=path.resolve('../companion-agent/node_modules/vue/dist/vue.runtime.esm-browser.prod.js')
+    const vueFile=resolveRuntime('vue')
     interfaces=await createInterfaceService({root:path.join(root,'interfaces'),runtime,vueFile})
     server=await createPersonalSpaceServer({runtime,interfaces,space:unavailableSpaceService(),vueFile,port:0,connection:()=>({configured:true,provider:'离线演示（虚构数据）'})})
     result.url=server.url

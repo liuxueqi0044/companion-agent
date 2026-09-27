@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../apps/desktop/product/runtime-paths.mjs'
 /** Real local tools with a deterministic offline model; optional browser fixture. */
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -11,7 +12,7 @@ import {unavailableSpaceService} from '../apps/desktop/product/space/service.mjs
 const serve=process.argv.includes('--serve')
 if(process.argv.slice(2).some(a=>a!=='--serve'))throw Error('invalid_arguments')
 const workspace=process.cwd(),root=await fs.mkdtemp(path.resolve('.test-data/core014-demo-'))
-const host=createProductHost({python:path.resolve('../companion-agent/.venv/Scripts/python.exe'),workspace,dataRoot:root})
+const host=createProductHost({python:resolveRuntime('python'),workspace,dataRoot:root})
 const contexts=[]
 const runtime=createProductRuntime({host,intent:input=>['task.loop','artifact.create',...(input.csv_text?['data.query']:[])],turnProvider:{configured:true,respond:async c=>{
   contexts.push(c)
@@ -41,7 +42,7 @@ try{
   const result={ok:true,root,turn_id:end.id,model:'offline_fixture',http_model_requests:0,steps:end.workflow.step_count,
     states:reopened.actions.map(a=>({kind:a.kind,state:a.state})),rows:2,final_state:end.state}
   if(serve){
-    const vueFile=path.resolve('../companion-agent/node_modules/vue/dist/vue.runtime.esm-browser.prod.js')
+    const vueFile=resolveRuntime('vue')
     interfaces=await createInterfaceService({root:path.join(root,'interfaces'),runtime,vueFile})
     server=await createPersonalSpaceServer({runtime,interfaces,space:unavailableSpaceService(),vueFile,port:0,connection:()=>({configured:true,provider:'离线演示（虚构数据）'})})
     result.url=server.url

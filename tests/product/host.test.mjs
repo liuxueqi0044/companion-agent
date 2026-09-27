@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../apps/desktop/product/runtime-paths.mjs'
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import * as fs from 'node:fs/promises'
@@ -9,7 +10,7 @@ import { stageSource, sealCandidate, readRevision } from '../spikes/personal-spa
 
 const workspace = path.resolve(fileURLToPath(new URL('../..',import.meta.url)))
 // Read-only dependency runtime; -I and the fixed bootstrap select the new source tree.
-const python = path.resolve(workspace,'../companion-agent/.venv/Scripts/python.exe')
+const python = resolveRuntime('python')
 const scratch = path.join(workspace,'.test-data')
 await fs.mkdir(scratch,{recursive:true})
 const fresh = () => fs.mkdtemp(path.join(scratch,'host-'))

@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import * as fs from 'node:fs/promises'
@@ -7,7 +8,7 @@ import {createProductHost} from '../../../apps/desktop/product/host.mjs'
 import {createPolicyController} from '../../../apps/desktop/product/application/policy.mjs'
 
 const workspace = path.resolve(fileURLToPath(new URL('../../..',import.meta.url)))
-const python = path.resolve(workspace,'../companion-agent/.venv/Scripts/python.exe')
+const python = resolveRuntime('python')
 const fresh = async () => {
   await fs.mkdir(path.join(workspace,'.test-data'),{recursive:true})
   return fs.mkdtemp(path.join(workspace,'.test-data','core-003-policy-'))

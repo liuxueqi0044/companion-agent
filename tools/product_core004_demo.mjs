@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../apps/desktop/product/runtime-paths.mjs'
 /** Explicit offline driver: synthetic decisions only, real host and local services. */
 import * as fs from 'node:fs/promises'
 import path from 'node:path'
@@ -8,7 +9,7 @@ import {createTurnRunner} from '../apps/desktop/product/execution/runner.mjs'
 import {createProductApplication} from '../apps/desktop/product/application/index.mjs'
 
 const workspace=path.resolve(fileURLToPath(new URL('..',import.meta.url)))
-const python=path.resolve(workspace,'../companion-agent/.venv/Scripts/python.exe')
+const python=resolveRuntime('python')
 const parent=path.join(workspace,'.test-data')
 await fs.mkdir(parent,{recursive:true})
 const dataRoot=await fs.mkdtemp(path.join(parent,'core-004-demo-'))

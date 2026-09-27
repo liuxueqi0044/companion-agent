@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../apps/desktop/product/runtime-paths.mjs'
 /** Explicit opt-in: one fictional task, serial DeepSeek decisions, no network retries. */
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -20,7 +21,7 @@ let credential
 try{credential=await exec('pwsh',['-NoProfile','-NonInteractive','-File',path.resolve('tools/load_product_credential.ps1'),'-CredentialPath',path.join(process.env.LOCALAPPDATA,'CompanionAgent/credentials/deepseek.dpapi')],{windowsHide:true,maxBuffer:8192})}catch{throw Error('credential_decode_failed')}
 if(credential.stderr||!credential.stdout.trim())throw Error('credential_decode_failed')
 const providers=createDeepSeekProviders({apiKey:credential.stdout.trim(),ledger,streaming:true});credential=null
-const host=createProductHost({python:path.resolve('../companion-agent/.venv/Scripts/python.exe'),workspace,dataRoot:root})
+const host=createProductHost({python:resolveRuntime('python'),workspace,dataRoot:root})
 const runtime=createProductRuntime({host,timeoutMs:60000,intent:()=>['task.loop','data.query','artifact.create'],turnProvider:providers.turn})
 const report={fictional_only:true,openai_requests:0,extra_assistant_sessions:0,checks:[],started:new Date().toISOString(),data_root:path.relative(workspace,root)}
 const checked=r=>{if(!r?.ok)throw Error(typeof r?.error==='string'?r.error:r?.error?.code??'check_failed');return r.result}

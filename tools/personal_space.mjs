@@ -18,6 +18,7 @@ import {guardPath,writeJSON} from '../apps/desktop/product/storage.mjs'
 import {randomBytes} from 'node:crypto'
 import {createCodingProvider} from '../apps/desktop/product/providers/coding.mjs'
 import platform from '../apps/desktop/product/platform.cjs'
+import {resolveRuntime} from '../apps/desktop/product/runtime-paths.mjs'
 
 const exec=promisify(execFile)
 const exists=async file=>{try{return (await fs.stat(file)).isFile()}catch(e){if(e.code==='ENOENT')return false;throw e}}
@@ -28,17 +29,9 @@ const port=Number(process.env.PERSONAL_AI_PORT??0)
 if(!Number.isSafeInteger(port)||port<0||port>65535)throw Error('invalid_local_port')
 const stateRoot=path.resolve(process.env.PERSONAL_AI_HOME??path.join(root,'.product-data'))
 await guardPath(stateRoot,{create:true})
-let installed={};try{installed=JSON.parse(await fs.readFile(path.join(root,'runtime.json'),'utf8'))}catch(e){if(e.code!=='ENOENT')throw Error('runtime_configuration_invalid')}
-const localPath=async(env,key,checkoutPath,fallback)=>{
-  if(process.env[env])return process.env[env]
-  if(installed[key])return path.resolve(root,installed[key])
-  const local=path.resolve(root,checkoutPath);try{await fs.access(local);return local}catch{return fallback}
-}
 const releaseInstance=acquireInstance(path.join(stateRoot,'personal-space.instance.json'),{recoverDead:true})
 process.once('exit',releaseInstance)
-const python=await localPath('PERSONAL_AI_PYTHON','python','.venv/Scripts/python.exe',path.resolve(root,'../companion-agent/.venv/Scripts/python.exe'))
-const vueFile=await localPath('PERSONAL_AI_VUE','vue','node_modules/vue/dist/vue.runtime.esm-browser.prod.js',path.resolve(root,'../companion-agent/node_modules/vue/dist/vue.runtime.esm-browser.prod.js'))
-const bundlerFile=await localPath('PERSONAL_AI_BUNDLER','bundler','node_modules/rolldown/dist/index.mjs',path.resolve(root,'../companion-agent/node_modules/rolldown/dist/index.mjs'))
+const python=resolveRuntime('python'),vueFile=resolveRuntime('vue'),bundlerFile=resolveRuntime('bundler')
 const dataRoot=path.join(stateRoot,'personal-space')
 let providers=null,coding=null,claude=null,goalProvider=null
 if(live){

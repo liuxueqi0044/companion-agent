@@ -30,3 +30,6 @@ CORE-015 adds explicit persistent goal mode: independently configured director/w
 
 
 CORE-016 through CORE-019 add distinct interaction surfaces and invitation delivery. Current published profile is FORM / ATELIER, default FORM, with no community character assets or encoded sprites. The original motion helper is retained as source, not a shipped character. Build defaults to invitation; local-preview artwork is not included. Installation lifecycle, allowlisted diagnostics, offline checks and durable notification cursor are implemented. Read reports/core-019/README.md and docs/product/INVITATION-ALPHA.md. Cross-machine installation, physical sleep/wake, human-observed notifications and signing remain pending. Preserve historical failed evidence and submitted status. Do not call models or read credentials to validate this mirror.
+
+
+CORE-020 fixes crash-held locks, accumulated request context and recent-only memory retrieval. Default build/check/test commands now target the actual product and use checkout-local or explicitly configured dependency paths. See docs/development/PRODUCT-COMMANDS.md. Preserve unknown legacy lock evidence and the invitation-only publication profile. No live model calls or credential reads for source verification.

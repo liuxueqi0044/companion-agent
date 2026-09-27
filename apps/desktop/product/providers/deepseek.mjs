@@ -5,6 +5,8 @@ import {randomUUID} from 'node:crypto'
 import {readChatStream,publicPrefix} from './streaming.mjs'
 import {SPACE_PROMPT,validateSpaceDecision} from '../space/package.mjs'
 import {GOAL_PROMPT} from './goal.mjs'
+import {acquireProcessLock,recoverLegacyLock} from '../process-lock.mjs'
+import {packMessages} from './context-window.mjs'
 
 export const ENDPOINT='https://api.deepseek.com/chat/completions'
 export const MODEL='deepseek-flash'
@@ -35,14 +37,14 @@ export function createAttemptBudget({file,limit=6}){
     return value
   }
   function change(update){
-    let lock
-    try{lock=fs.openSync(file+'.lock','wx',0o600)}catch{throw fail('budget_locked')}
+    const release=acquireProcessLock(file+'.guard.sqlite','budget_locked')
     try{
+      recoverLegacyLock(file+'.lock',{recoverDead:true,code:'budget_locked'})
       const value=read(),result=update(value),temp=file+'.'+randomUUID()+'.tmp'
       fs.writeFileSync(temp,JSON.stringify(value,null,2)+'\n',{flag:'wx',mode:0o600})
       fs.renameSync(temp,file)
       return result
-    }finally{fs.closeSync(lock);fs.unlinkSync(file+'.lock')}
+    }finally{release()}
   }
   return {
     snapshot(){const v=read();return {limit,used:v.attempts.length,remaining:limit-v.attempts.length}},
@@ -77,13 +79,14 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
     const goalRole=kind==='turn'&&context.goal?context.goal.role:null
     if(goalRole&&!Object.hasOwn(models,goalRole))throw fail('provider_invalid_output')
     const model=goalRole?models[goalRole]:MODEL
-    const messages=[{role:'system',content:kind==='turn'?TURN_PROMPT+(goalRole?GOAL_PROMPT:''):kind==='space'?SPACE_PROMPT:CONTACT_PROMPT},
-      {role:'user',content:JSON.stringify({current_time_utc:new Date().toISOString(),context})}]
-    if(Buffer.byteLength(JSON.stringify(messages))>96*1024)throw fail('provider_input_too_large')
+    const stream=streaming&&kind==='turn'
+    const request=messages=>({model,messages,response_format:{type:'json_object'},
+      thinking:{type:'disabled'},max_tokens:kind==='contact'?2048:8192,stream,...(stream?{stream_options:{include_usage:true}}:{})})
+    const messages=packMessages({context,request,
+      prompt:kind==='turn'?TURN_PROMPT+(goalRole?GOAL_PROMPT:''):kind==='space'?SPACE_PROMPT:CONTACT_PROMPT})
     busy=true;lastError=null;lastFailure=null
     let stage='request'
     let id,status=null
-    const stream=streaming&&kind==='turn'
     const turnId=typeof context.turn_id==='string'?context.turn_id:null
     const transportSignal=AbortSignal.any([...(signal?[signal]:[]),AbortSignal.timeout(kind==='space'?Math.max(timeoutMs,90000):timeoutMs)])
     const emit=(state,preview={})=>{if(stream&&turnId)publish({turnId,runId:id,state,reply:'',summary:'',...preview})}
@@ -92,8 +95,7 @@ export function createDeepSeekProviders({apiKey,ledger,budget,fetchImpl=globalTh
       emit('generating')
       const response=await fetchImpl(ENDPOINT,{method:'POST',redirect:'error',
         headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},
-        body:JSON.stringify({model,messages,response_format:{type:'json_object'},
-          thinking:{type:'disabled'},max_tokens:kind==='contact'?2048:8192,stream,...(stream?{stream_options:{include_usage:true}}:{})}),
+        body:JSON.stringify(request(messages)),
         signal:transportSignal})
       status=response.status
       if(!response.ok){await response.body?.cancel();throw fail(status===401?'credential_rejected':

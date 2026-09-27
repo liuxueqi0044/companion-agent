@@ -34,7 +34,7 @@ def turn_context(db, turn, policy, profile):
         'user_text': turn['text'], 'csv_attached': turn['csv_text'] is not None,
         'profile': profile.model_dump(mode='json'),
         'history': [] if turn['temporary'] else history(db, turn['conversation_id'], before=own_cursor),
-        'memories': [] if turn['temporary'] else ManagedMemory.context(db, policy),
+        'memories': [] if turn['temporary'] else ManagedMemory.context(db, policy, turn['text']),
         'capabilities': json.loads(turn['grants_json']),
         'proactive_allowed': policy.proactive_enabled and not turn['temporary'],
         'contact_topics': policy.topics,
@@ -62,7 +62,7 @@ def contact_context(db, row, policy):
     value = {
         'purpose': row['purpose'], 'topic': row['topic'], 'source': source['text'],
         'recent_interactions': history(db, source['conversation_id']),
-        'memories': ManagedMemory.context(db, policy), 'expires_at': row['expires_at'],
+        'memories': ManagedMemory.context(db, policy, row['purpose'] + '\n' + source['text']), 'expires_at': row['expires_at'],
         'instruction': 'Re-evaluate relevance. Choose send, cancel or defer. No guilt, invented activity or repeated chasing. Never announce another scheduled check-in.',
     }
     return value, digest({'input': value, 'conversation_cursor': cursor(db, source['conversation_id']),

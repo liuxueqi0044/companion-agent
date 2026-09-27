@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import {availableStarterIds} from '../../../apps/desktop/personal-space/starter-config.mjs'
 import assert from 'node:assert/strict'
@@ -44,7 +45,7 @@ test('invalid cursor is retained, unsupported and read-only notices do not invok
 test('published source builds both available starters without character files',async()=>{
   for(const starter of availableStarterIds){
     const source=await defaultSource({starter});assert.equal(Object.keys(source.files).some(p=>p.includes('characters/')||p==='whale-room.mjs'),false);assert.ok(!JSON.stringify(source).includes('data:image/png;base64,'))
-    const result=await buildInterface(source,{vueFile:path.resolve('../companion-agent/node_modules/vue/dist/vue.runtime.esm-browser.prod.js')})
+    const result=await buildInterface(source,{vueFile:resolveRuntime('vue')})
     assert.ok(result.js.includes('morrow.ui.ready'))
   }
 })

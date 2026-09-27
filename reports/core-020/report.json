@@ -1,0 +1,61 @@
+{
+  "batch_id": "CORE-020",
+  "status": "submitted",
+  "independently_accepted": false,
+  "outcome": "primary_defects_fixed_with_explicit_followup_boundaries",
+  "validation": {
+    "python_full_passed": 224,
+    "node_full_passed": 314,
+    "node_full_failed": 0,
+    "context_compatibility_passed": 36,
+    "product_build": "passed",
+    "product_schema": "passed",
+    "scoped_strict_typecheck": "passed",
+    "relocated_source_build_and_real_host": "passed",
+    "actual_subprocess_crash_recovery": "passed",
+    "manifest_files": 74
+  },
+  "remaining": [
+    "unknown empty legacy locks require owner verification before moving aside",
+    "mandatory context larger than request bound fails before reservation",
+    "memory remains bounded lexical retrieval, without semantic embeddings or conflict resolution",
+    "older JavaScript modules are not all strictly typechecked",
+    "The existing CORE-019 installer was not rebuilt."
+  ],
+  "local_origin": {
+    "report_sha256": "b9bccc87d859306005bea39278659a03a18eaa9217e43d764f504f3ddc7c2bc0",
+    "manifest_sha256": "05209772fe0ead674321382cfcd52a98e97768c0f4cae96785fe679a4236e3bc",
+    "manifest_entries_verified": 74,
+    "raw_evidence_included": false
+  },
+  "development_verification_history": {
+    "initial_node_passed": 313,
+    "initial_node_failed": 1,
+    "failure": "unnecessary context metadata on the narrow interface-author request",
+    "resolved_without_relaxing_test": true,
+    "final_node_passed": 314,
+    "python_passed": 224
+  },
+  "publication": {
+    "profile": "FORM / ATELIER",
+    "binary_uploaded": false,
+    "models_called": 0,
+    "credentials_read": false,
+    "validation": {
+      "python_passed": 226,
+      "node_passed": 315,
+      "failed": 0,
+      "schema": "PASS",
+      "product_builds": [
+        "form",
+        "atelier"
+      ],
+      "scoped_strict_types": "PASS",
+      "relocated_source_and_real_host": "PASS"
+    },
+    "local_log_hashes": {
+      "tests.txt": "ea5802d3fb0ed3aa1c200907ac3d92229e37e4a28a1c2fb88477d428156d3bcf",
+      "check.txt": "d32cdca2cb423855a48fb9bb113053340ee43fb953b3a468e678e617cfba07ef"
+    }
+  }
+}

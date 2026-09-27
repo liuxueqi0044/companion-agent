@@ -10,9 +10,10 @@ import shutil
 import zipfile
 import stat
 import re
+import os
 
 ROOT = Path(__file__).resolve().parents[1]
-DONOR = ROOT.parent / 'companion-agent'
+DONOR = Path(os.environ.get('PERSONAL_AI_RUNTIME_ROOT', ROOT)).absolute()
 RELEASE = {'version': '0.18.0-alpha.1', 'milestone': 'CORE-018', 'channel': 'local-preview',
            'platform': 'windows-x64', 'redistribution': 'pending-character-artwork-permission',
            'interfaces': ['whale', 'form', 'atelier']}

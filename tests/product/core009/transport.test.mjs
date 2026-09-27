@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
@@ -15,7 +16,7 @@ const enc=new TextEncoder(),decision={displayable_summary:'核对数量与单价
 const event=(content,finish=null)=>'data: '+JSON.stringify({id:'fixture',choices:[{index:0,delta:{content},finish_reason:finish}]})+'\n\n'
 async function setup(){
   await fs.mkdir('.test-data',{recursive:true});const dataRoot=await fs.mkdtemp(path.resolve('.test-data/core-009-transport-'))
-  const host=createProductHost({python:path.resolve('../companion-agent/.venv/Scripts/python.exe'),workspace:path.resolve('.'),dataRoot})
+  const host=createProductHost({python:resolveRuntime('python'),workspace:path.resolve('.'),dataRoot})
   let modelCalls=0,output,signal,cancelled=false,entered
   const ready=new Promise(r=>{entered=r}),ledger=createRequestLedger({file:path.join(dataRoot,'requests.json')})
   const p=createDeepSeekProviders({apiKey:'synthetic',ledger,streaming:true,fetchImpl:async(url,init)=>{
@@ -25,7 +26,7 @@ async function setup(){
   }})
   const runtime=createProductRuntime({host,turnProvider:p.turn,intent:input=>input.csv_text?['csv.audit']:[]})
   assert.equal((await runtime.initialize()).ok,true)
-  const server=await createPersonalSpaceServer({runtime,connection:p.connection,progress:p.progress,vueFile:path.resolve('../companion-agent/node_modules/vue/dist/vue.runtime.esm-browser.prod.js')})
+  const server=await createPersonalSpaceServer({runtime,connection:p.connection,progress:p.progress,vueFile:resolveRuntime('vue')})
   const token=(await(await fetch(server.url)).text()).match(/name="personal-space-session" content="([^"]+)"/)[1]
   const headers={Origin:server.url,'Content-Type':'application/json','X-Personal-Space-Token':token}
   const post=async(action,args={})=>(await fetch(server.url+'/api/command',{method:'POST',headers,body:JSON.stringify({action,args})})).json()

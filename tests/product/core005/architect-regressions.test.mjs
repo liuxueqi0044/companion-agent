@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {randomUUID as uuid} from 'node:crypto'
@@ -118,7 +119,7 @@ for(const point of ['before_provider','before_complete'])
 
 test('schema-valid nullable send reaches real SQLite exactly once',async()=>{
   const workspace=path.resolve(fileURLToPath(new URL('../../..',import.meta.url)))
-  const python=path.resolve(workspace,'../companion-agent/.venv/Scripts/python.exe')
+  const python=resolveRuntime('python')
   const parent=path.join(workspace,'.test-data');await fs.mkdir(parent,{recursive:true})
   const dataRoot=await fs.mkdtemp(path.join(parent,'core-005-architect-'))
   await promisify(execFile)(python,['-I','-B','tests/product/core005/prepare_fixture.py',workspace,dataRoot,'1'],

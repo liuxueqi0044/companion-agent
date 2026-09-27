@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
@@ -9,7 +10,7 @@ const pause=ms=>new Promise(r=>setTimeout(r,ms))
 
 test('independent service cold start, native auth, pause, clean quit and persistent restart',async()=>{
   const root=await fs.mkdtemp(path.resolve('.test-data/core012-desktop-'))
-  const host=createProductHost({python:path.resolve('../companion-agent/.venv/Scripts/python.exe'),workspace:process.cwd(),dataRoot:path.join(root,'personal-space')})
+  const host=createProductHost({python:resolveRuntime('python'),workspace:process.cwd(),dataRoot:path.join(root,'personal-space')})
   async function boot(){
     const child=spawn(process.execPath,['tools/personal_space.mjs'],{cwd:process.cwd(),windowsHide:true,env:{...process.env,PERSONAL_AI_HOME:root,PERSONAL_AI_PORT:'0'},stdio:['ignore','pipe','pipe']})
     let stderr='';child.stderr.on('data',d=>{stderr+=d});child.stdout.resume()

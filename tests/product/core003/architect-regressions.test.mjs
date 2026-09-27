@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {randomUUID as uuid} from 'node:crypto'
@@ -169,7 +170,7 @@ test('replayed create accepts the current reminder returned after a later edit',
 test('real reminder replays respect current row versus persisted command receipt',async()=>{
   const root=path.resolve(fileURLToPath(new URL('../../..',import.meta.url)))
   const parent=path.join(root,'.test-data');await fs.mkdir(parent,{recursive:true})
-  const host=createProductHost({workspace:root,python:path.join(root,'../companion-agent/.venv/Scripts/python.exe'),
+  const host=createProductHost({workspace:root,python:resolveRuntime('python'),
     dataRoot:await fs.mkdtemp(path.join(parent,'core-003-architect-reminder-'))})
   const ok=async(action,payload={})=>{const r=await host.request(action,payload);assert.equal(r.ok,true,JSON.stringify(r));return r.result}
   let dropCreate=true,dropRevision=true,id

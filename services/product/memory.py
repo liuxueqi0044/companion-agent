@@ -2,6 +2,10 @@
 from __future__ import annotations
 
 from typing import Protocol
+import heapq
+import json
+import re
+import unicodedata
 from uuid import uuid4
 
 from .models import MemorySuggestion, Policy, ProductError, validate
@@ -11,6 +15,17 @@ from .store import ProductStore
 class MemoryPort(Protocol):
     def retrieve(self) -> list[dict]: ...
     def list(self) -> list[dict]: ...
+
+
+def _terms(text):
+    """Offline lexical retrieval: words plus CJK bigrams, not semantic embeddings."""
+    text = unicodedata.normalize('NFKC', text).casefold()
+    terms = set(re.findall(r'[a-z0-9_]{2,}', text))
+    for run in re.findall(r'[\u3400-\u9fff]+', text):
+        terms.update(run[i:i + 2] for i in range(len(run) - 1))
+        if len(run) == 1:
+            terms.add(run)
+    return terms
 
 
 class ManagedMemory:
@@ -42,17 +57,36 @@ class ManagedMemory:
             return updated
 
     @staticmethod
-    def context(db, policy):
+    def context(db, policy, query=''):
         if not policy.memory_enabled or not policy.memory_categories:
             return []
         placeholders = ','.join('?' for _ in policy.memory_categories)
-        return [dict(row) for row in db.execute(
-            'SELECT id,source_id,category,content,revision FROM memories WHERE deleted=0 AND category IN ('
-            + placeholders + ') ORDER BY rowid DESC LIMIT 48', policy.memory_categories)]
+        terms = _terms(query)
+        rows = db.execute(
+            'SELECT rowid,id,source_id,category,content,revision FROM memories WHERE deleted=0 AND category IN ('
+            + placeholders + ')', policy.memory_categories)
 
-    def retrieve(self):
+        def rank(row):
+            matches = len(terms & _terms(row['content'])) if terms else 0
+            explicit_preference = row['category'] == 'preferences' and row['source_id'].startswith('manual:')
+            # Relevant old entries outrank recency. Explicit durable preferences do not
+            # expire merely because unrelated newer facts were added.
+            return (matches > 0, matches, row['category'] == 'preferences', explicit_preference,
+                    -row['rowid'] if explicit_preference else row['rowid'])
+
+        selected, size = [], 2
+        # Scan every eligible entry, but retain at most 96 candidates in memory.
+        for row in heapq.nlargest(96, rows, key=rank):
+            item = {key: row[key] for key in ('id', 'source_id', 'category', 'content', 'revision')}
+            amount = len(json.dumps(item, ensure_ascii=False, separators=(',', ':')).encode('utf-8')) + 1
+            if size + amount <= 20 * 1024:
+                selected.append(item)
+                size += amount
+        return selected
+
+    def retrieve(self, query=''):
         with self.store.tx() as db:
-            return self.context(db, self.store.policy(db))
+            return self.context(db, self.store.policy(db), query)
 
     def list(self, limit=200, before=None):
         if type(limit) is not int or not 1 <= limit <= 200 or (before is not None and (type(before) is not int or before <= 0)):

@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
@@ -9,8 +10,8 @@ import {createProductRuntime} from '../../../apps/desktop/product/runtime/index.
 import {createPersonalSpaceServer} from '../../../apps/desktop/product/web/server.mjs'
 import {createClient} from '../../../apps/desktop/personal-space/client.mjs'
 
-const workspace=path.resolve('.'),python=path.resolve('../companion-agent/.venv/Scripts/python.exe')
-const vueFile=path.resolve('../companion-agent/node_modules/vue/dist/vue.runtime.esm-browser.prod.js')
+const workspace=path.resolve('.'),python=resolveRuntime('python')
+const vueFile=resolveRuntime('vue')
 async function setup({connection,respond}={}){
   await fs.mkdir('.test-data',{recursive:true});const dataRoot=await fs.mkdtemp(path.resolve('.test-data/core-007-web-'))
   const host=createProductHost({python,workspace,dataRoot});let modelCalls=0

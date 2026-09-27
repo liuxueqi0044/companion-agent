@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
@@ -10,7 +11,7 @@ import {createRequestLedger} from '../../../apps/desktop/product/providers/reque
 import {createGoalRouter,goalIntent,isGoalInput} from '../../../apps/desktop/product/providers/goal.mjs'
 import {createClaudeGateway,createClaudeProvider,claudeCommand,collectCodingFiles} from '../../../apps/desktop/product/providers/claude.mjs'
 import {workflowView} from '../../../apps/desktop/product/application/workflow.mjs'
-const python=path.resolve('../companion-agent/.venv/Scripts/python.exe')
+const python=resolveRuntime('python')
 const reply=actions=>({decision:{reply:'当前步骤',actions,memories:[],followup:null}})
 const task={id:'report',title:'结果报告',instruction:'查询 CSV 并生成结果',criteria:['A=5/B=4'],depends_on:[]}
 const plan=()=>reply([{kind:'goal.plan',tasks:[task]}])

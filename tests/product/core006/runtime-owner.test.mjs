@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../../../apps/desktop/product/runtime-paths.mjs'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import * as fs from 'node:fs/promises'
@@ -9,7 +10,7 @@ import {createContactRunner} from '../../../apps/desktop/product/execution/conta
 import {createTurnRunner} from '../../../apps/desktop/product/execution/runner.mjs'
 
 const workspace=path.resolve(fileURLToPath(new URL('../../..',import.meta.url)))
-const python=path.resolve(workspace,'../companion-agent/.venv/Scripts/python.exe')
+const python=resolveRuntime('python')
 const fresh=async()=>{const parent=path.join(workspace,'.test-data');await fs.mkdir(parent,{recursive:true})
   return fs.mkdtemp(path.join(parent,'core-006-owner-'))}
 

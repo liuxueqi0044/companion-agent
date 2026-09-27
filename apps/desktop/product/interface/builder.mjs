@@ -5,9 +5,9 @@ import {createHash} from 'node:crypto'
 import {pathToFileURL,fileURLToPath} from 'node:url'
 import {SCOPES} from './session.mjs'
 import {initialStarter,availableStarterIds} from '../../personal-space/starter-config.mjs'
+import {resolveRuntime} from '../runtime-paths.mjs'
 export const sha=value=>createHash('sha256').update(value).digest('hex')
 const fail=code=>Object.assign(Error(code),{code})
-const workspace=fileURLToPath(new URL('../../../..',import.meta.url))
 const sourceRoot=fileURLToPath(new URL('../../personal-space/',import.meta.url))
 export const BUILD_VERSION='morrow-ui/1-rolldown-1.2.9'
 export function validateSource(source){
@@ -43,7 +43,7 @@ export async function defaultSource({starter=initialStarter,standalone=false}={}
   files['activity.mjs']=files['activity.mjs'].replace('../product/application/activity.mjs','./core/activity.mjs')
   return {sdk:'morrow.ui/1',id:standalone?`morrow.starter.${starter}`:'morrow.default',name:standalone?({whale:'蓝鲸小窝',form:'FORM',atelier:'ATELIER'})[starter]:'Morrow · 初始界面',entry:'app.mjs',styles:['styles.css','starters.css'],scopes:[...SCOPES],files}
 }
-export async function buildInterface(value,{vueFile,bundlerFile=path.resolve(workspace,'../companion-agent/node_modules/rolldown/dist/index.mjs')}={}){
+export async function buildInterface(value,{vueFile=resolveRuntime('vue'),bundlerFile=resolveRuntime('bundler')}={}){
   const source=validateSource(value)
   const sdk=await fs.readFile(new URL('../../personal-space/interface-sdk.mjs',import.meta.url),'utf8')
   const vue=await fs.readFile(vueFile,'utf8')

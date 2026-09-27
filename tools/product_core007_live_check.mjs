@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../apps/desktop/product/runtime-paths.mjs'
 /** Explicit one-request development check. Never imported or called by the UI. */
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -12,7 +13,7 @@ import {createAttemptBudget,createDeepSeekProviders} from '../apps/desktop/produ
 const scenario=process.argv[2]
 if(process.argv.length!==3||!['memory','csv'].includes(scenario))throw Error('explicit_scenario_required')
 const root=fileURLToPath(new URL('..',import.meta.url)),exec=promisify(execFile)
-const python=path.resolve(root,'../companion-agent/.venv/Scripts/python.exe')
+const python=resolveRuntime('python')
 const dataRoot=await fs.mkdtemp(path.join(root,'.test-data/core-007-live-'))
 let secret
 try{secret=await exec('pwsh',['-NoProfile','-NonInteractive','-File',path.join(root,'tools/load_product_credential.ps1'),'-CredentialPath',path.join(process.env.LOCALAPPDATA,'CompanionAgent/credentials/deepseek.dpapi')],{windowsHide:true,maxBuffer:8192})}catch{throw Error('credential_decode_failed')}

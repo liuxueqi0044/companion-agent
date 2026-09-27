@@ -1,3 +1,4 @@
+import {resolveRuntime} from '../apps/desktop/product/runtime-paths.mjs'
 /** Trusted offline driver. Synthetic decision stays here, outside the application. */
 import * as fs from 'node:fs/promises'
 import path from 'node:path'
@@ -7,7 +8,7 @@ import {createProductHost} from '../apps/desktop/product/host.mjs'
 import {createProductApplication} from '../apps/desktop/product/application/index.mjs'
 
 const workspace=path.resolve(fileURLToPath(new URL('..',import.meta.url)))
-const python=path.resolve(workspace,'../companion-agent/.venv/Scripts/python.exe')
+const python=resolveRuntime('python')
 const parent=path.join(workspace,'.test-data')
 await fs.mkdir(parent,{recursive:true})
 const dataRoot=await fs.mkdtemp(path.join(parent,'core-003-demo-'))
