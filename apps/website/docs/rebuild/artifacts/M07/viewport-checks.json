@@ -1,0 +1,146 @@
+[
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 960,
+    "overflow": false,
+    "scene": "hero",
+    "width": 1920
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 960,
+    "overflow": false,
+    "scene": "gallery",
+    "width": 1920
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 960,
+    "overflow": false,
+    "scene": "community",
+    "width": 1920
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 900,
+    "overflow": false,
+    "scene": "hero",
+    "width": 1440
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 900,
+    "overflow": false,
+    "scene": "gallery",
+    "width": 1440
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 900,
+    "overflow": false,
+    "scene": "community",
+    "width": 1440
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 844,
+    "overflow": false,
+    "scene": "hero",
+    "width": 390
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 844,
+    "overflow": false,
+    "scene": "gallery",
+    "width": 390
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 844,
+    "overflow": false,
+    "scene": "community",
+    "width": 390
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 800,
+    "overflow": false,
+    "scene": "hero",
+    "width": 360
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 800,
+    "overflow": false,
+    "scene": "gallery",
+    "width": 360
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 800,
+    "overflow": false,
+    "scene": "community",
+    "width": 360
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 1024,
+    "overflow": false,
+    "scene": "hero",
+    "width": 768
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 1024,
+    "overflow": false,
+    "scene": "gallery",
+    "width": 768
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 1024,
+    "overflow": false,
+    "scene": "community",
+    "width": 768
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 720,
+    "overflow": false,
+    "scene": "hero",
+    "width": 1280
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 720,
+    "overflow": false,
+    "scene": "gallery",
+    "width": 1280
+  },
+  {
+    "assets": "ready",
+    "fonts": "loaded",
+    "height": 720,
+    "overflow": false,
+    "scene": "community",
+    "width": 1280
+  }
+]

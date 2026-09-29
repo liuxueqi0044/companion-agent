@@ -1,0 +1,101 @@
+{
+  "note": "Pixel dimensions of original full-viewport browser screenshots; no clipped screenshots or resampled crops. The browser returns JPEG bytes; delivery filenames reflect their actual format, without re-encoding.",
+  "shots": [
+    {
+      "file": "production-home.jpg",
+      "format": "jpeg",
+      "pixelWidth": 1280,
+      "pixelHeight": 720,
+      "bytes": 110595,
+      "sha256": "c9590ec2f117fdfd9365c462290003433f0c2555154c2dcede6ba5c11654d2bb"
+    },
+    {
+      "file": "production-community.jpg",
+      "format": "jpeg",
+      "pixelWidth": 1280,
+      "pixelHeight": 720,
+      "bytes": 132405,
+      "sha256": "02d5a0ab5a50efa4c8870f7ef3a26ae1b253eed7f7e43eb9351fe085c07d99d8"
+    },
+    {
+      "file": "gallery-1440x900.jpg",
+      "format": "jpeg",
+      "pixelWidth": 1440,
+      "pixelHeight": 900,
+      "bytes": 145597,
+      "sha256": "13e1c4441be5a4ba8f87c0113a9d4e422cd0926177fae1663acca28022033de1"
+    },
+    {
+      "file": "community-1440x900.jpg",
+      "format": "jpeg",
+      "pixelWidth": 1440,
+      "pixelHeight": 900,
+      "bytes": 158055,
+      "sha256": "9121b80d447bb43dfcb8ca029c5a9062581aadd935fdb4e7fa11303faa7f8f4e"
+    },
+    {
+      "file": "hero-390x844.jpg",
+      "format": "jpeg",
+      "pixelWidth": 390,
+      "pixelHeight": 844,
+      "bytes": 46537,
+      "sha256": "18e033bc973948dc47d70d3b3016ad1d11d699d0795db6dfbcddf356c6c9bd3b"
+    },
+    {
+      "file": "gallery-390x844.jpg",
+      "format": "jpeg",
+      "pixelWidth": 390,
+      "pixelHeight": 844,
+      "bytes": 44129,
+      "sha256": "051b2855f7110cd419ea34a434b0873bd3afae621ec5fd15d2b77b11dbdefb2b"
+    },
+    {
+      "file": "community-390x844.jpg",
+      "format": "jpeg",
+      "pixelWidth": 390,
+      "pixelHeight": 844,
+      "bytes": 50468,
+      "sha256": "3753bf010af0cdbeeb459a8b9d7de8e9967ba94ce257517874f2205b88012d7f"
+    },
+    {
+      "file": "community-768x1024.jpg",
+      "format": "jpeg",
+      "pixelWidth": 768,
+      "pixelHeight": 1024,
+      "bytes": 65933,
+      "sha256": "be754a518c7c6db678e004565ed66c8f7aaf8c5dee3b7efe4c3deae94cf0092a"
+    },
+    {
+      "file": "library-mobile.jpg",
+      "format": "jpeg",
+      "pixelWidth": 390,
+      "pixelHeight": 844,
+      "bytes": 48692,
+      "sha256": "f0a522df994c0f5bdc23d4c3367cc6b3b6147ce431adc8f20fd8caf67f0648af"
+    },
+    {
+      "file": "reduced-motion.jpg",
+      "format": "jpeg",
+      "pixelWidth": 1280,
+      "pixelHeight": 720,
+      "bytes": 119383,
+      "sha256": "1477e12ce06ddb71f4de0693e77f0aafd205376501734f4e13d797ec8949a7f2"
+    },
+    {
+      "file": "webgl-unavailable.jpg",
+      "format": "jpeg",
+      "pixelWidth": 1280,
+      "pixelHeight": 720,
+      "bytes": 157113,
+      "sha256": "fce4f55814584595cd9e0c103732139c7c1ece61e8ae4a79bb02c5f9e371bf64"
+    },
+    {
+      "file": "community-image-failure.jpg",
+      "format": "jpeg",
+      "pixelWidth": 1280,
+      "pixelHeight": 720,
+      "bytes": 144999,
+      "sha256": "4a74a139e0c63063ed580d9828f857484ca1e216a9eccd549ccc3b3ec6a0dbc2"
+    }
+  ]
+}

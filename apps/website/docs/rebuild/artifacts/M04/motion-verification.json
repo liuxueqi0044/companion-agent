@@ -1,0 +1,117 @@
+{
+  "passed": true,
+  "deterministicSamples": 31860,
+  "completeHorizontalPeriods": 216,
+  "offscreenWraps": 216,
+  "incomingContinuity": 800,
+  "designatedOrbitSeconds": 78.53981633974483,
+  "regression": "A Frame/Fieldnotes evaluated around old wrap boundary68.137931s pluslargeclocks atenter.1/.5/.9/1, releaseendpointtangent andcompleteclosedorbit.",
+  "viewports": 4,
+  "cycles": [
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 960,
+        "dpr": 2,
+        "layout": "desktop"
+      },
+      "durationsSeconds": [
+        {
+          "band": 0,
+          "seconds": 216.39272727272726
+        },
+        {
+          "band": 1,
+          "seconds": 187.75384615384613
+        },
+        {
+          "band": 2,
+          "seconds": 172.58181818181816
+        },
+        {
+          "band": 3,
+          "seconds": 103.17241379310346
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "layout": "desktop"
+      },
+      "durationsSeconds": [
+        {
+          "band": 0,
+          "seconds": 216.39272727272726
+        },
+        {
+          "band": 1,
+          "seconds": 187.75384615384613
+        },
+        {
+          "band": 2,
+          "seconds": 172.58181818181816
+        },
+        {
+          "band": 3,
+          "seconds": 103.17241379310346
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 900,
+        "height": 900,
+        "dpr": 1,
+        "layout": "tablet"
+      },
+      "durationsSeconds": [
+        {
+          "band": 0,
+          "seconds": 193.61454545454544
+        },
+        {
+          "band": 1,
+          "seconds": 173.67230769230767
+        },
+        {
+          "band": 2,
+          "seconds": 144.84545454545452
+        },
+        {
+          "band": 3,
+          "seconds": 91.03448275862068
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 2,
+        "layout": "mobile"
+      },
+      "durationsSeconds": [
+        {
+          "band": 0,
+          "seconds": 229.67999999999998
+        },
+        {
+          "band": 1,
+          "seconds": 211.02749999999997
+        },
+        {
+          "band": 2,
+          "seconds": 175.23692307692306
+        },
+        {
+          "band": 3,
+          "seconds": 114.91764705882353
+        }
+      ]
+    }
+  ],
+  "limits": "Pure production geometry verification. Does not assert browser GPU performance, full-scene aesthetics, or pixel-perfect DOM bridge matching."
+}

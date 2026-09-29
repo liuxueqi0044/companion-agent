@@ -1,0 +1,158 @@
+[
+  {
+    "frame": 0,
+    "elapsedMs": 145,
+    "progress": "0.670000",
+    "state": "ready"
+  },
+  {
+    "frame": 1,
+    "elapsedMs": 295,
+    "progress": "0.670000",
+    "state": "ready"
+  },
+  {
+    "frame": 2,
+    "elapsedMs": 436,
+    "progress": "0.674463",
+    "state": "playing"
+  },
+  {
+    "frame": 3,
+    "elapsedMs": 612,
+    "progress": "0.681813",
+    "state": "playing"
+  },
+  {
+    "frame": 4,
+    "elapsedMs": 804,
+    "progress": "0.690423",
+    "state": "playing"
+  },
+  {
+    "frame": 5,
+    "elapsedMs": 968,
+    "progress": "0.701395",
+    "state": "playing"
+  },
+  {
+    "frame": 6,
+    "elapsedMs": 1159,
+    "progress": "0.710215",
+    "state": "playing"
+  },
+  {
+    "frame": 7,
+    "elapsedMs": 1363,
+    "progress": "0.720190",
+    "state": "playing"
+  },
+  {
+    "frame": 8,
+    "elapsedMs": 1569,
+    "progress": "0.730428",
+    "state": "playing"
+  },
+  {
+    "frame": 9,
+    "elapsedMs": 1753,
+    "progress": "0.740350",
+    "state": "playing"
+  },
+  {
+    "frame": 10,
+    "elapsedMs": 1939,
+    "progress": "0.750430",
+    "state": "playing"
+  },
+  {
+    "frame": 11,
+    "elapsedMs": 2121,
+    "progress": "0.760300",
+    "state": "playing"
+  },
+  {
+    "frame": 12,
+    "elapsedMs": 2307,
+    "progress": "0.770223",
+    "state": "playing"
+  },
+  {
+    "frame": 13,
+    "elapsedMs": 2481,
+    "progress": "0.780093",
+    "state": "playing"
+  },
+  {
+    "frame": 14,
+    "elapsedMs": 2664,
+    "progress": "0.788913",
+    "state": "playing"
+  },
+  {
+    "frame": 15,
+    "elapsedMs": 2836,
+    "progress": "0.798940",
+    "state": "playing"
+  },
+  {
+    "frame": 16,
+    "elapsedMs": 3017,
+    "progress": "0.807393",
+    "state": "playing"
+  },
+  {
+    "frame": 17,
+    "elapsedMs": 3163,
+    "progress": "0.817315",
+    "state": "playing"
+  },
+  {
+    "frame": 18,
+    "elapsedMs": 3334,
+    "progress": "0.825033",
+    "state": "playing"
+  },
+  {
+    "frame": 19,
+    "elapsedMs": 3473,
+    "progress": "0.833853",
+    "state": "playing"
+  },
+  {
+    "frame": 20,
+    "elapsedMs": 3631,
+    "progress": "0.841675",
+    "state": "playing"
+  },
+  {
+    "frame": 21,
+    "elapsedMs": 3784,
+    "progress": "0.849498",
+    "state": "playing"
+  },
+  {
+    "frame": 22,
+    "elapsedMs": 3954,
+    "progress": "0.859053",
+    "state": "playing"
+  },
+  {
+    "frame": 23,
+    "elapsedMs": 4085,
+    "progress": "0.866455",
+    "state": "playing"
+  },
+  {
+    "frame": 24,
+    "elapsedMs": 4219,
+    "progress": "0.873228",
+    "state": "playing"
+  },
+  {
+    "frame": 25,
+    "elapsedMs": 4356,
+    "progress": "0.880000",
+    "state": "finished"
+  }
+]

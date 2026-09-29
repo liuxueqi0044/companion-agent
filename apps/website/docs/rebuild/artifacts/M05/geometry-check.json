@@ -1,0 +1,95 @@
+{
+  "version": "m05-geometry-check-1",
+  "testedAt": "2026-09-29T15:15:42.678Z",
+  "scope": "Actual TypeScript geometry, HeroScene anchor evaluation, and TransitionLayer paint math executed in Node with minimal inert DOM-shaped objects. No browser, no WebGL visual/compositing claim.",
+  "sources": {
+    "src/rebuild/runtime/geometry.ts": "5e7800421f60f4a93599c241d473de45629be923af97ef45d7ee4f8586f309c9",
+    "src/rebuild/config/chapters.ts": "fb5351e63a1f359ca53b0236e780f23ada47c6cb419834c567e4a3524f45e20b",
+    "src/rebuild/scenes/HeroScene.ts": "448fec2ac6da97a2281db7036eac563e6a1606073cc8fc2bc3982c32740965cd",
+    "src/rebuild/runtime/TransitionLayer.ts": "68cc79a9f8bfc571b0f667c607dd94867b7dc88d41ae8a80acf20d8adfd5fdf0"
+  },
+  "summary": {
+    "passed": 14,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "name": "projective map preserves all four corners for 200 deterministic convex quads",
+      "pass": true,
+      "maxErrorPx": 3.183233438745747e-12
+    },
+    {
+      "name": "edge fold keeps source centerline height and exact corner projection",
+      "pass": true,
+      "maxMidlineErrorPx": 0,
+      "maxCornerErrorPx": 1.1368683772161603e-13
+    },
+    {
+      "name": "actual HeroScene emits positive dimensions and exact CSS source corners",
+      "pass": true,
+      "minWidthPx": 59.357384441939125,
+      "minHeightPx": 78.41037204058625,
+      "maxErrorPx": 0
+    },
+    {
+      "name": "hidden source remains sampleable at the identical quad",
+      "pass": true,
+      "maxErrorPx": 0
+    },
+    {
+      "name": "HeroScene respects the shared tablet/mobile layout classification at 720 px",
+      "pass": true,
+      "maxErrorPx": 5.684341886080802e-14
+    },
+    {
+      "name": "A enters within 2 px of the actual ambient hero source",
+      "pass": true,
+      "maxErrorPx": 1.7835885180900402e-11,
+      "perTagPx": [
+        1.7835885180900402e-11,
+        0
+      ]
+    },
+    {
+      "name": "A settles within 2 px of both warped destination quads",
+      "pass": true,
+      "maxErrorPx": 1.4181265332365618e-11
+    },
+    {
+      "name": "A face swap preserves warped silhouette and folded height",
+      "pass": true,
+      "maxErrorPx": 0.000012833407849446707,
+      "swapProgress": 0.41929923617828657
+    },
+    {
+      "name": "B preserves source and destination exact quads at adjacent boundaries",
+      "pass": true,
+      "entryMaxErrorPx": 9.641957583017965e-12,
+      "exitMaxErrorPx": 2.0672568990265313e-11
+    },
+    {
+      "name": "fixed frame A seek is independent of traversal history",
+      "pass": true
+    },
+    {
+      "name": "completed handoffs remove every bridge subtree from rendering",
+      "pass": true,
+      "bridges": 5
+    },
+    {
+      "name": "reverse entry restores only the two active A bridges",
+      "pass": true
+    },
+    {
+      "name": "disabled handoffs suppress explicitly visible cloned descendants",
+      "pass": true
+    },
+    {
+      "name": "projective map rejects non-positive or non-finite source dimensions",
+      "pass": true,
+      "cases": 8,
+      "rejected": 8
+    }
+  ],
+  "findings": []
+}

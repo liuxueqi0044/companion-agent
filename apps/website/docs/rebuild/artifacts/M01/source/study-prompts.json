@@ -1,0 +1,19 @@
+{
+  "mode": "built-in image_gen",
+  "reference": "../assets/hero-art-v1.png",
+  "status": "M01 material and layer feasibility studies, not production cutouts",
+  "prompts": [
+    {
+      "key": "material",
+      "prompt": "Use case: product-mockup / material and lighting study. The reference is our approved MORROW hero scene. Generate a premium 2048x1024 2:1 MATERIAL STUDY image: three adjoining portrait photographic panels, equal widths, with very fine quiet ivory gutters, no text or logo. Left: extreme close macro of this exact type of fissured charcoal-brown organic tree bark, natural roughness and small knots, directional soft daylight. Middle: a backlit olive leaf on a slender living twig, fine detailed veins, olive/sage translucency, softly blurred ivory ground, photoreal botanical product photography. Right: extreme close view of the corner of an unprinted thick ivory cotton-paper hanging tag, visible fibrous handmade paper texture, paper edge thickness, round hole with brown natural cord passing through, delicate convincing contact shadow. Keep three panels cohesive warm-neutral offwhite daylight, not orange. Fine material physical realism like luxury tactile editorial photography, absolutely no CGI plastic, no engraved text, no explanations printed inside image. This is a material target study, not a diagram. Photographic high resolution."
+    },
+    {
+      "key": "cleanplate",
+      "prompt": "Use case: precise-object-edit. EDIT the supplied MORROW hero image. Preserve exact image dimensions, composition, camera, background gradient, every branch and leaf and ALL other four cards. Remove ONLY the upper-left card labelled 'Video Editing' INCLUDING its free dangling cord below its branch and the lower-middle card labelled 'Research' INCLUDING its dangling cord. Reconstruct the naturally occluded foliage/branches and warm shadows behind these two removed cards photorealistically, matching surrounding bark/leaf texture. Leave the other FOUR tags Spreadsheets, Customer Care, Global Trade and Scheduling in exactly their original places with unchanged English lettering. Keep clear right side empty and unaltered. No new cards, no new text, no redesign, no crop. Need exact original framing, a clean-plate layer feasibility study for animation."
+    },
+    {
+      "key": "tags",
+      "prompt": "Use case: precise-object-edit / background-extraction. The supplied reference is our MORROW hero. Produce a truly TRANSPARENT PNG asset sheet with exactly TWO separate photoreal ivory paper tags extracted/re-created faithfully from reference: LEFT panel the Video Editing card with black thin play-rectangle icon and exact text 'Video Editing'; RIGHT panel Research card with black thin magnifying-glass icon and exact text 'Research'. Each includes its same short dangling brown cord through a punched round hole, tactile warm ivory paper fibres, thin beveled side and tiny contact shadow at hole. Both upright and front facing, whole tags fully visible with comfortable transparent margins, equal-size tags centered in the left and right halves, about 1:1 overall sheet dimensions. No background whatsoever, no backdrop, no branches/leaves. Do not merge tags, do not give them a new font or white plasticky material. Match subtle warm directional lighting of reference. Do not include free-floating big ground shadow. These two isolated cards support our M01 motion blocking prototype; retain all typography legibly."
+    }
+  ]
+}

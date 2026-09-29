@@ -1,0 +1,128 @@
+---
+import ExploreDialog from '../components/ExploreDialog.astro';
+import { artworks, artworkStyle, skills } from '../lib/content';
+import '../styles/site.css';
+import '../styles/dialogs.css';
+const featured = [artworks[14], artworks[0], artworks[6]];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f4f1eb" />
+    <meta name="description" content="An AI that's uniquely yours. Combine skills and tools, shape your own interface, and share your ideas with a world of creators." />
+    <meta property="og:title" content="Morrow — An AI that's uniquely yours" />
+    <meta property="og:description" content="Your skills. Your style. Your possibilities. Create an AI assistant that feels like you." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/dm-serif-display.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/dm-sans-regular.ttf" as="font" type="font/ttf" crossorigin />
+    <title>Morrow — An AI that's uniquely yours</title>
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a href="#home" class="wordmark" data-goto="0" aria-label="Morrow home">morrow<span class="brand-dot">✳</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#possibilities" data-goto="0.53">Possibilities</a>
+        <a href="#community" data-goto="0.91">Community</a>
+      </nav>
+      <div class="header-actions">
+        <button class="text-button header-community" data-goto="0.91" aria-label="Join the community"><span class="community-label-full">Join the community</span><span class="community-label-compact" aria-hidden="true">Community</span><span aria-hidden="true">↗</span></button>
+        <button class="button button-dark button-small" data-open-download>Get Morrow <span aria-hidden="true">↗</span></button>
+      </div>
+    </header>
+
+    <div class="scene" id="scene" aria-hidden="true"></div>
+    <div class="paper-grain" aria-hidden="true"></div>
+    <div class="fallback-branches" aria-hidden="true"><span></span><span></span><span></span></div>
+
+    <main id="main">
+      <div class="story-track" id="story-track">
+        <section class="chapter chapter-hero is-active" id="home" data-chapter="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="small-leaf" aria-hidden="true">✳</span> MADE OF POSSIBILITIES</p>
+            <h1 id="hero-title">An AI that's<br /><em>uniquely yours.</em></h1>
+            <p class="intro">Bring together the skills you need.<br class="desktop-break" /> Give it a look you love. Make it your own.</p>
+            <button class="button button-dark hero-action" data-goto="0.35">See what comes together <span aria-hidden="true">↘</span></button>
+            <p class="hero-footnote">Your skills. Your style. Your possibilities.</p>
+          </div>
+          <div class="skill-interactions" aria-label="Explore skills">
+            {skills.map((skill,i)=><button class="skill-hit" data-skill={i} aria-label={`${skill.title}: ${skill.description}`} aria-pressed="false"><span>{skill.title}</span></button>)}
+          </div>
+          <div class="skill-caption" aria-live="polite"><span class="caption-line"></span><span id="skill-caption-text">A world of skills. Pick what feels like you.</span></div>
+          <button class="scroll-cue" data-goto="0.35"><span class="scroll-line" aria-hidden="true"></span> SCROLL TO DISCOVER <span aria-hidden="true">↓</span></button>
+        </section>
+
+        <section class="chapter chapter-assembly" id="together" data-chapter="assembly" aria-labelledby="assembly-title">
+          <div class="assembly-copy">
+            <p class="eyebrow">01 / FIND YOUR COMBINATION</p>
+            <h2 id="assembly-title">Good things work <em>together.</em></h2>
+            <p>Skills, tools and agents. A little of each. Entirely yours.</p>
+          </div>
+          <div class="assistant-preview" aria-label="Example of a creative assistant">
+            <div class="assistant-topbar"><span class="mini-wordmark">m.</span><span>Your creative assistant</span><span class="preview-indicator">A POSSIBILITY</span></div>
+            <div class="assistant-body">
+              <span class="assistant-flower" aria-hidden="true">✳</span>
+              <h3>Something worth<br /><em>making.</em></h3>
+              <p>A place for your next good idea.</p>
+              <div class="assistant-prompt">Turn these ideas into a short film.<span aria-hidden="true">↗</span></div>
+            </div>
+            <div class="assistant-capabilities"><span>◎ Research</span><span>✧ Writing</span><span>▷ Video editing</span></div>
+          </div>
+          <div class="assembly-bottom"><span class="connection-dot"></span> A FEW GOOD SKILLS. A WHOLE NEW ASSISTANT.</div>
+        </section>
+
+        <section class="chapter chapter-gallery" id="possibilities" data-chapter="gallery" aria-labelledby="gallery-title">
+          <div class="gallery-copy">
+            <p class="eyebrow">02 / GIVE IT YOUR SHAPE</p>
+            <h2 id="gallery-title">One assistant.<br class="mobile-break" /> <em>So many possibilities.</em></h2>
+            <p>A quiet companion. A creative studio. A whole new way to work.</p>
+          </div>
+          <div class="gallery-bottom">
+            <p><span class="tiny-cross" aria-hidden="true">✧</span> A glimpse of what you could create.</p>
+            <button class="text-button" data-open-explore>Explore the collection <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="fallback-gallery" aria-label="Interface concepts">
+            {artworks.slice(0,12).map(art=><button class="fallback-art" data-artwork={art.id} aria-label={`Explore ${art.title}`} style={artworkStyle(art)}></button>)}
+          </div>
+        </section>
+
+        <section class="chapter chapter-community" id="community" data-chapter="community" aria-labelledby="community-title">
+          <div class="community-copy">
+            <p class="eyebrow">03 / CREATED HERE. SHARED EVERYWHERE.</p>
+            <h2 id="community-title">Let your ideas<br />meet <em>the world.</em></h2>
+            <p>Discover a different perspective. Share a spark of your own. A place to exchange ideas — and to buy and sell what you create.</p>
+            <div class="community-actions"><button class="button button-dark" data-open-explore>Discover creations <span aria-hidden="true">↗</span></button><button class="text-button" data-open-share>Share your idea <span aria-hidden="true">↗</span></button></div>
+            <div class="community-verbs"><span>Share</span><i>·</i><span>Discuss</span><i>·</i><span>Buy</span><i>·</i><span>Sell</span></div>
+          </div>
+          <div class="community-art" aria-label="A world of creative possibilities">
+            <svg class="community-orbits" viewBox="0 0 800 660" fill="none" aria-hidden="true"><path d="M52 321C162 49 498 38 709 240S659 558 371 592 17 450 52 321Z"/><path d="M111 461C-39 268 330 148 611 190S860 481 562 514 261 654 111 461Z"/></svg>
+            {featured.map((art,i)=><button class={`creation creation-${i}`} data-artwork={art.id} aria-label={`Explore ${art.title}`}><span class="creation-image" style={artworkStyle(art)}></span><span class="creation-label"><span>{art.title}<small>{art.category}</small></span><span class="creation-arrow" aria-hidden="true">↗</span></span></button>)}
+            <div class="creator creator-0"><span class="portrait portrait-0"></span><span class="greeting">Hello!</span></div>
+            <div class="creator creator-1"><span class="portrait portrait-1"></span><span class="greeting">你好</span></div>
+            <div class="creator creator-2"><span class="portrait portrait-2"></span><span class="greeting">Bonjour!</span></div>
+            <div class="creator creator-3"><span class="portrait portrait-3"></span><span class="greeting">Hola!</span></div>
+            <span class="community-note">IDEAS CONNECT PEOPLE.</span>
+          </div>
+          <footer class="site-footer"><a class="footer-wordmark" href="#home" data-goto="0">morrow</a><span>A little more human. A little more you.</span><div><a href="https://github.com/liuxueqi0044/companion-agent" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="/privacy">Privacy</a><span>© 2026 Morrow</span></div></footer>
+        </section>
+      </div>
+    </main>
+
+    <div class="story-controls">
+      <div class="chapter-dots" role="navigation" aria-label="Story chapters"><button data-goto="0" aria-label="Go to skills" aria-current="step"><span>01</span></button><button data-goto="0.53" aria-label="Go to possibilities"><span>02</span></button><button data-goto="0.91" aria-label="Go to community"><span>03</span></button></div>
+      <button id="motion-toggle" class="motion-toggle" aria-label="Pause ambient motion" aria-pressed="false"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path class="pause-symbol" d="M7 5v10M13 5v10" stroke="currentColor" stroke-width="1.5"/><path class="play-symbol" d="m7 4 9 6-9 6V4Z" stroke="currentColor"/></svg><span>Pause motion</span></button>
+    </div>
+    <div class="scene-status" role="status" aria-live="polite"></div>
+    <ExploreDialog />
+    <script>
+      import { initStory } from '../scene/story';
+      import { initDialogs } from '../lib/dialogs';
+      import { artworks } from '../lib/content';
+      initDialogs(artworks);
+      initStory(artworks);
+    </script>
+  </body>
+</html>

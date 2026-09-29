@@ -1,0 +1,26 @@
+[
+  {
+    "scene": "hero",
+    "src": "/rebuild/fallback/hero.webp",
+    "width": 1774,
+    "height": 887,
+    "bytes": 148670,
+    "source": "docs\\rebuild\\artifacts\\M01\\assets\\hero-art-v1.png"
+  },
+  {
+    "scene": "gallery",
+    "src": "/rebuild/fallback/gallery.webp",
+    "width": 1774,
+    "height": 887,
+    "bytes": 257316,
+    "source": "docs\\rebuild\\artifacts\\M01\\assets\\gallery-art-v1.png"
+  },
+  {
+    "scene": "community",
+    "src": "/rebuild/fallback/community.webp",
+    "width": 1774,
+    "height": 887,
+    "bytes": 234982,
+    "source": "docs\\rebuild\\artifacts\\M01\\assets\\community-art-v1.png"
+  }
+]

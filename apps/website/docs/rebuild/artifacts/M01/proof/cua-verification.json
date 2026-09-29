@@ -1,0 +1,20 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 1120
+  },
+  "ambientTime": 0,
+  "A50ReturnPixelsIdentical": true,
+  "B50ReturnPixelsIdentical": true,
+  "controls": {
+    "keyframeSelection": true,
+    "sceneSelection": true,
+    "BReverseObserved": "50% to 45.3% to 0%",
+    "BForwardObserved": "0% to 5.5%",
+    "pause": true
+  },
+  "scope": "M01 fixed-clock motion previs in Codex in-app browser; not production scroll/device/performance testing",
+  "A50FinalFontPixelsIdentical": true,
+  "B50FinalFontPixelsIdentical": true,
+  "finalFont": "DM Serif Display + DM Sans"
+}

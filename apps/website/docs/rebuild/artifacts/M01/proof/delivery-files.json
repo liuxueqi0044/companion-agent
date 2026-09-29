@@ -1,0 +1,53 @@
+{
+  "date": "2026-09-29",
+  "boards": [
+    {
+      "file": "boards/hero-desktop.png",
+      "width": 1920,
+      "height": 960
+    },
+    {
+      "file": "boards/hero-wide.png",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "boards/hero-mobile.png",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "boards/gallery-desktop.png",
+      "width": 1920,
+      "height": 960
+    },
+    {
+      "file": "boards/gallery-wide.png",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "boards/gallery-mobile.png",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "boards/community-desktop.png",
+      "width": 1920,
+      "height": 960
+    },
+    {
+      "file": "boards/community-wide.png",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "boards/community-mobile.png",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "specJsonFiles": 4,
+  "brokenMarkdownLinks": 0,
+  "scope": "File/metadata validation only; visual and motion evidence recorded separately"
+}

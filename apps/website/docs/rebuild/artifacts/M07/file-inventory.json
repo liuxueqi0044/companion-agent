@@ -1,0 +1,2589 @@
+{
+  "version": "m07-inventory-1",
+  "generatedAt": "2026-09-29T14:40:16.669Z",
+  "status": "Measured source/assets and an existing build snapshot; not a final release or measured network waterfall.",
+  "totals": {
+    "publishedRebuildFiles": 60,
+    "publishedRebuildBytes": 3718044,
+    "publishedRebuildImages": 57,
+    "publishedRebuildImageBytes": 3694418,
+    "runtimeUniqueImages": 53,
+    "runtimeImageBytes": 4474068,
+    "runtimeFonts": 3,
+    "runtimeFontBytes": 166908,
+    "heroImageBytes": 467556,
+    "heroImagesPlusFontsBytes": 634464,
+    "eagerFallbackHeroBytes": 148670,
+    "allReachableImagesAndFontsBytes": 4640976,
+    "unusedPublishedImages": 8,
+    "unusedPublishedImageBytes": 376526
+  },
+  "verification": {
+    "missingRuntimePaths": [],
+    "diagnosticMissingPaths": [
+      {
+        "url": "/rebuild/community/__diagnostic-missing-required-image.webp",
+        "purpose": "Intentional failed request only when ?assetFail=community is supplied; validates complete scene fallback."
+      }
+    ],
+    "missingSources": [],
+    "galleryCatalogEntries": 27,
+    "nearCatalogEntries": 8,
+    "communityPeople": 5
+  },
+  "published": [
+    {
+      "path": "public/rebuild/community/companion.webp",
+      "url": "/rebuild/community/companion.webp",
+      "bytes": 240860,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "9fc14074de3910dc91a4b25a6edc0ccaffdcd595a7cb886f9d6895d486f250ce",
+      "modifiedAt": "2026-09-29T13:27:23.642Z",
+      "sourcePath": "source-art/rebuild/community/companion-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-1.webp",
+      "url": "/rebuild/community/distant-1.webp",
+      "bytes": 8024,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "5cfb548515b195c33fb0baea08b6a56150cfb6ee11ed5f65a87926491cb1df06",
+      "modifiedAt": "2026-09-29T13:27:35.210Z",
+      "sourcePath": "source-art/companions.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-10.webp",
+      "url": "/rebuild/community/distant-10.webp",
+      "bytes": 6472,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "0f1757bde57c3de3e3aa1ed160800ce742859e0ce959ed92952fb0a07fe47f2d",
+      "modifiedAt": "2026-09-29T13:27:35.299Z",
+      "sourcePath": "source-art/creative.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-11.webp",
+      "url": "/rebuild/community/distant-11.webp",
+      "bytes": 9906,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "bf079bf5ec3ac11197c1c4b85447009ca660c6650b1e4ac0d7df086c9c29872f",
+      "modifiedAt": "2026-09-29T13:27:35.330Z",
+      "sourcePath": "source-art/workspaces.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-12.webp",
+      "url": "/rebuild/community/distant-12.webp",
+      "bytes": 6456,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "672e91b2a1aec3e0c02f0268bf1c351fbe080f93e50309fa6b4bdd3860c27956",
+      "modifiedAt": "2026-09-29T13:27:35.337Z",
+      "sourcePath": "source-art/workspaces.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-13.webp",
+      "url": "/rebuild/community/distant-13.webp",
+      "bytes": 10006,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "2aff203829e1bd336c38cb2bff24335ec39161c022f742bb774d2753794d978d",
+      "modifiedAt": "2026-09-29T13:27:35.344Z",
+      "sourcePath": "source-art/workspaces.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-14.webp",
+      "url": "/rebuild/community/distant-14.webp",
+      "bytes": 5796,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "ed7afa6a82df485e5e280af18f53d32af2f5090eb8e325d724e5ec805435d263",
+      "modifiedAt": "2026-09-29T13:27:35.350Z",
+      "sourcePath": "source-art/workspaces.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-15.webp",
+      "url": "/rebuild/community/distant-15.webp",
+      "bytes": 5932,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "76f735b677e39f3af74a1e2e21efa132f2c0e64c96bcca09674390f451480bf4",
+      "modifiedAt": "2026-09-29T13:27:35.359Z",
+      "sourcePath": "source-art/workspaces.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-16.webp",
+      "url": "/rebuild/community/distant-16.webp",
+      "bytes": 9128,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "0c8314408de47206b33db1fcd942006c57c5c1435cf07399983de0a9c831da3d",
+      "modifiedAt": "2026-09-29T13:27:35.391Z",
+      "sourcePath": "source-art/possibilities.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-17.webp",
+      "url": "/rebuild/community/distant-17.webp",
+      "bytes": 7216,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "1d3adc7c01bc1c9088dc4b094970b2e37f1a595bf9b1af04c7875371be5825da",
+      "modifiedAt": "2026-09-29T13:27:35.399Z",
+      "sourcePath": "source-art/possibilities.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-18.webp",
+      "url": "/rebuild/community/distant-18.webp",
+      "bytes": 6508,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "2e0f7b3bacabb6b0ce0cae56ca00c2814583a50364e9ae6c644f3037a16cfbb9",
+      "modifiedAt": "2026-09-29T13:27:35.407Z",
+      "sourcePath": "source-art/possibilities.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-19.webp",
+      "url": "/rebuild/community/distant-19.webp",
+      "bytes": 9410,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "2d9b046cc318d231623dbefc6a3dc540fbd2d455fd6e1963b89642e89f87693f",
+      "modifiedAt": "2026-09-29T13:27:35.414Z",
+      "sourcePath": "source-art/possibilities.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-2.webp",
+      "url": "/rebuild/community/distant-2.webp",
+      "bytes": 10816,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "14cc94c1ba243770dfd3a92965678e43e9e725765c89eef361e3808f568f21bd",
+      "modifiedAt": "2026-09-29T13:27:35.218Z",
+      "sourcePath": "source-art/companions.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-20.webp",
+      "url": "/rebuild/community/distant-20.webp",
+      "bytes": 6614,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "960783744d464694ab9f23032614f2d8a4ae838d08acbd00854263f92f3234d7",
+      "modifiedAt": "2026-09-29T13:27:35.420Z",
+      "sourcePath": "source-art/possibilities.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-3.webp",
+      "url": "/rebuild/community/distant-3.webp",
+      "bytes": 8182,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "36ba1913880327cedd9847df675ea621ccca098ba92dcc2c8b3df6a79d19f5dd",
+      "modifiedAt": "2026-09-29T13:27:35.225Z",
+      "sourcePath": "source-art/companions.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-4.webp",
+      "url": "/rebuild/community/distant-4.webp",
+      "bytes": 8912,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "0c22b7f89038844f6d362f3c54499a45c628a1ddc5697de78199969f239931a3",
+      "modifiedAt": "2026-09-29T13:27:35.232Z",
+      "sourcePath": "source-art/companions.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-5.webp",
+      "url": "/rebuild/community/distant-5.webp",
+      "bytes": 9158,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "f7c75f276fb30c9524a28e8f38cbfca13833990d63032225c5e5ab45a49cd91e",
+      "modifiedAt": "2026-09-29T13:27:35.239Z",
+      "sourcePath": "source-art/companions.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-6.webp",
+      "url": "/rebuild/community/distant-6.webp",
+      "bytes": 7804,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "5ab3060a5ccb6718085a329761b0e209a473754afe04134e16badec27c0535aa",
+      "modifiedAt": "2026-09-29T13:27:35.270Z",
+      "sourcePath": "source-art/creative.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-7.webp",
+      "url": "/rebuild/community/distant-7.webp",
+      "bytes": 8220,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "dad79ab188d1d9c99ab2f36942f2b4215be764482c1341d3f2fbb853fed07e52",
+      "modifiedAt": "2026-09-29T13:27:35.277Z",
+      "sourcePath": "source-art/creative.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-8.webp",
+      "url": "/rebuild/community/distant-8.webp",
+      "bytes": 5516,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "2138904b2067f450eaaacb671cc5e96c482de6bb3fdde346dbf8b07320159367",
+      "modifiedAt": "2026-09-29T13:27:35.284Z",
+      "sourcePath": "source-art/creative.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/distant-9.webp",
+      "url": "/rebuild/community/distant-9.webp",
+      "bytes": 10018,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "c19b2862cb827bc24149453b2bc9ed65e86bfade7fdf5daaa822e4446f61b621",
+      "modifiedAt": "2026-09-29T13:27:35.292Z",
+      "sourcePath": "source-art/creative.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/manifest.json",
+      "url": "/rebuild/community/manifest.json",
+      "bytes": 14097,
+      "width": null,
+      "height": null,
+      "alpha": null,
+      "sha256": "f0644618a49dc4a87c9418a1fbf44ba11459e8c626c3512385310538b5ff19cd",
+      "modifiedAt": "2026-09-29T13:27:35.422Z",
+      "sourcePath": "tools/rebuild-*.mjs",
+      "sourceExists": null,
+      "provenance": {
+        "kind": "generated build metadata"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/community/person-1.webp",
+      "url": "/rebuild/community/person-1.webp",
+      "bytes": 68980,
+      "width": 381,
+      "height": 620,
+      "alpha": true,
+      "sha256": "f3caf79766e5ae908b4b238213a4337bb77f26380b047e351c5190aa23bb22aa",
+      "modifiedAt": "2026-09-29T13:27:28.429Z",
+      "sourcePath": "source-art/rebuild/community/people-clean-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/person-2.webp",
+      "url": "/rebuild/community/person-2.webp",
+      "bytes": 64666,
+      "width": 320,
+      "height": 620,
+      "alpha": true,
+      "sha256": "6fa277a72c3975e56046e8ecdb72bf3d9fe096997febbfca6989810bf3393928",
+      "modifiedAt": "2026-09-29T13:27:30.314Z",
+      "sourcePath": "source-art/rebuild/community/people-clean-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/person-3.webp",
+      "url": "/rebuild/community/person-3.webp",
+      "bytes": 68512,
+      "width": 442,
+      "height": 620,
+      "alpha": true,
+      "sha256": "a564ae6357f69503af0ab5fe89262def0cc2ae1f75e79306164bb4570a3dc4d7",
+      "modifiedAt": "2026-09-29T13:27:31.548Z",
+      "sourcePath": "source-art/rebuild/community/people-clean-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/person-4.webp",
+      "url": "/rebuild/community/person-4.webp",
+      "bytes": 57012,
+      "width": 335,
+      "height": 620,
+      "alpha": true,
+      "sha256": "ea1cc1c1b34d109fe11222c4cbcc86f69afe47eadc1b79092c1eefcf2da9c7c9",
+      "modifiedAt": "2026-09-29T13:27:33.214Z",
+      "sourcePath": "source-art/rebuild/community/people-clean-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/person-5.webp",
+      "url": "/rebuild/community/person-5.webp",
+      "bytes": 55498,
+      "width": 390,
+      "height": 620,
+      "alpha": true,
+      "sha256": "30162bf77e62dd7a7fe2a71a8e9dbb870a13fac365221068bc6c70f39a4c249b",
+      "modifiedAt": "2026-09-29T13:27:35.173Z",
+      "sourcePath": "source-art/rebuild/community/people-clean-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/ribbon.webp",
+      "url": "/rebuild/community/ribbon.webp",
+      "bytes": 65932,
+      "width": 1600,
+      "height": 533,
+      "alpha": true,
+      "sha256": "e6d619d47a6740bee6afa19f95d57e349661f9517e9e5c0a55e2598fd9b2c47b",
+      "modifiedAt": "2026-09-29T13:27:26.205Z",
+      "sourcePath": "source-art/rebuild/community/ribbon-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/set-clean.webp",
+      "url": "/rebuild/community/set-clean.webp",
+      "bytes": 82696,
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "sha256": "f096ea22bdcd604cb7a159c42c3cda8d3e2f88bb09520c4fca32c5940090c91d",
+      "modifiedAt": "2026-09-29T13:27:23.966Z",
+      "sourcePath": "source-art/rebuild/community/set-clean-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/travel.webp",
+      "url": "/rebuild/community/travel.webp",
+      "bytes": 375554,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "b3b0b5a5f7fbfc8735be08bd7b22f5bda7f8626a8cdf58cecf9e277edcc9dee3",
+      "modifiedAt": "2026-09-29T13:27:23.430Z",
+      "sourcePath": "source-art/rebuild/community/travel-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/community/writer.webp",
+      "url": "/rebuild/community/writer.webp",
+      "bytes": 217258,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "72c40ca6ebe43997148422de2921cf9f1c61b9d86b9ef7090ebc08fd8e3e10de",
+      "modifiedAt": "2026-09-29T13:27:23.833Z",
+      "sourcePath": "source-art/rebuild/community/writer-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "path": "public/rebuild/fallback/community.webp",
+      "url": "/rebuild/fallback/community.webp",
+      "bytes": 234982,
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "sha256": "c184f3919d04bae8ff79c755694f9829a469ac524b7d4d4a5414b17f05cf1b9c",
+      "modifiedAt": "2026-09-29T13:44:14.924Z",
+      "sourcePath": "docs/rebuild/artifacts/M01/assets/community-art-v1.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Approved M01 built-in imagegen scene"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/fallback/gallery.webp",
+      "url": "/rebuild/fallback/gallery.webp",
+      "bytes": 257316,
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "sha256": "1d58a080964079eeed3d29429908cd69559de48852fadd5cd5dd14877be92381",
+      "modifiedAt": "2026-09-29T13:44:14.807Z",
+      "sourcePath": "docs/rebuild/artifacts/M01/assets/gallery-art-v1.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Approved M01 built-in imagegen scene"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/fallback/hero.webp",
+      "url": "/rebuild/fallback/hero.webp",
+      "bytes": 148670,
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "sha256": "929fe273cdb1c2caf67e71bcb3f02ce28237e42eb8ceb564f19c8a660c8a55a6",
+      "modifiedAt": "2026-09-29T13:44:14.682Z",
+      "sourcePath": "docs/rebuild/artifacts/M01/assets/hero-art-v1.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Approved M01 built-in imagegen scene"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/fallback/manifest.json",
+      "url": "/rebuild/fallback/manifest.json",
+      "bytes": 632,
+      "width": null,
+      "height": null,
+      "alpha": null,
+      "sha256": "c1196373e5994c62c3696ac7dac3533c664cd3ffb6b40dcf32518ee9b26bdd3c",
+      "modifiedAt": "2026-09-29T13:44:14.927Z",
+      "sourcePath": "tools/rebuild-*.mjs",
+      "sourceExists": null,
+      "provenance": {
+        "kind": "generated build metadata"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/atelier-1200.webp",
+      "url": "/rebuild/gallery/atelier-1200.webp",
+      "bytes": 28764,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "d195df9691b1354669ec550eac7076993f278c6712a44f560fda0753ac5e85cb",
+      "modifiedAt": "2026-09-29T13:41:39.758Z",
+      "sourcePath": "source-art/rebuild/gallery/atelier.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": null
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/atelier-900.webp",
+      "url": "/rebuild/gallery/atelier-900.webp",
+      "bytes": 19602,
+      "width": 900,
+      "height": 600,
+      "alpha": false,
+      "sha256": "6ca58fcfd76ac9a23f3f015d3ee217b2521b3c34efdff15a0a5578c57072d805",
+      "modifiedAt": "2026-09-29T13:41:39.811Z",
+      "sourcePath": "source-art/rebuild/gallery/atelier.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": null
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/fieldnotes-1200.webp",
+      "url": "/rebuild/gallery/fieldnotes-1200.webp",
+      "bytes": 72162,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "5c2f59e6dc5974b5032173f0bf23263c46afda7c38dc103ae4adf86b521885f2",
+      "modifiedAt": "2026-09-29T13:41:39.152Z",
+      "sourcePath": "source-art/rebuild/gallery/fieldnotes.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "landscape-art.png"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/fieldnotes-900.webp",
+      "url": "/rebuild/gallery/fieldnotes-900.webp",
+      "bytes": 45128,
+      "width": 900,
+      "height": 600,
+      "alpha": false,
+      "sha256": "e9f101210e93043e894fd05451b8edf1e2aa8cd9da455b6c90fb684e1fdcb916",
+      "modifiedAt": "2026-09-29T13:41:39.212Z",
+      "sourcePath": "source-art/rebuild/gallery/fieldnotes.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "landscape-art.png"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/foliage-lower-left.webp",
+      "url": "/rebuild/gallery/foliage-lower-left.webp",
+      "bytes": 14324,
+      "width": 350,
+      "height": 327,
+      "alpha": false,
+      "sha256": "22c301aafe444abd297719f3cc24c09af7d53d11c325b6019dc49d7ed2948c2c",
+      "modifiedAt": "2026-09-29T13:41:41.023Z",
+      "sourcePath": "docs/rebuild/artifacts/M01/assets/gallery-art-v1.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Approved M01 gallery image; resized/cropped by tools/rebuild-gallery-assets.mjs"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/frame-1200.webp",
+      "url": "/rebuild/gallery/frame-1200.webp",
+      "bytes": 109778,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "cac743de2fe98d55c51d6b6ed6a42a94041260bc9aa67e0da88d30b01e86de3f",
+      "modifiedAt": "2026-09-29T13:41:38.828Z",
+      "sourcePath": "source-art/rebuild/gallery/frame.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "landscape-art.png"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/frame-900.webp",
+      "url": "/rebuild/gallery/frame-900.webp",
+      "bytes": 67558,
+      "width": 900,
+      "height": 600,
+      "alpha": false,
+      "sha256": "8540c1f631448eed5c0ca3fee0547b41991eb6e19ce99f44f7e22d7cbe5a4a73",
+      "modifiedAt": "2026-09-29T13:41:38.899Z",
+      "sourcePath": "source-art/rebuild/gallery/frame.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "landscape-art.png"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/gallery-fallback.webp",
+      "url": "/rebuild/gallery/gallery-fallback.webp",
+      "bytes": 169778,
+      "width": 1440,
+      "height": 720,
+      "alpha": false,
+      "sha256": "85d19ce76b3040b258e5385437bb4aec8b7f93ad72e767608e7f905e270c4da4",
+      "modifiedAt": "2026-09-29T13:41:40.992Z",
+      "sourcePath": "docs/rebuild/artifacts/M01/assets/gallery-art-v1.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Approved M01 gallery image; resized/cropped by tools/rebuild-gallery-assets.mjs"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/luna-1200.webp",
+      "url": "/rebuild/gallery/luna-1200.webp",
+      "bytes": 118136,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "cd93aa223838d803f05637739194c6e7972cef89b7ed216e9c221af8bb3ec105",
+      "modifiedAt": "2026-09-29T13:41:40.812Z",
+      "sourcePath": "source-art/rebuild/gallery/luna.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "luna-art.png"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/luna-900.webp",
+      "url": "/rebuild/gallery/luna-900.webp",
+      "bytes": 81052,
+      "width": 900,
+      "height": 600,
+      "alpha": false,
+      "sha256": "e6e9e47f473c0823e9057c8460badbfb6b7cd63f1a93d925be07e245391cab8d",
+      "modifiedAt": "2026-09-29T13:41:40.896Z",
+      "sourcePath": "source-art/rebuild/gallery/luna.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "luna-art.png"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/manifest.json",
+      "url": "/rebuild/gallery/manifest.json",
+      "bytes": 8897,
+      "width": null,
+      "height": null,
+      "alpha": null,
+      "sha256": "24dec84161116f056ed563e2f9a438d066894dcbcbb4de8db20428d71b307c66",
+      "modifiedAt": "2026-09-29T13:41:41.024Z",
+      "sourcePath": "tools/rebuild-*.mjs",
+      "sourceExists": null,
+      "provenance": {
+        "kind": "generated build metadata"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/milo-1200.webp",
+      "url": "/rebuild/gallery/milo-1200.webp",
+      "bytes": 93656,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "c166c82ce3e419296adccc56689f8d6a34feb8f99ca2150f8dc509845f8f50b2",
+      "modifiedAt": "2026-09-29T13:41:40.105Z",
+      "sourcePath": "source-art/rebuild/gallery/milo.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "milo-art.png"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/milo-900.webp",
+      "url": "/rebuild/gallery/milo-900.webp",
+      "bytes": 65586,
+      "width": 900,
+      "height": 600,
+      "alpha": false,
+      "sha256": "8bfe4ba9f137b41917b6aa5c5293b6e5caf1e57b5727fe64d868a9279889c56b",
+      "modifiedAt": "2026-09-29T13:41:40.191Z",
+      "sourcePath": "source-art/rebuild/gallery/milo.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "milo-art.png"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/orbit-1200.webp",
+      "url": "/rebuild/gallery/orbit-1200.webp",
+      "bytes": 53218,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "76a29cd607cf15f282e84e3f328bdfc04628460532fbe9e54542ab13f144bf14",
+      "modifiedAt": "2026-09-29T13:41:40.444Z",
+      "sourcePath": "source-art/rebuild/gallery/orbit.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "orbit-art.png"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/orbit-900.webp",
+      "url": "/rebuild/gallery/orbit-900.webp",
+      "bytes": 38828,
+      "width": 900,
+      "height": 600,
+      "alpha": false,
+      "sha256": "2b49cd182eb71222f08af468494038e96af462cd4aa2a98206c401cefdee7186",
+      "modifiedAt": "2026-09-29T13:41:40.512Z",
+      "sourcePath": "source-art/rebuild/gallery/orbit.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "orbit-art.png"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/studio-moss-1200.webp",
+      "url": "/rebuild/gallery/studio-moss-1200.webp",
+      "bytes": 66232,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "752c9f7eef1c4cd53dbd6697e9d55e0d8bbec677692b78078e55418aae271425",
+      "modifiedAt": "2026-09-29T13:41:39.598Z",
+      "sourcePath": "source-art/rebuild/gallery/studio-moss.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "landscape-art.png"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/studio-moss-900.webp",
+      "url": "/rebuild/gallery/studio-moss-900.webp",
+      "bytes": 41600,
+      "width": 900,
+      "height": 600,
+      "alpha": false,
+      "sha256": "261eb3ab2c0f21088de2c10fd904f326489885de2dc5bb9ff92e0b7ad136bf4f",
+      "modifiedAt": "2026-09-29T13:41:39.659Z",
+      "sourcePath": "source-art/rebuild/gallery/studio-moss.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "landscape-art.png"
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/terminal-one-1200.webp",
+      "url": "/rebuild/gallery/terminal-one-1200.webp",
+      "bytes": 26258,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "91aa893a3fabfc0fae0afc47fa365e5cf11f7437ef8a62d0d3067753d916b40d",
+      "modifiedAt": "2026-09-29T13:41:39.311Z",
+      "sourcePath": "source-art/rebuild/gallery/terminal-one.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": null
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/gallery/terminal-one-900.webp",
+      "url": "/rebuild/gallery/terminal-one-900.webp",
+      "bytes": 17172,
+      "width": 900,
+      "height": 600,
+      "alpha": false,
+      "sha256": "55a1a9ed29cc7deddf6a0976960051535f2e9d29b881e9bff6e56f4e8468c0fb",
+      "modifiedAt": "2026-09-29T13:41:39.363Z",
+      "sourcePath": "source-art/rebuild/gallery/terminal-one.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": null
+      },
+      "version": null
+    },
+    {
+      "path": "public/rebuild/hero/hero-cleanplate.webp",
+      "url": "/rebuild/hero/hero-cleanplate.webp",
+      "bytes": 213994,
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "sha256": "b5b43b847d685f81df0f5ece97cea8392e89a05c2df4d54bdaeddd040e510ede",
+      "modifiedAt": "2026-09-29T13:25:23.884Z",
+      "sourcePath": "source-art/rebuild/hero/hero-cleanplate-source.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "version": "m02-hero-1"
+    },
+    {
+      "path": "public/rebuild/hero/hero-master.webp",
+      "url": "/rebuild/hero/hero-master.webp",
+      "bytes": 223590,
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "sha256": "74ef5d11c42a3fb59cffab25c5b3021c71ee9cccab78b7c58b4823eff5a5558f",
+      "modifiedAt": "2026-09-29T13:25:23.606Z",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "version": "m02-hero-1"
+    },
+    {
+      "path": "public/rebuild/hero/tag-research.webp",
+      "url": "/rebuild/hero/tag-research.webp",
+      "bytes": 11918,
+      "width": 162,
+      "height": 214,
+      "alpha": false,
+      "sha256": "faa50bb10afa4d9d22ebc11cfa9ab2ba9ef16cc378ae21a390da2534965f1a66",
+      "modifiedAt": "2026-09-29T13:25:23.939Z",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "version": "m02-hero-1"
+    },
+    {
+      "path": "public/rebuild/hero/tag-video.webp",
+      "url": "/rebuild/hero/tag-video.webp",
+      "bytes": 12100,
+      "width": 174,
+      "height": 236,
+      "alpha": false,
+      "sha256": "a173ed7c73f072c22dd99797c729eb52949f9f8e620506307d62998be66dfc2b",
+      "modifiedAt": "2026-09-29T13:25:23.910Z",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "version": "m02-hero-1"
+    },
+    {
+      "path": "public/rebuild/hero/tether-research.webp",
+      "url": "/rebuild/hero/tether-research.webp",
+      "bytes": 2500,
+      "width": 43,
+      "height": 86,
+      "alpha": false,
+      "sha256": "e687a31977670e9b7818f83de1d6b5525b8b9238a1e5395a1ff1d26cd5949d94",
+      "modifiedAt": "2026-09-29T13:25:23.966Z",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "version": "m02-hero-1"
+    },
+    {
+      "path": "public/rebuild/hero/tether-video.webp",
+      "url": "/rebuild/hero/tether-video.webp",
+      "bytes": 3454,
+      "width": 52,
+      "height": 112,
+      "alpha": false,
+      "sha256": "e4eac3b706a92175c003e36c4e5e2f8f62f22abd5988a5c8ffeb4d4b44ab02f6",
+      "modifiedAt": "2026-09-29T13:25:23.949Z",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "version": "m02-hero-1"
+    }
+  ],
+  "runtimeAssets": [
+    {
+      "url": "/art/companions.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:bloom",
+        "catalog:sunday",
+        "catalog:koi",
+        "catalog:nova"
+      ],
+      "path": "public/art/companions.webp",
+      "bytes": 344354,
+      "width": 1254,
+      "height": 1254,
+      "alpha": false,
+      "sha256": "a2c51062a17c3772d701a4afc99ad751e0a107f4d23622134ee8e7088a0a03e0",
+      "modifiedAt": "2026-09-29T08:47:30.912Z",
+      "sourcePath": "source-art/companions.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "AI-generated concept artwork",
+        "source": "Existing project concept image; local source preserved"
+      },
+      "version": null
+    },
+    {
+      "url": "/art/creative.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:sonic",
+        "catalog:canvas",
+        "catalog:cut-01"
+      ],
+      "path": "public/art/creative.webp",
+      "bytes": 252624,
+      "width": 1254,
+      "height": 1254,
+      "alpha": false,
+      "sha256": "7d43617118a0255ffdf8667d7d64dbd005974fe4d738864b59805914ffcbf254",
+      "modifiedAt": "2026-09-29T08:47:31.299Z",
+      "sourcePath": "source-art/creative.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "AI-generated concept artwork",
+        "source": "Existing project concept image; local source preserved"
+      },
+      "version": null
+    },
+    {
+      "url": "/art/possibilities.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:commonplace",
+        "catalog:spatial",
+        "catalog:garden",
+        "catalog:muse",
+        "catalog:pocket"
+      ],
+      "path": "public/art/possibilities.webp",
+      "bytes": 263896,
+      "width": 1254,
+      "height": 1254,
+      "alpha": false,
+      "sha256": "d93fc4a4928973a2207e00c8b142c61418a781c016a140b32b0ad2e1231c8479",
+      "modifiedAt": "2026-09-29T08:47:31.991Z",
+      "sourcePath": "source-art/possibilities.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "AI-generated concept artwork",
+        "source": "Existing project concept image; local source preserved"
+      },
+      "version": null
+    },
+    {
+      "url": "/art/workspaces.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:horizon",
+        "catalog:flow",
+        "catalog:good-company",
+        "catalog:signals"
+      ],
+      "path": "public/art/workspaces.webp",
+      "bytes": 295302,
+      "width": 1254,
+      "height": 1254,
+      "alpha": false,
+      "sha256": "e6381a5e146b4ce4b8b88c3b755e1591e5f98e6ca0ca1ab96750d63c2b68f3fc",
+      "modifiedAt": "2026-09-29T08:47:31.690Z",
+      "sourcePath": "source-art/workspaces.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "AI-generated concept artwork",
+        "source": "Existing project concept image; local source preserved"
+      },
+      "version": null
+    },
+    {
+      "url": "/fonts/dm-sans-regular.ttf",
+      "exists": true,
+      "reasons": [
+        "src/rebuild/components/RebuildPage.astro",
+        "src/rebuild/styles/rebuild.css"
+      ],
+      "path": "public/fonts/dm-sans-regular.ttf",
+      "bytes": 48280,
+      "width": null,
+      "height": null,
+      "alpha": null,
+      "sha256": "b0ae3e89a7d3ef2b1838bb4b1ceb0b17cc3435af061eee809d76aa623ff116e9",
+      "modifiedAt": "2026-09-29T08:35:57.909Z",
+      "sourcePath": "public/fonts/dm-sans-regular.ttf",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "font",
+        "license": "SIL Open Font License 1.1",
+        "notice": "/fonts/DM-Sans-OFL.txt"
+      },
+      "version": null
+    },
+    {
+      "url": "/fonts/dm-sans-semibold.ttf",
+      "exists": true,
+      "reasons": [
+        "src/rebuild/styles/rebuild.css"
+      ],
+      "path": "public/fonts/dm-sans-semibold.ttf",
+      "bytes": 48280,
+      "width": null,
+      "height": null,
+      "alpha": null,
+      "sha256": "b79a2ea7a38f33fd96a282fadb9ce97626bb0724a44d21075859f0e50239993a",
+      "modifiedAt": "2026-09-29T08:35:58.463Z",
+      "sourcePath": "public/fonts/dm-sans-semibold.ttf",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "font",
+        "license": "SIL Open Font License 1.1",
+        "notice": "/fonts/DM-Sans-OFL.txt"
+      },
+      "version": null
+    },
+    {
+      "url": "/fonts/dm-serif-display.ttf",
+      "exists": true,
+      "reasons": [
+        "src/rebuild/components/RebuildPage.astro",
+        "src/rebuild/styles/rebuild.css"
+      ],
+      "path": "public/fonts/dm-serif-display.ttf",
+      "bytes": 70348,
+      "width": null,
+      "height": null,
+      "alpha": null,
+      "sha256": "c03775f8cc3db88cfea259b231abe13f94e6a3d3cb01c09477a2e42a1f5919e1",
+      "modifiedAt": "2026-09-29T08:35:59.034Z",
+      "sourcePath": "public/fonts/dm-serif-display.ttf",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "font",
+        "license": "SIL Open Font License 1.1",
+        "notice": "/fonts/DM-Serif-Display-OFL.txt"
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/community/__diagnostic-missing-required-image.webp",
+      "exists": false,
+      "reasons": [
+        "src/rebuild/scenes/CommunityScene.ts"
+      ],
+      "bytes": 0,
+      "diagnosticOnly": true,
+      "diagnosticPurpose": "Intentional failed request only when ?assetFail=community is supplied; validates complete scene fallback."
+    },
+    {
+      "url": "/rebuild/community/companion.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:community-companion",
+        "src/rebuild/content/community.ts"
+      ],
+      "path": "public/rebuild/community/companion.webp",
+      "bytes": 240860,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "9fc14074de3910dc91a4b25a6edc0ccaffdcd595a7cb886f9d6895d486f250ce",
+      "modifiedAt": "2026-09-29T13:27:23.642Z",
+      "sourcePath": "source-art/rebuild/community/companion-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-1.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-1.webp",
+      "bytes": 8024,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "5cfb548515b195c33fb0baea08b6a56150cfb6ee11ed5f65a87926491cb1df06",
+      "modifiedAt": "2026-09-29T13:27:35.210Z",
+      "sourcePath": "source-art/companions.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-10.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-10.webp",
+      "bytes": 6472,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "0f1757bde57c3de3e3aa1ed160800ce742859e0ce959ed92952fb0a07fe47f2d",
+      "modifiedAt": "2026-09-29T13:27:35.299Z",
+      "sourcePath": "source-art/creative.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-11.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-11.webp",
+      "bytes": 9906,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "bf079bf5ec3ac11197c1c4b85447009ca660c6650b1e4ac0d7df086c9c29872f",
+      "modifiedAt": "2026-09-29T13:27:35.330Z",
+      "sourcePath": "source-art/workspaces.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-12.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-12.webp",
+      "bytes": 6456,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "672e91b2a1aec3e0c02f0268bf1c351fbe080f93e50309fa6b4bdd3860c27956",
+      "modifiedAt": "2026-09-29T13:27:35.337Z",
+      "sourcePath": "source-art/workspaces.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-13.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-13.webp",
+      "bytes": 10006,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "2aff203829e1bd336c38cb2bff24335ec39161c022f742bb774d2753794d978d",
+      "modifiedAt": "2026-09-29T13:27:35.344Z",
+      "sourcePath": "source-art/workspaces.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-14.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-14.webp",
+      "bytes": 5796,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "ed7afa6a82df485e5e280af18f53d32af2f5090eb8e325d724e5ec805435d263",
+      "modifiedAt": "2026-09-29T13:27:35.350Z",
+      "sourcePath": "source-art/workspaces.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-15.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-15.webp",
+      "bytes": 5932,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "76f735b677e39f3af74a1e2e21efa132f2c0e64c96bcca09674390f451480bf4",
+      "modifiedAt": "2026-09-29T13:27:35.359Z",
+      "sourcePath": "source-art/workspaces.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-16.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-16.webp",
+      "bytes": 9128,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "0c8314408de47206b33db1fcd942006c57c5c1435cf07399983de0a9c831da3d",
+      "modifiedAt": "2026-09-29T13:27:35.391Z",
+      "sourcePath": "source-art/possibilities.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-17.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-17.webp",
+      "bytes": 7216,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "1d3adc7c01bc1c9088dc4b094970b2e37f1a595bf9b1af04c7875371be5825da",
+      "modifiedAt": "2026-09-29T13:27:35.399Z",
+      "sourcePath": "source-art/possibilities.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-18.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-18.webp",
+      "bytes": 6508,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "2e0f7b3bacabb6b0ce0cae56ca00c2814583a50364e9ae6c644f3037a16cfbb9",
+      "modifiedAt": "2026-09-29T13:27:35.407Z",
+      "sourcePath": "source-art/possibilities.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-19.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-19.webp",
+      "bytes": 9410,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "2d9b046cc318d231623dbefc6a3dc540fbd2d455fd6e1963b89642e89f87693f",
+      "modifiedAt": "2026-09-29T13:27:35.414Z",
+      "sourcePath": "source-art/possibilities.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-2.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-2.webp",
+      "bytes": 10816,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "14cc94c1ba243770dfd3a92965678e43e9e725765c89eef361e3808f568f21bd",
+      "modifiedAt": "2026-09-29T13:27:35.218Z",
+      "sourcePath": "source-art/companions.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-20.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-20.webp",
+      "bytes": 6614,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "960783744d464694ab9f23032614f2d8a4ae838d08acbd00854263f92f3234d7",
+      "modifiedAt": "2026-09-29T13:27:35.420Z",
+      "sourcePath": "source-art/possibilities.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-3.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-3.webp",
+      "bytes": 8182,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "36ba1913880327cedd9847df675ea621ccca098ba92dcc2c8b3df6a79d19f5dd",
+      "modifiedAt": "2026-09-29T13:27:35.225Z",
+      "sourcePath": "source-art/companions.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-4.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-4.webp",
+      "bytes": 8912,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "0c22b7f89038844f6d362f3c54499a45c628a1ddc5697de78199969f239931a3",
+      "modifiedAt": "2026-09-29T13:27:35.232Z",
+      "sourcePath": "source-art/companions.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-5.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-5.webp",
+      "bytes": 9158,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "f7c75f276fb30c9524a28e8f38cbfca13833990d63032225c5e5ab45a49cd91e",
+      "modifiedAt": "2026-09-29T13:27:35.239Z",
+      "sourcePath": "source-art/companions.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-6.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-6.webp",
+      "bytes": 7804,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "5ab3060a5ccb6718085a329761b0e209a473754afe04134e16badec27c0535aa",
+      "modifiedAt": "2026-09-29T13:27:35.270Z",
+      "sourcePath": "source-art/creative.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-7.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-7.webp",
+      "bytes": 8220,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "dad79ab188d1d9c99ab2f36942f2b4215be764482c1341d3f2fbb853fed07e52",
+      "modifiedAt": "2026-09-29T13:27:35.277Z",
+      "sourcePath": "source-art/creative.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-8.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-8.webp",
+      "bytes": 5516,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "2138904b2067f450eaaacb671cc5e96c482de6bb3fdde346dbf8b07320159367",
+      "modifiedAt": "2026-09-29T13:27:35.284Z",
+      "sourcePath": "source-art/creative.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/distant-9.webp",
+      "exists": true,
+      "reasons": [
+        "community distant field"
+      ],
+      "path": "public/rebuild/community/distant-9.webp",
+      "bytes": 10018,
+      "width": 240,
+      "height": 160,
+      "alpha": false,
+      "sha256": "c19b2862cb827bc24149453b2bc9ed65e86bfade7fdf5daaa822e4446f61b621",
+      "modifiedAt": "2026-09-29T13:27:35.292Z",
+      "sourcePath": "source-art/creative.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "existing-generated-concept",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/person-1.webp",
+      "exists": true,
+      "reasons": [
+        "person:creator-curly",
+        "src/rebuild/content/community.ts"
+      ],
+      "path": "public/rebuild/community/person-1.webp",
+      "bytes": 68980,
+      "width": 381,
+      "height": 620,
+      "alpha": true,
+      "sha256": "f3caf79766e5ae908b4b238213a4337bb77f26380b047e351c5190aa23bb22aa",
+      "modifiedAt": "2026-09-29T13:27:28.429Z",
+      "sourcePath": "source-art/rebuild/community/people-clean-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/person-2.webp",
+      "exists": true,
+      "reasons": [
+        "person:creator-bun",
+        "src/rebuild/content/community.ts"
+      ],
+      "path": "public/rebuild/community/person-2.webp",
+      "bytes": 64666,
+      "width": 320,
+      "height": 620,
+      "alpha": true,
+      "sha256": "6fa277a72c3975e56046e8ecdb72bf3d9fe096997febbfca6989810bf3393928",
+      "modifiedAt": "2026-09-29T13:27:30.314Z",
+      "sourcePath": "source-art/rebuild/community/people-clean-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/person-3.webp",
+      "exists": true,
+      "reasons": [
+        "person:creator-glasses",
+        "src/rebuild/content/community.ts"
+      ],
+      "path": "public/rebuild/community/person-3.webp",
+      "bytes": 68512,
+      "width": 442,
+      "height": 620,
+      "alpha": true,
+      "sha256": "a564ae6357f69503af0ab5fe89262def0cc2ae1f75e79306164bb4570a3dc4d7",
+      "modifiedAt": "2026-09-29T13:27:31.548Z",
+      "sourcePath": "source-art/rebuild/community/people-clean-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/person-4.webp",
+      "exists": true,
+      "reasons": [
+        "person:creator-silver",
+        "src/rebuild/content/community.ts"
+      ],
+      "path": "public/rebuild/community/person-4.webp",
+      "bytes": 57012,
+      "width": 335,
+      "height": 620,
+      "alpha": true,
+      "sha256": "ea1cc1c1b34d109fe11222c4cbcc86f69afe47eadc1b79092c1eefcf2da9c7c9",
+      "modifiedAt": "2026-09-29T13:27:33.214Z",
+      "sourcePath": "source-art/rebuild/community/people-clean-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/person-5.webp",
+      "exists": true,
+      "reasons": [
+        "person:creator-headphones",
+        "src/rebuild/content/community.ts"
+      ],
+      "path": "public/rebuild/community/person-5.webp",
+      "bytes": 55498,
+      "width": 390,
+      "height": 620,
+      "alpha": true,
+      "sha256": "30162bf77e62dd7a7fe2a71a8e9dbb870a13fac365221068bc6c70f39a4c249b",
+      "modifiedAt": "2026-09-29T13:27:35.173Z",
+      "sourcePath": "source-art/rebuild/community/people-clean-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/ribbon.webp",
+      "exists": true,
+      "reasons": [
+        "scene supporting/fallback art",
+        "src/rebuild/scenes/CommunityScene.ts"
+      ],
+      "path": "public/rebuild/community/ribbon.webp",
+      "bytes": 65932,
+      "width": 1600,
+      "height": 533,
+      "alpha": true,
+      "sha256": "e6d619d47a6740bee6afa19f95d57e349661f9517e9e5c0a55e2598fd9b2c47b",
+      "modifiedAt": "2026-09-29T13:27:26.205Z",
+      "sourcePath": "source-art/rebuild/community/ribbon-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/set-clean.webp",
+      "exists": true,
+      "reasons": [
+        "scene supporting/fallback art",
+        "src/rebuild/scenes/CommunityScene.ts"
+      ],
+      "path": "public/rebuild/community/set-clean.webp",
+      "bytes": 82696,
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "sha256": "f096ea22bdcd604cb7a159c42c3cda8d3e2f88bb09520c4fca32c5940090c91d",
+      "modifiedAt": "2026-09-29T13:27:23.966Z",
+      "sourcePath": "source-art/rebuild/community/set-clean-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/travel.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:community-travel",
+        "src/rebuild/content/community.ts"
+      ],
+      "path": "public/rebuild/community/travel.webp",
+      "bytes": 375554,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "b3b0b5a5f7fbfc8735be08bd7b22f5bda7f8626a8cdf58cecf9e277edcc9dee3",
+      "modifiedAt": "2026-09-29T13:27:23.430Z",
+      "sourcePath": "source-art/rebuild/community/travel-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/community/writer.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:community-writer",
+        "src/rebuild/content/community.ts"
+      ],
+      "path": "public/rebuild/community/writer.webp",
+      "bytes": 217258,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "72c40ca6ebe43997148422de2921cf9f1c61b9d86b9ef7090ebc08fd8e3e10de",
+      "modifiedAt": "2026-09-29T13:27:23.833Z",
+      "sourcePath": "source-art/rebuild/community/writer-master.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "tool": "OpenAI built-in image_gen",
+        "date": "2026-09-29"
+      },
+      "version": "m03-production-v1"
+    },
+    {
+      "url": "/rebuild/fallback/community.webp",
+      "exists": true,
+      "reasons": [
+        "src/rebuild/components/RebuildPage.astro",
+        "src/rebuild/scenes/CommunityScene.ts"
+      ],
+      "path": "public/rebuild/fallback/community.webp",
+      "bytes": 234982,
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "sha256": "c184f3919d04bae8ff79c755694f9829a469ac524b7d4d4a5414b17f05cf1b9c",
+      "modifiedAt": "2026-09-29T13:44:14.924Z",
+      "sourcePath": "docs/rebuild/artifacts/M01/assets/community-art-v1.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Approved M01 built-in imagegen scene"
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/fallback/gallery.webp",
+      "exists": true,
+      "reasons": [
+        "src/rebuild/components/RebuildPage.astro"
+      ],
+      "path": "public/rebuild/fallback/gallery.webp",
+      "bytes": 257316,
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "sha256": "1d58a080964079eeed3d29429908cd69559de48852fadd5cd5dd14877be92381",
+      "modifiedAt": "2026-09-29T13:44:14.807Z",
+      "sourcePath": "docs/rebuild/artifacts/M01/assets/gallery-art-v1.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Approved M01 built-in imagegen scene"
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/fallback/hero.webp",
+      "exists": true,
+      "reasons": [
+        "src/rebuild/components/RebuildPage.astro"
+      ],
+      "path": "public/rebuild/fallback/hero.webp",
+      "bytes": 148670,
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "sha256": "929fe273cdb1c2caf67e71bcb3f02ce28237e42eb8ceb564f19c8a660c8a55a6",
+      "modifiedAt": "2026-09-29T13:44:14.682Z",
+      "sourcePath": "docs/rebuild/artifacts/M01/assets/hero-art-v1.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Approved M01 built-in imagegen scene"
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/gallery/atelier-1200.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:atelier"
+      ],
+      "path": "public/rebuild/gallery/atelier-1200.webp",
+      "bytes": 28764,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "d195df9691b1354669ec550eac7076993f278c6712a44f560fda0753ac5e85cb",
+      "modifiedAt": "2026-09-29T13:41:39.758Z",
+      "sourcePath": "source-art/rebuild/gallery/atelier.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": null
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/gallery/fieldnotes-1200.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:fieldnotes"
+      ],
+      "path": "public/rebuild/gallery/fieldnotes-1200.webp",
+      "bytes": 72162,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "5c2f59e6dc5974b5032173f0bf23263c46afda7c38dc103ae4adf86b521885f2",
+      "modifiedAt": "2026-09-29T13:41:39.152Z",
+      "sourcePath": "source-art/rebuild/gallery/fieldnotes.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "landscape-art.png"
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/gallery/foliage-lower-left.webp",
+      "exists": true,
+      "reasons": [
+        "scene supporting/fallback art",
+        "src/rebuild/styles/gallery.css"
+      ],
+      "path": "public/rebuild/gallery/foliage-lower-left.webp",
+      "bytes": 14324,
+      "width": 350,
+      "height": 327,
+      "alpha": false,
+      "sha256": "22c301aafe444abd297719f3cc24c09af7d53d11c325b6019dc49d7ed2948c2c",
+      "modifiedAt": "2026-09-29T13:41:41.023Z",
+      "sourcePath": "docs/rebuild/artifacts/M01/assets/gallery-art-v1.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Approved M01 gallery image; resized/cropped by tools/rebuild-gallery-assets.mjs"
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/gallery/frame-1200.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:frame"
+      ],
+      "path": "public/rebuild/gallery/frame-1200.webp",
+      "bytes": 109778,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "cac743de2fe98d55c51d6b6ed6a42a94041260bc9aa67e0da88d30b01e86de3f",
+      "modifiedAt": "2026-09-29T13:41:38.828Z",
+      "sourcePath": "source-art/rebuild/gallery/frame.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "landscape-art.png"
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/gallery/gallery-fallback.webp",
+      "exists": true,
+      "reasons": [
+        "scene supporting/fallback art",
+        "src/rebuild/scenes/GalleryScene.ts"
+      ],
+      "path": "public/rebuild/gallery/gallery-fallback.webp",
+      "bytes": 169778,
+      "width": 1440,
+      "height": 720,
+      "alpha": false,
+      "sha256": "85d19ce76b3040b258e5385437bb4aec8b7f93ad72e767608e7f905e270c4da4",
+      "modifiedAt": "2026-09-29T13:41:40.992Z",
+      "sourcePath": "docs/rebuild/artifacts/M01/assets/gallery-art-v1.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Approved M01 gallery image; resized/cropped by tools/rebuild-gallery-assets.mjs"
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/gallery/luna-1200.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:luna"
+      ],
+      "path": "public/rebuild/gallery/luna-1200.webp",
+      "bytes": 118136,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "cd93aa223838d803f05637739194c6e7972cef89b7ed216e9c221af8bb3ec105",
+      "modifiedAt": "2026-09-29T13:41:40.812Z",
+      "sourcePath": "source-art/rebuild/gallery/luna.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "luna-art.png"
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/gallery/milo-1200.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:milo"
+      ],
+      "path": "public/rebuild/gallery/milo-1200.webp",
+      "bytes": 93656,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "c166c82ce3e419296adccc56689f8d6a34feb8f99ca2150f8dc509845f8f50b2",
+      "modifiedAt": "2026-09-29T13:41:40.105Z",
+      "sourcePath": "source-art/rebuild/gallery/milo.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "milo-art.png"
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/gallery/orbit-1200.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:orbit"
+      ],
+      "path": "public/rebuild/gallery/orbit-1200.webp",
+      "bytes": 53218,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "76a29cd607cf15f282e84e3f328bdfc04628460532fbe9e54542ab13f144bf14",
+      "modifiedAt": "2026-09-29T13:41:40.444Z",
+      "sourcePath": "source-art/rebuild/gallery/orbit.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "orbit-art.png"
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/gallery/studio-moss-1200.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:studio-moss"
+      ],
+      "path": "public/rebuild/gallery/studio-moss-1200.webp",
+      "bytes": 66232,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "752c9f7eef1c4cd53dbd6697e9d55e0d8bbec677692b78078e55418aae271425",
+      "modifiedAt": "2026-09-29T13:41:39.598Z",
+      "sourcePath": "source-art/rebuild/gallery/studio-moss.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": "landscape-art.png"
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/gallery/terminal-one-1200.webp",
+      "exists": true,
+      "reasons": [
+        "catalog:terminal-one"
+      ],
+      "path": "public/rebuild/gallery/terminal-one-1200.webp",
+      "bytes": 26258,
+      "width": 1200,
+      "height": 800,
+      "alpha": false,
+      "sha256": "91aa893a3fabfc0fae0afc47fa365e5cf11f7437ef8a62d0d3067753d916b40d",
+      "modifiedAt": "2026-09-29T13:41:39.311Z",
+      "sourcePath": "source-art/rebuild/gallery/terminal-one.svg",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Native vector UI authored for Morrow; embedded scene art from built-in imagegen",
+        "imagery": null
+      },
+      "version": null
+    },
+    {
+      "url": "/rebuild/hero/hero-cleanplate.webp",
+      "exists": true,
+      "reasons": [
+        "hero layers"
+      ],
+      "path": "public/rebuild/hero/hero-cleanplate.webp",
+      "bytes": 213994,
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "sha256": "b5b43b847d685f81df0f5ece97cea8392e89a05c2df4d54bdaeddd040e510ede",
+      "modifiedAt": "2026-09-29T13:25:23.884Z",
+      "sourcePath": "source-art/rebuild/hero/hero-cleanplate-source.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "version": "m02-hero-1"
+    },
+    {
+      "url": "/rebuild/hero/hero-master.webp",
+      "exists": true,
+      "reasons": [
+        "hero layers",
+        "src/rebuild/components/RebuildPage.astro"
+      ],
+      "path": "public/rebuild/hero/hero-master.webp",
+      "bytes": 223590,
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "sha256": "74ef5d11c42a3fb59cffab25c5b3021c71ee9cccab78b7c58b4823eff5a5558f",
+      "modifiedAt": "2026-09-29T13:25:23.606Z",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "version": "m02-hero-1"
+    },
+    {
+      "url": "/rebuild/hero/tag-research.webp",
+      "exists": true,
+      "reasons": [
+        "hero layers"
+      ],
+      "path": "public/rebuild/hero/tag-research.webp",
+      "bytes": 11918,
+      "width": 162,
+      "height": 214,
+      "alpha": false,
+      "sha256": "faa50bb10afa4d9d22ebc11cfa9ab2ba9ef16cc378ae21a390da2534965f1a66",
+      "modifiedAt": "2026-09-29T13:25:23.939Z",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "version": "m02-hero-1"
+    },
+    {
+      "url": "/rebuild/hero/tag-video.webp",
+      "exists": true,
+      "reasons": [
+        "hero layers"
+      ],
+      "path": "public/rebuild/hero/tag-video.webp",
+      "bytes": 12100,
+      "width": 174,
+      "height": 236,
+      "alpha": false,
+      "sha256": "a173ed7c73f072c22dd99797c729eb52949f9f8e620506307d62998be66dfc2b",
+      "modifiedAt": "2026-09-29T13:25:23.910Z",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "version": "m02-hero-1"
+    },
+    {
+      "url": "/rebuild/hero/tether-research.webp",
+      "exists": true,
+      "reasons": [
+        "hero layers"
+      ],
+      "path": "public/rebuild/hero/tether-research.webp",
+      "bytes": 2500,
+      "width": 43,
+      "height": 86,
+      "alpha": false,
+      "sha256": "e687a31977670e9b7818f83de1d6b5525b8b9238a1e5395a1ff1d26cd5949d94",
+      "modifiedAt": "2026-09-29T13:25:23.966Z",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "version": "m02-hero-1"
+    },
+    {
+      "url": "/rebuild/hero/tether-video.webp",
+      "exists": true,
+      "reasons": [
+        "hero layers"
+      ],
+      "path": "public/rebuild/hero/tether-video.webp",
+      "bytes": 3454,
+      "width": 52,
+      "height": 112,
+      "alpha": false,
+      "sha256": "e4eac3b706a92175c003e36c4e5e2f8f62f22abd5988a5c8ffeb4d4b44ab02f6",
+      "modifiedAt": "2026-09-29T13:25:23.949Z",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "version": "m02-hero-1"
+    }
+  ],
+  "fonts": [
+    {
+      "url": "/fonts/dm-sans-regular.ttf",
+      "exists": true,
+      "reasons": [
+        "src/rebuild/components/RebuildPage.astro",
+        "src/rebuild/styles/rebuild.css"
+      ],
+      "path": "public/fonts/dm-sans-regular.ttf",
+      "bytes": 48280,
+      "width": null,
+      "height": null,
+      "alpha": null,
+      "sha256": "b0ae3e89a7d3ef2b1838bb4b1ceb0b17cc3435af061eee809d76aa623ff116e9",
+      "modifiedAt": "2026-09-29T08:35:57.909Z",
+      "sourcePath": "public/fonts/dm-sans-regular.ttf",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "font",
+        "license": "SIL Open Font License 1.1",
+        "notice": "/fonts/DM-Sans-OFL.txt"
+      },
+      "version": null
+    },
+    {
+      "url": "/fonts/dm-sans-semibold.ttf",
+      "exists": true,
+      "reasons": [
+        "src/rebuild/styles/rebuild.css"
+      ],
+      "path": "public/fonts/dm-sans-semibold.ttf",
+      "bytes": 48280,
+      "width": null,
+      "height": null,
+      "alpha": null,
+      "sha256": "b79a2ea7a38f33fd96a282fadb9ce97626bb0724a44d21075859f0e50239993a",
+      "modifiedAt": "2026-09-29T08:35:58.463Z",
+      "sourcePath": "public/fonts/dm-sans-semibold.ttf",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "font",
+        "license": "SIL Open Font License 1.1",
+        "notice": "/fonts/DM-Sans-OFL.txt"
+      },
+      "version": null
+    },
+    {
+      "url": "/fonts/dm-serif-display.ttf",
+      "exists": true,
+      "reasons": [
+        "src/rebuild/components/RebuildPage.astro",
+        "src/rebuild/styles/rebuild.css"
+      ],
+      "path": "public/fonts/dm-serif-display.ttf",
+      "bytes": 70348,
+      "width": null,
+      "height": null,
+      "alpha": null,
+      "sha256": "c03775f8cc3db88cfea259b231abe13f94e6a3d3cb01c09477a2e42a1f5919e1",
+      "modifiedAt": "2026-09-29T08:35:59.034Z",
+      "sourcePath": "public/fonts/dm-serif-display.ttf",
+      "sourceExists": true,
+      "provenance": {
+        "kind": "font",
+        "license": "SIL Open Font License 1.1",
+        "notice": "/fonts/DM-Serif-Display-OFL.txt"
+      },
+      "version": null
+    }
+  ],
+  "unusedPublishedImages": [
+    {
+      "url": "/rebuild/gallery/atelier-900.webp",
+      "bytes": 19602
+    },
+    {
+      "url": "/rebuild/gallery/fieldnotes-900.webp",
+      "bytes": 45128
+    },
+    {
+      "url": "/rebuild/gallery/frame-900.webp",
+      "bytes": 67558
+    },
+    {
+      "url": "/rebuild/gallery/luna-900.webp",
+      "bytes": 81052
+    },
+    {
+      "url": "/rebuild/gallery/milo-900.webp",
+      "bytes": 65586
+    },
+    {
+      "url": "/rebuild/gallery/orbit-900.webp",
+      "bytes": 38828
+    },
+    {
+      "url": "/rebuild/gallery/studio-moss-900.webp",
+      "bytes": 41600
+    },
+    {
+      "url": "/rebuild/gallery/terminal-one-900.webp",
+      "bytes": 17172
+    }
+  ],
+  "packages": [
+    {
+      "name": "astro",
+      "requestedVersion": "7.3.5",
+      "installedVersion": "7.3.5",
+      "license": "MIT",
+      "scope": "production/build dependency",
+      "notice": "public/licenses/astro-MIT.txt",
+      "noticeExists": true
+    },
+    {
+      "name": "gsap",
+      "requestedVersion": "3.15.0",
+      "installedVersion": "3.15.0",
+      "license": "Standard 'no charge' license: https://gsap.com/standard-license.",
+      "scope": "production/build dependency",
+      "notice": "public/licenses/gsap-NOTICE.txt",
+      "noticeExists": true
+    },
+    {
+      "name": "lenis",
+      "requestedVersion": "1.3.26",
+      "installedVersion": "1.3.26",
+      "license": "MIT",
+      "scope": "production/build dependency",
+      "notice": "public/licenses/lenis-MIT.txt",
+      "noticeExists": true
+    },
+    {
+      "name": "three",
+      "requestedVersion": "0.186.1",
+      "installedVersion": "0.186.1",
+      "license": "MIT",
+      "scope": "production/build dependency",
+      "notice": "public/licenses/three-MIT.txt",
+      "noticeExists": true
+    },
+    {
+      "name": "@astrojs/check",
+      "requestedVersion": "0.9.10",
+      "installedVersion": "0.9.10",
+      "license": "MIT",
+      "scope": "development/build dependency",
+      "notice": null,
+      "noticeExists": null
+    },
+    {
+      "name": "@types/three",
+      "requestedVersion": "0.186.0",
+      "installedVersion": "0.186.0",
+      "license": "MIT",
+      "scope": "development/build dependency",
+      "notice": null,
+      "noticeExists": null
+    },
+    {
+      "name": "typescript",
+      "requestedVersion": "6.0.3",
+      "installedVersion": "6.0.3",
+      "license": "Apache-2.0",
+      "scope": "development/build dependency",
+      "notice": null,
+      "noticeExists": null
+    },
+    {
+      "name": "sharp",
+      "requestedVersion": "0.35.5",
+      "installedVersion": "0.35.5",
+      "license": "Apache-2.0",
+      "scope": "development/build dependency",
+      "notice": "public/licenses/sharp-Apache-2.0.txt",
+      "noticeExists": true
+    }
+  ],
+  "build": {
+    "status": "existing dist snapshot; rerun inventory after the final build",
+    "entry": "dist/rebuild/index.html",
+    "builtEntryModifiedAt": "2026-09-29T14:40:13.430Z",
+    "js": [
+      {
+        "path": "dist/_astro/RebuildPage.astro_astro_type_script_index_0_lang.CVJPPtaj.js",
+        "bytes": 50463,
+        "gzipBytes": 17793,
+        "brotliBytes": 15694,
+        "sha256": "2dd3b7385702697791380009bb82178af28a5f9c2a4f5439a093f018a8803f0f",
+        "modifiedAt": "2026-09-29T14:40:13.312Z"
+      },
+      {
+        "path": "dist/_astro/content.Cmjntizm.js",
+        "bytes": 710164,
+        "gzipBytes": 194460,
+        "brotliBytes": 162533,
+        "sha256": "ea0a35fac4581b638f5491e97c1d61af610d2766404ed1757db319680d7bff6f",
+        "modifiedAt": "2026-09-29T14:40:13.314Z"
+      }
+    ],
+    "css": [
+      {
+        "path": "dist/_astro/RebuildPage.Bpzw2PCi.css",
+        "bytes": 8369,
+        "gzipBytes": 2305,
+        "sha256": "c850393006d8b1d8871e964b67ddb8f74160524d273f3ba218096e6c76215a7f"
+      },
+      {
+        "path": "dist/_astro/dialogs.DZSWSuiV.css",
+        "bytes": 10669,
+        "gzipBytes": 3005,
+        "sha256": "b393642ac311272c423b1ceef1c86a6134e1e750a92787435c5fee573504f495"
+      },
+      {
+        "path": "dist/_astro/RebuildPage.-7Gz6BlX.css",
+        "bytes": 13975,
+        "gzipBytes": 3867,
+        "sha256": "ab00b1af34b33db8b354f0fabe98994db31a4b7c6eaf1d20b6bd9db8bb452d95"
+      }
+    ],
+    "rawJSBytes": 760627,
+    "gzipJSBytes": 212253,
+    "brotliJSBytes": 178227,
+    "rawCSSBytes": 33013
+  },
+  "budgetInterpretation": [
+    "Byte counts are unique local file sizes, not observed transferred bytes. Browser caching, lazy loading and content encoding change network totals.",
+    "Hero images plus three requested fonts is a hero resource budget, not the entire startup download.",
+    "The HTML also eagerly references the hero fallback poster. After hero decode, bootstrap creates gallery/community and starts their image/texture loads; those loads are not scroll-deferred.",
+    "900 px gallery variants are published but current catalogue requests 1200 px versions. They are counted as published files, not active runtime requests.",
+    "Existing generated legacy concept atlases under /art/ are counted in runtime totals even though they are outside public/rebuild.",
+    "Gzip/Brotli sizes are local compression estimates; this inventory does not assert the hosting server enables them."
+  ]
+}

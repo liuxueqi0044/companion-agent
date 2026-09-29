@@ -1,0 +1,4289 @@
+{
+  "version": "m01-asset-plan-v1",
+  "status": "Production plan only; all production entries are pending. Existing source atlases are verified separately in reuse-audit.md.",
+  "sourcePolicy": {
+    "reference": "docs/rebuild/references/approved-reference.png",
+    "preferred": "Reference-guided generation, original typography and controlled layer compositing.",
+    "fallback": "If hero foliage cannot achieve reference material quality, evaluate licensed/CC0 mature plant geometry for offline render. No purchase/download is implied or authorized by this plan.",
+    "editableSources": "source-art/rebuild/ remains outside public distribution. Preserve original generator output, edited master and export separately.",
+    "generatedProvenance": "Record actual image tool, prompt/edit sequence, date and source reference when produced. This plan does not invent production provenance.",
+    "licenses": "Existing fonts retain OFL files. Existing AI concept atlases retain manifest source records. Do not treat supplier preview images as freely licensed assets."
+  },
+  "exportPolicy": {
+    "colorSpace": "sRGB",
+    "master": "Lossless PNG or layered project; transparent items straight alpha",
+    "runtime": "WebP or AVIF chosen after visual comparison; retain compatible WebP fallback where needed",
+    "alphaInspection": "Composite on cream, dark gray and checkerboard; inspect hair, twine and leaves at 100–200%. No white fringe or duplicate shadow.",
+    "maxUpscale": "No atlas enlargement for featured foreground; close-up originals are separately generated.",
+    "bytes": "Every bytes:null is pending production measurement, not zero.",
+    "versioning": "approvedVersion is null until visual approval. Source and bridge reference one approved version.",
+    "budget": "Initial critical asset target approximately 3 MB compressed; measure after production. Defer gallery/background atlases and never silently remove required people/works to meet target."
+  },
+  "counts": {
+    "heroTags": 6,
+    "heroHandoffTags": 2,
+    "communityPrimaryWorks": 3,
+    "communityPeople": 5,
+    "communityBackgroundWorks": 20,
+    "closeupCatalogRemakes": 8
+  },
+  "assets": [
+    {
+      "id": "hero-base-clean",
+      "scene": "hero",
+      "role": "background",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-base-clean.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-base-clean-3840.webp",
+          "width": 3840,
+          "height": 1920,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-base-clean-2880.webp",
+          "width": 2880,
+          "height": 1800,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-base-clean-1920.webp",
+          "width": 1920,
+          "height": 960,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-base-clean-1440.webp",
+          "width": 1440,
+          "height": 900,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Photographic olive branch scene. Include four stationary blank paper bodies; exclude the two handoff paper bodies, their mobile cords and shadows.",
+        "Do not include text, navigation or buttons in raster. Separate aspect-ratio source compositions; do not stretch one image.",
+        "Tree bark, backlit veins, paper fiber and natural depth of field must survive at 100% display size."
+      ],
+      "visibleStationaryTagIds": [
+        "hero-tag-data",
+        "hero-tag-care",
+        "hero-tag-trade",
+        "hero-tag-planning"
+      ],
+      "excludedTagIds": [
+        "hero-tag-video",
+        "hero-tag-research"
+      ],
+      "layer": 30
+    },
+    {
+      "id": "hero-base-clean-mobile",
+      "scene": "hero",
+      "role": "background",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-base-clean-mobile.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-base-clean-mobile-1170.webp",
+          "width": 1170,
+          "height": 1353,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-base-clean-mobile-780.webp",
+          "width": 780,
+          "height": 902,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Independent mobile canopy, art region y414–865 on 390×844 board; full source may bleed outside viewport.",
+        "Same six-tag logic; base contains four stationary blank tags."
+      ],
+      "layer": 30
+    },
+    {
+      "id": "hero-background",
+      "scene": "hero",
+      "role": "background",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-background.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-background-3840.webp",
+          "width": 3840,
+          "height": 1920,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-background-2880.webp",
+          "width": 2880,
+          "height": 1800,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-background-1170.webp",
+          "width": 1170,
+          "height": 2532,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Author from M01 geometry and exact copy",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "original",
+      "notes": [
+        "Warm background extension behind scene layers and copy. Coordinate light with hero-base-clean."
+      ],
+      "layer": 0
+    },
+    {
+      "id": "hero-leaves-far",
+      "scene": "hero",
+      "role": "background",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-leaves-far.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-leaves-far-2048.webp",
+          "width": 2048,
+          "height": 2048,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-leaves-far-1024.webp",
+          "width": 1024,
+          "height": 1024,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Distant leaf plane, deliberately soft. Straight alpha; no white matte."
+      ],
+      "layer": 10
+    },
+    {
+      "id": "hero-leaves-front",
+      "scene": "hero",
+      "role": "foreground",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-leaves-front.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-leaves-front-2048.webp",
+          "width": 2048,
+          "height": 1536,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-leaves-front-1024.webp",
+          "width": 1024,
+          "height": 768,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "A few soft olive leaves at outer corners. Do not cover copy or navigation."
+      ],
+      "layer": 60
+    },
+    {
+      "id": "hero-tag-video-front",
+      "scene": "hero",
+      "role": "tag",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-video-front.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-video-front-768.webp",
+          "width": 768,
+          "height": 1152,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-video-front-512.webp",
+          "width": 512,
+          "height": 768,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-video-front-256.webp",
+          "width": 256,
+          "height": 384,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Independent paper silhouette with blank label area, correct hole, fibers and side edge. Exact icon/label supplied by hero-tag-video-type.",
+        "No baked cast shadow; match direction and exposure to base.",
+        "Source alpha canvas includes 8% padding beyond visible paper; exported visible bounds must be recorded."
+      ],
+      "layer": 50,
+      "semanticObjectId": "hero-tag-video",
+      "appearanceId": "paper-ivory-v1"
+    },
+    {
+      "id": "hero-tag-video-type",
+      "scene": "hero",
+      "role": "tag",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-video-type.svg",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-video-type.svg",
+          "width": 768,
+          "height": 1152,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Author from M01 geometry and exact copy",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "original",
+      "notes": [
+        "Vector/DOM exact English label and line icon. Planned source extension is SVG; final paths replace the placeholder PNG path.",
+        "Register to front face quadrilateral; preserve wording from copy.en.json."
+      ],
+      "layer": 51,
+      "semanticObjectId": "hero-tag-video"
+    },
+    {
+      "id": "hero-tag-video-back-edge",
+      "scene": "hero",
+      "role": "tag",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-video-back-edge.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-video-back-edge-768.webp",
+          "width": 768,
+          "height": 1152,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-video-back-edge-512.webp",
+          "width": 512,
+          "height": 768,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Paper rear and narrow edge treatment for edge-on substitution. Same contour, hole and warm paper color as front."
+      ],
+      "layer": 50,
+      "semanticObjectId": "hero-tag-video"
+    },
+    {
+      "id": "hero-tag-video-cord-attached",
+      "scene": "hero",
+      "role": "subject",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-video-cord-attached.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-video-cord-attached-384.webp",
+          "width": 384,
+          "height": 768,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-video-cord-attached-192.webp",
+          "width": 192,
+          "height": 384,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Short lower loop/cord segment moves with card until hidden. Hole connection must align at A0."
+      ],
+      "layer": 52,
+      "semanticObjectId": "hero-tag-video"
+    },
+    {
+      "id": "hero-tag-video-cord-anchor",
+      "scene": "hero",
+      "role": "subject",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-video-cord-anchor.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-video-cord-anchor-512.webp",
+          "width": 512,
+          "height": 768,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-video-cord-anchor-256.webp",
+          "width": 256,
+          "height": 384,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Upper cord/loop attached to branch remains local. Disconnection is hidden under designated leaf cluster; never simulate a knot untying."
+      ],
+      "layer": 42,
+      "semanticObjectId": "hero-tag-video"
+    },
+    {
+      "id": "hero-tag-video-shadow",
+      "scene": "hero",
+      "role": "shadow",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-video-shadow.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-video-shadow-1024.webp",
+          "width": 1024,
+          "height": 1024,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-video-shadow-512.webp",
+          "width": 512,
+          "height": 512,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Only cast shadow contributed by removable tag. Transparent warm neutral; not painted into base. Shadow ownership is bridge during handoff."
+      ],
+      "layer": 45,
+      "semanticObjectId": "hero-tag-video"
+    },
+    {
+      "id": "hero-tag-video-cleanplate",
+      "scene": "hero",
+      "role": "clean-plate",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-video-cleanplate.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-video-cleanplate-1400.webp",
+          "width": 1400,
+          "height": 1600,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-video-cleanplate-700.webp",
+          "width": 700,
+          "height": 800,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Aligned patch behind original paper and moving shadow, including hidden twig/leaf textures. Patch must match full base clean plate without seam.",
+        "Also store the target quad and desktop/mobile registration; patch by itself is not sufficient without complete background."
+      ],
+      "layer": 30,
+      "semanticObjectId": "hero-tag-video"
+    },
+    {
+      "id": "hero-tag-video-occluder",
+      "scene": "hero",
+      "role": "occlusion",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-video-occluder.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-video-occluder-1024.webp",
+          "width": 1024,
+          "height": 1024,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-video-occluder-512.webp",
+          "width": 512,
+          "height": 512,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Small foreground leaf/twig cluster masks cord release, then exposes complete clean plate. Natural soft edges, no arbitrary wipe rectangle."
+      ],
+      "layer": 60,
+      "semanticObjectId": "hero-tag-video"
+    },
+    {
+      "id": "hero-tag-research-front",
+      "scene": "hero",
+      "role": "tag",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-research-front.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-research-front-768.webp",
+          "width": 768,
+          "height": 1152,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-research-front-512.webp",
+          "width": 512,
+          "height": 768,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-research-front-256.webp",
+          "width": 256,
+          "height": 384,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Independent paper silhouette with blank label area, correct hole, fibers and side edge. Exact icon/label supplied by hero-tag-research-type.",
+        "No baked cast shadow; match direction and exposure to base.",
+        "Source alpha canvas includes 8% padding beyond visible paper; exported visible bounds must be recorded."
+      ],
+      "layer": 50,
+      "semanticObjectId": "hero-tag-research",
+      "appearanceId": "paper-ivory-v1"
+    },
+    {
+      "id": "hero-tag-research-type",
+      "scene": "hero",
+      "role": "tag",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-research-type.svg",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-research-type.svg",
+          "width": 768,
+          "height": 1152,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Author from M01 geometry and exact copy",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "original",
+      "notes": [
+        "Vector/DOM exact English label and line icon. Planned source extension is SVG; final paths replace the placeholder PNG path.",
+        "Register to front face quadrilateral; preserve wording from copy.en.json."
+      ],
+      "layer": 51,
+      "semanticObjectId": "hero-tag-research"
+    },
+    {
+      "id": "hero-tag-research-back-edge",
+      "scene": "hero",
+      "role": "tag",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-research-back-edge.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-research-back-edge-768.webp",
+          "width": 768,
+          "height": 1152,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-research-back-edge-512.webp",
+          "width": 512,
+          "height": 768,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Paper rear and narrow edge treatment for edge-on substitution. Same contour, hole and warm paper color as front."
+      ],
+      "layer": 50,
+      "semanticObjectId": "hero-tag-research"
+    },
+    {
+      "id": "hero-tag-research-cord-attached",
+      "scene": "hero",
+      "role": "subject",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-research-cord-attached.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-research-cord-attached-384.webp",
+          "width": 384,
+          "height": 768,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-research-cord-attached-192.webp",
+          "width": 192,
+          "height": 384,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Short lower loop/cord segment moves with card until hidden. Hole connection must align at A0."
+      ],
+      "layer": 52,
+      "semanticObjectId": "hero-tag-research"
+    },
+    {
+      "id": "hero-tag-research-cord-anchor",
+      "scene": "hero",
+      "role": "subject",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-research-cord-anchor.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-research-cord-anchor-512.webp",
+          "width": 512,
+          "height": 768,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-research-cord-anchor-256.webp",
+          "width": 256,
+          "height": 384,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Upper cord/loop attached to branch remains local. Disconnection is hidden under designated leaf cluster; never simulate a knot untying."
+      ],
+      "layer": 42,
+      "semanticObjectId": "hero-tag-research"
+    },
+    {
+      "id": "hero-tag-research-shadow",
+      "scene": "hero",
+      "role": "shadow",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-research-shadow.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-research-shadow-1024.webp",
+          "width": 1024,
+          "height": 1024,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-research-shadow-512.webp",
+          "width": 512,
+          "height": 512,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Only cast shadow contributed by removable tag. Transparent warm neutral; not painted into base. Shadow ownership is bridge during handoff."
+      ],
+      "layer": 45,
+      "semanticObjectId": "hero-tag-research"
+    },
+    {
+      "id": "hero-tag-research-cleanplate",
+      "scene": "hero",
+      "role": "clean-plate",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-research-cleanplate.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-research-cleanplate-1400.webp",
+          "width": 1400,
+          "height": 1600,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-research-cleanplate-700.webp",
+          "width": 700,
+          "height": 800,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Aligned patch behind original paper and moving shadow, including hidden twig/leaf textures. Patch must match full base clean plate without seam.",
+        "Also store the target quad and desktop/mobile registration; patch by itself is not sufficient without complete background."
+      ],
+      "layer": 30,
+      "semanticObjectId": "hero-tag-research"
+    },
+    {
+      "id": "hero-tag-research-occluder",
+      "scene": "hero",
+      "role": "occlusion",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-research-occluder.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-research-occluder-1024.webp",
+          "width": 1024,
+          "height": 1024,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-research-occluder-512.webp",
+          "width": 512,
+          "height": 512,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Small foreground leaf/twig cluster masks cord release, then exposes complete clean plate. Natural soft edges, no arbitrary wipe rectangle."
+      ],
+      "layer": 60,
+      "semanticObjectId": "hero-tag-research"
+    },
+    {
+      "id": "hero-tag-data-front",
+      "scene": "hero",
+      "role": "tag",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-data-front.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-data-front-768.webp",
+          "width": 768,
+          "height": 1152,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-data-front-384.webp",
+          "width": 384,
+          "height": 576,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Stationary paper may be baked into hero-base-clean after approval. Keep source crop/layer and registered HTML/vector icon and label for accurate English."
+      ],
+      "layer": 40,
+      "bakeAllowed": true
+    },
+    {
+      "id": "hero-tag-care-front",
+      "scene": "hero",
+      "role": "tag",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-care-front.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-care-front-768.webp",
+          "width": 768,
+          "height": 1152,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-care-front-384.webp",
+          "width": 384,
+          "height": 576,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Stationary paper may be baked into hero-base-clean after approval. Keep source crop/layer and registered HTML/vector icon and label for accurate English."
+      ],
+      "layer": 40,
+      "bakeAllowed": true
+    },
+    {
+      "id": "hero-tag-trade-front",
+      "scene": "hero",
+      "role": "tag",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-trade-front.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-trade-front-768.webp",
+          "width": 768,
+          "height": 1152,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-trade-front-384.webp",
+          "width": 384,
+          "height": 576,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Stationary paper may be baked into hero-base-clean after approval. Keep source crop/layer and registered HTML/vector icon and label for accurate English."
+      ],
+      "layer": 40,
+      "bakeAllowed": true
+    },
+    {
+      "id": "hero-tag-planning-front",
+      "scene": "hero",
+      "role": "tag",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-tag-planning-front.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-tag-planning-front-768.webp",
+          "width": 768,
+          "height": 1152,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-tag-planning-front-384.webp",
+          "width": 384,
+          "height": 576,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Stationary paper may be baked into hero-base-clean after approval. Keep source crop/layer and registered HTML/vector icon and label for accurate English."
+      ],
+      "layer": 40,
+      "bakeAllowed": true
+    },
+    {
+      "id": "gallery-left-plant",
+      "scene": "gallery",
+      "role": "foreground",
+      "owner": "M04",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/gallery/gallery-left-plant.png",
+      "variants": [
+        {
+          "src": "/rebuild/gallery/gallery-left-plant-1280.webp",
+          "width": 1280,
+          "height": 1920,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-left-plant-640.webp",
+          "width": 640,
+          "height": 960,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reuse approved M02 leaf/branch source layers and recompose for gallery",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reuse approved M02 leaf/branch source layers and recompose for gallery",
+      "notes": [
+        "Maintain same illumination as hero; left edge visual continuity. No new alternate tree style."
+      ],
+      "layer": 60,
+      "sourceModule": "M02"
+    },
+    {
+      "id": "gallery-ribbon",
+      "scene": "gallery",
+      "role": "ribbon",
+      "owner": "M04",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/gallery/gallery-ribbon.png",
+      "variants": [
+        {
+          "src": "/rebuild/gallery/gallery-ribbon-3840.webp",
+          "width": 3840,
+          "height": 1280,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-ribbon-1920.webp",
+          "width": 1920,
+          "height": 640,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Author from M01 geometry and exact copy",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "original",
+      "notes": [
+        "Cream strands follow gallery arcs. Geometry or layered source allowed. Produce front/back occlusion masks where needed for B."
+      ],
+      "layer": 31
+    },
+    {
+      "id": "gallery-frame",
+      "scene": "gallery",
+      "role": "work",
+      "owner": "M04",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/gallery/gallery-frame.png",
+      "variants": [
+        {
+          "src": "/rebuild/gallery/gallery-frame-1800.webp",
+          "width": 1800,
+          "height": 1200,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-frame-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-frame-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "Concept assistant interface: frame",
+      "decorative": false,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided remake from source-art/creative.png; catalog ID frame",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided remake from source-art/creative.png; catalog ID frame",
+      "notes": [
+        "Preserve dark editing layout, coast preview and multitrack timeline; rebuild short UI labels accurately.",
+        "Create an independent 3:2 interface concept, not an enlarged atlas tile. Keep original catalog ID and description.",
+        "Any tiny decorative UI text cannot carry product claims; primary interface labels are precisely authored."
+      ],
+      "catalogId": "frame",
+      "sourceAtlas": "creative",
+      "sourceCell": 0,
+      "priority": "required for transition A"
+    },
+    {
+      "id": "gallery-fieldnotes",
+      "scene": "gallery",
+      "role": "work",
+      "owner": "M04",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/gallery/gallery-fieldnotes.png",
+      "variants": [
+        {
+          "src": "/rebuild/gallery/gallery-fieldnotes-1800.webp",
+          "width": 1800,
+          "height": 1200,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-fieldnotes-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-fieldnotes-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "Concept assistant interface: fieldnotes",
+      "decorative": false,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided remake from source-art/workspaces.png; catalog ID fieldnotes",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided remake from source-art/workspaces.png; catalog ID fieldnotes",
+      "notes": [
+        "Preserve cream research notebook, olive illustration and coastal inset; use legible research controls.",
+        "Create an independent 3:2 interface concept, not an enlarged atlas tile. Keep original catalog ID and description.",
+        "Any tiny decorative UI text cannot carry product claims; primary interface labels are precisely authored."
+      ],
+      "catalogId": "fieldnotes",
+      "sourceAtlas": "workspaces",
+      "sourceCell": 0,
+      "priority": "required for transition A"
+    },
+    {
+      "id": "gallery-milo",
+      "scene": "gallery",
+      "role": "work",
+      "owner": "M04",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/gallery/gallery-milo.png",
+      "variants": [
+        {
+          "src": "/rebuild/gallery/gallery-milo-1800.webp",
+          "width": 1800,
+          "height": 1200,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-milo-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-milo-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "Concept assistant interface: milo",
+      "decorative": false,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided remake from source-art/companions.png; catalog ID milo",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided remake from source-art/companions.png; catalog ID milo",
+      "notes": [
+        "Preserve warm ivory robot, terracotta room and compact input; replace microtext with controlled short labels.",
+        "Create an independent 3:2 interface concept, not an enlarged atlas tile. Keep original catalog ID and description.",
+        "Any tiny decorative UI text cannot carry product claims; primary interface labels are precisely authored."
+      ],
+      "catalogId": "milo",
+      "sourceAtlas": "companions",
+      "sourceCell": 0,
+      "priority": "required for featured close-up"
+    },
+    {
+      "id": "gallery-terminal-one",
+      "scene": "gallery",
+      "role": "work",
+      "owner": "M04",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/gallery/gallery-terminal-one.png",
+      "variants": [
+        {
+          "src": "/rebuild/gallery/gallery-terminal-one-1800.webp",
+          "width": 1800,
+          "height": 1200,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-terminal-one-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-terminal-one-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "Concept assistant interface: terminal-one",
+      "decorative": false,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided remake from source-art/workspaces.png; catalog ID terminal-one",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided remake from source-art/workspaces.png; catalog ID terminal-one",
+      "notes": [
+        "Preserve dark developer workspace, amber accents and code panel; use authored plausible code, no generated pseudo-code as readable copy.",
+        "Create an independent 3:2 interface concept, not an enlarged atlas tile. Keep original catalog ID and description.",
+        "Any tiny decorative UI text cannot carry product claims; primary interface labels are precisely authored."
+      ],
+      "catalogId": "terminal-one",
+      "sourceAtlas": "workspaces",
+      "sourceCell": 1,
+      "priority": "required for featured close-up"
+    },
+    {
+      "id": "gallery-luna",
+      "scene": "gallery",
+      "role": "work",
+      "owner": "M04",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/gallery/gallery-luna.png",
+      "variants": [
+        {
+          "src": "/rebuild/gallery/gallery-luna-1800.webp",
+          "width": 1800,
+          "height": 1200,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-luna-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-luna-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "Concept assistant interface: luna",
+      "decorative": false,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided remake from source-art/possibilities.png; catalog ID luna",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided remake from source-art/possibilities.png; catalog ID luna",
+      "notes": [
+        "Preserve rabbit, mossy stone and pale floating conversation panel; use exact simple English.",
+        "Create an independent 3:2 interface concept, not an enlarged atlas tile. Keep original catalog ID and description.",
+        "Any tiny decorative UI text cannot carry product claims; primary interface labels are precisely authored."
+      ],
+      "catalogId": "luna",
+      "sourceAtlas": "possibilities",
+      "sourceCell": 0,
+      "priority": "required for featured close-up"
+    },
+    {
+      "id": "gallery-orbit",
+      "scene": "gallery",
+      "role": "work",
+      "owner": "M04",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/gallery/gallery-orbit.png",
+      "variants": [
+        {
+          "src": "/rebuild/gallery/gallery-orbit-1800.webp",
+          "width": 1800,
+          "height": 1200,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-orbit-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-orbit-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "Concept assistant interface: orbit",
+      "decorative": false,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided remake from source-art/companions.png; catalog ID orbit",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided remake from source-art/companions.png; catalog ID orbit",
+      "notes": [
+        "Preserve luminous blue companion and compact controls; keep glow confined to artwork, not global scene.",
+        "Create an independent 3:2 interface concept, not an enlarged atlas tile. Keep original catalog ID and description.",
+        "Any tiny decorative UI text cannot carry product claims; primary interface labels are precisely authored."
+      ],
+      "catalogId": "orbit",
+      "sourceAtlas": "companions",
+      "sourceCell": 2,
+      "priority": "required for featured close-up"
+    },
+    {
+      "id": "gallery-atelier",
+      "scene": "gallery",
+      "role": "work",
+      "owner": "M04",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/gallery/gallery-atelier.png",
+      "variants": [
+        {
+          "src": "/rebuild/gallery/gallery-atelier-1800.webp",
+          "width": 1800,
+          "height": 1200,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-atelier-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-atelier-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "Concept assistant interface: atelier",
+      "decorative": false,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided remake from source-art/creative.png; catalog ID atelier",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided remake from source-art/creative.png; catalog ID atelier",
+      "notes": [
+        "Preserve quiet writing workspace, editorial page and dusty plum accent; replace all paragraph text with authored copy.",
+        "Create an independent 3:2 interface concept, not an enlarged atlas tile. Keep original catalog ID and description.",
+        "Any tiny decorative UI text cannot carry product claims; primary interface labels are precisely authored."
+      ],
+      "catalogId": "atelier",
+      "sourceAtlas": "creative",
+      "sourceCell": 5,
+      "priority": "required for featured close-up"
+    },
+    {
+      "id": "gallery-studio-moss",
+      "scene": "gallery",
+      "role": "work",
+      "owner": "M04",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/gallery/gallery-studio-moss.png",
+      "variants": [
+        {
+          "src": "/rebuild/gallery/gallery-studio-moss-1800.webp",
+          "width": 1800,
+          "height": 1200,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-studio-moss-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-studio-moss-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "Concept assistant interface: studio-moss",
+      "decorative": false,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided remake from source-art/creative.png; catalog ID studio-moss",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided remake from source-art/creative.png; catalog ID studio-moss",
+      "notes": [
+        "Preserve botanical visual workspace; maintain leaf, cream page and toolbar instead of a poster-only substitute.",
+        "Create an independent 3:2 interface concept, not an enlarged atlas tile. Keep original catalog ID and description.",
+        "Any tiny decorative UI text cannot carry product claims; primary interface labels are precisely authored."
+      ],
+      "catalogId": "studio-moss",
+      "sourceAtlas": "creative",
+      "sourceCell": 1,
+      "priority": "required for featured close-up"
+    },
+    {
+      "id": "community-travel-planner",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-travel-planner.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-travel-planner-2000.webp",
+          "width": 2000,
+          "height": 1434,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-travel-planner-1400.webp",
+          "width": 1400,
+          "height": 1004,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-travel-planner-1000.webp",
+          "width": 1000,
+          "height": 717,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "A sunlit coastal city overlooking a Mediterranean harbor.",
+      "decorative": false,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Standalone no-text image. Leave light quiet area in upper-left 65%×28% for real title and description; leave lower 15% for action capsules.",
+        "Create a scenic artwork, not a screenshot of an existing catalog assistant.",
+        "M04 and M03 must reference the same approved bitmap and UV crop. Do not export alternate gallery crop."
+      ],
+      "appearanceId": "community-work-thin-edge-v1",
+      "sharedConsumers": [
+        "M03",
+        "M04",
+        "M05-B"
+      ],
+      "visibleAspect": 1.395,
+      "htmlOverlay": {
+        "title": "Travel Planner",
+        "description": "Find the places that feel like you.",
+        "titleInset": {
+          "x": 0.055,
+          "y": 0.08
+        },
+        "descriptionInset": {
+          "x": 0.055,
+          "y": 0.19
+        },
+        "actionLabels": [
+          "Share",
+          "Discuss",
+          "Buy",
+          "Sell"
+        ],
+        "actionBaseline": 0.89
+      },
+      "layer": 50
+    },
+    {
+      "id": "community-everyday-companion",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-everyday-companion.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-everyday-companion-2000.webp",
+          "width": 2000,
+          "height": 1434,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-everyday-companion-1400.webp",
+          "width": 1400,
+          "height": 1004,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-everyday-companion-1000.webp",
+          "width": 1000,
+          "height": 717,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "A warm sunroom with a sofa, resting dog and plants.",
+      "decorative": false,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Standalone no-text image. Leave light quiet area in upper-left 65%×28% for real title and description; leave lower 15% for action capsules.",
+        "Create a scenic artwork, not a screenshot of an existing catalog assistant.",
+        "M04 and M03 must reference the same approved bitmap and UV crop. Do not export alternate gallery crop."
+      ],
+      "appearanceId": "community-work-thin-edge-v1",
+      "sharedConsumers": [
+        "M03",
+        "M04",
+        "M05-B"
+      ],
+      "visibleAspect": 1.395,
+      "htmlOverlay": {
+        "title": "Everyday Companion",
+        "description": "A little company for everyday life.",
+        "titleInset": {
+          "x": 0.055,
+          "y": 0.08
+        },
+        "descriptionInset": {
+          "x": 0.055,
+          "y": 0.19
+        },
+        "actionLabels": [
+          "Share",
+          "Discuss",
+          "Buy",
+          "Sell"
+        ],
+        "actionBaseline": 0.89
+      },
+      "layer": 50
+    },
+    {
+      "id": "community-creative-writer",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-creative-writer.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-creative-writer-2000.webp",
+          "width": 2000,
+          "height": 1434,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-creative-writer-1400.webp",
+          "width": 1400,
+          "height": 1004,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-creative-writer-1000.webp",
+          "width": 1000,
+          "height": 717,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "A writer’s desk at a coastal window with books, paper and typewriter.",
+      "decorative": false,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Standalone no-text image. Leave light quiet area in upper-left 65%×28% for real title and description; leave lower 15% for action capsules.",
+        "Create a scenic artwork, not a screenshot of an existing catalog assistant.",
+        "M04 and M03 must reference the same approved bitmap and UV crop. Do not export alternate gallery crop."
+      ],
+      "appearanceId": "community-work-thin-edge-v1",
+      "sharedConsumers": [
+        "M03",
+        "M04",
+        "M05-B"
+      ],
+      "visibleAspect": 1.395,
+      "htmlOverlay": {
+        "title": "Creative Writer",
+        "description": "Make room for your next story.",
+        "titleInset": {
+          "x": 0.055,
+          "y": 0.08
+        },
+        "descriptionInset": {
+          "x": 0.055,
+          "y": 0.19
+        },
+        "actionLabels": [
+          "Share",
+          "Discuss",
+          "Buy",
+          "Sell"
+        ],
+        "actionBaseline": 0.89
+      },
+      "layer": 50
+    },
+    {
+      "id": "community-people-style-sheet",
+      "scene": "community",
+      "role": "person",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-people-style-sheet.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-people-style-sheet-3200.webp",
+          "width": 3200,
+          "height": 1800,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Generate and approve all five as one editorial illustration style set. No names or author identities. This production reference is not a website runtime asset."
+      ],
+      "runtime": false
+    },
+    {
+      "id": "community-person-01",
+      "scene": "community",
+      "role": "person",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-person-01.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-person-01-1000.webp",
+          "width": 1000,
+          "height": 1300,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-person-01-600.webp",
+          "width": 600,
+          "height": 780,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-person-01-300.webp",
+          "width": 300,
+          "height": 390,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Young adult with wavy chestnut hair, warm brown jacket, three-quarter profile facing right.",
+        "Half-body silhouette, hand-drawn contour and gently painted colors. Consistent anatomy, line weight, sun direction and muted palette.",
+        "Isolate from approved five-person style sheet and refine edge. No circular crop, rectangular portrait background or glossy 3D styling.",
+        "Render alpha with complete hair detail and enough lower-body overscan for ribbon occlusion."
+      ],
+      "layer": 43,
+      "identity": "fictional concept illustration; no creator attribution"
+    },
+    {
+      "id": "community-person-02",
+      "scene": "community",
+      "role": "person",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-person-02.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-person-02-1000.webp",
+          "width": 1000,
+          "height": 1300,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-person-02-600.webp",
+          "width": 600,
+          "height": 780,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-person-02-300.webp",
+          "width": 300,
+          "height": 390,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Adult with dark wavy hair, loose cream blouse, three-quarter profile facing left.",
+        "Half-body silhouette, hand-drawn contour and gently painted colors. Consistent anatomy, line weight, sun direction and muted palette.",
+        "Isolate from approved five-person style sheet and refine edge. No circular crop, rectangular portrait background or glossy 3D styling.",
+        "Render alpha with complete hair detail and enough lower-body overscan for ribbon occlusion."
+      ],
+      "layer": 43,
+      "identity": "fictional concept illustration; no creator attribution"
+    },
+    {
+      "id": "community-person-03",
+      "scene": "community",
+      "role": "person",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-person-03.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-person-03-1000.webp",
+          "width": 1000,
+          "height": 1300,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-person-03-600.webp",
+          "width": 600,
+          "height": 780,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-person-03-300.webp",
+          "width": 300,
+          "height": 390,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Adult with short curly dark hair and glasses, muted olive shirt, facing right.",
+        "Half-body silhouette, hand-drawn contour and gently painted colors. Consistent anatomy, line weight, sun direction and muted palette.",
+        "Isolate from approved five-person style sheet and refine edge. No circular crop, rectangular portrait background or glossy 3D styling.",
+        "Render alpha with complete hair detail and enough lower-body overscan for ribbon occlusion."
+      ],
+      "layer": 55,
+      "identity": "fictional concept illustration; no creator attribution"
+    },
+    {
+      "id": "community-person-04",
+      "scene": "community",
+      "role": "person",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-person-04.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-person-04-1000.webp",
+          "width": 1000,
+          "height": 1300,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-person-04-600.webp",
+          "width": 600,
+          "height": 780,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-person-04-300.webp",
+          "width": 300,
+          "height": 390,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Older adult with silver shoulder-length hair and dark slate shirt, facing right.",
+        "Half-body silhouette, hand-drawn contour and gently painted colors. Consistent anatomy, line weight, sun direction and muted palette.",
+        "Isolate from approved five-person style sheet and refine edge. No circular crop, rectangular portrait background or glossy 3D styling.",
+        "Render alpha with complete hair detail and enough lower-body overscan for ribbon occlusion."
+      ],
+      "layer": 43,
+      "identity": "fictional concept illustration; no creator attribution"
+    },
+    {
+      "id": "community-person-05",
+      "scene": "community",
+      "role": "person",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-person-05.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-person-05-1000.webp",
+          "width": 1000,
+          "height": 1300,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-person-05-600.webp",
+          "width": 600,
+          "height": 780,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-person-05-300.webp",
+          "width": 300,
+          "height": 390,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Adult with short black hair and headphones at neck, dark neutral jacket, facing left.",
+        "Half-body silhouette, hand-drawn contour and gently painted colors. Consistent anatomy, line weight, sun direction and muted palette.",
+        "Isolate from approved five-person style sheet and refine edge. No circular crop, rectangular portrait background or glossy 3D styling.",
+        "Render alpha with complete hair detail and enough lower-body overscan for ribbon occlusion."
+      ],
+      "layer": 55,
+      "identity": "fictional concept illustration; no creator attribution"
+    },
+    {
+      "id": "community-bg-01",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-01.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-01-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-01-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: coastal village. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 1
+    },
+    {
+      "id": "community-bg-02",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-02.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-02-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-02-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: botanical notebook. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 2
+    },
+    {
+      "id": "community-bg-03",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-03.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-03-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-03-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: mountain cabin. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 3
+    },
+    {
+      "id": "community-bg-04",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-04.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-04-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-04-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: creative poster. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 4
+    },
+    {
+      "id": "community-bg-05",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-05.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-05-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-05-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: sunlit interior. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 5
+    },
+    {
+      "id": "community-bg-06",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-06.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-06-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-06-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: ceramic object. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 6
+    },
+    {
+      "id": "community-bg-07",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-07.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-07-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-07-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: illustrated garden. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 7
+    },
+    {
+      "id": "community-bg-08",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-08.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-08-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-08-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: architectural sketch. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 8
+    },
+    {
+      "id": "community-bg-09",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-09.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-09-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-09-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: quiet lake. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 9
+    },
+    {
+      "id": "community-bg-10",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-10.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-10-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-10-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: music workspace. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 10
+    },
+    {
+      "id": "community-bg-11",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-11.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-11-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-11-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: daily journal. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 11
+    },
+    {
+      "id": "community-bg-12",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-12.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-12-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-12-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: city rooftop. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 12
+    },
+    {
+      "id": "community-bg-13",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-13.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-13-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-13-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: desk still life. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 13
+    },
+    {
+      "id": "community-bg-14",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-14.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-14-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-14-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: small robot companion. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 14
+    },
+    {
+      "id": "community-bg-15",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-15.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-15-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-15-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: landscape painting. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 15
+    },
+    {
+      "id": "community-bg-16",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-16.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-16-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-16-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: reading nook. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 16
+    },
+    {
+      "id": "community-bg-17",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-17.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-17-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-17-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: travel map. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 17
+    },
+    {
+      "id": "community-bg-18",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-18.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-18-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-18-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: floral study. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 18
+    },
+    {
+      "id": "community-bg-19",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-19.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-19-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-19-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: camera workspace. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 19
+    },
+    {
+      "id": "community-bg-20",
+      "scene": "community",
+      "role": "work",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-bg-20.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-bg-20-600.webp",
+          "width": 600,
+          "height": 430,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-bg-20-300.webp",
+          "width": 300,
+          "height": 215,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Subject: warm studio. Cohesive warm creative-world palette, varied light/dark rhythm. No readable metadata, creator names, prices or counters.",
+        "Background-only content; may atlas-pack after individual originals are retained. Mobile chooses eight visible instances without deleting the remaining source assets."
+      ],
+      "layer": 20,
+      "backgroundIndex": 20
+    },
+    {
+      "id": "community-ribbon-back",
+      "scene": "community",
+      "role": "ribbon",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-ribbon-back.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-ribbon-back-3840.webp",
+          "width": 3840,
+          "height": 1920,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-ribbon-back-1920.webp",
+          "width": 1920,
+          "height": 960,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Author from M01 geometry and exact copy",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "original",
+      "notes": [
+        "Broad looping ivory band behind the primary cards and people; shape follows target desktop curve.",
+        "Use modeled/rendered or controlled painted satin-paper thickness, warm highlight and soft fold shadow. No dashed ellipse."
+      ],
+      "layer": 31
+    },
+    {
+      "id": "community-ribbon-front",
+      "scene": "community",
+      "role": "ribbon",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-ribbon-front.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-ribbon-front-3000.webp",
+          "width": 3000,
+          "height": 1500,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-ribbon-front-1500.webp",
+          "width": 1500,
+          "height": 750,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Author from M01 geometry and exact copy",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "original",
+      "notes": [
+        "Foreground sections of the same ribbon; split around handoff planes so bridge cards can pass in front or behind.",
+        "Use modeled/rendered or controlled painted satin-paper thickness, warm highlight and soft fold shadow. No dashed ellipse."
+      ],
+      "layer": 60
+    },
+    {
+      "id": "community-ribbon-back-mobile",
+      "scene": "community",
+      "role": "ribbon",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-ribbon-back-mobile.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-ribbon-back-mobile-1170.webp",
+          "width": 1170,
+          "height": 1263,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-ribbon-back-mobile-780.webp",
+          "width": 780,
+          "height": 842,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Author from M01 geometry and exact copy",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "original",
+      "notes": [
+        "Independent vertically curled ribbon following the mobile zig-zag.",
+        "Use modeled/rendered or controlled painted satin-paper thickness, warm highlight and soft fold shadow. No dashed ellipse."
+      ],
+      "layer": 31
+    },
+    {
+      "id": "community-ribbon-front-mobile",
+      "scene": "community",
+      "role": "ribbon",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-ribbon-front-mobile.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-ribbon-front-mobile-1101.webp",
+          "width": 1101,
+          "height": 894,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-ribbon-front-mobile-734.webp",
+          "width": 734,
+          "height": 596,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Author from M01 geometry and exact copy",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "original",
+      "notes": [
+        "Mobile near ribbon segments; preserve people visibility and card text zones.",
+        "Use modeled/rendered or controlled painted satin-paper thickness, warm highlight and soft fold shadow. No dashed ellipse."
+      ],
+      "layer": 60
+    },
+    {
+      "id": "community-plant-left",
+      "scene": "community",
+      "role": "foreground",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-plant-left.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-plant-left-1200.webp",
+          "width": 1200,
+          "height": 1600,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-plant-left-600.webp",
+          "width": 600,
+          "height": 800,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-plant-left-300.webp",
+          "width": 300,
+          "height": 400,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Natural olive/soft interior foliage matching scene palette, transparent silhouette. Far and near variants must retain optical depth without edge halos."
+      ],
+      "layer": 60
+    },
+    {
+      "id": "community-leaf-front",
+      "scene": "community",
+      "role": "foreground",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-leaf-front.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-leaf-front-1200.webp",
+          "width": 1200,
+          "height": 1600,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-leaf-front-600.webp",
+          "width": 600,
+          "height": 800,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-leaf-front-300.webp",
+          "width": 300,
+          "height": 400,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Natural olive/soft interior foliage matching scene palette, transparent silhouette. Far and near variants must retain optical depth without edge halos."
+      ],
+      "layer": 65
+    },
+    {
+      "id": "community-plant-right",
+      "scene": "community",
+      "role": "foreground",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-plant-right.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-plant-right-1200.webp",
+          "width": 1200,
+          "height": 1600,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-plant-right-600.webp",
+          "width": 600,
+          "height": 800,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-plant-right-300.webp",
+          "width": 300,
+          "height": 400,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Reference-guided image generation and controlled layer extraction; preserve original output and edits separately",
+      "notes": [
+        "Natural olive/soft interior foliage matching scene palette, transparent silhouette. Far and near variants must retain optical depth without edge halos."
+      ],
+      "layer": 60
+    },
+    {
+      "id": "community-ground-shadow",
+      "scene": "community",
+      "role": "shadow",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-ground-shadow.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-ground-shadow-3840.webp",
+          "width": 3840,
+          "height": 960,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-ground-shadow-1920.webp",
+          "width": 1920,
+          "height": 480,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": true,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "original",
+        "source": "Author from M01 geometry and exact copy",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "original",
+      "notes": [
+        "Soft directional ground/contact shadows under floating scene. Align with works and plants; shadow opacity is not a substitute for material depth."
+      ],
+      "layer": 12
+    },
+    {
+      "id": "hero-fallback",
+      "scene": "hero",
+      "role": "background",
+      "owner": "M02",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/hero/hero-fallback.png",
+      "variants": [
+        {
+          "src": "/rebuild/hero/hero-fallback-1920.webp",
+          "width": 1920,
+          "height": 960,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-fallback-1440.webp",
+          "width": 1440,
+          "height": 900,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/hero/hero-fallback-780.webp",
+          "width": 780,
+          "height": 1688,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Composite of approved final scene layers",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Composite of approved final scene layers",
+      "notes": [
+        "Complete scene poster without baked page heading/navigation/buttons. Keep semantic HTML copy and live links above it.",
+        "Produce dedicated mobile composition. Gallery fallback freezes a curated phase. Do not export temporary M01 boards as production fallbacks."
+      ],
+      "layer": 30
+    },
+    {
+      "id": "gallery-fallback",
+      "scene": "gallery",
+      "role": "background",
+      "owner": "M04",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/gallery/gallery-fallback.png",
+      "variants": [
+        {
+          "src": "/rebuild/gallery/gallery-fallback-1920.webp",
+          "width": 1920,
+          "height": 960,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-fallback-1440.webp",
+          "width": 1440,
+          "height": 900,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/gallery/gallery-fallback-780.webp",
+          "width": 780,
+          "height": 1688,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Composite of approved final scene layers",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Composite of approved final scene layers",
+      "notes": [
+        "Complete scene poster without baked page heading/navigation/buttons. Keep semantic HTML copy and live links above it.",
+        "Produce dedicated mobile composition. Gallery fallback freezes a curated phase. Do not export temporary M01 boards as production fallbacks."
+      ],
+      "layer": 30
+    },
+    {
+      "id": "community-fallback",
+      "scene": "community",
+      "role": "background",
+      "owner": "M03",
+      "status": "planned; not produced",
+      "sourcePath": "source-art/rebuild/community/community-fallback.png",
+      "variants": [
+        {
+          "src": "/rebuild/community/community-fallback-1920.webp",
+          "width": 1920,
+          "height": 960,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-fallback-1440.webp",
+          "width": 1440,
+          "height": 900,
+          "bytes": null,
+          "status": "planned; not exported"
+        },
+        {
+          "src": "/rebuild/community/community-fallback-780.webp",
+          "width": 780,
+          "height": 1688,
+          "bytes": null,
+          "status": "planned; not exported"
+        }
+      ],
+      "alpha": false,
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "alt": "",
+      "decorative": true,
+      "provenance": {
+        "kind": "generated",
+        "source": "Composite of approved final scene layers",
+        "license": null
+      },
+      "approvedVersion": null,
+      "productionMethod": "Composite of approved final scene layers",
+      "notes": [
+        "Complete scene poster without baked page heading/navigation/buttons. Keep semantic HTML copy and live links above it.",
+        "Produce dedicated mobile composition. Gallery fallback freezes a curated phase. Do not export temporary M01 boards as production fallbacks."
+      ],
+      "layer": 30
+    }
+  ],
+  "handoffs": [
+    {
+      "id": "handoff-video-frame",
+      "from": {
+        "scene": "hero",
+        "instanceId": "hero-tag-video"
+      },
+      "to": {
+        "scene": "gallery",
+        "instanceId": "gallery-handoff-frame"
+      },
+      "sourceAssetId": "hero-tag-video-front",
+      "targetAssetId": "gallery-frame",
+      "catalogId": "frame",
+      "releaseOccluder": "hero-tag-video-occluder",
+      "cleanPlate": "hero-tag-video-cleanplate",
+      "shadow": "hero-tag-video-shadow",
+      "routeId": "A-video",
+      "contentSwap": "edge-on; exact interval belongs to reviewed M01 storyboard",
+      "ownership": "source -> bridge -> destination; never concurrent visible copies"
+    },
+    {
+      "id": "handoff-research-fieldnotes",
+      "from": {
+        "scene": "hero",
+        "instanceId": "hero-tag-research"
+      },
+      "to": {
+        "scene": "gallery",
+        "instanceId": "gallery-handoff-fieldnotes"
+      },
+      "sourceAssetId": "hero-tag-research-front",
+      "targetAssetId": "gallery-fieldnotes",
+      "catalogId": "fieldnotes",
+      "releaseOccluder": "hero-tag-research-occluder",
+      "cleanPlate": "hero-tag-research-cleanplate",
+      "shadow": "hero-tag-research-shadow",
+      "routeId": "A-research",
+      "contentSwap": "edge-on; exact interval belongs to reviewed M01 storyboard",
+      "ownership": "source -> bridge -> destination; never concurrent visible copies"
+    },
+    {
+      "id": "handoff-community-travel",
+      "from": {
+        "scene": "gallery",
+        "instanceId": "gallery-community-travel"
+      },
+      "to": {
+        "scene": "community",
+        "instanceId": "community-work-travel"
+      },
+      "sourceAssetId": "community-travel-planner",
+      "targetAssetId": "community-travel-planner",
+      "routeId": "B-travel",
+      "contentSwap": null,
+      "uvRule": "same bitmap version and visible crop at both ends",
+      "ownership": "source -> bridge -> destination"
+    },
+    {
+      "id": "handoff-community-companion",
+      "from": {
+        "scene": "gallery",
+        "instanceId": "gallery-community-companion"
+      },
+      "to": {
+        "scene": "community",
+        "instanceId": "community-work-companion"
+      },
+      "sourceAssetId": "community-everyday-companion",
+      "targetAssetId": "community-everyday-companion",
+      "routeId": "B-companion",
+      "contentSwap": null,
+      "uvRule": "same bitmap version and visible crop at both ends",
+      "ownership": "source -> bridge -> destination"
+    },
+    {
+      "id": "handoff-community-writer",
+      "from": {
+        "scene": "gallery",
+        "instanceId": "gallery-community-writer"
+      },
+      "to": {
+        "scene": "community",
+        "instanceId": "community-work-writer"
+      },
+      "sourceAssetId": "community-creative-writer",
+      "targetAssetId": "community-creative-writer",
+      "routeId": "B-writer",
+      "contentSwap": null,
+      "uvRule": "same bitmap version and visible crop at both ends",
+      "ownership": "source -> bridge -> destination"
+    }
+  ],
+  "occlusionGroups": [
+    {
+      "id": "hero-release-video",
+      "behind": [
+        "hero-base-clean",
+        "hero-tag-video-cleanplate",
+        "hero-tag-video-cord-anchor"
+      ],
+      "plane": [
+        "hero-tag-video-front",
+        "hero-tag-video-type",
+        "hero-tag-video-cord-attached"
+      ],
+      "inFront": [
+        "hero-tag-video-occluder",
+        "hero-leaves-front"
+      ],
+      "shadowOwner": "hero-tag-video-shadow"
+    },
+    {
+      "id": "hero-release-research",
+      "behind": [
+        "hero-base-clean",
+        "hero-tag-research-cleanplate",
+        "hero-tag-research-cord-anchor"
+      ],
+      "plane": [
+        "hero-tag-research-front",
+        "hero-tag-research-type",
+        "hero-tag-research-cord-attached"
+      ],
+      "inFront": [
+        "hero-tag-research-occluder",
+        "hero-leaves-front"
+      ],
+      "shadowOwner": "hero-tag-research-shadow"
+    },
+    {
+      "id": "community-landing",
+      "behind": [
+        "community-ribbon-back",
+        "community-ground-shadow",
+        "community-person-01",
+        "community-person-02",
+        "community-person-04"
+      ],
+      "plane": [
+        "community-travel-planner",
+        "community-everyday-companion",
+        "community-creative-writer"
+      ],
+      "inFront": [
+        "community-ribbon-front",
+        "community-plant-left",
+        "community-leaf-front",
+        "community-plant-right"
+      ],
+      "note": "Person 03 and 05 occupy separate side gaps in front layer; they must not cover the card title/action safe rectangles."
+    }
+  ],
+  "productionAcceptance": [
+    "M02: Hide both moving tags. The tree plate remains complete, with no duplicate paper, text, shadow or empty repair hole.",
+    "M02: A0 composite must match independent front layers to tree lighting at actual desktop size.",
+    "M03: All three primary work images are clean, no-text independent originals with actual HTML overlay bounds.",
+    "M03: Five people form one consistent illustration set; twenty individual background originals retained.",
+    "M04: Eight close-up concepts are truly separate source renders; existing atlas crop mapping remains for all 24 catalog IDs.",
+    "M05: Projected quads, UVs, alpha rim, brightness and shadow ownership match at source/bridge/destination boundaries."
+  ],
+  "existingConceptStudies": [
+    {
+      "path": "docs/rebuild/artifacts/M01/assets/hero-art-v1.png",
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "status": "exists: M01 concept/feasibility study only",
+      "productionApproved": false,
+      "notes": "Full study is not a completed set of production layers."
+    },
+    {
+      "path": "docs/rebuild/artifacts/M01/assets/gallery-art-v1.png",
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "status": "exists: M01 concept/feasibility study only",
+      "productionApproved": false,
+      "notes": "Full study is not a completed set of production layers."
+    },
+    {
+      "path": "docs/rebuild/artifacts/M01/assets/community-art-v1.png",
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "status": "exists: M01 concept/feasibility study only",
+      "productionApproved": false,
+      "notes": "Full study is not a completed set of production layers."
+    },
+    {
+      "path": "docs/rebuild/artifacts/M01/assets/material-study-v1.png",
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "status": "exists: M01 concept/feasibility study only",
+      "productionApproved": false,
+      "notes": "Full study is not a completed set of production layers."
+    },
+    {
+      "path": "docs/rebuild/artifacts/M01/assets/hero-cleanplate-study-v1.png",
+      "width": 1774,
+      "height": 887,
+      "alpha": false,
+      "status": "exists: M01 concept/feasibility study only",
+      "productionApproved": false,
+      "notes": "Full study is not a completed set of production layers."
+    },
+    {
+      "path": "docs/rebuild/artifacts/M01/assets/tags-study-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "alpha": true,
+      "status": "exists: M01 concept/feasibility study only",
+      "productionApproved": false,
+      "notes": "Art lead observed white/yellow matte fringe; refine alpha in M02 before production."
+    },
+    {
+      "path": "docs/rebuild/artifacts/M01/assets/people-study-v1.png",
+      "width": 2172,
+      "height": 724,
+      "alpha": true,
+      "status": "exists: M01 five-person transparent half-body style/motion study only",
+      "productionApproved": false,
+      "provenanceRecord": "docs/rebuild/artifacts/M01/source/people-prompt.json",
+      "notes": "Can replace schematic motion placeholders in M01. Individual alpha cutouts, edge cleanup, pose/occlusion registration and final M03 approval remain pending."
+    }
+  ],
+  "designCalibration": {
+    "authority": "docs/rebuild/artifacts/M01/source/board-layouts.mjs",
+    "status": "Current HTML board overlays and full-study placement synchronized in layout reviewBoard fields. Individual production layer coordinates are still targets.",
+    "instruction": "Visible M01 motherboards govern M02/M03 production. Measure finished asset content bounds and projected quads when layers exist; do not force them to obsolete initial targets."
+  },
+  "previsualizationInstanceAliases": {
+    "hero-video": {
+      "from": "hero-tag-video",
+      "to": "gallery-handoff-frame"
+    },
+    "hero-research": {
+      "from": "hero-tag-research",
+      "to": "gallery-handoff-fieldnotes"
+    },
+    "travel-planner": {
+      "from": "gallery-community-travel",
+      "to": "community-work-travel"
+    },
+    "everyday-companion": {
+      "from": "gallery-community-companion",
+      "to": "community-work-companion"
+    },
+    "creative-writer": {
+      "from": "gallery-community-writer",
+      "to": "community-work-writer"
+    }
+  }
+}

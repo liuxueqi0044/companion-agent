@@ -1,0 +1,85 @@
+---
+import '../../styles/dialogs.css';
+---
+
+<dialog id="morrow-explore" class="morrow-dialog morrow-explore" aria-labelledby="explore-title">
+  <div class="dialog-shell">
+    <header class="dialog-header">
+      <div>
+        <p class="dialog-eyebrow">THE POSSIBILITY LIBRARY</p>
+        <h2 id="explore-title">A little inspiration.<br /><em>A world of your own.</em></h2>
+      </div>
+      <button type="button" class="dialog-close" data-dialog-close aria-label="Close inspiration library"><span aria-hidden="true">×</span></button>
+    </header>
+    <div data-explore-gallery>
+      <div class="explore-toolbar">
+        <p class="dialog-intro">Different forms. Different ways to make the everyday yours.</p>
+        <div class="explore-filters" role="group" aria-label="Filter inspiration by category">
+          <button type="button" class="is-active" data-explore-filter="All" aria-pressed="true">All</button>
+          <button type="button" data-explore-filter="Companions" aria-pressed="false">Companions</button>
+          <button type="button" data-explore-filter="Creative" aria-pressed="false">Creative</button>
+          <button type="button" data-explore-filter="Workspaces" aria-pressed="false">Workspaces</button>
+        </div>
+      </div>
+      <p class="explore-count" data-explore-count aria-live="polite"></p>
+      <div class="explore-grid" data-explore-grid></div>
+      <p class="explore-empty" data-explore-empty hidden>More possibilities are on their way. Try another category.</p>
+      <p class="dialog-footnote">A collection of concept previews, made to spark your next idea.</p>
+    </div>
+    <section class="artwork-detail" data-artwork-detail hidden aria-labelledby="artwork-title">
+      <button type="button" class="dialog-text-button" data-artwork-back><span aria-hidden="true">←</span> Back to the collection</button>
+      <div class="artwork-detail-layout">
+        <div class="artwork-image-wrap"><div class="artwork-detail-image" data-artwork-image role="img" aria-label=""></div></div>
+        <div class="artwork-information">
+          <span class="concept-label">CONCEPT DESIGN</span>
+          <p class="artwork-category" data-artwork-category></p>
+          <h3 id="artwork-title" tabindex="-1" data-artwork-title></h3>
+          <p class="artwork-description" data-artwork-description></p>
+          <p class="artwork-small-label">Imagine it with</p>
+          <ul class="artwork-skills" data-artwork-skills></ul>
+          <button type="button" class="dialog-primary" data-artwork-download>Use as inspiration <span aria-hidden="true">↗</span></button>
+          <p class="dialog-footnote">Downloads a JSON idea recipe you can build on. This is a visual concept, not a ready-to-run assistant.</p>
+          <p class="dialog-footnote">Community listings, discussions and checkout are not open yet.</p>
+          <p class="dialog-status" data-artwork-status role="status"></p>
+        </div>
+      </div>
+    </section>
+  </div>
+</dialog>
+
+<dialog id="morrow-download" class="morrow-dialog morrow-small-dialog" aria-labelledby="download-title">
+  <div class="dialog-shell">
+    <header class="dialog-header">
+      <p class="dialog-eyebrow">YOUR NEXT CHAPTER</p>
+      <button type="button" class="dialog-close" data-dialog-close aria-label="Close download information"><span aria-hidden="true">×</span></button>
+    </header>
+    <div class="download-symbol" aria-hidden="true">m<span>✳</span></div>
+    <h2 id="download-title">Start building<br /><em>with Morrow.</em></h2>
+    <p class="dialog-intro">A home for the skills, tools, and ideas that make an assistant your own.</p>
+    <div class="alpha-notice"><span class="alpha-dot" aria-hidden="true"></span><div><strong>The next chapter is taking shape</strong><p>Public downloads are not open yet. Explore the possibilities, or save an idea to make your own.</p></div></div>
+    <button class="dialog-primary" data-open-explore>Explore the collection <span aria-hidden="true">↗</span></button>
+    <button class="dialog-secondary-link" data-open-share>Start with an idea <span aria-hidden="true">↗</span></button>
+  </div>
+</dialog>
+
+<dialog id="morrow-share" class="morrow-dialog morrow-share-dialog" aria-labelledby="share-title">
+  <div class="dialog-shell">
+    <header class="dialog-header">
+      <div><p class="dialog-eyebrow">IT STARTS WITH YOUR IDEA</p><h2 id="share-title">Make something<br /><em>worth sharing.</em></h2></div>
+      <button type="button" class="dialog-close" data-dialog-close aria-label="Close draft creator"><span aria-hidden="true">×</span></button>
+    </header>
+    <p class="dialog-intro">Give your idea a name. Keep a draft to develop into your next creation.</p>
+    <form id="morrow-draft-form" class="draft-form">
+      <label for="draft-title">Name your creation<span class="field-hint">A good idea deserves a good name.</span></label>
+      <input id="draft-title" name="title" type="text" required maxlength="80" placeholder="The little research companion" autocomplete="off" />
+      <label for="draft-description">What do you have in mind?</label>
+      <textarea id="draft-description" name="description" required maxlength="1400" rows="4" placeholder="Who is it for? What would it help them do?"></textarea>
+      <label for="draft-category">Find its corner of the world</label>
+      <select id="draft-category" name="category"><option value="Companions">Companions</option><option value="Creative">Creative</option><option value="Workspaces">Workspaces</option></select>
+      <fieldset class="draft-sharing"><legend>How would you like to share it?</legend><div class="draft-sharing-options"><label><input type="radio" name="sharing" value="free" checked /><span><strong>Free</strong><small>An idea for everyone.</small></span></label><label><input type="radio" name="sharing" value="paid" /><span><strong>Paid</strong><small>A future product of your own.</small></span></label></div></fieldset>
+      <p class="dialog-footnote">This saves a draft to your device. It does not publish a listing or take a payment.</p>
+      <div class="draft-actions"><button type="submit" class="dialog-primary">Save a draft <span aria-hidden="true">↓</span></button><button type="reset" class="dialog-text-button">Clear</button></div>
+      <p class="dialog-status" data-draft-status role="status"></p>
+    </form>
+  </div>
+</dialog>

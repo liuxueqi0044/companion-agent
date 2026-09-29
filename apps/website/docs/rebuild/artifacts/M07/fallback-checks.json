@@ -1,0 +1,71 @@
+[
+  {
+    "name": "reduced-motion",
+    "canvasCount": 0,
+    "community": null,
+    "data": {
+      "assetsReady": "static",
+      "motionMode": "reduced",
+      "paintReady": "true"
+    },
+    "fallbackVisible": [
+      {
+        "class": "fallback-sections",
+        "display": "block",
+        "hidden": false
+      }
+    ],
+    "gallery": null,
+    "overflow": false
+  },
+  {
+    "name": "webgl-unavailable",
+    "canvasCount": 0,
+    "community": "ready",
+    "data": {
+      "activeScene": "gallery",
+      "assetsReady": "fallback",
+      "motionMode": "full",
+      "paintReady": "true"
+    },
+    "fallbackVisible": [
+      {
+        "class": "community-fallback",
+        "display": "none",
+        "hidden": true
+      },
+      {
+        "class": "fallback-sections",
+        "display": "none",
+        "hidden": false
+      }
+    ],
+    "gallery": "fallback",
+    "overflow": false
+  },
+  {
+    "name": "community-image-failure",
+    "canvasCount": 1,
+    "community": "fallback",
+    "data": {
+      "activeScene": "community",
+      "assetsReady": "fallback",
+      "motionMode": "full",
+      "paintReady": "true"
+    },
+    "fallbackVisible": [
+      {
+        "class": "community-fallback",
+        "display": "block",
+        "hidden": false
+      },
+      {
+        "class": "fallback-sections",
+        "display": "none",
+        "hidden": false
+      }
+    ],
+    "gallery": "live",
+    "overflow": false
+  }
+]

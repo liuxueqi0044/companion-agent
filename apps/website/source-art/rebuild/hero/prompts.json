@@ -1,0 +1,14 @@
+{
+  "generator": "built-in image_gen",
+  "approvedSources": [
+    "docs/rebuild/artifacts/M01/source/generation-prompts.json",
+    "docs/rebuild/artifacts/M01/source/study-prompts.json"
+  ],
+  "attempts": [
+    {
+      "file": "tag-extraction-rejected-v2.png",
+      "status": "rejected: still contains pale fringe, not published or used at runtime",
+      "prompt": "Use case: background-extraction. Production transparent asset edit. Input image is the edit target. Preserve these exact two ivory cotton-paper skill tags side by side, including their printed black icons and exact words 'Video Editing' and 'Research', their warm bronzed hanging cord loops and their paper grain. Change ONLY the extraction edges: remove every white fringe, yellow edge contamination, floating white speck and leftover opaque background outside both tags and cords. Make true clean alpha transparency all around. Retain antialiased object edges and natural material. Preserve the straight-on camera, matching scale, card proportions, two-card left/right layout, and current texture. Do not add any object, no background, no checkerboard, no new shadow outside their silhouettes. The full objects must be fully inside the frame with transparent padding on all sides. Highest material detail, ready for a luxury botanical website asset."
+    }
+  ]
+}

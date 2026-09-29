@@ -1,0 +1,150 @@
+{
+  "version": "m02-hero-1",
+  "sourceDimensions": {
+    "width": 1774,
+    "height": 887
+  },
+  "notes": [
+    "The approved master is retained as the static/failure image.",
+    "Cleanplate is drawn only inside feathered masks behind the two moving tags; no whole-frame background registration assumption.",
+    "The tag-extraction-v2 imagegen attempt remains source-only: residual fringe caused rejection.",
+    "No source art was upscaled; source dimensions remain explicit."
+  ],
+  "assets": [
+    {
+      "id": "hero-master",
+      "scene": "hero",
+      "src": "/rebuild/hero/hero-master.webp",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "crop": null,
+      "width": 1774,
+      "height": 887,
+      "bytes": 223590,
+      "sha256": "74ef5d11c42a3fb59cffab25c5b3021c71ee9cccab78b7c58b4823eff5a5558f",
+      "alpha": false,
+      "decorative": true,
+      "approvedVersion": "m02-hero-1",
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "displayMask": null
+    },
+    {
+      "id": "hero-cleanplate",
+      "scene": "hero",
+      "src": "/rebuild/hero/hero-cleanplate.webp",
+      "sourcePath": "source-art/rebuild/hero/hero-cleanplate-source.png",
+      "crop": null,
+      "width": 1774,
+      "height": 887,
+      "bytes": 213994,
+      "sha256": "b5b43b847d685f81df0f5ece97cea8392e89a05c2df4d54bdaeddd040e510ede",
+      "alpha": false,
+      "decorative": true,
+      "approvedVersion": "m02-hero-1",
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "displayMask": null
+    },
+    {
+      "id": "hero-tag-video",
+      "scene": "hero",
+      "src": "/rebuild/hero/tag-video.webp",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "crop": {
+        "left": 174,
+        "top": 150,
+        "width": 174,
+        "height": 236
+      },
+      "width": 174,
+      "height": 236,
+      "bytes": 12100,
+      "sha256": "a173ed7c73f072c22dd99797c729eb52949f9f8e620506307d62998be66dfc2b",
+      "alpha": false,
+      "decorative": true,
+      "approvedVersion": "m02-hero-1",
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "displayMask": "Runtime rounded silhouette or tether clip path; exact same element cloned for handoff."
+    },
+    {
+      "id": "hero-tag-research",
+      "scene": "hero",
+      "src": "/rebuild/hero/tag-research.webp",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "crop": {
+        "left": 496,
+        "top": 591,
+        "width": 162,
+        "height": 214
+      },
+      "width": 162,
+      "height": 214,
+      "bytes": 11918,
+      "sha256": "faa50bb10afa4d9d22ebc11cfa9ab2ba9ef16cc378ae21a390da2534965f1a66",
+      "alpha": false,
+      "decorative": true,
+      "approvedVersion": "m02-hero-1",
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "displayMask": "Runtime rounded silhouette or tether clip path; exact same element cloned for handoff."
+    },
+    {
+      "id": "hero-tether-video",
+      "scene": "hero",
+      "src": "/rebuild/hero/tether-video.webp",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "crop": {
+        "left": 241,
+        "top": 73,
+        "width": 52,
+        "height": 112
+      },
+      "width": 52,
+      "height": 112,
+      "bytes": 3454,
+      "sha256": "e4eac3b706a92175c003e36c4e5e2f8f62f22abd5988a5c8ffeb4d4b44ab02f6",
+      "alpha": false,
+      "decorative": true,
+      "approvedVersion": "m02-hero-1",
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "displayMask": "Runtime rounded silhouette or tether clip path; exact same element cloned for handoff."
+    },
+    {
+      "id": "hero-tether-research",
+      "scene": "hero",
+      "src": "/rebuild/hero/tether-research.webp",
+      "sourcePath": "source-art/rebuild/hero/hero-approved-source.png",
+      "crop": {
+        "left": 551,
+        "top": 533,
+        "width": 43,
+        "height": 86
+      },
+      "width": 43,
+      "height": 86,
+      "bytes": 2500,
+      "sha256": "e687a31977670e9b7818f83de1d6b5525b8b9238a1e5395a1ff1d26cd5949d94",
+      "alpha": false,
+      "decorative": true,
+      "approvedVersion": "m02-hero-1",
+      "provenance": {
+        "kind": "generated",
+        "source": "M01 built-in imagegen approved visual; only crop/compression derivatives in this pipeline"
+      },
+      "displayMask": "Runtime rounded silhouette or tether clip path; exact same element cloned for handoff."
+    }
+  ],
+  "totalPublishedBytes": 467556
+}

@@ -1,0 +1,71 @@
+---
+import Dialogs from './Dialogs.astro';
+import '../styles/rebuild.css';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f1ecdf" />
+    <meta name="description" content="Bring together skills, tools and agents. Shape your own AI assistant, explore a world of interfaces, and share what you create." />
+    <meta property="og:title" content="Morrow — Build an AI that’s yours." />
+    <meta property="og:description" content="Your skills. Your style. A world of possibilities." />
+    <meta property="og:image" content="/rebuild/fallback/hero.webp" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/dm-serif-display.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/dm-sans-regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/rebuild/hero/hero-master.webp" as="image" />
+    <title>Morrow — Build an AI that’s yours.</title>
+  </head>
+  <body class="rebuild-body">
+    <a class="rebuild-skip" href="#hero-title">Skip to content</a>
+    <header class="rebuild-header">
+      <a class="rebuild-wordmark" href="#hero" data-story-goto="hero" aria-label="Morrow home">MORROW</a>
+      <div class="rebuild-header-actions">
+        <button class="rebuild-button solid" data-open-download>Download</button>
+        <button class="rebuild-button" data-open-community>Join community</button>
+        <button class="rebuild-menu" aria-label="Open navigation" data-open-menu><span></span><span></span></button>
+      </div>
+    </header>
+    <main id="story-track" class="rebuild-track">
+      <div class="rebuild-stage" id="story-stage">
+        <div class="scene-art" id="hero-scene" aria-hidden="true"></div>
+        <div class="scene-art" id="gallery-scene" aria-hidden="true"></div>
+        <div class="scene-art" id="community-scene" aria-label="Creations shared around the world"></div>
+        <div id="transition-layer"></div>
+        <section class="story-copy hero-copy" id="hero" aria-labelledby="hero-title">
+          <h1 id="hero-title" tabindex="-1">Build an AI<br />that’s yours.</h1>
+          <p>Bring together skills, tools and agents.<br />Shape how it works—and how it feels.</p>
+          <ul class="rebuild-sr"><li>Video Editing</li><li>Spreadsheets</li><li>Customer Care</li><li>Global Trade</li><li>Research</li><li>Scheduling</li></ul>
+        </section>
+        <section class="story-copy gallery-copy" id="gallery" aria-labelledby="gallery-title" inert aria-hidden="true">
+          <h2 id="gallery-title">One assistant.<br class="gallery-mobile-break" /> A world of possibilities.</h2>
+        </section>
+        <section class="story-copy community-copy" id="community" aria-labelledby="community-title" inert aria-hidden="true">
+          <h2 id="community-title">Your ideas.<br />A world to share.</h2>
+          <p>Share, discuss, buy and sell<br />what you create.</p>
+          <div class="rebuild-copy-actions"><button class="rebuild-button solid" data-open-explore>Explore creations <span aria-hidden="true">↗</span></button><button class="rebuild-button" data-open-share>Share your creation</button></div>
+        </section>
+        <div class="hero-foot story-aux" data-aux="hero"><span>MORE HUMAN POSSIBILITIES</span><button data-story-goto="gallery">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></button></div>
+        <div class="gallery-foot story-aux" data-aux="gallery"><span>EXPLORE YOUR OWN EXPRESSION</span><button data-open-explore>Explore the collection <span aria-hidden="true">↗</span></button></div>
+        <div class="community-foot story-aux" data-aux="community"><span>IDEAS CONNECT PEOPLE</span><span>A MORE CREATIVE<br />TOMORROW, TOGETHER.</span></div>
+        <div class="scene-grain" aria-hidden="true"></div>
+      </div>
+      <div class="fallback-sections">
+        <section><div class="fallback-copy"><h1>Build an AI<br />that’s yours.</h1><p>Bring together skills, tools and agents.<br />Shape how it works—and how it feels.</p></div><img src="/rebuild/fallback/hero.webp" width="1774" height="887" alt="Six ivory skill tags hang among richly textured olive branches." fetchpriority="high" /></section>
+        <section><div class="fallback-copy"><h2>One assistant.<br />A world of possibilities.</h2><p>Give your assistant a form that feels like you.</p><button class="rebuild-button solid" data-open-explore>Explore the collection ↗</button></div><img src="/rebuild/fallback/gallery.webp" width="1774" height="887" alt="A flowing, curved collection of many different assistant interfaces." loading="lazy" /></section>
+        <section><div class="fallback-copy"><h2>Your ideas.<br />A world to share.</h2><p>Share, discuss, buy and sell what you create.</p><div class="rebuild-copy-actions"><button class="rebuild-button solid" data-open-explore>Explore creations ↗</button><button class="rebuild-button" data-open-share>Share your creation</button></div></div><img src="/rebuild/fallback/community.webp" width="1774" height="887" alt="Five illustrated people share three scenic creations amid ribbons, plants and distant works." loading="lazy" /></section>
+        <noscript><p class="noscript-note">You can explore this visual introduction without JavaScript. Interactive previews and local idea drafts need JavaScript.</p></noscript>
+      </div>
+    </main>
+    <nav class="chapter-nav" aria-label="Story chapters"><button data-story-goto="hero" aria-label="Skills" aria-current="step"><span></span></button><button data-story-goto="gallery" aria-label="Possibilities"><span></span></button><button data-story-goto="community" aria-label="Community"><span></span></button></nav>
+    <button class="motion-toggle" aria-label="Pause ambient motion" aria-pressed="false" title="Pause motion"><span aria-hidden="true">Ⅱ</span></button>
+    <footer class="rebuild-footer"><span>MORROW</span><span>Make room for what’s possible.</span><a href="/privacy">Privacy</a><span>© 2026 Morrow</span></footer>
+    <Dialogs />
+    <dialog class="morrow-dialog morrow-small-dialog" id="morrow-community" aria-labelledby="join-title"><div class="dialog-shell"><header class="dialog-header"><p class="dialog-eyebrow">IDEAS CONNECT PEOPLE</p><button class="dialog-close" data-dialog-close aria-label="Close community information">×</button></header><h2 id="join-title">A world we can<br />build together.</h2><p class="dialog-intro">Share a different perspective. Discover someone else’s. Turn a useful idea into something worth sharing.</p><p class="community-service-note">The community and marketplace are being built. For now, explore the concepts and save your own creation draft.</p><div class="join-actions"><button class="dialog-primary" data-open-explore>Discover creations ↗</button><button class="dialog-text-button" data-open-share>Start your creation ↗</button></div></div></dialog>
+    <dialog class="morrow-dialog morrow-small-dialog" id="morrow-menu" aria-labelledby="menu-title"><div class="dialog-shell"><header class="dialog-header"><p class="dialog-eyebrow" id="menu-title">MAKE IT YOURS</p><button class="dialog-close" data-dialog-close aria-label="Close navigation">×</button></header><nav class="menu-chapters" aria-label="Main navigation"><button data-story-goto="hero">01 <span>Your skills</span> ↗</button><button data-story-goto="gallery">02 <span>Your expression</span> ↗</button><button data-story-goto="community">03 <span>Your world</span> ↗</button></nav><a href="/privacy" class="dialog-secondary-link">Privacy</a></div></dialog>
+    <aside class="review-controls" hidden aria-label="Transition review controls"><div><strong>PRODUCTION MOTION REVIEW</strong><button data-review-mode="story">Full story</button><button data-review-mode="A">A · Skills to gallery</button><button data-review-mode="B">B · Gallery to community</button></div><div><button data-review-play="1">Play</button><button data-review-play="-1">Reverse</button><button data-review-play="0">Pause</button><input aria-label="Transition progress" type="range" min="0" max="1000" value="0" /><output>0%</output><label><input type="checkbox" data-review-time checked /> Freeze ambient time</label><button data-review-live>Return to scroll</button></div><div class="review-keys"><button data-review-key="0">0%</button><button data-review-key="0.22">22%</button><button data-review-key="0.5">50%</button><button data-review-key="0.78">78%</button><button data-review-key="1">100%</button></div></aside>
+    <script>import { bootstrap } from '../bootstrap'; bootstrap();</script>
+  </body>
+</html>

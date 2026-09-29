@@ -44,3 +44,5 @@ sandbox. This mirror preserves its FORM/ATELIER invitation profile; CORE-022
 website work, personal filing/support records and binary releases are not part
 of this publication. Run offline tests only; no models, credentials or extra
 assistant sessions are needed to validate this source snapshot.
+
+Morrow website v2 source publication (2026-09-29): the user accepted the English marketing frontend and explicitly requested its GitHub upload. `apps/website` now contains that standalone Astro site, production concept artwork and editable masters. This supersedes the older blanket website exclusion only for this approved marketing frontend; it does not authorize changing the desktop invitation profile or exposing private runtime data. Its independent npm lockfile and commands run from `apps/website`. Follow `apps/website/docs/GITHUB.md` for publication scope and offline validation. No live models, accounts or extra sessions are needed. Large local recordings, build archives and cached dependencies remain excluded.
