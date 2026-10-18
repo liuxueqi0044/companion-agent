@@ -1,4 +1,5 @@
 [project]
+license = { text = "MIT" }
 name = "companion-agent"
 version = "0.0.0"
 description = "Companion Agent 工程骨架：M00.0.01 只建立可安装的最小包结构，不实现业务。"
