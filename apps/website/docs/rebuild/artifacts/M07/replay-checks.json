@@ -1,0 +1,114 @@
+[
+  {
+    "name": "replay-A",
+    "frames": 28,
+    "start": {
+      "frame": 0,
+      "elapsedMs": 113,
+      "progress": "0.150000",
+      "state": "ready"
+    },
+    "end": {
+      "frame": 27,
+      "elapsedMs": 4751,
+      "progress": "0.390000",
+      "state": "finished"
+    },
+    "bridges": [
+      {
+        "display": "none",
+        "visibility": "hidden"
+      },
+      {
+        "display": "none",
+        "visibility": "hidden"
+      }
+    ]
+  },
+  {
+    "name": "replay-B",
+    "frames": 26,
+    "start": {
+      "frame": 0,
+      "elapsedMs": 145,
+      "progress": "0.670000",
+      "state": "ready"
+    },
+    "end": {
+      "frame": 25,
+      "elapsedMs": 4356,
+      "progress": "0.880000",
+      "state": "finished"
+    },
+    "bridges": [
+      {
+        "display": "none",
+        "visibility": "hidden"
+      },
+      {
+        "display": "none",
+        "visibility": "hidden"
+      },
+      {
+        "display": "none",
+        "visibility": "hidden"
+      }
+    ]
+  },
+  {
+    "name": "replay-A-reverse",
+    "frames": 28,
+    "start": {
+      "frame": 0,
+      "elapsedMs": 191,
+      "progress": "0.390000",
+      "state": "ready"
+    },
+    "end": {
+      "frame": 27,
+      "elapsedMs": 4601,
+      "progress": "0.150000",
+      "state": "finished"
+    },
+    "bridges": [
+      {
+        "display": "none",
+        "visibility": "hidden"
+      },
+      {
+        "display": "none",
+        "visibility": "hidden"
+      }
+    ]
+  },
+  {
+    "name": "replay-B-reverse",
+    "frames": 27,
+    "start": {
+      "frame": 0,
+      "elapsedMs": 142,
+      "progress": "0.880000",
+      "state": "ready"
+    },
+    "end": {
+      "frame": 26,
+      "elapsedMs": 4912,
+      "progress": "0.670000",
+      "state": "finished"
+    },
+    "bridges": [
+      {
+        "display": "none",
+        "visibility": "hidden"
+      },
+      {
+        "display": "none",
+        "visibility": "hidden"
+      },
+      {
+        "display": "none",
+        "visibility": "hidden"
+      }
+    ]
+  }
+]

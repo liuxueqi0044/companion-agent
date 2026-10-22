@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>MORROW — M01 视觉设计评审</title>
+  <link rel="stylesheet" href="board.css">
+  <script src="board.js" type="module"></script>
+</head>
+<body>
+  <main id="review" class="review">
+    <header class="review-header">
+      <a class="review-brand" href="./">MORROW <span>DESIGN ROOM</span></a>
+      <div class="edition">M01 <span>·</span> VISUAL DIRECTION <span>·</span> V1</div>
+    </header>
+
+    <section class="introduction">
+      <p class="overline">枝叶 → 多种形态 → 全世界的创意</p>
+      <h1>先把画面，<br>做到值得留下。</h1>
+      <div class="intro-aside">
+        <p>三幕英文视觉母版。<br>这一轮看构图、材质、文字和空间关系。</p>
+        <p class="quiet">这是设计评审稿，下载与社区入口仅呈现视觉状态。<br>手机视图是重新排布的构图草案，尚未拆分图层。</p>
+      </div>
+    </section>
+
+    <nav class="review-nav" aria-label="设计评审导航">
+      <div class="chapter-links"><a href="#hero">01 枝叶</a><a href="#gallery">02 形态</a><a href="#community">03 社区</a><a href="#materials">材质</a></div>
+      <div class="document-links"><a href="motion/review.html">A/B 动效样片 ↗</a><a href="spec/design-spec.md">设计规格 ↗</a><a href="FEASIBILITY.md">分层可行性 ↗</a></div>
+    </nav>
+
+    <div class="view-toolbar">
+      <span>画板尺寸</span>
+      <div class="view-options" role="group" aria-label="画板尺寸">
+        <button type="button" data-mode="desktop" aria-pressed="true">1920 × 960 <small>母版</small></button>
+        <button type="button" data-mode="wide" aria-pressed="false">1440 × 900 <small>重排</small></button>
+        <button type="button" data-mode="mobile" aria-pressed="false">390 × 844 <small>手机草案</small></button>
+      </div>
+      <span id="mode-note" class="mode-note">完整构图 · English master</span>
+    </div>
+
+    <div id="scenes" class="scenes"></div>
+
+    <section id="materials" class="materials">
+      <div class="section-heading"><p class="section-index">04 / MATERIAL STUDY</p><h2>质感来自真实的细节。</h2><p>树皮、逆光叶片与纸纤维的近景母版。下一阶段按这些细节校准材质、光照和运动幅度。</p></div>
+      <figure class="material-master"><img src="assets/material-study-v1.png" width="1774" height="887" alt="材质研究：粗糙树皮、逆光叶脉、纸纤维与挂绳孔的三个近景。"><figcaption><span><b>NATURAL WOOD</b>自然分叉与真实树皮</span><span><b>TRANSLUCENT LEAF</b>叶脉细节与柔和透光</span><span><b>WARM PAPER</b>纸面纤维、挂绳与接触阴影</span></figcaption></figure>
+      <div class="palette" aria-label="色彩参考"><span style="--swatch:#f2ecdf">Warm ivory <b>#F2ECDF</b></span><span style="--swatch:#a69a74">Olive mist <b>#A69A74</b></span><span style="--swatch:#50573d">Leaf green <b>#50573D</b></span><span style="--swatch:#28291f">Soft ink <b>#28291F</b></span></div>
+    </section>
+
+    <section class="feasibility-study">
+      <div class="section-heading"><p class="section-index">05 / LAYER FEASIBILITY</p><h2>分层路线的可行性试样。</h2><p>去牌底图与独立纸牌用于验证制作路径。纸牌存在白色／黄色 alpha 毛边，仍需修边与逐像素对齐，不能作为正式生产资产。</p></div>
+      <div class="study-pair"><figure><div><img src="assets/hero-cleanplate-study-v1.png" width="1774" height="887" alt="去除 Video Editing 与 Research 纸牌后的枝叶底图试样。"></div><figcaption>01 / 去牌底图试样 · 两张纸牌移除后补出枝叶</figcaption></figure><figure><div class="alpha-check"><img src="assets/tags-study-v1.png" width="1254" height="1254" alt="Video Editing 和 Research 两张透明纸牌试样，边缘仍待精修。"></div><figcaption>02 / 独立纸牌试样 · Alpha 毛边待修</figcaption></figure></div>
+      <p class="study-links"><a href="FEASIBILITY.md">查看分层可行性结论 ↗</a><a href="proof/asset-audit.json">查看素材尺寸与校验记录 ↗</a></p>
+    </section>
+
+    <footer class="review-footer"><div>MORROW <span>／ M01 VISUAL REVIEW</span></div><p>先验收静帧，再推进分层与正式实现。</p><a href="motion/review.html">下一步：比较 A/B 运镜与转场 ↗</a></footer>
+  </main>
+  <main id="pure-board" hidden aria-label="独立设计画板"></main>
+</body>
+</html>

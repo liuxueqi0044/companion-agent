@@ -1,0 +1,205 @@
+{
+  "generatedAt": "2026-09-29T15:15:42.295Z",
+  "assets": [
+    {
+      "id": "gallery-frame",
+      "width": 1800,
+      "height": 1200,
+      "variants": [
+        {
+          "src": "/rebuild/gallery/frame-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": 109778,
+          "sha256": "cac743de2fe98d55c51d6b6ed6a42a94041260bc9aa67e0da88d30b01e86de3f"
+        },
+        {
+          "src": "/rebuild/gallery/frame-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": 67558,
+          "sha256": "8540c1f631448eed5c0ca3fee0547b41991eb6e19ce99f44f7e22d7cbe5a4a73"
+        }
+      ],
+      "sha256": "d30f9aeb5ac7d1e3593d12a33bbb4b64c672b1c08feaf3e69f7a21532221b343"
+    },
+    {
+      "id": "gallery-fieldnotes",
+      "width": 1800,
+      "height": 1200,
+      "variants": [
+        {
+          "src": "/rebuild/gallery/fieldnotes-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": 72162,
+          "sha256": "5c2f59e6dc5974b5032173f0bf23263c46afda7c38dc103ae4adf86b521885f2"
+        },
+        {
+          "src": "/rebuild/gallery/fieldnotes-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": 45128,
+          "sha256": "e9f101210e93043e894fd05451b8edf1e2aa8cd9da455b6c90fb684e1fdcb916"
+        }
+      ],
+      "sha256": "7d26fd11181ffe9256ac2e8d11a456f996b93630be1132fdade0d2be32b900f8"
+    },
+    {
+      "id": "gallery-terminal-one",
+      "width": 1800,
+      "height": 1200,
+      "variants": [
+        {
+          "src": "/rebuild/gallery/terminal-one-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": 26258,
+          "sha256": "91aa893a3fabfc0fae0afc47fa365e5cf11f7437ef8a62d0d3067753d916b40d"
+        },
+        {
+          "src": "/rebuild/gallery/terminal-one-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": 17172,
+          "sha256": "55a1a9ed29cc7deddf6a0976960051535f2e9d29b881e9bff6e56f4e8468c0fb"
+        }
+      ],
+      "sha256": "9886b96e8a8c9bcb697bc77b9645d42034f62a9c9c8c2de2ff5db146d1048580"
+    },
+    {
+      "id": "gallery-studio-moss",
+      "width": 1800,
+      "height": 1200,
+      "variants": [
+        {
+          "src": "/rebuild/gallery/studio-moss-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": 66232,
+          "sha256": "752c9f7eef1c4cd53dbd6697e9d55e0d8bbec677692b78078e55418aae271425"
+        },
+        {
+          "src": "/rebuild/gallery/studio-moss-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": 41600,
+          "sha256": "261eb3ab2c0f21088de2c10fd904f326489885de2dc5bb9ff92e0b7ad136bf4f"
+        }
+      ],
+      "sha256": "15a943d0f87fb086ebdb9939d0877c1411a98f0f2bab4dd72d80e4f777516574"
+    },
+    {
+      "id": "gallery-atelier",
+      "width": 1800,
+      "height": 1200,
+      "variants": [
+        {
+          "src": "/rebuild/gallery/atelier-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": 28764,
+          "sha256": "d195df9691b1354669ec550eac7076993f278c6712a44f560fda0753ac5e85cb"
+        },
+        {
+          "src": "/rebuild/gallery/atelier-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": 19602,
+          "sha256": "6ca58fcfd76ac9a23f3f015d3ee217b2521b3c34efdff15a0a5578c57072d805"
+        }
+      ],
+      "sha256": "51996a11248876c20e2b9b20d9ca56b5cfb672c99224ec953381b6bf8fee352a"
+    },
+    {
+      "id": "gallery-milo",
+      "width": 1800,
+      "height": 1200,
+      "variants": [
+        {
+          "src": "/rebuild/gallery/milo-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": 93656,
+          "sha256": "c166c82ce3e419296adccc56689f8d6a34feb8f99ca2150f8dc509845f8f50b2"
+        },
+        {
+          "src": "/rebuild/gallery/milo-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": 65586,
+          "sha256": "8bfe4ba9f137b41917b6aa5c5293b6e5caf1e57b5727fe64d868a9279889c56b"
+        }
+      ],
+      "sha256": "74b318b16ae78cd4f84537efa741b2e3dcf4b3ed8c8de35eacf4b1b9e39c1aa5"
+    },
+    {
+      "id": "gallery-orbit",
+      "width": 1800,
+      "height": 1200,
+      "variants": [
+        {
+          "src": "/rebuild/gallery/orbit-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": 53218,
+          "sha256": "76a29cd607cf15f282e84e3f328bdfc04628460532fbe9e54542ab13f144bf14"
+        },
+        {
+          "src": "/rebuild/gallery/orbit-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": 38828,
+          "sha256": "2b49cd182eb71222f08af468494038e96af462cd4aa2a98206c401cefdee7186"
+        }
+      ],
+      "sha256": "9f02300e9c517c16677561330b3c5fe6fbceeeeefb3aa399a5d5b3e3a8690294"
+    },
+    {
+      "id": "gallery-luna",
+      "width": 1800,
+      "height": 1200,
+      "variants": [
+        {
+          "src": "/rebuild/gallery/luna-1200.webp",
+          "width": 1200,
+          "height": 800,
+          "bytes": 118136,
+          "sha256": "cd93aa223838d803f05637739194c6e7972cef89b7ed216e9c221af8bb3ec105"
+        },
+        {
+          "src": "/rebuild/gallery/luna-900.webp",
+          "width": 900,
+          "height": 600,
+          "bytes": 81052,
+          "sha256": "e6e9e47f473c0823e9057c8460badbfb6b7cd63f1a93d925be07e245391cab8d"
+        }
+      ],
+      "sha256": "d18768405da577c97b882de68029a3315ca56d5a539560a782e52956d6a6ee1a"
+    }
+  ],
+  "legacyAtlases": [
+    {
+      "name": "companions",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "creative",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "workspaces",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "possibilities",
+      "width": 1254,
+      "height": 1254
+    }
+  ],
+  "motion": null,
+  "browser": "Root integration CUA verification is recorded separately. This script does not claim browser validation."
+}

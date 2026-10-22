@@ -1,0 +1,83 @@
+{
+  "date": "2026-09-29",
+  "scope": "M01 actual asset metadata; no production readiness or device performance implied",
+  "assets": [
+    {
+      "file": "assets/hero-art-v1.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2050971,
+      "alpha": false,
+      "sha256": "4311e630304c31ed88cebe3d7813dd117d0d9930286eacb07978e0ef4d020631",
+      "source": "Built-in image_gen, constrained by user-supplied design reference",
+      "stage": "M01 art-direction master plate",
+      "productionReady": false
+    },
+    {
+      "file": "assets/gallery-art-v1.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2238498,
+      "alpha": false,
+      "sha256": "ee118e406de51370b13ce642bee88cd1ff613f5f22ef5e2adb2b2a99edf8f994",
+      "source": "Built-in image_gen, constrained by user-supplied design reference",
+      "stage": "M01 art-direction master plate",
+      "productionReady": false
+    },
+    {
+      "file": "assets/community-art-v1.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2150706,
+      "alpha": false,
+      "sha256": "388ed65c65bc5273c43efb508b63975d3a0222a9714313d7930fa4a1cbde86cf",
+      "source": "Built-in image_gen, constrained by user-supplied design reference",
+      "stage": "M01 art-direction master plate",
+      "productionReady": false
+    },
+    {
+      "file": "assets/material-study-v1.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 2406764,
+      "alpha": false,
+      "sha256": "0a0d6efb93178883581b5efd30456d8e985dfc16ffb33fd641a09736fefcd954",
+      "source": "Built-in image_gen, constrained by user-supplied design reference",
+      "stage": "M01 feasibility/material study",
+      "productionReady": false
+    },
+    {
+      "file": "assets/hero-cleanplate-study-v1.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1988865,
+      "alpha": false,
+      "sha256": "05a496040b8368290cb538f19809f67012c86a464359c80adaa42689ea30bbc4",
+      "source": "Built-in image_gen, constrained by user-supplied design reference",
+      "stage": "M01 feasibility/material study",
+      "productionReady": false
+    },
+    {
+      "file": "assets/tags-study-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1339667,
+      "alpha": true,
+      "sha256": "f9f3fd6bb548a152f2721632fc9bedd4e85d7d01dfe85ffd3c10715f17cc79f7",
+      "source": "Built-in image_gen, constrained by user-supplied design reference",
+      "stage": "M01 feasibility/material study",
+      "productionReady": false
+    },
+    {
+      "file": "assets/people-study-v1.png",
+      "width": 2172,
+      "height": 724,
+      "bytes": 1939331,
+      "alpha": true,
+      "sha256": "f151d91f396d365eb759789de29a269949f363fe40cc3e75a32009b9d22177d5",
+      "source": "Built-in image_gen, constrained by user-supplied design reference",
+      "stage": "M01 feasibility/material study",
+      "productionReady": false
+    }
+  ]
+}

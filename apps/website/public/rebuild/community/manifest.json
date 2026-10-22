@@ -1,0 +1,482 @@
+[
+  {
+    "id": "community-travel",
+    "src": "/rebuild/community/travel.webp",
+    "source": "source-art/rebuild/community/travel-master.png",
+    "width": 1200,
+    "height": 800,
+    "bytes": 375554,
+    "alpha": false,
+    "sha256": "b3b0b5a5f7fbfc8735be08bd7b22f5bda7f8626a8cdf58cecf9e277edcc9dee3",
+    "provenance": {
+      "kind": "generated",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-companion",
+    "src": "/rebuild/community/companion.webp",
+    "source": "source-art/rebuild/community/companion-master.png",
+    "width": 1200,
+    "height": 800,
+    "bytes": 240860,
+    "alpha": false,
+    "sha256": "9fc14074de3910dc91a4b25a6edc0ccaffdcd595a7cb886f9d6895d486f250ce",
+    "provenance": {
+      "kind": "generated",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-writer",
+    "src": "/rebuild/community/writer.webp",
+    "source": "source-art/rebuild/community/writer-master.png",
+    "width": 1200,
+    "height": 800,
+    "bytes": 217258,
+    "alpha": false,
+    "sha256": "72c40ca6ebe43997148422de2921cf9f1c61b9d86b9ef7090ebc08fd8e3e10de",
+    "provenance": {
+      "kind": "generated",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-set",
+    "src": "/rebuild/community/set-clean.webp",
+    "source": "source-art/rebuild/community/set-clean-master.png",
+    "width": 1774,
+    "height": 887,
+    "bytes": 82696,
+    "alpha": false,
+    "sha256": "f096ea22bdcd604cb7a159c42c3cda8d3e2f88bb09520c4fca32c5940090c91d",
+    "provenance": {
+      "kind": "generated",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-ribbon",
+    "src": "/rebuild/community/ribbon.webp",
+    "source": "source-art/rebuild/community/ribbon-master.png",
+    "width": 1600,
+    "height": 533,
+    "bytes": 65932,
+    "alpha": true,
+    "sha256": "e6d619d47a6740bee6afa19f95d57e349661f9517e9e5c0a55e2598fd9b2c47b",
+    "provenance": {
+      "kind": "generated",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-person-1",
+    "src": "/rebuild/community/person-1.webp",
+    "source": "source-art/rebuild/community/people-clean-master.png",
+    "width": 381,
+    "height": 620,
+    "bytes": 68980,
+    "alpha": true,
+    "sha256": "f3caf79766e5ae908b4b238213a4337bb77f26380b047e351c5190aa23bb22aa",
+    "provenance": {
+      "kind": "generated",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-person-2",
+    "src": "/rebuild/community/person-2.webp",
+    "source": "source-art/rebuild/community/people-clean-master.png",
+    "width": 320,
+    "height": 620,
+    "bytes": 64666,
+    "alpha": true,
+    "sha256": "6fa277a72c3975e56046e8ecdb72bf3d9fe096997febbfca6989810bf3393928",
+    "provenance": {
+      "kind": "generated",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-person-3",
+    "src": "/rebuild/community/person-3.webp",
+    "source": "source-art/rebuild/community/people-clean-master.png",
+    "width": 442,
+    "height": 620,
+    "bytes": 68512,
+    "alpha": true,
+    "sha256": "a564ae6357f69503af0ab5fe89262def0cc2ae1f75e79306164bb4570a3dc4d7",
+    "provenance": {
+      "kind": "generated",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-person-4",
+    "src": "/rebuild/community/person-4.webp",
+    "source": "source-art/rebuild/community/people-clean-master.png",
+    "width": 335,
+    "height": 620,
+    "bytes": 57012,
+    "alpha": true,
+    "sha256": "ea1cc1c1b34d109fe11222c4cbcc86f69afe47eadc1b79092c1eefcf2da9c7c9",
+    "provenance": {
+      "kind": "generated",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-person-5",
+    "src": "/rebuild/community/person-5.webp",
+    "source": "source-art/rebuild/community/people-clean-master.png",
+    "width": 390,
+    "height": 620,
+    "bytes": 55498,
+    "alpha": true,
+    "sha256": "30162bf77e62dd7a7fe2a71a8e9dbb870a13fac365221068bc6c70f39a4c249b",
+    "provenance": {
+      "kind": "generated",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-1",
+    "src": "/rebuild/community/distant-1.webp",
+    "source": "source-art/companions.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 8024,
+    "alpha": false,
+    "sha256": "5cfb548515b195c33fb0baea08b6a56150cfb6ee11ed5f65a87926491cb1df06",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-2",
+    "src": "/rebuild/community/distant-2.webp",
+    "source": "source-art/companions.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 10816,
+    "alpha": false,
+    "sha256": "14cc94c1ba243770dfd3a92965678e43e9e725765c89eef361e3808f568f21bd",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-3",
+    "src": "/rebuild/community/distant-3.webp",
+    "source": "source-art/companions.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 8182,
+    "alpha": false,
+    "sha256": "36ba1913880327cedd9847df675ea621ccca098ba92dcc2c8b3df6a79d19f5dd",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-4",
+    "src": "/rebuild/community/distant-4.webp",
+    "source": "source-art/companions.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 8912,
+    "alpha": false,
+    "sha256": "0c22b7f89038844f6d362f3c54499a45c628a1ddc5697de78199969f239931a3",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-5",
+    "src": "/rebuild/community/distant-5.webp",
+    "source": "source-art/companions.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 9158,
+    "alpha": false,
+    "sha256": "f7c75f276fb30c9524a28e8f38cbfca13833990d63032225c5e5ab45a49cd91e",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-6",
+    "src": "/rebuild/community/distant-6.webp",
+    "source": "source-art/creative.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 7804,
+    "alpha": false,
+    "sha256": "5ab3060a5ccb6718085a329761b0e209a473754afe04134e16badec27c0535aa",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-7",
+    "src": "/rebuild/community/distant-7.webp",
+    "source": "source-art/creative.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 8220,
+    "alpha": false,
+    "sha256": "dad79ab188d1d9c99ab2f36942f2b4215be764482c1341d3f2fbb853fed07e52",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-8",
+    "src": "/rebuild/community/distant-8.webp",
+    "source": "source-art/creative.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 5516,
+    "alpha": false,
+    "sha256": "2138904b2067f450eaaacb671cc5e96c482de6bb3fdde346dbf8b07320159367",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-9",
+    "src": "/rebuild/community/distant-9.webp",
+    "source": "source-art/creative.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 10018,
+    "alpha": false,
+    "sha256": "c19b2862cb827bc24149453b2bc9ed65e86bfade7fdf5daaa822e4446f61b621",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-10",
+    "src": "/rebuild/community/distant-10.webp",
+    "source": "source-art/creative.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 6472,
+    "alpha": false,
+    "sha256": "0f1757bde57c3de3e3aa1ed160800ce742859e0ce959ed92952fb0a07fe47f2d",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-11",
+    "src": "/rebuild/community/distant-11.webp",
+    "source": "source-art/workspaces.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 9906,
+    "alpha": false,
+    "sha256": "bf079bf5ec3ac11197c1c4b85447009ca660c6650b1e4ac0d7df086c9c29872f",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-12",
+    "src": "/rebuild/community/distant-12.webp",
+    "source": "source-art/workspaces.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 6456,
+    "alpha": false,
+    "sha256": "672e91b2a1aec3e0c02f0268bf1c351fbe080f93e50309fa6b4bdd3860c27956",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-13",
+    "src": "/rebuild/community/distant-13.webp",
+    "source": "source-art/workspaces.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 10006,
+    "alpha": false,
+    "sha256": "2aff203829e1bd336c38cb2bff24335ec39161c022f742bb774d2753794d978d",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-14",
+    "src": "/rebuild/community/distant-14.webp",
+    "source": "source-art/workspaces.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 5796,
+    "alpha": false,
+    "sha256": "ed7afa6a82df485e5e280af18f53d32af2f5090eb8e325d724e5ec805435d263",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-15",
+    "src": "/rebuild/community/distant-15.webp",
+    "source": "source-art/workspaces.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 5932,
+    "alpha": false,
+    "sha256": "76f735b677e39f3af74a1e2e21efa132f2c0e64c96bcca09674390f451480bf4",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-16",
+    "src": "/rebuild/community/distant-16.webp",
+    "source": "source-art/possibilities.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 9128,
+    "alpha": false,
+    "sha256": "0c8314408de47206b33db1fcd942006c57c5c1435cf07399983de0a9c831da3d",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-17",
+    "src": "/rebuild/community/distant-17.webp",
+    "source": "source-art/possibilities.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 7216,
+    "alpha": false,
+    "sha256": "1d3adc7c01bc1c9088dc4b094970b2e37f1a595bf9b1af04c7875371be5825da",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-18",
+    "src": "/rebuild/community/distant-18.webp",
+    "source": "source-art/possibilities.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 6508,
+    "alpha": false,
+    "sha256": "2e0f7b3bacabb6b0ce0cae56ca00c2814583a50364e9ae6c644f3037a16cfbb9",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-19",
+    "src": "/rebuild/community/distant-19.webp",
+    "source": "source-art/possibilities.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 9410,
+    "alpha": false,
+    "sha256": "2d9b046cc318d231623dbefc6a3dc540fbd2d455fd6e1963b89642e89f87693f",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  },
+  {
+    "id": "community-distant-20",
+    "src": "/rebuild/community/distant-20.webp",
+    "source": "source-art/possibilities.png",
+    "width": 240,
+    "height": 160,
+    "bytes": 6614,
+    "alpha": false,
+    "sha256": "960783744d464694ab9f23032614f2d8a4ae838d08acbd00854263f92f3234d7",
+    "provenance": {
+      "kind": "existing-generated-concept",
+      "tool": "OpenAI built-in image_gen",
+      "date": "2026-09-29"
+    },
+    "version": "m03-production-v1"
+  }
+]

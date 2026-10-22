@@ -1,0 +1,91 @@
+{
+  "capture": "Set browser viewport to width × height, wait for fonts and images, capture the viewport through CUA.",
+  "readyAttribute": "html[data-boards-ready=\"true\"]",
+  "sourceArtworkSize": [
+    1774,
+    887
+  ],
+  "boards": [
+    {
+      "scene": "hero",
+      "mode": "desktop",
+      "width": 1920,
+      "height": 960,
+      "url": "http://127.0.0.1:4340/docs/rebuild/artifacts/M01/index.html?scene=hero&mode=desktop",
+      "output": "boards/hero-desktop.png",
+      "status": "M01 visual review, not a functional product screen."
+    },
+    {
+      "scene": "hero",
+      "mode": "wide",
+      "width": 1440,
+      "height": 900,
+      "url": "http://127.0.0.1:4340/docs/rebuild/artifacts/M01/index.html?scene=hero&mode=wide",
+      "output": "boards/hero-wide.png",
+      "status": "M01 visual review, not a functional product screen."
+    },
+    {
+      "scene": "hero",
+      "mode": "mobile",
+      "width": 390,
+      "height": 844,
+      "url": "http://127.0.0.1:4340/docs/rebuild/artifacts/M01/index.html?scene=hero&mode=mobile",
+      "output": "boards/hero-mobile.png",
+      "status": "Mobile layout sketch; layered production artwork pending."
+    },
+    {
+      "scene": "gallery",
+      "mode": "desktop",
+      "width": 1920,
+      "height": 960,
+      "url": "http://127.0.0.1:4340/docs/rebuild/artifacts/M01/index.html?scene=gallery&mode=desktop",
+      "output": "boards/gallery-desktop.png",
+      "status": "M01 visual review, not a functional product screen."
+    },
+    {
+      "scene": "gallery",
+      "mode": "wide",
+      "width": 1440,
+      "height": 900,
+      "url": "http://127.0.0.1:4340/docs/rebuild/artifacts/M01/index.html?scene=gallery&mode=wide",
+      "output": "boards/gallery-wide.png",
+      "status": "M01 visual review, not a functional product screen."
+    },
+    {
+      "scene": "gallery",
+      "mode": "mobile",
+      "width": 390,
+      "height": 844,
+      "url": "http://127.0.0.1:4340/docs/rebuild/artifacts/M01/index.html?scene=gallery&mode=mobile",
+      "output": "boards/gallery-mobile.png",
+      "status": "Mobile layout sketch; layered production artwork pending."
+    },
+    {
+      "scene": "community",
+      "mode": "desktop",
+      "width": 1920,
+      "height": 960,
+      "url": "http://127.0.0.1:4340/docs/rebuild/artifacts/M01/index.html?scene=community&mode=desktop",
+      "output": "boards/community-desktop.png",
+      "status": "M01 visual review, not a functional product screen."
+    },
+    {
+      "scene": "community",
+      "mode": "wide",
+      "width": 1440,
+      "height": 900,
+      "url": "http://127.0.0.1:4340/docs/rebuild/artifacts/M01/index.html?scene=community&mode=wide",
+      "output": "boards/community-wide.png",
+      "status": "M01 visual review, not a functional product screen."
+    },
+    {
+      "scene": "community",
+      "mode": "mobile",
+      "width": 390,
+      "height": 844,
+      "url": "http://127.0.0.1:4340/docs/rebuild/artifacts/M01/index.html?scene=community&mode=mobile",
+      "output": "boards/community-mobile.png",
+      "status": "Mobile layout sketch; layered production artwork pending."
+    }
+  ]
+}

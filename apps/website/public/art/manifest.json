@@ -1,0 +1,47 @@
+[
+  {
+    "id": "companions",
+    "src": "/art/companions.webp",
+    "source": "source-art/companions.png",
+    "kind": "AI-generated concept artwork",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 344354
+  },
+  {
+    "id": "creative",
+    "src": "/art/creative.webp",
+    "source": "source-art/creative.png",
+    "kind": "AI-generated concept artwork",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 252624
+  },
+  {
+    "id": "workspaces",
+    "src": "/art/workspaces.webp",
+    "source": "source-art/workspaces.png",
+    "kind": "AI-generated concept artwork",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 295302
+  },
+  {
+    "id": "possibilities",
+    "src": "/art/possibilities.webp",
+    "source": "source-art/possibilities.png",
+    "kind": "AI-generated concept artwork",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 263896
+  },
+  {
+    "id": "portraits",
+    "src": "/art/portraits.webp",
+    "source": "source-art/portraits.png",
+    "kind": "AI-generated concept artwork",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 281106
+  }
+]

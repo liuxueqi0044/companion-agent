@@ -1,0 +1,1803 @@
+{
+  "version": "m01-layout-v1",
+  "status": "HTML copy, typography, controls and full-study placement synchronized to M01 board-layouts.mjs. Individual production-layer geometry remains provisional.",
+  "preset": {
+    "width": 390,
+    "height": 844,
+    "safeInsetPx": 24,
+    "nav": {
+      "wordmark": {
+        "id": "wordmark",
+        "boxPx": {
+          "x": 22,
+          "y": 28,
+          "w": 116,
+          "h": 18
+        },
+        "center": {
+          "x": 0.20512820512820512,
+          "y": 0.04383886255924171
+        },
+        "size": {
+          "w": 0.29743589743589743,
+          "h": 0.02132701421800948
+        },
+        "rotationDeg": 0,
+        "z": 90,
+        "crop": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "fontFamily": "DM Sans",
+        "fontSize": 13,
+        "lineHeight": 18,
+        "fontWeight": 600,
+        "tracking": 2.6
+      },
+      "download": {
+        "id": "nav-download",
+        "boxPx": {
+          "x": 167,
+          "y": 19,
+          "w": 80,
+          "h": 34
+        },
+        "center": {
+          "x": 0.5307692307692308,
+          "y": 0.04265402843601896
+        },
+        "size": {
+          "w": 0.20512820512820512,
+          "h": 0.04028436018957346
+        },
+        "rotationDeg": 0,
+        "z": 90,
+        "crop": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "label": "Download",
+        "fontSize": 10
+      },
+      "community": {
+        "id": "nav-community",
+        "boxPx": {
+          "x": 255,
+          "y": 19,
+          "w": 114,
+          "h": 34
+        },
+        "center": {
+          "x": 0.8,
+          "y": 0.04265402843601896
+        },
+        "size": {
+          "w": 0.2923076923076923,
+          "h": 0.04028436018957346
+        },
+        "rotationDeg": 0,
+        "z": 90,
+        "crop": {
+          "x": 0,
+          "y": 0,
+          "w": 1,
+          "h": 1
+        },
+        "label": "Join community",
+        "fontSize": 10
+      },
+      "pillRadiusPx": 50,
+      "status": "Visual board controls only; actual functional hit areas are M06 responsibility."
+    },
+    "scenes": {
+      "hero": {
+        "heading": {
+          "id": "hero-heading",
+          "boxPx": {
+            "x": 23,
+            "y": 111,
+            "w": 345,
+            "h": 132
+          },
+          "center": {
+            "x": 0.5012820512820513,
+            "y": 0.20971563981042654
+          },
+          "size": {
+            "w": 0.8846153846153846,
+            "h": 0.15639810426540285
+          },
+          "rotationDeg": 0,
+          "z": 80,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "fontSize": 62,
+          "lineHeight": 66,
+          "tracking": 0,
+          "lines": [
+            "Build an AI",
+            "that’s yours."
+          ],
+          "widthInterpretation": "Available authored copy width, not a measured glyph boundary; exact authored text values are in reviewBoard.texts."
+        },
+        "body": {
+          "id": "hero-body",
+          "boxPx": {
+            "x": 26,
+            "y": 275,
+            "w": 342,
+            "h": 52
+          },
+          "center": {
+            "x": 0.5051282051282051,
+            "y": 0.3566350710900474
+          },
+          "size": {
+            "w": 0.8769230769230769,
+            "h": 0.061611374407582936
+          },
+          "rotationDeg": 0,
+          "z": 80,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "fontSize": 15.7,
+          "lineHeight": 26,
+          "lines": [
+            "Bring together skills, tools and agents.",
+            "Shape how it works—and how it feels."
+          ]
+        },
+        "primary": null,
+        "secondary": null,
+        "textSafeArea": {
+          "id": "hero-text-safe",
+          "boxPx": {
+            "x": 16,
+            "y": 90,
+            "w": 358,
+            "h": 313
+          },
+          "center": {
+            "x": 0.5,
+            "y": 0.29206161137440756
+          },
+          "size": {
+            "w": 0.9179487179487179,
+            "h": 0.3708530805687204
+          },
+          "rotationDeg": 0,
+          "z": 80,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          }
+        },
+        "artBounds": {
+          "id": "hero-art",
+          "boxPx": {
+            "x": -5,
+            "y": 407,
+            "w": 650,
+            "h": 325
+          },
+          "center": {
+            "x": 0.8205128205128205,
+            "y": 0.6747630331753555
+          },
+          "size": {
+            "w": 1.6666666666666667,
+            "h": 0.38507109004739337
+          },
+          "rotationDeg": 0,
+          "z": 30,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "src": "assets/hero-art-v1.png",
+          "wholeStudy": true,
+          "fadeTop": 28,
+          "fadeBottom": 22
+        },
+        "subjects": [
+          {
+            "id": "hero-tag-video",
+            "boxPx": {
+              "x": 56,
+              "y": 461,
+              "w": 73,
+              "h": 109
+            },
+            "center": {
+              "x": 0.23717948717948717,
+              "y": 0.610781990521327
+            },
+            "size": {
+              "w": 0.18717948717948718,
+              "h": 0.12914691943127962
+            },
+            "rotationDeg": -3,
+            "z": 50,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "hero-tag-video-front",
+            "handoff": true
+          },
+          {
+            "id": "hero-tag-data",
+            "boxPx": {
+              "x": 153,
+              "y": 484,
+              "w": 72,
+              "h": 109
+            },
+            "center": {
+              "x": 0.4846153846153846,
+              "y": 0.6380331753554502
+            },
+            "size": {
+              "w": 0.18461538461538463,
+              "h": 0.12914691943127962
+            },
+            "rotationDeg": 2,
+            "z": 40,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "hero-tag-data-front"
+          },
+          {
+            "id": "hero-tag-care",
+            "boxPx": {
+              "x": 270,
+              "y": 456,
+              "w": 72,
+              "h": 109
+            },
+            "center": {
+              "x": 0.7846153846153846,
+              "y": 0.6048578199052133
+            },
+            "size": {
+              "w": 0.18461538461538463,
+              "h": 0.12914691943127962
+            },
+            "rotationDeg": 1,
+            "z": 40,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "hero-tag-care-front"
+          },
+          {
+            "id": "hero-tag-trade",
+            "boxPx": {
+              "x": 80,
+              "y": 630,
+              "w": 73,
+              "h": 110
+            },
+            "center": {
+              "x": 0.2987179487179487,
+              "y": 0.8116113744075829
+            },
+            "size": {
+              "w": 0.18717948717948718,
+              "h": 0.13033175355450238
+            },
+            "rotationDeg": -2,
+            "z": 40,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "hero-tag-trade-front"
+          },
+          {
+            "id": "hero-tag-research",
+            "boxPx": {
+              "x": 175,
+              "y": 687,
+              "w": 73,
+              "h": 110
+            },
+            "center": {
+              "x": 0.5423076923076923,
+              "y": 0.8791469194312796
+            },
+            "size": {
+              "w": 0.18717948717948718,
+              "h": 0.13033175355450238
+            },
+            "rotationDeg": -2,
+            "z": 50,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "hero-tag-research-front",
+            "handoff": true
+          },
+          {
+            "id": "hero-tag-planning",
+            "boxPx": {
+              "x": 275,
+              "y": 621,
+              "w": 73,
+              "h": 110
+            },
+            "center": {
+              "x": 0.7987179487179488,
+              "y": 0.8009478672985783
+            },
+            "size": {
+              "w": 0.18717948717948718,
+              "h": 0.13033175355450238
+            },
+            "rotationDeg": -1,
+            "z": 40,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "hero-tag-planning-front"
+          }
+        ],
+        "footerVisible": false,
+        "rule": "Separate mobile tree plate, branches enter from left and top of art zone. No branch, leaf or tag overlays y<404.",
+        "reviewBoard": {
+          "authority": "source/board-layouts.mjs:getBoard(hero,mobile)",
+          "status": "Synchronized from current authored HTML board data after root CUA review; not independent DOM measurements.",
+          "width": 390,
+          "height": 844,
+          "label": "390 × 844 · 手机构图草案",
+          "note": "独立排布 · 待分层，非最终手机设计",
+          "scene": "hero",
+          "mode": "mobile",
+          "background": "#f1ecdf",
+          "art": {
+            "src": "assets/hero-art-v1.png",
+            "x": -5,
+            "y": 407,
+            "w": 650,
+            "h": 325,
+            "fadeTop": 28,
+            "fadeBottom": 22
+          },
+          "texts": [
+            {
+              "text": "MORROW",
+              "x": 22,
+              "y": 28,
+              "size": 13,
+              "lineHeight": 18,
+              "font": "sans",
+              "color": "#292b22",
+              "tracking": 2.6,
+              "weight": 600
+            },
+            {
+              "text": "Build an AI",
+              "x": 23,
+              "y": 111,
+              "size": 62,
+              "lineHeight": 66,
+              "font": "serif",
+              "color": "#292b22"
+            },
+            {
+              "text": "that’s yours.",
+              "x": 23,
+              "y": 177,
+              "size": 62,
+              "lineHeight": 66,
+              "font": "serif",
+              "color": "#292b22"
+            },
+            {
+              "text": "Bring together skills, tools and agents.",
+              "x": 26,
+              "y": 275,
+              "size": 15.7,
+              "lineHeight": 26,
+              "font": "sans",
+              "color": "#666a5a"
+            },
+            {
+              "text": "Shape how it works—and how it feels.",
+              "x": 26,
+              "y": 301,
+              "size": 15.7,
+              "lineHeight": 26,
+              "font": "sans",
+              "color": "#666a5a"
+            },
+            {
+              "text": "MOBILE LAYOUT SKETCH",
+              "x": 24,
+              "y": 798,
+              "size": 9,
+              "lineHeight": 15,
+              "font": "sans",
+              "color": "#777963",
+              "tracking": 1.5
+            }
+          ],
+          "pills": [
+            {
+              "text": "Download",
+              "x": 167,
+              "y": 19,
+              "w": 80,
+              "h": 34,
+              "size": 10,
+              "color": "#fbf8ee",
+              "background": "#535d42",
+              "border": null
+            },
+            {
+              "text": "Join community",
+              "x": 255,
+              "y": 19,
+              "w": 114,
+              "h": 34,
+              "size": 10,
+              "color": "#292b22",
+              "background": "rgba(247,244,235,0.45)",
+              "border": "rgba(65,72,49,0.24)"
+            }
+          ],
+          "veils": []
+        },
+        "productionTargetNote": "Individual tag, card, person and ribbon geometry below remains an initial layer-production target. The current review uses a full-scene study; calibrate actual independent layer bounds in M02/M03."
+      },
+      "gallery": {
+        "heading": {
+          "id": "gallery-heading",
+          "boxPx": {
+            "x": 23,
+            "y": 104,
+            "w": 345,
+            "h": 147
+          },
+          "center": {
+            "x": 0.5012820512820513,
+            "y": 0.2103080568720379
+          },
+          "size": {
+            "w": 0.8846153846153846,
+            "h": 0.17417061611374407
+          },
+          "rotationDeg": 0,
+          "z": 80,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "fontSize": 46,
+          "lineHeight": 49,
+          "tracking": 0,
+          "lines": [
+            "One assistant.",
+            "A world of",
+            "possibilities."
+          ],
+          "widthInterpretation": "Available authored copy width, not a measured glyph boundary; exact authored text values are in reviewBoard.texts."
+        },
+        "body": null,
+        "textSafeArea": {
+          "id": "gallery-text-safe",
+          "boxPx": {
+            "x": 16,
+            "y": 88,
+            "w": 358,
+            "h": 251
+          },
+          "center": {
+            "x": 0.5,
+            "y": 0.25296208530805686
+          },
+          "size": {
+            "w": 0.9179487179487179,
+            "h": 0.29739336492890994
+          },
+          "rotationDeg": 0,
+          "z": 80,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          }
+        },
+        "artBounds": {
+          "id": "gallery-art",
+          "boxPx": {
+            "x": -205,
+            "y": 350,
+            "w": 825,
+            "h": 412.5
+          },
+          "center": {
+            "x": 0.532051282051282,
+            "y": 0.6590639810426541
+          },
+          "size": {
+            "w": 2.1153846153846154,
+            "h": 0.4887440758293839
+          },
+          "rotationDeg": 0,
+          "z": 30,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "src": "assets/gallery-art-v1.png",
+          "wholeStudy": true,
+          "fadeTop": 40,
+          "fadeBottom": 36
+        },
+        "leftPlant": {
+          "id": "gallery-left-plant",
+          "boxPx": {
+            "x": -38,
+            "y": 373,
+            "w": 128,
+            "h": 438
+          },
+          "center": {
+            "x": 0.06666666666666667,
+            "y": 0.7014218009478673
+          },
+          "size": {
+            "w": 0.3282051282051282,
+            "h": 0.518957345971564
+          },
+          "rotationDeg": 0,
+          "z": 60,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "assetId": "gallery-left-plant"
+        },
+        "arcGuide": {
+          "near": [
+            {
+              "x": -0.12,
+              "y": 0.52
+            },
+            {
+              "x": 0.46,
+              "y": 0.57
+            },
+            {
+              "x": 1.04,
+              "y": 0.73
+            },
+            {
+              "x": 0.42,
+              "y": 0.91
+            }
+          ],
+          "middle": [
+            {
+              "x": 0.09,
+              "y": 0.47
+            },
+            {
+              "x": 0.56,
+              "y": 0.51
+            },
+            {
+              "x": 1.02,
+              "y": 0.63
+            }
+          ]
+        },
+        "visibleCardTargets": {
+          "near": 5,
+          "middle": 5,
+          "far": 12
+        },
+        "cards": [
+          {
+            "id": "gallery-handoff-frame",
+            "boxPx": {
+              "x": 25,
+              "y": 419,
+              "w": 161,
+              "h": 108
+            },
+            "center": {
+              "x": 0.2705128205128205,
+              "y": 0.5604265402843602
+            },
+            "size": {
+              "w": 0.4128205128205128,
+              "h": 0.12796208530805686
+            },
+            "rotationDeg": -6,
+            "z": 50,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "catalogId": "frame",
+            "tier": "near",
+            "planeYawDeg": 12
+          },
+          {
+            "id": "gallery-milo",
+            "boxPx": {
+              "x": 204,
+              "y": 449,
+              "w": 159,
+              "h": 107
+            },
+            "center": {
+              "x": 0.7269230769230769,
+              "y": 0.5953791469194313
+            },
+            "size": {
+              "w": 0.4076923076923077,
+              "h": 0.12677725118483413
+            },
+            "rotationDeg": 5,
+            "z": 45,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "catalogId": "milo",
+            "tier": "near",
+            "planeYawDeg": -12
+          },
+          {
+            "id": "gallery-handoff-fieldnotes",
+            "boxPx": {
+              "x": 125,
+              "y": 573,
+              "w": 176,
+              "h": 118
+            },
+            "center": {
+              "x": 0.5461538461538461,
+              "y": 0.7488151658767772
+            },
+            "size": {
+              "w": 0.4512820512820513,
+              "h": 0.13981042654028436
+            },
+            "rotationDeg": -3,
+            "z": 50,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "catalogId": "fieldnotes",
+            "tier": "near",
+            "planeYawDeg": 2
+          },
+          {
+            "id": "gallery-terminal-one",
+            "boxPx": {
+              "x": 269,
+              "y": 656,
+              "w": 156,
+              "h": 105
+            },
+            "center": {
+              "x": 0.8897435897435897,
+              "y": 0.8394549763033176
+            },
+            "size": {
+              "w": 0.4,
+              "h": 0.12440758293838862
+            },
+            "rotationDeg": -7,
+            "z": 43,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "catalogId": "terminal-one",
+            "tier": "near",
+            "planeYawDeg": -18
+          },
+          {
+            "id": "gallery-luna",
+            "boxPx": {
+              "x": 20,
+              "y": 716,
+              "w": 173,
+              "h": 116
+            },
+            "center": {
+              "x": 0.27307692307692305,
+              "y": 0.9170616113744076
+            },
+            "size": {
+              "w": 0.44358974358974357,
+              "h": 0.13744075829383887
+            },
+            "rotationDeg": 4,
+            "z": 44,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "catalogId": "luna",
+            "tier": "near",
+            "planeYawDeg": 12
+          }
+        ],
+        "rule": "Vertical S flow within art zone; no full-width panorama scaled down. Handoff cards retain separate projected quads.",
+        "reviewBoard": {
+          "authority": "source/board-layouts.mjs:getBoard(gallery,mobile)",
+          "status": "Synchronized from current authored HTML board data after root CUA review; not independent DOM measurements.",
+          "width": 390,
+          "height": 844,
+          "label": "390 × 844 · 手机构图草案",
+          "note": "独立排布 · 待分层，非最终手机设计",
+          "scene": "gallery",
+          "mode": "mobile",
+          "background": "#f1ecdf",
+          "art": {
+            "src": "assets/gallery-art-v1.png",
+            "x": -205,
+            "y": 350,
+            "w": 825,
+            "h": 412.5,
+            "fadeTop": 40,
+            "fadeBottom": 36
+          },
+          "texts": [
+            {
+              "text": "MORROW",
+              "x": 22,
+              "y": 28,
+              "size": 13,
+              "lineHeight": 18,
+              "font": "sans",
+              "color": "#292b22",
+              "tracking": 2.6,
+              "weight": 600
+            },
+            {
+              "text": "One assistant.",
+              "x": 23,
+              "y": 104,
+              "size": 46,
+              "lineHeight": 49,
+              "font": "serif",
+              "color": "#292b22"
+            },
+            {
+              "text": "A world of",
+              "x": 23,
+              "y": 153,
+              "size": 46,
+              "lineHeight": 49,
+              "font": "serif",
+              "color": "#292b22"
+            },
+            {
+              "text": "possibilities.",
+              "x": 23,
+              "y": 202,
+              "size": 46,
+              "lineHeight": 49,
+              "font": "serif",
+              "color": "#292b22"
+            },
+            {
+              "text": "MOBILE LAYOUT SKETCH",
+              "x": 24,
+              "y": 798,
+              "size": 9,
+              "lineHeight": 15,
+              "font": "sans",
+              "color": "#777963",
+              "tracking": 1.5
+            }
+          ],
+          "pills": [
+            {
+              "text": "Download",
+              "x": 167,
+              "y": 19,
+              "w": 80,
+              "h": 34,
+              "size": 10,
+              "color": "#fbf8ee",
+              "background": "#535d42",
+              "border": null
+            },
+            {
+              "text": "Join community",
+              "x": 255,
+              "y": 19,
+              "w": 114,
+              "h": 34,
+              "size": 10,
+              "color": "#292b22",
+              "background": "rgba(247,244,235,0.45)",
+              "border": "rgba(65,72,49,0.24)"
+            }
+          ],
+          "veils": []
+        },
+        "productionTargetNote": "Individual tag, card, person and ribbon geometry below remains an initial layer-production target. The current review uses a full-scene study; calibrate actual independent layer bounds in M02/M03."
+      },
+      "community": {
+        "heading": {
+          "id": "community-heading",
+          "boxPx": {
+            "x": 23,
+            "y": 106,
+            "w": 342,
+            "h": 106
+          },
+          "center": {
+            "x": 0.49743589743589745,
+            "y": 0.18838862559241706
+          },
+          "size": {
+            "w": 0.8769230769230769,
+            "h": 0.12559241706161137
+          },
+          "rotationDeg": 0,
+          "z": 80,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "fontSize": 45,
+          "lineHeight": 53,
+          "tracking": 0,
+          "lines": [
+            "Your ideas.",
+            "A world to share."
+          ],
+          "widthInterpretation": "Available authored copy width, not a measured glyph boundary; exact authored text values are in reviewBoard.texts."
+        },
+        "body": {
+          "id": "community-body",
+          "boxPx": {
+            "x": 26,
+            "y": 243,
+            "w": 342,
+            "h": 50
+          },
+          "center": {
+            "x": 0.5051282051282051,
+            "y": 0.3175355450236967
+          },
+          "size": {
+            "w": 0.8769230769230769,
+            "h": 0.05924170616113744
+          },
+          "rotationDeg": 0,
+          "z": 80,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "fontSize": 16,
+          "lineHeight": 25,
+          "lines": [
+            "Share, discuss, buy and sell",
+            "what you create."
+          ]
+        },
+        "primary": {
+          "id": "community-primary",
+          "boxPx": {
+            "x": 24,
+            "y": 322,
+            "w": 163,
+            "h": 43
+          },
+          "center": {
+            "x": 0.2705128205128205,
+            "y": 0.40699052132701424
+          },
+          "size": {
+            "w": 0.41794871794871796,
+            "h": 0.0509478672985782
+          },
+          "rotationDeg": 0,
+          "z": 80,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "fontSize": 12
+        },
+        "secondary": {
+          "id": "community-secondary",
+          "boxPx": {
+            "x": 198,
+            "y": 322,
+            "w": 170,
+            "h": 43
+          },
+          "center": {
+            "x": 0.7256410256410256,
+            "y": 0.40699052132701424
+          },
+          "size": {
+            "w": 0.4358974358974359,
+            "h": 0.0509478672985782
+          },
+          "rotationDeg": 0,
+          "z": 80,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "fontSize": 12
+        },
+        "textSafeArea": {
+          "id": "community-text-safe",
+          "boxPx": {
+            "x": 16,
+            "y": 91,
+            "w": 358,
+            "h": 298
+          },
+          "center": {
+            "x": 0.5,
+            "y": 0.2843601895734597
+          },
+          "size": {
+            "w": 0.9179487179487179,
+            "h": 0.35308056872037913
+          },
+          "rotationDeg": 0,
+          "z": 80,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          }
+        },
+        "artBounds": {
+          "id": "community-art",
+          "boxPx": {
+            "x": -180,
+            "y": 411,
+            "w": 570,
+            "h": 285
+          },
+          "center": {
+            "x": 0.2692307692307692,
+            "y": 0.6558056872037915
+          },
+          "size": {
+            "w": 1.4615384615384615,
+            "h": 0.33767772511848343
+          },
+          "rotationDeg": 0,
+          "z": 30,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "src": "assets/community-art-v1.png",
+          "wholeStudy": true,
+          "fadeTop": 26,
+          "fadeBottom": 26
+        },
+        "works": [
+          {
+            "id": "community-work-travel",
+            "boxPx": {
+              "x": 89,
+              "y": 418,
+              "w": 184,
+              "h": 132
+            },
+            "center": {
+              "x": 0.4641025641025641,
+              "y": 0.5734597156398105
+            },
+            "size": {
+              "w": 0.4717948717948718,
+              "h": 0.15639810426540285
+            },
+            "rotationDeg": -7,
+            "z": 50,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-travel-planner",
+            "titleInset": {
+              "x": 0.055,
+              "y": 0.08
+            },
+            "descriptionInset": {
+              "x": 0.055,
+              "y": 0.23
+            },
+            "actionBaseline": 0.88
+          },
+          {
+            "id": "community-work-companion",
+            "boxPx": {
+              "x": 194,
+              "y": 569,
+              "w": 181,
+              "h": 130
+            },
+            "center": {
+              "x": 0.7294871794871794,
+              "y": 0.7511848341232228
+            },
+            "size": {
+              "w": 0.4641025641025641,
+              "h": 0.15402843601895735
+            },
+            "rotationDeg": -4,
+            "z": 50,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-everyday-companion",
+            "titleInset": {
+              "x": 0.055,
+              "y": 0.07
+            },
+            "descriptionInset": {
+              "x": 0.055,
+              "y": 0.27
+            },
+            "actionBaseline": 0.88
+          },
+          {
+            "id": "community-work-writer",
+            "boxPx": {
+              "x": 65,
+              "y": 688,
+              "w": 184,
+              "h": 132
+            },
+            "center": {
+              "x": 0.4025641025641026,
+              "y": 0.8933649289099526
+            },
+            "size": {
+              "w": 0.4717948717948718,
+              "h": 0.15639810426540285
+            },
+            "rotationDeg": 4,
+            "z": 50,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-creative-writer",
+            "titleInset": {
+              "x": 0.055,
+              "y": 0.07
+            },
+            "descriptionInset": {
+              "x": 0.055,
+              "y": 0.23
+            },
+            "actionBaseline": 0.88
+          }
+        ],
+        "people": [
+          {
+            "id": "community-person-01",
+            "boxPx": {
+              "x": 24,
+              "y": 416,
+              "w": 59,
+              "h": 79
+            },
+            "center": {
+              "x": 0.1371794871794872,
+              "y": 0.5396919431279621
+            },
+            "size": {
+              "w": 0.15128205128205127,
+              "h": 0.09360189573459715
+            },
+            "rotationDeg": -2,
+            "z": 43,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-person-01",
+            "facing": "right"
+          },
+          {
+            "id": "community-person-02",
+            "boxPx": {
+              "x": 300,
+              "y": 479,
+              "w": 61,
+              "h": 81
+            },
+            "center": {
+              "x": 0.8474358974358974,
+              "y": 0.615521327014218
+            },
+            "size": {
+              "w": 0.1564102564102564,
+              "h": 0.09597156398104266
+            },
+            "rotationDeg": 3,
+            "z": 43,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-person-02",
+            "facing": "left"
+          },
+          {
+            "id": "community-person-03",
+            "boxPx": {
+              "x": 21,
+              "y": 578,
+              "w": 68,
+              "h": 91
+            },
+            "center": {
+              "x": 0.14102564102564102,
+              "y": 0.7387440758293838
+            },
+            "size": {
+              "w": 0.17435897435897435,
+              "h": 0.10781990521327015
+            },
+            "rotationDeg": -4,
+            "z": 55,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-person-03",
+            "facing": "right"
+          },
+          {
+            "id": "community-person-04",
+            "boxPx": {
+              "x": 1,
+              "y": 731,
+              "w": 57,
+              "h": 77
+            },
+            "center": {
+              "x": 0.07564102564102564,
+              "y": 0.9117298578199052
+            },
+            "size": {
+              "w": 0.14615384615384616,
+              "h": 0.09123222748815166
+            },
+            "rotationDeg": 2,
+            "z": 43,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-person-04",
+            "facing": "right"
+          },
+          {
+            "id": "community-person-05",
+            "boxPx": {
+              "x": 286,
+              "y": 726,
+              "w": 69,
+              "h": 93
+            },
+            "center": {
+              "x": 0.8217948717948718,
+              "y": 0.9152843601895735
+            },
+            "size": {
+              "w": 0.17692307692307693,
+              "h": 0.11018957345971564
+            },
+            "rotationDeg": 2,
+            "z": 55,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-person-05",
+            "facing": "left"
+          }
+        ],
+        "distantWorks": [
+          {
+            "id": "community-bg-instance-01",
+            "boxPx": {
+              "x": -12,
+              "y": 512,
+              "w": 48,
+              "h": 64
+            },
+            "center": {
+              "x": 0.03076923076923077,
+              "y": 0.6445497630331753
+            },
+            "size": {
+              "w": 0.12307692307692308,
+              "h": 0.07582938388625593
+            },
+            "rotationDeg": -15,
+            "z": 20,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-bg-01"
+          },
+          {
+            "id": "community-bg-instance-04",
+            "boxPx": {
+              "x": 316,
+              "y": 413,
+              "w": 50,
+              "h": 36
+            },
+            "center": {
+              "x": 0.8743589743589744,
+              "y": 0.5106635071090048
+            },
+            "size": {
+              "w": 0.1282051282051282,
+              "h": 0.04265402843601896
+            },
+            "rotationDeg": 8,
+            "z": 20,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-bg-04"
+          },
+          {
+            "id": "community-bg-instance-05",
+            "boxPx": {
+              "x": 362,
+              "y": 501,
+              "w": 49,
+              "h": 66
+            },
+            "center": {
+              "x": 0.9910256410256411,
+              "y": 0.6327014218009479
+            },
+            "size": {
+              "w": 0.12564102564102564,
+              "h": 0.07819905213270142
+            },
+            "rotationDeg": 6,
+            "z": 20,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-bg-05"
+          },
+          {
+            "id": "community-bg-instance-08",
+            "boxPx": {
+              "x": 357,
+              "y": 729,
+              "w": 48,
+              "h": 63
+            },
+            "center": {
+              "x": 0.9769230769230769,
+              "y": 0.9010663507109005
+            },
+            "size": {
+              "w": 0.12307692307692308,
+              "h": 0.07464454976303317
+            },
+            "rotationDeg": 12,
+            "z": 20,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-bg-08"
+          },
+          {
+            "id": "community-bg-instance-10",
+            "boxPx": {
+              "x": 258,
+              "y": 679,
+              "w": 41,
+              "h": 29
+            },
+            "center": {
+              "x": 0.7141025641025641,
+              "y": 0.8216824644549763
+            },
+            "size": {
+              "w": 0.10512820512820513,
+              "h": 0.034360189573459717
+            },
+            "rotationDeg": -6,
+            "z": 20,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-bg-10"
+          },
+          {
+            "id": "community-bg-instance-13",
+            "boxPx": {
+              "x": 157,
+              "y": 807,
+              "w": 42,
+              "h": 30
+            },
+            "center": {
+              "x": 0.4564102564102564,
+              "y": 0.9739336492890995
+            },
+            "size": {
+              "w": 0.1076923076923077,
+              "h": 0.035545023696682464
+            },
+            "rotationDeg": 4,
+            "z": 20,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-bg-13"
+          },
+          {
+            "id": "community-bg-instance-16",
+            "boxPx": {
+              "x": 92,
+              "y": 575,
+              "w": 39,
+              "h": 56
+            },
+            "center": {
+              "x": 0.2858974358974359,
+              "y": 0.7144549763033176
+            },
+            "size": {
+              "w": 0.1,
+              "h": 0.06635071090047394
+            },
+            "rotationDeg": -7,
+            "z": 20,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-bg-16"
+          },
+          {
+            "id": "community-bg-instance-18",
+            "boxPx": {
+              "x": 142,
+              "y": 534,
+              "w": 41,
+              "h": 31
+            },
+            "center": {
+              "x": 0.4166666666666667,
+              "y": 0.6510663507109005
+            },
+            "size": {
+              "w": 0.10512820512820513,
+              "h": 0.03672985781990521
+            },
+            "rotationDeg": 5,
+            "z": 20,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-bg-18"
+          }
+        ],
+        "ribbonBack": {
+          "id": "community-ribbon-back",
+          "boxPx": {
+            "x": -1,
+            "y": 414,
+            "w": 388,
+            "h": 421
+          },
+          "center": {
+            "x": 0.4948717948717949,
+            "y": 0.7399289099526066
+          },
+          "size": {
+            "w": 0.9948717948717949,
+            "h": 0.49881516587677727
+          },
+          "rotationDeg": -3,
+          "z": 31,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "assetId": "community-ribbon-back-mobile"
+        },
+        "ribbonFront": {
+          "id": "community-ribbon-front",
+          "boxPx": {
+            "x": 10,
+            "y": 526,
+            "w": 367,
+            "h": 298
+          },
+          "center": {
+            "x": 0.49615384615384617,
+            "y": 0.7997630331753555
+          },
+          "size": {
+            "w": 0.941025641025641,
+            "h": 0.35308056872037913
+          },
+          "rotationDeg": 0,
+          "z": 60,
+          "crop": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "assetId": "community-ribbon-front-mobile"
+        },
+        "plants": [
+          {
+            "id": "community-plant-left",
+            "boxPx": {
+              "x": 25,
+              "y": 762,
+              "w": 45,
+              "h": 74
+            },
+            "center": {
+              "x": 0.12179487179487179,
+              "y": 0.9466824644549763
+            },
+            "size": {
+              "w": 0.11538461538461539,
+              "h": 0.08767772511848342
+            },
+            "rotationDeg": 0,
+            "z": 60,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-plant-left"
+          },
+          {
+            "id": "community-leaf-front",
+            "boxPx": {
+              "x": 238,
+              "y": 799,
+              "w": 72,
+              "h": 45
+            },
+            "center": {
+              "x": 0.7025641025641025,
+              "y": 0.9733412322274881
+            },
+            "size": {
+              "w": 0.18461538461538463,
+              "h": 0.0533175355450237
+            },
+            "rotationDeg": -10,
+            "z": 65,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-leaf-front"
+          },
+          {
+            "id": "community-plant-right",
+            "boxPx": {
+              "x": 355,
+              "y": 677,
+              "w": 45,
+              "h": 91
+            },
+            "center": {
+              "x": 0.967948717948718,
+              "y": 0.856042654028436
+            },
+            "size": {
+              "w": 0.11538461538461539,
+              "h": 0.10781990521327015
+            },
+            "rotationDeg": 8,
+            "z": 60,
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "w": 1,
+              "h": 1
+            },
+            "assetId": "community-plant-right"
+          }
+        ],
+        "greetingsVisible": false,
+        "footerVisible": false,
+        "rule": "Three work cards and five people remain visible as an independent vertical composition. Full descriptions/actions are available in the accessible card detail; tiny visual action capsules are not separate touch targets.",
+        "reviewBoard": {
+          "authority": "source/board-layouts.mjs:getBoard(community,mobile)",
+          "status": "Synchronized from current authored HTML board data after root CUA review; not independent DOM measurements.",
+          "width": 390,
+          "height": 844,
+          "label": "390 × 844 · 手机构图草案",
+          "note": "独立排布 · 待分层，非最终手机设计",
+          "scene": "community",
+          "mode": "mobile",
+          "background": "#f1ecdf",
+          "art": {
+            "src": "assets/community-art-v1.png",
+            "x": -180,
+            "y": 411,
+            "w": 570,
+            "h": 285,
+            "fadeTop": 26,
+            "fadeBottom": 26
+          },
+          "texts": [
+            {
+              "text": "MORROW",
+              "x": 22,
+              "y": 28,
+              "size": 13,
+              "lineHeight": 18,
+              "font": "sans",
+              "color": "#292b22",
+              "tracking": 2.6,
+              "weight": 600
+            },
+            {
+              "text": "Your ideas.",
+              "x": 23,
+              "y": 106,
+              "size": 45,
+              "lineHeight": 53,
+              "font": "serif",
+              "color": "#292b22"
+            },
+            {
+              "text": "A world to share.",
+              "x": 23,
+              "y": 159,
+              "size": 45,
+              "lineHeight": 53,
+              "font": "serif",
+              "color": "#292b22"
+            },
+            {
+              "text": "Share, discuss, buy and sell",
+              "x": 26,
+              "y": 243,
+              "size": 16,
+              "lineHeight": 25,
+              "font": "sans",
+              "color": "#666a5a"
+            },
+            {
+              "text": "what you create.",
+              "x": 26,
+              "y": 268,
+              "size": 16,
+              "lineHeight": 25,
+              "font": "sans",
+              "color": "#666a5a"
+            },
+            {
+              "text": "MOBILE LAYOUT SKETCH",
+              "x": 24,
+              "y": 798,
+              "size": 9,
+              "lineHeight": 15,
+              "font": "sans",
+              "color": "#777963",
+              "tracking": 1.5
+            }
+          ],
+          "pills": [
+            {
+              "text": "Download",
+              "x": 167,
+              "y": 19,
+              "w": 80,
+              "h": 34,
+              "size": 10,
+              "color": "#fbf8ee",
+              "background": "#535d42",
+              "border": null
+            },
+            {
+              "text": "Join community",
+              "x": 255,
+              "y": 19,
+              "w": 114,
+              "h": 34,
+              "size": 10,
+              "color": "#292b22",
+              "background": "rgba(247,244,235,0.45)",
+              "border": "rgba(65,72,49,0.24)"
+            },
+            {
+              "text": "Explore creations",
+              "x": 24,
+              "y": 322,
+              "w": 163,
+              "h": 43,
+              "size": 12,
+              "color": "#fbf8ee",
+              "background": "#535d42",
+              "border": null
+            },
+            {
+              "text": "Share your creation",
+              "x": 198,
+              "y": 322,
+              "w": 170,
+              "h": 43,
+              "size": 12,
+              "color": "#292b22",
+              "background": "rgba(247,244,235,0.45)",
+              "border": "rgba(65,72,49,0.24)"
+            }
+          ],
+          "veils": []
+        },
+        "productionTargetNote": "Individual tag, card, person and ribbon geometry below remains an initial layer-production target. The current review uses a full-scene study; calibrate actual independent layer bounds in M02/M03."
+      }
+    },
+    "typography": {
+      "heroHeading": {
+        "fontSize": 62,
+        "lineHeight": 66,
+        "lines": 2,
+        "tracking": 0
+      },
+      "galleryHeading": {
+        "fontSize": 46,
+        "lineHeight": 49,
+        "lines": 3,
+        "tracking": 0
+      },
+      "communityHeading": {
+        "fontSize": 45,
+        "lineHeight": 53,
+        "lines": 2,
+        "tracking": 0
+      }
+    }
+  },
+  "responsiveRules": {
+    "below390": "Retain 24px side inset down to 360; use 22px at 320. Reduce headline size up to 6%, extend document flow rather than clipping title/buttons.",
+    "shortViewport": "Keep semantic text and CTA in normal document flow; allow section taller than viewport. Do not force artwork over text to meet one-screen height.",
+    "reducedMotion": "Display complete three scene compositions with stable links. No edge-on substitution or large path movement.",
+    "artworkAnchors": "Use these mobile paths and positions. Preserve original source aspect ratios and subject count."
+  },
+  "calibration": {
+    "authority": "docs/rebuild/artifacts/M01/source/board-layouts.mjs",
+    "method": "Imported getBoard() exact authored values on 2026-09-29",
+    "fields": "reviewBoard includes every displayed text line, control, art placement and veil. No claim of browser DOM measurement or completed production layers.",
+    "lastReviewCorrection": "Root CUA review: community mobile study x−180,y411,w570,h285; right boundary=390."
+  }
+}

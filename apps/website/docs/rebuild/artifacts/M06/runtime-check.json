@@ -1,0 +1,76 @@
+{
+  "version": "m06-runtime-check-1",
+  "testedAt": "2026-09-29T15:15:43.791Z",
+  "scope": "Actual StoryDirector and QualityPolicy code in Node with inert DOM/event/scroll adapters; no real browser scroll, native dialog, GPU or visual assertion.",
+  "sources": {
+    "src/rebuild/config/chapters.ts": "fb5351e63a1f359ca53b0236e780f23ada47c6cb419834c567e4a3524f45e20b",
+    "src/rebuild/runtime/QualityPolicy.ts": "7f070b2de0decfc367cc9d2fe4a557bbf0f4df010d9d550a5a93a951d370929a",
+    "src/rebuild/runtime/StoryDirector.ts": "9bd783c198d44b52c57df3813700867de538f6c0afd9fee94ca8b1d030341626"
+  },
+  "summary": {
+    "passed": 10,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "name": "late asset readiness does not switch ownership inside A",
+      "pass": true,
+      "candidate": true,
+      "active": false
+    },
+    {
+      "name": "ready handoffs activate at a stable gallery chapter",
+      "pass": true,
+      "active": true
+    },
+    {
+      "name": "context loss revokes bridge and local hidden ownership",
+      "pass": true,
+      "active": false,
+      "candidate": false,
+      "bridgeEnabled": false
+    },
+    {
+      "name": "modal lock stops Lenis, ambient clock and pointer drift",
+      "pass": true,
+      "ambientTime": 10,
+      "pointer": {
+        "x": 0.2,
+        "y": 0.3
+      }
+    },
+    {
+      "name": "modal lock pauses review playback progress",
+      "pass": true,
+      "expected": 0.25,
+      "actual": 0.25
+    },
+    {
+      "name": "hidden document pauses review playback progress",
+      "pass": true,
+      "expected": 0.25,
+      "actual": 0.25
+    },
+    {
+      "name": "review playback resumes after modal and visibility restore",
+      "pass": true,
+      "before": 0.25,
+      "after": 0.25096
+    },
+    {
+      "name": "fixed-time frame evaluation is reversible and pointer independent",
+      "pass": true
+    },
+    {
+      "name": "fast chapter jump clears fixed playback and targets exact chapter anchor",
+      "pass": true,
+      "target": 4653
+    },
+    {
+      "name": "shared mobile breakpoint agrees with CSS at 680 px",
+      "pass": true,
+      "at680": "mobile",
+      "at681": "tablet"
+    }
+  ]
+}

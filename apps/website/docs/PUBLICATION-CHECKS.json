@@ -1,0 +1,49 @@
+{
+  "checkedAtUtc": "2026-09-29T15:16:47.7469990Z",
+  "repository": "liuxueqi0044/companion-agent",
+  "path": "apps/website",
+  "dependencyMode": "Reused the existing pinned installation through an ignored local junction; fresh npm ci was not repeated.",
+  "checks": {
+    "astroCheck": {
+      "errors": 0,
+      "warnings": 0,
+      "hints": 1
+    },
+    "geometry": {
+      "passed": 14,
+      "failed": 0
+    },
+    "galleryMotion": {
+      "incomingContinuity": 800,
+      "completePeriods": 216,
+      "deterministicSamples": 31860,
+      "passed": true,
+      "offscreenWraps": 216
+    },
+    "runtime": {
+      "passed": 10,
+      "failed": 0
+    },
+    "galleryAssets": {
+      "passed": true,
+      "webpVariants": 16,
+      "independentMasters": 8
+    },
+    "build": {
+      "passed": true,
+      "routes": [
+        "/",
+        "/rebuild/",
+        "/legacy/",
+        "/privacy/"
+      ]
+    },
+    "credentialPatternScan": "No matched private-key blocks or common token formats in selected website source/assets/docs; not a comprehensive secret audit."
+  },
+  "limitations": [
+    "No live model or backend calls",
+    "No public deployment",
+    "No installer release",
+    "Browser evidence is preserved from the accepted local version, not re-recorded for the directory-only import"
+  ]
+}

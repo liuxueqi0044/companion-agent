@@ -26,6 +26,7 @@
 | `services/desktop_bridge` | 核心工作区复用的本地桥接服务 |
 | `tools` | 本地 JSON CLI 与任务验证器 |
 | `apps/desktop` | 桌面 renderer 工程骨架 |
+| `apps/website` | Morrow 英文营销官网：写实枝叶首屏、流动画廊、创作者社区与可逆滚动转场 |
 | `apps/desktop/product` | 可信宿主、应用控制器、执行器与统一运行时 |
 | `packages/contracts` | 数据契约与生成的 JSON Schema |
 | `tests/unit` | 单元与本地进程测试 |
@@ -221,3 +222,18 @@ MCP Apps、写入工具或厂商专属 hooks/subagents。连接需用户明确�
 此次源码同步、复测与文件哈希见 [发布记录](reports/core-021/publication.json)。
 使用方式见 [能力指南](docs/product/CAPABILITIES.md)，边界见
 [架构说明](docs/development/CORE-021.md)。
+
+## Morrow 英文营销官网
+
+已确认的新版官网源码位于 [apps/website](apps/website/README.md)，包含写实枝叶首屏、曲面流动画廊、创作者社区、两段可逆滚动转场，以及桌面/手机布局。它是独立营销前端，不替换现有桌面产品，也未接入线上账号、支付或安装包服务。
+
+```sh
+cd apps/website
+npm ci
+npm run check
+npm test
+npm run build
+npm run preview
+```
+
+完整素材、许可和验收范围见 [官网发布说明](apps/website/docs/GITHUB.md)。本次仅提交源码，未公开部署网站或发布桌面安装包。

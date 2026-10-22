@@ -1,0 +1,249 @@
+{
+  "$schemaNote": "M01 copy contract. Text only; actions are identifiers resolved in M06, not fabricated destinations.",
+  "version": "m01-copy-v1",
+  "locale": "en",
+  "brand": {
+    "name": "Morrow",
+    "wordmark": "MORROW",
+    "tagline": "More human possibilities.",
+    "wordmarkFont": "DM Sans Semibold"
+  },
+  "navigation": {
+    "accessibleLabel": "Main navigation",
+    "items": [
+      {
+        "label": "Possibilities",
+        "action": "navigate-gallery",
+        "designBoardVisible": false
+      },
+      {
+        "label": "Join community",
+        "action": "community"
+      }
+    ],
+    "download": {
+      "label": "Download",
+      "action": "download"
+    },
+    "menu": {
+      "label": "Open menu",
+      "closeLabel": "Close menu",
+      "designBoardVisible": false
+    }
+  },
+  "hero": {
+    "id": "hero",
+    "heading": "Build an AI that’s yours.",
+    "headingLines": {
+      "desktop": [
+        "Build an AI",
+        "that’s yours."
+      ],
+      "mobile": [
+        "Build an AI",
+        "that’s yours."
+      ]
+    },
+    "body": "Bring together skills, tools and agents. Shape how it works—and how it feels.",
+    "bodyLines": {
+      "wide": [
+        "Bring together skills, tools and agents.",
+        "Shape how it works—and how it feels."
+      ],
+      "mobile": [
+        "Bring together skills, tools and agents.",
+        "Shape how it works—and how it feels."
+      ]
+    },
+    "primary": {
+      "label": "Download Morrow",
+      "action": "download",
+      "designBoardVisible": false
+    },
+    "secondary": {
+      "label": "Explore interfaces",
+      "action": "navigate-gallery",
+      "designBoardVisible": false
+    },
+    "footerLeft": "MORE HUMAN POSSIBILITIES",
+    "footerRight": "A MORE YOU TOMORROW.",
+    "sceneAlt": "Six paper capability tags hang among sunlit olive branches.",
+    "tags": [
+      {
+        "id": "hero-tag-video",
+        "label": "Video Editing",
+        "icon": "play",
+        "handoff": true
+      },
+      {
+        "id": "hero-tag-data",
+        "label": "Spreadsheets",
+        "icon": "table",
+        "handoff": false
+      },
+      {
+        "id": "hero-tag-care",
+        "label": "Customer Care",
+        "icon": "headphones",
+        "handoff": false
+      },
+      {
+        "id": "hero-tag-trade",
+        "label": "Global Trade",
+        "icon": "globe",
+        "handoff": false
+      },
+      {
+        "id": "hero-tag-research",
+        "label": "Research",
+        "icon": "magnifying-glass",
+        "handoff": true
+      },
+      {
+        "id": "hero-tag-planning",
+        "label": "Scheduling",
+        "icon": "calendar",
+        "handoff": false
+      }
+    ],
+    "scrollPrompt": "SCROLL TO EXPLORE  ↓"
+  },
+  "gallery": {
+    "id": "gallery",
+    "heading": "One assistant. A world of possibilities.",
+    "headingLines": {
+      "desktop": [
+        "One assistant. A world of possibilities."
+      ],
+      "mobile": [
+        "One assistant.",
+        "A world of",
+        "possibilities."
+      ]
+    },
+    "body": "Change its interface as freely as you change your mind.",
+    "detailLink": {
+      "label": "Explore interfaces",
+      "action": "open-gallery"
+    },
+    "sceneAlt": "An arc of varied assistant interfaces, from video editing and research to companions and creative workspaces.",
+    "disclosure": "Interface concepts",
+    "openWorkLabelTemplate": "Explore {title}",
+    "categories": [
+      "All",
+      "Companions",
+      "Creative",
+      "Workspaces"
+    ],
+    "bodyDesignBoardVisible": false,
+    "footerLabel": "EXPLORE YOUR OWN EXPRESSION"
+  },
+  "community": {
+    "id": "community",
+    "heading": "Your ideas. A world to share.",
+    "headingLines": {
+      "desktop": [
+        "Your ideas.",
+        "A world to share."
+      ],
+      "mobile": [
+        "Your ideas.",
+        "A world to share."
+      ]
+    },
+    "body": "Share, discuss, buy and sell what you create.",
+    "primary": {
+      "label": "Explore creations",
+      "action": "community"
+    },
+    "secondary": {
+      "label": "Share your creation",
+      "action": "share-idea"
+    },
+    "footerLeft": "IDEAS CONNECT PEOPLE",
+    "footerRight": "A MORE CREATIVE TOMORROW, TOGETHER.",
+    "sceneAlt": "Three concept creations, five illustrated people and smaller artworks connected by cream ribbons and plants.",
+    "greetings": [
+      {
+        "personId": "community-person-01",
+        "text": "Hello"
+      },
+      {
+        "personId": "community-person-03",
+        "text": "Hola"
+      },
+      {
+        "personId": "community-person-05",
+        "text": "Bonjour"
+      }
+    ],
+    "disclosure": "Concept creations. Illustrated people.",
+    "works": [
+      {
+        "id": "community-travel-planner",
+        "title": "Travel Planner",
+        "description": "Find the places that feel like you.",
+        "alt": "A sunlit coastal town above a blue Mediterranean harbor.",
+        "actions": [
+          "Share",
+          "Discuss",
+          "Buy",
+          "Sell"
+        ]
+      },
+      {
+        "id": "community-everyday-companion",
+        "title": "Everyday Companion",
+        "description": "A little company for everyday life.",
+        "alt": "A warm sunroom with a sofa, a resting dog and leafy plants.",
+        "actions": [
+          "Share",
+          "Discuss",
+          "Buy",
+          "Sell"
+        ]
+      },
+      {
+        "id": "community-creative-writer",
+        "title": "Creative Writer",
+        "description": "Make room for your next story.",
+        "alt": "A writer’s desk beside a bright window overlooking the coast.",
+        "actions": [
+          "Share",
+          "Discuss",
+          "Buy",
+          "Sell"
+        ]
+      }
+    ]
+  },
+  "detail": {
+    "close": "Close details",
+    "conceptLabel": "Interface concept",
+    "capabilitiesLabel": "Capabilities",
+    "unavailableActionTitle": "Explore this idea",
+    "unavailableActionBody": "This is a concept preview. Publishing and marketplace actions are not available here yet."
+  },
+  "accessibility": {
+    "skipLink": "Skip to content",
+    "pauseMotion": "Pause motion",
+    "resumeMotion": "Resume motion",
+    "previousSection": "Previous section",
+    "nextSection": "Next section"
+  },
+  "editorialRules": [
+    "No no-code positioning or language that excludes developers.",
+    "No invented users, authors, transactions, prices, sales numbers or launch claims.",
+    "The five community people are fictional illustrations, not named creator endorsements.",
+    "Main text, navigation, buttons and important card labels remain real HTML.",
+    "Concept images do not establish the availability of publishing, purchasing or selling."
+  ],
+  "calibration": {
+    "authority": "docs/rebuild/artifacts/M01/source/board-layouts.mjs",
+    "status": "Exact visible board wording synchronized; optional non-visible copy is explicitly marked."
+  },
+  "reviewOnly": {
+    "mobileMarker": "MOBILE LAYOUT SKETCH",
+    "note": "This label belongs to M01 review evidence; do not ship it in the product."
+  }
+}

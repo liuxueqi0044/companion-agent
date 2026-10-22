@@ -1,0 +1,45 @@
+{
+  "tool": "OpenAI built-in image_gen",
+  "date": "2026-09-29",
+  "version": "m03-production-v1",
+  "outputs": [
+    {
+      "file": "travel-master.png",
+      "mode": "generate",
+      "transparent": false,
+      "prompt": "Use case: photorealistic-natural. Production artwork for the Morrow community Travel Planner work card. Create a gorgeous photorealistic Amalfi coastal town with layered warm ochre villas, pale stone cliffs, vivid blue sea and a few tiny boats, terracotta roofs and bougainvillea at lower right, under soft afternoon summer light. Architectural travel editorial photograph, fine detail, refined warm cream olive and azure palette, natural atmosphere. Horizontal 4:3 image filling entire canvas edge-to-edge. Composition sky upper third, sea left half, town rises at right; near foreground leaves sparse only. Important: a scenic photographic work artwork, not a website mockup. No text, no UI, no border, no card mockup, no logo, no frame. Produce high-resolution around 1600x1200 or larger."
+    },
+    {
+      "file": "companion-master.png",
+      "mode": "generate",
+      "transparent": false,
+      "prompt": "Use case: photorealistic-natural. Production scenic artwork for the Morrow community Everyday Companion card. A beautiful sun-filled calm apartment living room, tactile cream linen sofa, one golden retriever resting on sofa at right foreground, sage olive cushions, warm sunlight through tall large windows at left, leafy indoor plants, a ceramic tea cup and two books on wood coffee table. Quiet premium interior editorial photography, believable richly detailed textures, harmonious ivory sand honey and olive palette, cinematic natural light. Horizontal 3:2 image edge-to-edge. The dog and sofa occupy bottom two thirds with breathing space above. No people. No text, no UI, no border, no card mockup, no labels, no watermark. High-resolution around 1600x1066 or larger."
+    },
+    {
+      "file": "writer-master.png",
+      "mode": "generate",
+      "transparent": false,
+      "prompt": "Use case: photorealistic-natural. Production scenic artwork for Morrow community Creative Writer card. A beautiful old wooden writing desk in front of an open tall window overlooking a sunlit Mediterranean coast at golden hour. A vintage black typewriter at center lower half, paper sheets blank and not readable, open cream notebook at right, a small porcelain cup and stacked books at left, thin olive leaves by window. Rich tactile wood grain, brass accents, paper fibers, airy cream curtains. Fine editorial still-life photography, cinematic warm natural lighting, quiet contemplative mood, sophisticated sand amber olive pale blue palette. Horizontal 3:2 image filling canvas edge-to-edge. No people. No text anywhere, no UI, no border, no website mockup, no labels, no watermark. High-resolution around 1600x1066 or larger."
+    },
+    {
+      "file": "people-clean-master.png",
+      "mode": "edit",
+      "reference": "docs/rebuild/artifacts/M01/assets/people-study-v1.png",
+      "transparent": true,
+      "prompt": "Use case: background-extraction. Edit target is the supplied five-person illustration sheet. Keep all five characters, faces, clothing, positions, warm finely drawn editorial illustration style and proportions exactly. Clean the alpha boundary to remove white/yellow noisy fringe, preserve smooth hair strands and crisp silhouette. Produce five fully separated individual half-body cutouts with clear transparent margins between them, each person complete head-to-waist and no overlap. All background must be genuinely transparent alpha, not black or checkerboard. Do not add borders, circles, halos, new people, props or text. Wide horizontal sheet similar original 3:1 aspect and at least 2160 pixels wide."
+    },
+    {
+      "file": "set-clean-master.png",
+      "mode": "edit",
+      "reference": "docs/rebuild/artifacts/M01/assets/community-art-v1.png",
+      "transparent": false,
+      "prompt": "Use case: precise-object-edit. This is the production clean set for layered animation. Remove ALL rectangular cards both big and small, all five illustrated people, every speech bubble and every letter/text from the supplied composition. Fill removed regions with the same beautiful warm ivory studio space. Preserve the original beautiful broad flowing cream silk ribbons curving through the right two-thirds of the space, complete their curves where removed people or cards occluded them. Preserve the small olive branch plant in its clear glass vase near bottom left-middle, floor shadows, subtle reflective ground, olive leaves at top-right and bottom-right, occasional airborne leaves. Keep leftmost 28% almost blank cream negative space, same warm light and sense of perspective. This is a photorealistic sculptural ribbon installation with foliage, not a UI or website screenshot. Absolutely no cards, people, portraits, text, letters, badges or circles. Horizontal 2:1 full composition, at least 1800 pixels wide. Keep exceptionally refined satin highlights, natural leaves and realistic soft shadows."
+    },
+    {
+      "file": "ribbon-master.png",
+      "mode": "generate",
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Production foreground decorative asset for a premium cream and olive photographic website scene. One beautiful gently curved broad ivory silk ribbon spanning diagonally from lower left to upper right, a loose shallow S curve, with polished natural satin highlights and a soft translucent edge. Small two olive leaves at far left edge and far right tip. Thin and elegant, actual 3D fabric with subtly undulating folded surface. Photorealistic product render, warm ivory lighting. Horizontal wide 3:1 isolated asset, ribbon fills width but occupies only central 35% of height, plenty of transparent empty canvas above and below. Genuinely transparent alpha background, no studio ground, no paper rectangle, no shadow baked into background, no text, no people, no cards, no interface. High resolution around 1800px wide."
+    }
+  ]
+}
